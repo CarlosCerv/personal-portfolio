@@ -1,0 +1,46 @@
+<%- include('partials/header') %>
+
+<!-- Main Content -->
+<main class="main-content">
+  
+  <!-- Blog Post -->
+  <article class="blog-post">
+    <div class="container-narrow">
+      <!-- Post Header -->
+      <header class="post-header">
+        <div class="post-meta">
+          <time datetime="<%= new Date(post.date).toISOString() %>">
+            <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+          </time>
+          <span class="separator">•</span>
+          <span class="author">By <%= post.author %></span>
+        </div>
+        
+        <h1 class="post-title"><%= post.title %></h1>
+        
+        <% if (post.tags && post.tags.length > 0) { %>
+          <div class="post-tags">
+            <% post.tags.forEach(tag => { %>
+              <span class="tag"><%= tag %></span>
+            <% }); %>
+          </div>
+        <% } %>
+      </header>
+
+      <!-- Post Content -->
+      <div class="post-content">
+        <%- post.htmlContent %>
+      </div>
+
+      <!-- Post Footer -->
+      <footer class="post-footer">
+        <a href="/blog" class="back-to-blog">
+          <i class="fas fa-arrow-left"></i> Back to Blog
+        </a>
+      </footer>
+    </div>
+  </article>
+
+</main>
+
+<%- include('partials/footer') %>

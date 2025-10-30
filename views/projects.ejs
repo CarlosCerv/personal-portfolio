@@ -1,0 +1,119 @@
+<%- include('partials/header') %>
+
+<!-- Main Content -->
+<main class="main-content">
+  
+  <!-- Projects Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">My Work & Projects</h1>
+      <p class="page-description">
+        A collection of my QA automation projects and contributions. 
+        Check out my <a href="https://github.com/carlosecervantes" target="_blank" rel="noopener noreferrer">GitHub profile</a> for more.
+      </p>
+      
+      <!-- Project Search -->
+      <div class="project-search">
+        <i class="fas fa-search"></i>
+        <input type="text" id="projectSearch" placeholder="Search projects..." aria-label="Search projects">
+      </div>
+      
+      <!-- Project Filters -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="JavaScript">JavaScript</button>
+        <button class="filter-btn" data-filter="Python">Python</button>
+        <button class="filter-btn" data-filter="Java">Java</button>
+        <button class="filter-btn" data-filter="TypeScript">TypeScript</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Grid -->
+  <section class="projects">
+    <div class="container">
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="error-message">
+          <p><%= error %></p>
+        </div>
+      <% } %>
+      
+      <div class="projects-grid">
+        <% projects.forEach((project, index) => { %>
+          <article class="project-card" data-language="<%= project.language %>" data-name="<%= project.name.toLowerCase() %>" style="animation-delay: <%= index * 0.1 %>s;">
+            <div class="project-icon">
+              <i class="fas fa-folder-open"></i>
+            </div>
+            
+            <div class="project-header">
+              <h3 class="project-title">
+                <a href="<%= project.url %>" target="_blank" rel="noopener noreferrer">
+                  <%= project.name %>
+                </a>
+              </h3>
+              <% if (project.language) { %>
+                <span class="project-language">
+                  <span class="language-dot" style="background-color: <%= getLanguageColor(project.language) %>;"></span>
+                  <%= project.language %>
+                </span>
+              <% } %>
+            </div>
+            
+            <p class="project-description">
+              <%= project.description || 'No description available' %>
+            </p>
+            
+            <div class="project-footer">
+              <div class="project-stats">
+                <span class="stat" title="Stars">
+                  <i class="fas fa-star"></i>
+                  <%= project.stars %>
+                </span>
+                <span class="stat" title="Forks">
+                  <i class="fas fa-code-branch"></i>
+                  <%= project.forks %>
+                </span>
+              </div>
+              
+              <a href="<%= project.url %>" class="project-link" target="_blank" rel="noopener noreferrer">
+                View Project <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
+        <% }); %>
+      </div>
+      
+      <% if (projects.length === 0 && !error) { %>
+        <div class="empty-state">
+          <p>No projects to display at the moment.</p>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>
+
+<%
+// Helper function to get language colors (similar to GitHub)
+function getLanguageColor(language) {
+  const colors = {
+    'JavaScript': '#f1e05a',
+    'Python': '#3572A5',
+    'Java': '#b07219',
+    'TypeScript': '#2b7489',
+    'Go': '#00ADD8',
+    'Ruby': '#701516',
+    'PHP': '#4F5D95',
+    'C++': '#f34b7d',
+    'C': '#555555',
+    'Shell': '#89e051',
+    'Dart': '#00B4AB',
+    'Rust': '#dea584',
+    'Swift': '#ffac45',
+    'Kotlin': '#F18E33'
+  };
+  return colors[language] || '#ccc';
+}
+%>

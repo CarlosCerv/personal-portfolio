@@ -1,0 +1,134 @@
+<%- include('partials/header') %>
+
+<!-- Main Content -->
+<main class="main-content">
+  
+  <!-- Hobby Detail Header -->
+  <section class="hobby-detail-header" style="background-image: url('<%= hobby.backgroundImage %>');">
+    <div class="hobby-header-overlay"></div>
+    <div class="container">
+      <a href="/hobbies" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Hobbies
+      </a>
+      <div class="hobby-detail-hero">
+        <div class="hobby-detail-icon">
+          <i class="<%= hobby.icon %>"></i>
+        </div>
+        <h1 class="hobby-detail-title"><%= hobby.title %></h1>
+        <p class="hobby-detail-subtitle"><%= hobby.subtitle %></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hobby Content -->
+  <section class="hobby-detail-content">
+    <div class="container">
+      <div class="content-grid">
+        
+        <!-- Main Content -->
+        <div class="main-content-area">
+          <div class="content-section">
+            <h2>About My <%= hobby.title %> Journey</h2>
+            <p><%= hobby.description %></p>
+          </div>
+
+          <div class="content-section">
+            <h2>Why I Love <%= hobby.title %></h2>
+            <p><%= hobby.why %></p>
+          </div>
+
+          <% if (hobby.experience) { %>
+          <div class="content-section">
+            <h2>My Experience</h2>
+            <p><%= hobby.experience %></p>
+          </div>
+          <% } %>
+
+          <% if (hobby.highlights && hobby.highlights.length > 0) { %>
+          <div class="content-section">
+            <h2>Highlights & Favorites</h2>
+            <ul class="highlights-list">
+              <% hobby.highlights.forEach(highlight => { %>
+                <li><i class="fas fa-star"></i> <%= highlight %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% } %>
+
+          <% if (hobby.goals && hobby.goals.length > 0) { %>
+          <div class="content-section">
+            <h2>Goals & Aspirations</h2>
+            <ul class="goals-list">
+              <% hobby.goals.forEach(goal => { %>
+                <li><i class="fas fa-check-circle"></i> <%= goal %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% } %>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <div class="info-card">
+            <h3>Quick Facts</h3>
+            <div class="fact-item">
+              <span class="fact-label">Started:</span>
+              <span class="fact-value"><%= hobby.started %></span>
+            </div>
+            <div class="fact-item">
+              <span class="fact-label">Frequency:</span>
+              <span class="fact-value"><%= hobby.frequency %></span>
+            </div>
+            <div class="fact-item">
+              <span class="fact-label">Level:</span>
+              <span class="fact-value"><%= hobby.level %></span>
+            </div>
+          </div>
+
+          <% if (hobby.equipment && hobby.equipment.length > 0) { %>
+          <div class="info-card">
+            <h3>Equipment & Tools</h3>
+            <ul class="equipment-list">
+              <% hobby.equipment.forEach(item => { %>
+                <li><%= item %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% } %>
+
+          <% if (hobby.resources && hobby.resources.length > 0) { %>
+          <div class="info-card">
+            <h3>Favorite Resources</h3>
+            <ul class="resources-list">
+              <% hobby.resources.forEach(resource => { %>
+                <li><i class="fas fa-link"></i> <%= resource %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% } %>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Hobbies -->
+  <section class="related-hobbies">
+    <div class="container">
+      <h2 class="section-title">Other Interests</h2>
+      <div class="related-grid">
+        <% relatedHobbies.forEach(related => { %>
+          <a href="/hobbies/<%= related.slug %>" class="related-card">
+            <div class="related-icon">
+              <i class="<%= related.icon %>"></i>
+            </div>
+            <h4><%= related.title %></h4>
+          </a>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/footer') %>

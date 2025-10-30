@@ -1,0 +1,273 @@
+<%- include('partials/header') %>
+
+<!-- Main Content -->
+<main class="main-content admin-content">
+  
+  <!-- Admin Header -->
+  <section class="admin-header">
+    <div class="container">
+      <div class="admin-header-content">
+        <div>
+          <h1 class="page-title">Manage Blog Posts</h1>
+          <p class="page-description">Create, edit, and manage your blog content</p>
+        </div>
+        <a href="/admin/posts/new?password=<%= password %>" class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          New Post
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts List -->
+  <section class="admin-posts-list">
+    <div class="container">
+      <% if (posts.length > 0) { %>
+        <div class="posts-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Tags</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% posts.forEach(post => { %>
+                <tr>
+                  <td class="post-title-col">
+                    <strong><%= post.title %></strong>
+                  </td>
+                  <td class="post-date-col">
+                    <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+                  </td>
+                  <td class="post-tags-col">
+                    <% if (post.tags && post.tags.length > 0) { %>
+                      <% post.tags.slice(0, 2).forEach(tag => { %>
+                        <span class="tag-badge"><%= tag %></span>
+                      <% }); %>
+                    <% } %>
+                  </td>
+                  <td class="post-actions-col">
+                    <a href="/blog/<%= post.slug %>" class="btn-icon" title="View" target="_blank">
+                      <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="/admin/posts/edit/<%= post.slug %>?password=<%= password %>" class="btn-icon" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    <button onclick="deletePost('<%= post.slug %>')" class="btn-icon btn-danger" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <i class="fas fa-pen-fancy"></i>
+          <h3>No posts yet</h3>
+          <p>Create your first blog post to get started!</p>
+          <a href="/admin/posts/new?password=<%= password %>" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            Create First Post
+          </a>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+</main>
+
+<style>
+.admin-content {
+  padding: 2rem 0;
+  margin-top: 80px; /* Account for fixed navigation */
+}
+
+.admin-header {
+  margin-bottom: 2rem;
+}
+
+.admin-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.posts-table {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: var(--primary-color);
+  color: white;
+}
+
+th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+.post-title-col {
+  max-width: 400px;
+}
+
+.post-actions-col {
+  white-space: nowrap;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
+.btn-icon:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .admin-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  table {
+    font-size: 0.9rem;
+  }
+  
+  th, td {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .post-date-col,
+  .post-tags-col {
+    display: none;
+  }
+}
+</style>
+
+<script>
+const PASSWORD = '<%= password %>';
+
+async function deletePost(slug) {
+  if (!confirm(`Are you sure you want to delete "${slug}"?`)) {
+    return;
+  }
+  
+  try {
+    const response = await fetch(`/admin/posts/delete/${slug}?password=${PASSWORD}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ password: PASSWORD })
+    });
+    
+    if (response.ok) {
+      alert('Post deleted successfully!');
+      location.reload();
+    } else {
+      alert('Failed to delete post');
+    }
+  } catch (error) {
+    alert('Error deleting post');
+    console.error(error);
+  }
+}
+</script>
+
+<%- include('partials/footer') %>
