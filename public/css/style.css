@@ -2249,6 +2249,17 @@ p {
   .blog-search {
     padding: 0 var(--spacing-md);
     max-width: 100%;
+    margin: var(--spacing-md) auto;
+  }
+  
+  .search-input {
+    padding: 12px 45px 12px 16px;
+    font-size: 0.95rem;
+  }
+  
+  .search-icon {
+    right: calc(var(--spacing-md) + 16px);
+    font-size: 0.95rem;
   }
   
   .blog-filters {
@@ -2382,5 +2393,14 @@ p {
   
   .tech-tags {
     justify-content: flex-start;
+  }
+  
+  /* Blog search on extra small screens */
+  .blog-search {
+    padding: 0 var(--spacing-sm);
+  }
+  
+  .search-icon {
+    right: calc(var(--spacing-sm) + 14px);
   }
 }
