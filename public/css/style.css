@@ -1110,18 +1110,19 @@ p {
   position: relative;
   max-width: 500px;
   margin: var(--spacing-lg) auto;
+  display: block;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 55px 14px 20px; /* Increased right padding to 55px for icon space */
+  padding: 15px 50px 15px 20px;
   border: 2px solid var(--border-color);
   border-radius: 25px;
   font-size: 1rem;
   background-color: var(--surface-color);
   color: var(--text-color);
   transition: var(--transition);
-  line-height: 1.5;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -1132,18 +1133,12 @@ p {
 
 .search-icon {
   position: absolute;
-  right: 18px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-secondary);
   pointer-events: none;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
-  z-index: 1;
+  font-size: 1rem;
 }
 
 .blog-filters {
@@ -2253,6 +2248,7 @@ p {
   /* Blog */
   .blog-search {
     padding: 0 var(--spacing-md);
+    max-width: 100%;
   }
   
   .blog-filters {
