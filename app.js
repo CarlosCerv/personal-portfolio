@@ -91,7 +91,7 @@ function getBlogPost(slug) {
 async function getGitHubProjects() {
   try {
     // GitHub username - update this if needed
-    const username = 'carlosecervantes';
+    const username = 'CarlosCerv';
     
     // Fetch repositories from GitHub API
     const response = await fetch(
@@ -133,52 +133,12 @@ async function getGitHubProjects() {
     // Fallback to placeholder data if API fails
     return [
       {
-        name: 'mobile-automation-framework',
-        description: 'Comprehensive mobile automation framework using Appium and Espresso for iOS and Android testing',
-        url: 'https://github.com/carlosecervantes/mobile-automation-framework',
-        language: 'Java',
-        stars: 45,
-        forks: 12
-      },
-      {
-        name: 'e2e-testing-suite',
-        description: 'End-to-end testing suite with Cypress and Nightwatch for web application testing',
-        url: 'https://github.com/carlosecervantes/e2e-testing-suite',
+        name: 'personal-portfolio',
+        description: 'Personal portfolio website with admin blog platform built with Node.js, Express, and EJS',
+        url: 'https://github.com/CarlosCerv/personal-portfolio',
         language: 'JavaScript',
-        stars: 78,
-        forks: 23
-      },
-      {
-        name: 'qa-automation-tools',
-        description: 'Collection of QA automation tools and utilities for efficient testing workflows',
-        url: 'https://github.com/carlosecervantes/qa-automation-tools',
-        language: 'Python',
-        stars: 34,
-        forks: 8
-      },
-      {
-        name: 'ci-cd-integration',
-        description: 'CI/CD integration scripts for automated testing with GitHub Actions and Jenkins',
-        url: 'https://github.com/carlosecervantes/ci-cd-integration',
-        language: 'Shell',
-        stars: 56,
-        forks: 15
-      },
-      {
-        name: 'performance-testing-k6',
-        description: 'Performance testing framework using k6 with Grafana dashboards',
-        url: 'https://github.com/carlosecervantes/performance-testing-k6',
-        language: 'JavaScript',
-        stars: 67,
-        forks: 18
-      },
-      {
-        name: 'api-testing-postman',
-        description: 'Comprehensive API testing collections and automation with Postman and Newman',
-        url: 'https://github.com/carlosecervantes/api-testing-postman',
-        language: 'JSON',
-        stars: 29,
-        forks: 9
+        stars: 0,
+        forks: 0
       }
     ];
   }
