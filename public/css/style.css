@@ -1110,13 +1110,11 @@ p {
   position: relative;
   max-width: 500px;
   margin: var(--spacing-lg) auto;
-  display: flex;
-  align-items: center;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 50px 14px 20px;
+  padding: 14px 55px 14px 20px; /* Increased right padding to 55px for icon space */
   border: 2px solid var(--border-color);
   border-radius: 25px;
   font-size: 1rem;
@@ -1134,17 +1132,18 @@ p {
 
 .search-icon {
   position: absolute;
-  right: 20px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-secondary);
   pointer-events: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
+  z-index: 1;
 }
 
 .blog-filters {
