@@ -111,10 +111,10 @@ async function getGitHubProjects() {
     
     const repos = await response.json();
     
-    // Filter out forks and select repositories (you can customize this filter)
+    // Include all public repositories (original repos and forks)
     const filteredRepos = repos
-      .filter(repo => !repo.fork && !repo.private) // Only original public repos
-      .sort((a, b) => b.stargazers_count - a.stargazers_count); // Sort by stars
+      .filter(repo => !repo.private) // Only public repos
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently updated
     
     return filteredRepos.map(repo => ({
       name: repo.name,
