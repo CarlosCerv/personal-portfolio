@@ -1,56 +1,16 @@
-name: Generate Static Site for GitHub Pages
+name: Deploy Redirect Page to GitHub Pages
 
 on:
-  workflow_dispatch:  # Manual trigger only
+  push:
+    branches: [ main ]
+  workflow_dispatch:
   
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Install static site generator
-      run: npm install -g wget-improved
-    
-    - name: Start server
-      run: |
-        node app.js &
-        sleep 5
-    
-    - name: Generate static files
-      run: |
-        mkdir -p dist
-        wget --mirror --convert-links --adjust-extension --page-requisites --no-parent \
-          http://localhost:3000/ \
-          http://localhost:3000/projects \
-          http://localhost:3000/blog \
-          http://localhost:3000/podcast \
-          http://localhost:3000/hobbies \
-          -P dist
-        
-        # Move files to root of dist
-        mv dist/localhost:3000/* dist/ || true
-        rm -rf dist/localhost:3000
-    
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
-      with:
-        path: './dist'
-  
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     
     permissions:
+      contents: read
       pages: write
       id-token: write
     
@@ -59,6 +19,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+    
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: '.'
+    
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v2
