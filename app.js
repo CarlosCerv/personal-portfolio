@@ -6,12 +6,22 @@ const path = require('path');
 const fs = require('fs');
 const { marked } = require('marked');
 const matter = require('gray-matter');
+const mongoose = require('mongoose');
+const Post = require('./models/Post');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// MongoDB connection string (use environment variable in production)
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/personal-portfolio';
+
 // Admin password (in production, use environment variables and proper authentication)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+
+// Connect to MongoDB
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log('✅ Connected to MongoDB'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -33,56 +43,36 @@ marked.setOptions({
 });
 
 /**
- * Helper function to read and parse all blog posts
+ * Helper function to read and parse all blog posts from database
  * Returns an array of post objects sorted by date (newest first)
  */
-function getBlogPosts() {
-  const postsDirectory = path.join(__dirname, 'posts');
-  
-  // Create posts directory if it doesn't exist
-  if (!fs.existsSync(postsDirectory)) {
-    fs.mkdirSync(postsDirectory);
+async function getBlogPosts() {
+  try {
+    const posts = await Post.find({ published: true })
+      .sort({ date: -1 })
+      .lean();
+    
+    // Add excerpt to each post
+    return posts.map(post => ({
+      ...post,
+      excerpt: post.content.trim().substring(0, 150).replace(/\n/g, ' ') + '...'
+    }));
+  } catch (error) {
+    console.error('Error fetching blog posts:', error);
     return [];
   }
-
-  const files = fs.readdirSync(postsDirectory).filter(file => file.endsWith('.md'));
-  
-  const posts = files.map(filename => {
-    const filePath = path.join(postsDirectory, filename);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    
-    // Parse frontmatter and content
-    const { data, content } = matter(fileContents);
-    
-    // Generate slug from filename (remove .md extension)
-    const slug = data.slug || filename.replace('.md', '');
-    
-    // Create excerpt (first 150 characters of content)
-    const excerpt = content.trim().substring(0, 150).replace(/\n/g, ' ') + '...';
-    
-    return {
-      slug,
-      title: data.title || 'Untitled Post',
-      date: data.date || new Date(),
-      author: data.author || 'Your Name',
-      excerpt,
-      content,
-      tags: data.tags || []
-    };
-  });
-  
-  // Sort posts by date (newest first)
-  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
-  return posts;
 }
 
 /**
- * Helper function to get a single blog post by slug
+ * Helper function to get a single blog post by slug from database
  */
-function getBlogPost(slug) {
-  const posts = getBlogPosts();
-  return posts.find(post => post.slug === slug);
+async function getBlogPost(slug) {
+  try {
+    return await Post.findOne({ slug, published: true }).lean();
+  } catch (error) {
+    console.error('Error fetching blog post:', error);
+    return null;
+  }
 }
 
 /**
@@ -230,8 +220,8 @@ app.get('/projects', async (req, res) => {
 /**
  * BLOG PAGE - List of all blog posts
  */
-app.get('/blog', (req, res) => {
-  const posts = getBlogPosts();
+app.get('/blog', async (req, res) => {
+  const posts = await getBlogPosts();
   res.render('blog', {
     title: 'Blog',
     currentPage: 'blog',
@@ -242,9 +232,9 @@ app.get('/blog', (req, res) => {
 /**
  * SINGLE BLOG POST PAGE
  */
-app.get('/blog/:slug', (req, res) => {
+app.get('/blog/:slug', async (req, res) => {
   const { slug } = req.params;
-  const post = getBlogPost(slug);
+  const post = await getBlogPost(slug);
   
   if (!post) {
     return res.status(404).render('404', {
@@ -626,13 +616,13 @@ app.post('/admin', (req, res) => {
 /**
  * ADMIN POSTS LIST
  */
-app.get('/admin/posts', (req, res) => {
+app.get('/admin/posts', async (req, res) => {
   const password = req.query.password;
   if (password !== ADMIN_PASSWORD) {
     return res.redirect('/admin');
   }
   
-  const posts = getBlogPosts();
+  const posts = await getBlogPosts();
   res.render('admin-posts', {
     title: 'Manage Posts',
     currentPage: 'admin',
@@ -661,42 +651,44 @@ app.get('/admin/posts/new', (req, res) => {
 /**
  * ADMIN EDIT POST PAGE
  */
-app.get('/admin/posts/edit/:slug', (req, res) => {
+app.get('/admin/posts/edit/:slug', async (req, res) => {
   const password = req.query.password;
   if (password !== ADMIN_PASSWORD) {
     return res.redirect('/admin');
   }
   
   const { slug } = req.params;
-  const postsDirectory = path.join(__dirname, 'posts');
-  const filePath = path.join(postsDirectory, slug + '.md');
   
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send('Post not found');
+  try {
+    const post = await Post.findOne({ slug });
+    
+    if (!post) {
+      return res.status(404).send('Post not found');
+    }
+    
+    res.render('admin-editor', {
+      title: 'Edit Post',
+      currentPage: 'admin',
+      post: {
+        slug: post.slug,
+        title: post.title,
+        date: post.date.toISOString().split('T')[0],
+        author: post.author,
+        tags: post.tags,
+        content: post.content
+      },
+      password
+    });
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    res.status(500).send('Server error');
   }
-  
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
-  
-  res.render('admin-editor', {
-    title: 'Edit Post',
-    currentPage: 'admin',
-    post: {
-      slug,
-      title: data.title || '',
-      date: data.date || '',
-      author: data.author || '',
-      tags: data.tags || [],
-      content: content
-    },
-    password
-  });
 });
 
 /**
  * ADMIN SAVE POST API
  */
-app.post('/admin/posts/save', express.json(), (req, res) => {
+app.post('/admin/posts/save', express.json(), async (req, res) => {
   const password = req.body.password || req.query.password;
   if (password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Unauthorized' });
@@ -709,59 +701,70 @@ app.post('/admin/posts/save', express.json(), (req, res) => {
     return res.status(400).json({ error: 'Missing required fields' });
   }
   
-  const postsDirectory = path.join(__dirname, 'posts');
-  
-  // Create posts directory if it doesn't exist
-  if (!fs.existsSync(postsDirectory)) {
-    fs.mkdirSync(postsDirectory);
-  }
-  
-  // If slug changed, delete old file
-  if (originalSlug && originalSlug !== slug) {
-    const oldFilePath = path.join(postsDirectory, originalSlug + '.md');
-    if (fs.existsSync(oldFilePath)) {
-      fs.unlinkSync(oldFilePath);
+  try {
+    const postData = {
+      slug,
+      title,
+      date: date || new Date(),
+      author: author || 'Carlos Cervantes',
+      tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : []),
+      content,
+      published: true
+    };
+    
+    // If editing existing post (originalSlug exists)
+    if (originalSlug) {
+      // If slug changed, check if new slug is available
+      if (originalSlug !== slug) {
+        const existingPost = await Post.findOne({ slug });
+        if (existingPost) {
+          return res.status(400).json({ error: 'Slug already exists' });
+        }
+      }
+      
+      // Update the post
+      await Post.findOneAndUpdate({ slug: originalSlug }, postData, { upsert: true });
+    } else {
+      // Creating new post - check if slug exists
+      const existingPost = await Post.findOne({ slug });
+      if (existingPost) {
+        return res.status(400).json({ error: 'Slug already exists' });
+      }
+      
+      // Create new post
+      await Post.create(postData);
     }
+    
+    res.json({ success: true, slug });
+  } catch (error) {
+    console.error('Error saving post:', error);
+    res.status(500).json({ error: 'Failed to save post' });
   }
-  
-  // Create frontmatter
-  const frontmatter = {
-    title,
-    date: date || new Date().toISOString().split('T')[0],
-    author: author || 'Carlos Cervantes',
-    slug,
-    tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : [])
-  };
-  
-  // Create file content
-  const fileContent = matter.stringify(content, frontmatter);
-  
-  // Write file
-  const filePath = path.join(postsDirectory, slug + '.md');
-  fs.writeFileSync(filePath, fileContent, 'utf8');
-  
-  res.json({ success: true, slug });
 });
 
 /**
  * ADMIN DELETE POST API
  */
-app.post('/admin/posts/delete/:slug', (req, res) => {
+app.post('/admin/posts/delete/:slug', async (req, res) => {
   const password = req.body.password || req.query.password;
   if (password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   
   const { slug } = req.params;
-  const postsDirectory = path.join(__dirname, 'posts');
-  const filePath = path.join(postsDirectory, slug + '.md');
   
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'Post not found' });
+  try {
+    const result = await Post.findOneAndDelete({ slug });
+    
+    if (!result) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ error: 'Failed to delete post' });
   }
-  
-  fs.unlinkSync(filePath);
-  res.json({ success: true });
 });
 
 /**
