@@ -86,6 +86,43 @@ function getBlogPost(slug) {
 }
 
 /**
+ * Fetch README description for a repository
+ */
+async function getRepoDescription(username, repoName) {
+  try {
+    const readmeResponse = await fetch(
+      `https://api.github.com/repos/${username}/${repoName}/readme`,
+      {
+        headers: {
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      }
+    );
+    
+    if (!readmeResponse.ok) {
+      return null;
+    }
+    
+    const readmeData = await readmeResponse.json();
+    const readmeContent = Buffer.from(readmeData.content, 'base64').toString('utf-8');
+    
+    // Extract first paragraph or first 200 characters
+    const lines = readmeContent.split('\n').filter(line => line.trim() && !line.trim().startsWith('#'));
+    const firstParagraph = lines[0] || '';
+    
+    // Clean up markdown syntax and truncate
+    const cleanText = firstParagraph
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove markdown links
+      .replace(/[*_`]/g, '') // Remove markdown formatting
+      .trim();
+    
+    return cleanText.length > 200 ? cleanText.substring(0, 200) + '...' : cleanText;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
  * Helper function to fetch GitHub repositories dynamically
  */
 async function getGitHubProjects() {
@@ -116,15 +153,28 @@ async function getGitHubProjects() {
       .filter(repo => !repo.private) // Only public repos
       .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently updated
     
-    return filteredRepos.map(repo => ({
-      name: repo.name,
-      description: repo.description || 'No description available',
-      url: repo.html_url,
-      language: repo.language,
-      stars: repo.stargazers_count,
-      forks: repo.forks_count,
-      updated: repo.updated_at
-    }));
+    // Fetch descriptions from README if repo description is missing
+    const projectsPromises = filteredRepos.map(async (repo) => {
+      let description = repo.description;
+      
+      // If no description, try to get it from README
+      if (!description || description.trim() === '') {
+        const readmeDesc = await getRepoDescription(username, repo.name);
+        description = readmeDesc || 'No description available';
+      }
+      
+      return {
+        name: repo.name,
+        description: description,
+        url: repo.html_url,
+        language: repo.language,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        updated: repo.updated_at
+      };
+    });
+    
+    return await Promise.all(projectsPromises);
     
   } catch (error) {
     console.error('Error fetching from GitHub API:', error);
