@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .og-canvas {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .og-overlay {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(118, 75, 162, 0.3) 0%, transparent 50%);
+        }
+        
+        .og-content {
+            position: relative;
+            z-index: 2;
+            padding: 80px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
+        
+        .og-logo {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+        
+        .og-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #10b981;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .og-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .og-title {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin: 0;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .og-subtitle {
+            font-size: 36px;
+            font-weight: 400;
+            opacity: 0.95;
+            margin: 0;
+        }
+        
+        .og-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+        
+        .og-stats {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .og-stat {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .og-stat-number {
+            font-size: 32px;
+            font-weight: 900;
+        }
+        
+        .og-stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .og-url {
+            font-size: 18px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        .controls {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .instructions {
+            color: #999;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="og-canvas" id="ogCanvas">
+            <div class="og-overlay"></div>
+            <div class="og-content">
+                <div class="og-logo">
+                    CC
+                    <span class="og-badge">QA</span>
+                </div>
+                
+                <div class="og-main">
+                    <h1 class="og-title">Carlos Cervantes</h1>
+                    <p class="og-subtitle">Senior QA Engineer & Mobile Automation Expert</p>
+                </div>
+                
+                <div class="og-footer">
+                    <div class="og-stats">
+                        <div class="og-stat">
+                            <div class="og-stat-number">6+</div>
+                            <div class="og-stat-label">Years Exp</div>
+                        </div>
+                        <div class="og-stat">
+                            <div class="og-stat-number">50+</div>
+                            <div class="og-stat-label">Projects</div>
+                        </div>
+                        <div class="og-stat">
+                            <div class="og-stat-number">6</div>
+                            <div class="og-stat-label">Certs</div>
+                        </div>
+                    </div>
+                    <div class="og-url">carloscervantes.dev</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="downloadImage()">Download OG Image (1200x630)</button>
+            <p class="instructions">
+                Right-click the image above and "Save as..." or use the download button.<br>
+                Save as: <strong>og-image.png</strong> or <strong>og-image.jpg</strong>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        async function downloadImage() {
+            try {
+                // Using html2canvas library (need to include it)
+                alert('To download:\n1. Right-click the image above\n2. Select "Save Image As..."\n3. Save as "og-image.png" in public/images/\n\nOr take a screenshot at exactly 1200x630px');
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        }
+        
+        // Instructions for manual screenshot
+        console.log('%c OG Image Dimensions ', 'background: #667eea; color: white; font-size: 16px; padding: 10px;');
+        console.log('Width: 1200px\nHeight: 630px\n\nTake a screenshot of the canvas above at these exact dimensions.');
+    </script>
+</body>
+</html>
