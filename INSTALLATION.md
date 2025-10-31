@@ -6,6 +6,7 @@ This guide will walk you through installing the project locally and deploying it
 
 - Node.js 14+ installed
 - Git installed
+- MongoDB (local or Atlas account for cloud) - **Required for blog functionality**
 - A GitHub account
 - A Vercel account (free tier works)
 
@@ -26,7 +27,54 @@ cd personal-portfolio
 npm install
 ```
 
-### 3. Run Locally
+### 3. Set Up MongoDB
+
+**Option A: Local MongoDB**
+```bash
+# macOS
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
+```
+
+**Option B: MongoDB Atlas (Cloud - Recommended)**
+
+See detailed instructions in [`DATABASE_SETUP.md`](./DATABASE_SETUP.md)
+
+Quick setup:
+1. Create free account at https://www.mongodb.com/cloud/atlas
+2. Create a cluster (M0 free tier)
+3. Get connection string
+4. Add to `.env` file
+
+### 4. Configure Environment Variables
+
+Create a `.env` file in the root directory:
+
+```bash
+cat > .env << EOF
+MONGODB_URI=mongodb://localhost:27017/personal-portfolio
+ADMIN_PASSWORD=your-secure-password
+EOF
+```
+
+Or for MongoDB Atlas:
+```bash
+cat > .env << EOF
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/personal-portfolio
+ADMIN_PASSWORD=your-secure-password
+EOF
+```
+
+### 5. Migrate Existing Posts (Optional)
+
+If you have markdown posts in `/posts` directory:
+
+```bash
+npm run migrate
+```
+
+### 6. Run Locally
 
 ```bash
 # Development mode (auto-restart on changes)
@@ -37,16 +85,6 @@ npm start
 ```
 
 The site will be available at: `http://localhost:3000`
-
-### 4. Set Admin Password (Optional)
-
-Create a `.env` file in the root directory:
-
-```bash
-echo "ADMIN_PASSWORD=your-secure-password" > .env
-```
-
-If not set, the default password is `admin123`.
 
 ---
 
@@ -77,14 +115,23 @@ Vercel will auto-detect your project settings:
 
 The `vercel.json` file in your repository handles the configuration automatically.
 
-#### Step 3: Add Environment Variables (Optional)
+#### Step 3: Add Environment Variables (Required)
+
+**You must add MongoDB connection string for the blog to work!**
 
 1. Before clicking "Deploy", expand **"Environment Variables"**
-2. Add variable:
+2. Add variables:
+   - **Name**: `MONGODB_URI`
+   - **Value**: Your MongoDB Atlas connection string (see [`DATABASE_SETUP.md`](./DATABASE_SETUP.md))
+   - **Environment**: All (Production, Preview, Development)
+   - Click **"Add"**
+   
    - **Name**: `ADMIN_PASSWORD`
    - **Value**: `your-secure-password`
    - **Environment**: All (Production, Preview, Development)
-3. Click **"Add"**
+   - Click **"Add"**
+
+**Important**: Use MongoDB Atlas (cloud) for Vercel deployment, not local MongoDB!
 
 #### Step 4: Deploy
 
