@@ -18,10 +18,21 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/person
 // Admin password (in production, use environment variables and proper authentication)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
-// Connect to MongoDB
+// Connect to MongoDB with better error handling
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('✅ Connected to MongoDB'))
-  .catch(err => console.error('❌ MongoDB connection error:', err));
+  .then(() => {
+    console.log('✅ Connected to MongoDB');
+    console.log(`   Database: ${MONGODB_URI.split('/').pop().split('?')[0]}`);
+  })
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.error('\n⚠️  DATABASE NOT CONNECTED!');
+    console.error('   The app will run, but blog functionality will not work.');
+    console.error('   To fix this:');
+    console.error('   1. Install MongoDB: brew install mongodb-community');
+    console.error('   2. Start MongoDB: brew services start mongodb-community');
+    console.error('   3. Or use MongoDB Atlas (see DATABASE_SETUP.md)\n');
+  });
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -738,7 +749,18 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
     res.json({ success: true, slug });
   } catch (error) {
     console.error('Error saving post:', error);
-    res.status(500).json({ error: 'Failed to save post' });
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to save post';
+    if (error.name === 'MongooseServerSelectionError' || error.name === 'MongoNetworkError') {
+      errorMessage = 'Database connection failed. Please ensure MongoDB is running.';
+    } else if (error.name === 'ValidationError') {
+      errorMessage = `Validation error: ${error.message}`;
+    } else if (error.code === 11000) {
+      errorMessage = 'A post with this slug already exists';
+    }
+    
+    res.status(500).json({ error: errorMessage, details: error.message });
   }
 });
 
