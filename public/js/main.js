@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // ==========================================
-  // NAVBAR SHADOW ON SCROLL
+  // NAVBAR SCROLL EFFECTS
   // ==========================================
   const navbar = document.querySelector('.navbar');
   let lastScroll = 0;
@@ -142,10 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', function() {
     const currentScroll = window.pageYOffset;
     
+    // Add scrolled class when scrolling down
     if (currentScroll > 50) {
-      navbar.style.boxShadow = '0 2px 10px var(--shadow-strong)';
+      navbar.classList.add('scrolled');
     } else {
-      navbar.style.boxShadow = '0 2px 10px var(--shadow)';
+      navbar.classList.remove('scrolled');
     }
     
     lastScroll = currentScroll;
