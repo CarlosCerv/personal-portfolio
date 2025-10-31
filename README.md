@@ -1,74 +1,85 @@
-# Carlos Cervantes - QA Engineer Portfolio
+# 🚀 Personal Portfolio Website Template
 
-A modern, interactive personal portfolio website showcasing QA automation expertise and professional experience. Built with Node.js, Express, and EJS, featuring Google Sans Flex typography and engaging animations.
+A modern, professional portfolio website template perfect for developers, QA engineers, and tech professionals. Built with Node.js, Express, MongoDB, and EJS, featuring a blog system, project showcase, and beautiful animations.
+
+**[📖 Complete Setup Guide](SETUP_GUIDE.md)** | **[🌐 Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)**
+
+---
+
+> **This is a template!** Follow the [Setup Guide](SETUP_GUIDE.md) to customize it with your information.
 
 ## ✨ Features
 
-### Design & UI
-- 🎨 **Modern Design** with Google Sans Flex typography
-- 🌓 **Dark/Light Mode** toggle with persistent preference
-- 📱 **Fully Responsive** across all devices
-- ✨ **Animated Hero Section** with gradient effects and floating text
-- 🎭 **Interactive Backgrounds** with subtle movement effects
-- � **Smooth Transitions** and hover effects throughout
+### 🎨 Design & UI
+- **Modern, Professional Design** with clean typography
+- **Dark/Light Mode** toggle with persistent preference
+- **Fully Responsive** - works perfectly on all devices
+- **Animated Hero Section** with gradient effects
+- **Interactive Backgrounds** with subtle animations
+- **Smooth Transitions** throughout
 
-### Content Sections
-- 👤 **Professional Profile** with animated introduction
-- 💼 **Work Experience Timeline** with visual indicators
-- 🛠️ **Comprehensive Technical Skills** organized by category
-- 📝 **Interactive Blog** with search and filter functionality
-- � **QA Automation Projects** showcase
-- 🎙️ **Podcast Section** for QA insights
-- 🎯 **Enhanced Hobbies** with interactive card animations
+### 📝 Content Sections
+- **Professional Profile** with stats showcase
+- **Work Experience Timeline** with detailed history
+- **Technical Skills** organized by category
+- **Projects Showcase** with GitHub integration
+- **Blog System** with admin panel
+- **Podcast Section** for episodes and platforms
+- **Hobbies/Interests** section
 
-### Blog Features
-- 📝 **Markdown-based** blog system
-- � **Real-time Search** functionality
-- 🏷️ **Category Filters** (Mobile, Automation, CI/CD, QA)
-- ⏱️ **Reading Time** indicators
-- 📊 **Reading Progress Bar** on blog posts
-- 🎨 **Animated Cards** with gradient accents
-- 👤 **Author Attribution** and metadata
+### ✍️ Blog System
+- **Markdown-based** with frontmatter support
+- **Admin Panel** with visual editor and live preview
+- **Real-time Search** functionality
+- **Tag Filtering** and categories
+- **Reading Progress Bar** on posts
+- **Copy Code Blocks** feature
+- **SEO Optimized** with meta tags
 
-### Technical Features
-- ⚡ **Fast Performance** and lightweight
-- 🔒 **SEO Optimized** meta tags
-- ♿ **Accessible** with ARIA labels
-- 🎬 **Scroll Animations** for content reveal
-- 📋 **Copy Code Blocks** functionality
-- 🎯 **Staggered Load** animations
+### 🔧 Technical Features
+- **MongoDB Integration** for blog posts
+- **GitHub API** for automatic project listing
+- **Open Graph** meta tags for social sharing
+- **Accessible** with WCAG compliance
+- **Fast Performance** and optimized assets
+- **Scroll Animations** and interactive elements
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js (v14 or higher)
-- npm or yarn
+- **Node.js** (v14 or higher)
+- **MongoDB** (local or Atlas)
+- **npm** or **yarn**
 
 ### Installation
 
-1. Clone the repository
-2. Install dependencies:
-
 ```bash
+# 1. Clone the repository
+git clone https://github.com/CarlosCerv/personal-portfolio.git
+cd personal-portfolio
+
+# 2. Install dependencies
 npm install
-```
 
-3. Start the development server:
+# 3. Create .env file
+cp .env.example .env
+# Edit .env with your configuration
 
-```bash
+# 4. Start development server
 npm run dev
+
+# 5. Open browser
+# Visit http://localhost:3000
 ```
 
-4. Open your browser and navigate to `http://localhost:3000`
+### 📖 Complete Setup Instructions
 
-### Production
-
-To run in production mode:
-
-```bash
-npm start
-```
+**New to this template?** Follow the detailed [Setup Guide](SETUP_GUIDE.md) for:
+- Step-by-step customization
+- Personal information updates
+- Blog setup
+- Deployment instructions
+- Troubleshooting tips
 
 ## Project Structure
 
@@ -81,111 +92,174 @@ npm start
 └── package.json     # Dependencies
 ```
 
-## 🎨 Customization
+## 🎨 Customization Overview
 
-### Personal Information
-- **Profile**: Update name and title in `views/partials/navigation.ejs` and `views/index.ejs`
-- **About Section**: Modify professional summary in `views/index.ejs`
-- **Experience**: Update work history in the experience timeline
-- **Skills**: Edit technical skills by category in `views/index.ejs`
-- **Profile Picture**: Replace `public/images/profile.jpg` with your photo
+The template is designed for easy customization. Here's what you can change:
 
-### Content
-- **Blog Posts**: Create markdown files in `/posts` directory with frontmatter
-- **Projects**: Update GitHub projects data in `app.js`
-- **Hobbies**: Customize hobby cards in `views/hobbies.ejs`
-- **Podcast**: Add your podcast embed in `views/podcast.ejs`
+### Quick Customization
+- ✏️ **Personal Info** - Name, title, bio, location
+- 📊 **Professional Stats** - Years, projects, certifications
+- 💼 **Experience** - Job history with details
+- 🎓 **Education** - Degrees and institutions
+- 🏆 **Certifications** - Professional certifications
+- 🛠️ **Skills** - Technical skills by category
+- 📱 **Contact** - Social media links
+- 🎨 **Theme Colors** - Brand colors and styling
+- 🖼️ **Logo & Images** - Branding and photos
 
-### Styling
-- **Colors**: Modify CSS variables in `public/css/style.css` (`:root` section)
-- **Typography**: Change font settings in the typography variables
-- **Animations**: Adjust animation timings and effects in CSS
-- **Layout**: Modify spacing using CSS custom properties
+### Content Management
+- **Blog Posts** - Use admin panel at `/admin` or create markdown files
+- **Projects** - Connect GitHub API or add manually
+- **Hobbies** - Add personal interests and activities
+- **Podcast** - Share podcast episodes and platforms
 
-### Social Links
-Update social media links in `views/partials/footer.ejs`:
-- GitHub
-- LinkedIn
-- Twitter/X
-- Email
+### Advanced
+- **SEO** - Meta tags and Open Graph images
+- **Analytics** - Google Analytics integration
+- **Custom Domain** - Configure your own domain
+- **Styling** - CSS variables for colors and spacing
 
-## 🎯 Key Technologies
+**👉 See the [Setup Guide](SETUP_GUIDE.md) for detailed instructions on each section.**
 
-### Technical Skills Showcased
-- **Mobile Testing**: Appium, Espresso, Android Studio
-- **Web Testing**: Selenium, Cypress, Nightwatch
-- **CI/CD**: GitHub Actions, Circle CI, Jenkins
-- **Languages**: Java, JavaScript
-- **Tools**: Jira, TestRail, XRay, SauceLabs, BrowserStack
-- **Cloud**: AWS, Firebase
+## 🛠️ Tech Stack
 
-## 📝 Blog Topics
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB** - Database for blog posts
+- **Mongoose** - MongoDB ODM
+- **EJS** - Templating engine
 
-Current blog posts focus on:
-- Mobile Test Automation with Appium and Espresso
-- CI/CD Integration for QA Automation
-- Testing strategies and best practices
-- Quality Assurance methodologies
+### Frontend
+- **Vanilla JavaScript** - No framework needed
+- **CSS3** - Modern styling with variables
+- **Font Awesome** - Icons
+- **Google Fonts** - Typography
+- **Markdown** - Blog content with frontmatter
 
-## 🎨 Design Features
+### Features
+- **Responsive Design** - Mobile-first approach
+- **Dark/Light Mode** - Theme switching
+- **Blog Admin Panel** - Visual markdown editor
+- **GitHub API Integration** - Automatic project listing
+- **SEO Optimization** - Meta tags and Open Graph
+- **Accessibility** - WCAG compliant
 
-### Animations
-- **Hero Section**: Gradient text animation and floating effect
-- **Experience Timeline**: Animated dots and hover effects
-- **Skill Categories**: Organized with interactive tags
-- **Blog Cards**: Gradient accents and lift effects
-- **Hobby Cards**: Bounce animations and shimmer effects
+### Deployment
+- **Vercel** - Recommended (one-click deploy)
+- **Heroku** - Alternative option
+- **Railway** - Alternative option
+- **DigitalOcean** - Alternative option
 
-### Interactive Elements
-- **Search Bar**: Real-time blog post filtering
-- **Filter Buttons**: Category-based content filtering
-- **Hover Effects**: Throughout all card components
-- **Smooth Scrolling**: For anchor links
-- **Progress Indicators**: Reading progress on blog posts
+## � Deployment
 
-## 🚀 Deployment
+### Deploy to Vercel (Recommended)
 
-### Environment Variables
-No environment variables required for basic setup.
+```bash
+# Install Vercel CLI
+npm i -g vercel
 
-### Production Checklist
-- [ ] Update personal information
-- [ ] Add real GitHub API token (optional)
-- [ ] Configure domain and hosting
-- [ ] Enable HTTPS
-- [ ] Test all links and images
-- [ ] Verify mobile responsiveness
-- [ ] Check dark mode compatibility
+# Deploy
+vercel --prod
+```
 
-## 📱 Browser Support
+Set environment variables in Vercel dashboard:
+- `MONGODB_URI`
+- `ADMIN_PASSWORD`
+- `GITHUB_TOKEN` (optional)
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
+### Other Platforms
+- **Heroku** - Add Procfile and configure MongoDB addon
+- **Railway** - Connect GitHub and set environment variables
+- **DigitalOcean** - Use App Platform or Droplets
+
+See the [Setup Guide](SETUP_GUIDE.md) for detailed deployment instructions.
+
+---
+
+## 📸 Screenshots
+
+### Homepage
+![Homepage Hero Section](docs/screenshots/hero.png)
+*Professional hero section with animated stats*
+
+### Blog Admin Panel
+![Blog Editor](docs/screenshots/admin.png)
+*Visual markdown editor with live preview*
+
+### Dark Mode
+![Dark Mode](docs/screenshots/dark-mode.png)
+*Beautiful dark mode theme*
+
+---
+
+## � Project Structure
+
+```
+personal-website/
+├── app.js                 # Express server and routes
+├── package.json           # Dependencies
+├── .env                   # Environment variables
+├── public/
+│   ├── css/
+│   │   └── style.css     # Main stylesheet
+│   ├── js/
+│   │   └── main.js       # Frontend JavaScript
+│   └── images/           # Static images
+├── views/
+│   ├── index.ejs         # Homepage
+│   ├── blog.ejs          # Blog listing
+│   ├── post.ejs          # Blog post detail
+│   ├── projects.ejs      # Projects showcase
+│   ├── podcast.ejs       # Podcast page
+│   ├── hobbies.ejs       # Hobbies listing
+│   └── partials/         # Reusable components
+└── posts/                # Markdown blog posts
+```
+
+---
 
 ## 🤝 Contributing
 
-This is a personal portfolio project, but feel free to:
-- Fork for your own use
-- Submit bug reports
-- Suggest improvements
+This template is open for contributions! Feel free to:
+- 🐛 Report bugs
+- 💡 Suggest new features
+- 🔧 Submit pull requests
+- ⭐ Star the repository
+
+---
 
 ## 📄 License
 
-MIT
+MIT License - feel free to use this template for your personal portfolio!
 
-## 👤 Author
+---
+
+## 👤 Original Template By
 
 **Carlos Cervantes**
-- Software QA Engineer III
-- Mobile Automation Expert
-- 6+ years of QA experience
+- 🔗 [GitHub](https://github.com/CarlosCerv)
+- 💼 [LinkedIn](https://linkedin.com/in/carloscerteaga)
+- 🌐 [Portfolio](https://personal-website-carlos-cervantes-projects.vercel.app)
+
+---
 
 ## 🙏 Acknowledgments
 
-- Google Fonts for Google Sans Flex typography
-- Font Awesome for icons
-- Express.js and EJS templating
-- Marked for Markdown parsing
+- [Node.js](https://nodejs.org/) - JavaScript runtime
+- [Express.js](https://expressjs.com/) - Web framework
+- [MongoDB](https://www.mongodb.com/) - Database
+- [Font Awesome](https://fontawesome.com/) - Icons
+- [Google Fonts](https://fonts.google.com/) - Typography
+- [Vercel](https://vercel.com/) - Hosting platform
+
+---
+
+## 🌟 Show Your Support
+
+If this template helped you create your portfolio, please:
+- ⭐ Star this repository
+- 🔗 Share it with others
+- 💬 Provide feedback
+
+**Happy building! 🚀**
