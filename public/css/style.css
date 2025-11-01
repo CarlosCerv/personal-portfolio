@@ -320,23 +320,8 @@ p {
   font-weight: 700;
   letter-spacing: 0.5px;
   font-family: var(--font-mono);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-}
-
-.brand-name::before {
-  content: '< ';
-  color: var(--terminal-green);
-  opacity: 0.7;
-}
-
-.brand-name::after {
-  content: ' />';
-  color: var(--terminal-blue);
-  opacity: 0.7;
+  color: var(--text-color);
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
 }
 
 .nav-brand:hover .brand-name {
