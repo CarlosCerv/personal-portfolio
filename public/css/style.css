@@ -443,41 +443,61 @@ body.dark-mode .theme-toggle i::before {
 .nav-toggle {
   display: none;
   flex-direction: column;
-  background: var(--surface-color);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
+  background: rgba(0, 255, 136, 0.05);
+  border: 2px solid rgba(0, 255, 136, 0.3);
+  border-radius: 10px;
   cursor: pointer;
-  padding: 8px;
-  width: 44px;
-  height: 44px;
+  padding: 10px;
+  width: 48px;
+  height: 48px;
   justify-content: center;
-  gap: 5px;
-  transition: all 0.3s ease;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1001;
   position: relative;
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+}
+
+.nav-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--terminal-green), var(--terminal-blue));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
 .nav-toggle:hover {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
+  background: rgba(0, 255, 136, 0.1);
+  border-color: var(--terminal-green);
   transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(0, 255, 136, 0.4);
+}
+
+.nav-toggle:hover::before {
+  opacity: 1;
 }
 
 .nav-toggle:hover .hamburger {
-  background-color: white;
+  background: var(--terminal-green);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
 }
 
 .hamburger {
   width: 100%;
   height: 3px;
-  background-color: var(--text-color);
-  transition: all 0.3s ease;
-  border-radius: 2px;
+  background: linear-gradient(90deg, var(--terminal-green), var(--terminal-blue));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 3px;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
 }
 
 .nav-toggle.active .hamburger:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
-  background-color: var(--primary-color);
+  transform: translateY(9px) rotate(45deg);
+  background: var(--terminal-green);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
 }
 
 .nav-toggle.active .hamburger:nth-child(2) {
@@ -486,13 +506,15 @@ body.dark-mode .theme-toggle i::before {
 }
 
 .nav-toggle.active .hamburger:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
-  background-color: var(--primary-color);
+  transform: translateY(-9px) rotate(-45deg);
+  background: var(--terminal-green);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
 }
 
 .nav-toggle.active {
-  background: var(--surface-color);
-  border-color: var(--primary-color);
+  background: rgba(0, 255, 136, 0.15);
+  border-color: var(--terminal-green);
+  box-shadow: 0 8px 30px rgba(0, 255, 136, 0.5);
 }
 
 /* ==========================================
@@ -3403,59 +3425,110 @@ body.dark-mode .theme-toggle i::before {
     top: 72px;
     left: 0;
     right: 0;
-    background: var(--background-color);
+    background: rgba(13, 17, 23, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-top: 2px solid var(--border-color);
-    border-bottom: 2px solid var(--border-color);
+    border-top: 2px solid rgba(0, 255, 136, 0.3);
+    border-bottom: 2px solid rgba(0, 255, 136, 0.3);
     flex-direction: column;
     padding: var(--spacing-lg) var(--spacing-md);
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 40px var(--shadow-strong);
+    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2), inset 0 1px 0 rgba(0, 255, 136, 0.1);
     max-height: calc(100vh - 72px);
     overflow-y: auto;
     z-index: 1000;
+  }
+  
+  .nav-menu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
+    pointer-events: none;
   }
   
   .nav-menu.active {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
+    animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes slideDown {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
   
   .nav-list {
     flex-direction: column;
     width: 100%;
     gap: 0.75rem;
+    position: relative;
+    z-index: 1;
   }
   
   .nav-link {
     display: block;
     padding: 1.25rem 1.5rem;
-    text-align: center;
+    text-align: left;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 600;
-    background: var(--surface-color);
-    border: 2px solid var(--border-color);
+    background: rgba(22, 27, 34, 0.8);
+    border: 2px solid rgba(0, 255, 136, 0.2);
     color: var(--text-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+  
+  .nav-link::before {
+    content: '>';
+    position: absolute;
+    left: 1rem;
+    opacity: 0;
+    color: var(--terminal-green);
+    transform: translateX(-10px);
     transition: all 0.3s ease;
+    font-weight: 900;
+  }
+  
+  .nav-link:hover::before,
+  .nav-link.active::before {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .nav-link:hover,
+  .nav-link.active {
+    padding-left: 2.5rem;
   }
   
   .nav-link:hover {
-    transform: translateX(8px);
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    transform: translateX(0);
+    background: rgba(0, 255, 136, 0.15);
+    color: var(--terminal-green);
+    border-color: var(--terminal-green);
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3), inset 0 0 20px rgba(0, 255, 136, 0.1);
   }
   
   .nav-link.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background: rgba(0, 255, 136, 0.2);
+    color: var(--terminal-green);
+    border-color: var(--terminal-green);
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4), inset 0 0 30px rgba(0, 255, 136, 0.15);
   }
   
   .theme-toggle {
