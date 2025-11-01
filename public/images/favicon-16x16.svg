@@ -1,28 +1,9 @@
-<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="favicon16Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#007BFF;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#003D99;stop-opacity:1" />
-    </linearGradient>
-  </defs>
-  
-  <!-- Hexagon -->
-  <path d="M 8 0.5 L 14.5 3.5 L 14.5 10.5 L 8 15.5 L 1.5 10.5 L 1.5 3.5 Z" 
-        fill="url(#favicon16Gradient)"/>
-  
-  <!-- CC -->
-  <text x="8" y="11" 
-        font-family="Arial, sans-serif" 
-        font-size="7" 
-        font-weight="700" 
-        fill="#FFFFFF" 
-        text-anchor="middle">CC</text>
-  
-  <!-- Checkmark -->
-  <circle cx="12.5" cy="4" r="2.2" fill="#00D9FF"/>
-  <path d="M 11.5 4 L 12 4.6 L 13.5 2.8" 
-        stroke="#FFFFFF" 
-        stroke-width="0.6" 
-        stroke-linecap="round" 
-        fill="none"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <rect width="16" height="16" rx="3" fill="#0d1117"/>
+    <rect x="2" y="3" width="12" height="10" rx="1" fill="#161b22" stroke="#00ff88" stroke-width="0.5"/>
+    <rect x="2" y="3" width="12" height="3" rx="1" fill="#0d1117"/>
+    <circle cx="4" cy="4.5" r="0.5" fill="#00ff88"/>
+    
+    <text x="3" y="10" font-family="Arial, sans-serif" font-size="5" font-weight="900" fill="#00ff88">&gt;c</text>
 </svg>

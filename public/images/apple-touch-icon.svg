@@ -1,52 +1,32 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="appleTouchGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#007BFF;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#0056D6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#003D99;stop-opacity:1" />
-    </linearGradient>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="termGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+        </linearGradient>
+        <filter id="glow2">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
     
-    <filter id="glowEffect">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  
-  <!-- Background -->
-  <rect width="180" height="180" fill="url(#appleTouchGradient)" rx="40"/>
-  
-  <!-- Hexagon frame -->
-  <path d="M 90 30 L 140 52 L 140 120 L 90 160 L 40 120 L 40 52 Z" 
-        fill="none"
-        stroke="#FFFFFF" 
-        stroke-width="3"
-        opacity="0.2"/>
-  
-  <!-- Inner hexagon -->
-  <path d="M 90 45 L 125 60 L 125 110 L 90 145 L 55 110 L 55 60 Z" 
-        fill="none" 
-        stroke="#FFFFFF" 
-        stroke-width="1.5"
-        opacity="0.3"/>
-  
-  <!-- CC Text -->
-  <text x="90" y="115" 
-        font-family="'Google Sans Flex', 'Roboto', 'Arial', sans-serif" 
-        font-size="60" 
-        font-weight="700" 
-        fill="#FFFFFF" 
-        text-anchor="middle"
-        letter-spacing="-3">CC</text>
-  
-  <!-- QA Badge -->
-  <circle cx="135" cy="50" r="20" fill="#00D9FF" filter="url(#glowEffect)"/>
-  <path d="M 125 50 L 132 58 L 145 42" 
-        stroke="#FFFFFF" 
-        stroke-width="5" 
-        stroke-linecap="round" 
-        stroke-linejoin="round" 
-        fill="none"/>
+    <rect width="180" height="180" rx="40" fill="#0d1117"/>
+    <rect x="15" y="30" width="150" height="120" rx="10" fill="#161b22" stroke="url(#termGradient2)" stroke-width="2"/>
+    <rect x="15" y="30" width="150" height="20" rx="10" fill="#0d1117"/>
+    <rect x="15" y="45" width="150" height="5" fill="#0d1117"/>
+    
+    <circle cx="27" cy="38" r="3" fill="#ff5f56"/>
+    <circle cx="38" cy="38" r="3" fill="#ffbd2e"/>
+    <circle cx="49" cy="38" r="3" fill="#27c93f"/>
+    
+    <text x="25" y="75" font-family="JetBrains Mono, monospace" font-size="18" font-weight="900" fill="#00ff88" filter="url(#glow2)">&gt;</text>
+    <text x="45" y="75" font-family="JetBrains Mono, monospace" font-size="18" font-weight="900" fill="url(#termGradient2)" filter="url(#glow2)">cc</text>
+    <text x="45" y="100" font-family="JetBrains Mono, monospace" font-size="14" font-weight="700" fill="#00d4ff">--qa</text>
+    
+    <rect x="60" y="155" width="60" height="20" rx="5" fill="#00ff88"/>
+    <text x="90" y="168" font-family="JetBrains Mono, monospace" font-size="12" font-weight="900" fill="#0d1117" text-anchor="middle">QA</text>
 </svg>
