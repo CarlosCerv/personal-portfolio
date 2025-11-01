@@ -25,6 +25,17 @@ jobs:
     - name: Check for syntax errors
       run: node -c app.js
     
+    - name: Setup MongoDB
+      uses: supercharge/mongodb-github-action@1.10.0
+      with:
+        mongodb-version: '6.0'
+    
+    - name: Create .env file for testing
+      run: |
+        echo "NODE_ENV=test" > .env
+        echo "MONGODB_URI=mongodb://localhost:27017/personal-portfolio-test" >> .env
+        echo "PORT=3000" >> .env
+    
     - name: Test if server starts
       run: |
         timeout 10s node app.js || code=$?

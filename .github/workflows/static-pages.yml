@@ -1,8 +1,9 @@
 name: Deploy Redirect Page to GitHub Pages
 
 on:
-  push:
-    branches: [ main ]
+  # Disabled - Using Vercel for deployment
+  # push:
+  #   branches: [ main ]
   workflow_dispatch:
   
 jobs:
