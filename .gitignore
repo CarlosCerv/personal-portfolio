@@ -4,6 +4,9 @@ node_modules/
 # Environment variables
 .env
 .env.local
+.env.production
+.env.*.local
+.admin-password.txt
 
 # Logs
 logs
@@ -15,6 +18,12 @@ yarn-error.log*
 # OS files
 .DS_Store
 Thumbs.db
+*.HEIC
+*.heic
+
+# Temporary files
+*-temp.*
+temp-*
 
 # IDE
 .vscode/

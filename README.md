@@ -2,11 +2,11 @@
 
 A modern, professional portfolio website template perfect for developers, QA engineers, and tech professionals. Built with Node.js, Express, MongoDB, and EJS, featuring a blog system, project showcase, and beautiful animations.
 
-**[📖 Complete Setup Guide](SETUP_GUIDE.md)** | **[🌐 Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)**
+**[🌐 Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)** | **[📚 Documentation](docs/)**
 
 ---
 
-> **This is a template!** Follow the [Setup Guide](SETUP_GUIDE.md) to customize it with your information.
+> **This is a template!** Scroll down for quick start instructions or check the [docs/](docs/) folder for detailed guides.
 
 ## ✨ Features
 
@@ -72,14 +72,13 @@ npm run dev
 # Visit http://localhost:3000
 ```
 
-### 📖 Complete Setup Instructions
+### 📖 Documentation
 
-**New to this template?** Follow the detailed [Setup Guide](SETUP_GUIDE.md) for:
-- Step-by-step customization
-- Personal information updates
-- Blog setup
-- Deployment instructions
-- Troubleshooting tips
+For detailed guides, see the **[docs/](docs/)** folder:
+- **[Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md)** - Update personal info, blog, projects
+- **[Database Setup](docs/DATABASE_SETUP.md)** - MongoDB configuration
+- **[GitHub Actions](docs/GITHUB_ACTIONS_GUIDE.md)** - CI/CD setup
+- **[Brand Guide](docs/BRAND_GUIDE.md)** - Design system and colors
 
 ## Project Structure
 
@@ -119,7 +118,7 @@ The template is designed for easy customization. Here's what you can change:
 - **Custom Domain** - Configure your own domain
 - **Styling** - CSS variables for colors and spacing
 
-**👉 See the [Setup Guide](SETUP_GUIDE.md) for detailed instructions on each section.**
+**👉 See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed instructions on each section.**
 
 ## 🛠️ Tech Stack
 
@@ -173,7 +172,7 @@ Set environment variables in Vercel dashboard:
 - **Railway** - Connect GitHub and set environment variables
 - **DigitalOcean** - Use App Platform or Droplets
 
-See the [Setup Guide](SETUP_GUIDE.md) for detailed deployment instructions.
+See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed deployment instructions.
 
 ---
 
