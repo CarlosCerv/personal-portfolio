@@ -62,7 +62,7 @@ async function getBlogPosts() {
     const posts = await Post.find({ published: true })
       .sort({ date: -1 })
       .lean();
-    
+
     // Add excerpt to each post
     return posts.map(post => ({
       ...post,
@@ -99,24 +99,24 @@ async function getRepoDescription(username, repoName) {
         }
       }
     );
-    
+
     if (!readmeResponse.ok) {
       return null;
     }
-    
+
     const readmeData = await readmeResponse.json();
     const readmeContent = Buffer.from(readmeData.content, 'base64').toString('utf-8');
-    
+
     // Extract first paragraph or first 200 characters
     const lines = readmeContent.split('\n').filter(line => line.trim() && !line.trim().startsWith('#'));
     const firstParagraph = lines[0] || '';
-    
+
     // Clean up markdown syntax and truncate
     const cleanText = firstParagraph
       .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove markdown links
       .replace(/[*_`]/g, '') // Remove markdown formatting
       .trim();
-    
+
     return cleanText.length > 200 ? cleanText.substring(0, 200) + '...' : cleanText;
   } catch (error) {
     return null;
@@ -130,7 +130,7 @@ async function getGitHubProjects() {
   try {
     // GitHub username - update this if needed
     const username = 'CarlosCerv';
-    
+
     // Fetch repositories from GitHub API
     const response = await fetch(
       `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
@@ -142,28 +142,32 @@ async function getGitHubProjects() {
         }
       }
     );
-    
+
     if (!response.ok) {
       throw new Error(`GitHub API error: ${response.status}`);
     }
-    
+
     const repos = await response.json();
-    
-    // Include all public repositories (original repos and forks)
+
+    // Repositories to exclude from the projects page
+    const excludedRepos = ['personal-portfolio'];
+
+    // Include all public repositories (original repos and forks), excluding specified repos
     const filteredRepos = repos
       .filter(repo => !repo.private) // Only public repos
+      .filter(repo => !excludedRepos.includes(repo.name)) // Exclude personal-portfolio
       .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently updated
-    
+
     // Fetch descriptions from README if repo description is missing
     const projectsPromises = filteredRepos.map(async (repo) => {
       let description = repo.description;
-      
+
       // If no description, try to get it from README
       if (!description || description.trim() === '') {
         const readmeDesc = await getRepoDescription(username, repo.name);
         description = readmeDesc || 'No description available';
       }
-      
+
       return {
         name: repo.name,
         description: description,
@@ -174,23 +178,15 @@ async function getGitHubProjects() {
         updated: repo.updated_at
       };
     });
-    
+
     return await Promise.all(projectsPromises);
-    
+
   } catch (error) {
     console.error('Error fetching from GitHub API:', error);
-    
-    // Fallback to placeholder data if API fails
-    return [
-      {
-        name: 'personal-portfolio',
-        description: 'Personal portfolio website with admin blog platform built with Node.js, Express, and EJS',
-        url: 'https://github.com/CarlosCerv/personal-portfolio',
-        language: 'JavaScript',
-        stars: 0,
-        forks: 0
-      }
-    ];
+
+    // Fallback to empty array if API fails
+    // Projects are fetched dynamically from GitHub
+    return [];
   }
 }
 
@@ -246,17 +242,17 @@ app.get('/blog', async (req, res) => {
 app.get('/blog/:slug', async (req, res) => {
   const { slug } = req.params;
   const post = await getBlogPost(slug);
-  
+
   if (!post) {
     return res.status(404).render('404', {
       title: 'Post Not Found',
       currentPage: 'blog'
     });
   }
-  
+
   // Convert markdown content to HTML
   const htmlContent = marked(post.content);
-  
+
   res.render('post', {
     title: post.title,
     currentPage: 'blog',
@@ -552,17 +548,17 @@ function getAllHobbies() {
 app.get('/hobbies/:slug', (req, res) => {
   const { slug } = req.params;
   const hobby = getHobbyData(slug);
-  
+
   if (!hobby) {
     return res.status(404).render('404', {
       title: 'Hobby Not Found',
       currentPage: 'hobbies'
     });
   }
-  
+
   // Get related hobbies (all except current)
   const relatedHobbies = getAllHobbies().filter(h => h.slug !== slug);
-  
+
   res.render('hobby-detail', {
     title: hobby.title,
     currentPage: 'hobbies',
@@ -578,7 +574,7 @@ app.get('/hobbies/:slug', (req, res) => {
  */
 function checkAdminAuth(req, res, next) {
   const password = req.body.password || req.query.password || req.session?.password;
-  
+
   if (password === ADMIN_PASSWORD) {
     if (!req.session) req.session = {};
     req.session.password = password;
@@ -601,7 +597,7 @@ app.get('/admin', (req, res) => {
   if (password === ADMIN_PASSWORD) {
     return res.redirect('/admin/posts');
   }
-  
+
   res.render('admin-login', {
     title: 'Admin Login',
     currentPage: 'admin',
@@ -632,7 +628,7 @@ app.get('/admin/posts', async (req, res) => {
   if (password !== ADMIN_PASSWORD) {
     return res.redirect('/admin');
   }
-  
+
   const posts = await getBlogPosts();
   res.render('admin-posts', {
     title: 'Manage Posts',
@@ -650,7 +646,7 @@ app.get('/admin/posts/new', (req, res) => {
   if (password !== ADMIN_PASSWORD) {
     return res.redirect('/admin');
   }
-  
+
   res.render('admin-editor', {
     title: 'New Post',
     currentPage: 'admin',
@@ -667,16 +663,16 @@ app.get('/admin/posts/edit/:slug', async (req, res) => {
   if (password !== ADMIN_PASSWORD) {
     return res.redirect('/admin');
   }
-  
+
   const { slug } = req.params;
-  
+
   try {
     const post = await Post.findOne({ slug });
-    
+
     if (!post) {
       return res.status(404).send('Post not found');
     }
-    
+
     res.render('admin-editor', {
       title: 'Edit Post',
       currentPage: 'admin',
@@ -704,14 +700,14 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
   if (password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   const { slug, title, date, author, tags, content, originalSlug } = req.body;
-  
+
   // Validate required fields
   if (!slug || !title || !content) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
-  
+
   try {
     const postData = {
       slug,
@@ -722,7 +718,7 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
       content,
       published: true
     };
-    
+
     // If editing existing post (originalSlug exists)
     if (originalSlug) {
       // If slug changed, check if new slug is available
@@ -732,7 +728,7 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
           return res.status(400).json({ error: 'Slug already exists' });
         }
       }
-      
+
       // Update the post
       await Post.findOneAndUpdate({ slug: originalSlug }, postData, { upsert: true });
     } else {
@@ -741,15 +737,15 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
       if (existingPost) {
         return res.status(400).json({ error: 'Slug already exists' });
       }
-      
+
       // Create new post
       await Post.create(postData);
     }
-    
+
     res.json({ success: true, slug });
   } catch (error) {
     console.error('Error saving post:', error);
-    
+
     // Provide more specific error messages
     let errorMessage = 'Failed to save post';
     if (error.name === 'MongooseServerSelectionError' || error.name === 'MongoNetworkError') {
@@ -759,7 +755,7 @@ app.post('/admin/posts/save', express.json(), async (req, res) => {
     } else if (error.code === 11000) {
       errorMessage = 'A post with this slug already exists';
     }
-    
+
     res.status(500).json({ error: errorMessage, details: error.message });
   }
 });
@@ -772,16 +768,16 @@ app.post('/admin/posts/delete/:slug', async (req, res) => {
   if (password !== ADMIN_PASSWORD) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   const { slug } = req.params;
-  
+
   try {
     const result = await Post.findOneAndDelete({ slug });
-    
+
     if (!result) {
       return res.status(404).json({ error: 'Post not found' });
     }
-    
+
     res.json({ success: true });
   } catch (error) {
     console.error('Error deleting post:', error);
