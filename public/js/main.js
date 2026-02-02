@@ -4,45 +4,10 @@
 document.addEventListener('DOMContentLoaded', function () {
 
   // ==========================================
-  // MOBILE MENU TOGGLE
+  // MOBILE MENU TOGGLE (Handled by apple-interactions.js)
   // ==========================================
-  const navToggle = document.getElementById('navToggle');
-  const navMenu = document.getElementById('navMenu');
+  // Logic removed to prevent double-toggling conflict
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
-      navMenu.classList.toggle('active');
-      navToggle.classList.toggle('active');
-
-      // Prevent body scroll when menu is open on mobile
-      if (navMenu.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    });
-
-    // Close menu when clicking on a nav link
-    const navLinks = navMenu.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', function () {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function (event) {
-      const isClickInside = navMenu.contains(event.target) || navToggle.contains(event.target);
-
-      if (!isClickInside && navMenu.classList.contains('active')) {
-        navMenu.classList.remove('active');
-        navToggle.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
-  }
 
   // ==========================================
   // DARK MODE TOGGLE
