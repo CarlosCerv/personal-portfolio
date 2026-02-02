@@ -1066,6 +1066,133 @@
 
 
 /* ==========================================
+   HOBBIES SECTION
+   ========================================== */
+.hobbies-section {
+    padding: var(--section-padding-lg);
+}
+
+.hobbies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-8);
+}
+
+.hobby-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.hobby-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    height: 100%;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.hobby-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+
+.hobby-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--off-white);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-6);
+    color: var(--accent-blue);
+    font-size: var(--text-2xl);
+    transition: all var(--transition-base);
+}
+
+.hobby-card:hover .hobby-icon {
+    background: var(--accent-blue);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.hobby-title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.hobby-description {
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-6);
+    flex: 1;
+}
+
+.hobby-arrow {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--accent-blue);
+    font-size: var(--text-lg);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all var(--transition-base);
+}
+
+.hobby-card:hover .hobby-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ==========================================
+   PROJECTS SEARCH & FILTERS
+   ========================================== */
+.project-search {
+    max-width: 500px;
+    margin: 0 auto var(--space-8);
+    position: relative;
+}
+
+.project-search i {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-tertiary);
+    pointer-events: none;
+    transition: color 0.3s ease;
+}
+
+.project-search input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4) var(--space-3) var(--space-10);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-full);
+    font-size: var(--text-base);
+    background: var(--white);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.project-search input:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+.project-search input:focus+i,
+.project-search:focus-within i {
+    color: var(--accent-blue);
+}
+
+/* ==========================================
    RESPONSIVE ADJUSTMENTS
    ========================================== */
 @media (max-width: 1024px) {

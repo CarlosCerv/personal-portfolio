@@ -284,12 +284,14 @@ section {
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  height: 60px;
+  height: 72px;
+  /* Increased from 60px for more breathing room */
   transition: all var(--transition-base);
 }
 
 .navbar.scrolled {
-  height: 56px;
+  height: 60px;
+  /* Increased from 56px */
   backdrop-filter: saturate(180%) blur(30px);
   -webkit-backdrop-filter: saturate(180%) blur(30px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -336,8 +338,8 @@ section {
   display: flex;
   align-items: center;
   height: 100%;
-  padding-top: 5px;
-  /* Adjusted for optical center with logo */
+  padding-top: 2px;
+  /* Reduced padding as height increased */
   font-family: var(--font-display);
   font-weight: var(--font-bold);
   letter-spacing: -0.01em;
