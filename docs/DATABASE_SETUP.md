@@ -180,21 +180,21 @@ npm run migrate
 ```
 
 This will:
-- ✅ Connect to MongoDB
-- ✅ Read all `.md` files from `/posts` directory
-- ✅ Parse frontmatter and content
-- ✅ Create database records for each post
-- ✅ Skip posts that already exist in database
+- Connect to MongoDB
+- Read all `.md` files from `/posts` directory
+- Parse frontmatter and content
+- Create database records for each post
+- Skip posts that already exist in database
 
 **Example output:**
 ```
-✅ Connected to MongoDB
-📁 Found 3 markdown files
-✅ Migrated: "Getting Started with Node.js and Express"
-✅ Migrated: "Building Scalable Microservices"
-✅ Migrated: "Journey from Bootcamp to Senior Developer"
+SUCCESS: Connected to MongoDB
+Found 3 markdown files
+SUCCESS: Migrated: "Getting Started with Node.js and Express"
+SUCCESS: Migrated: "Building Scalable Microservices"
+SUCCESS: Migrated: "Journey from Bootcamp to Senior Developer"
 
-📊 Migration Summary:
+Migration Summary:
    Migrated: 3 posts
    Skipped: 0 posts (already in database)
    Total: 3 files processed
@@ -340,10 +340,10 @@ mongoimport --db=personal-portfolio --collection=posts --file=posts-backup.json
 
 ## Next Steps
 
-1. ✅ Set up MongoDB (local or Atlas)
-2. ✅ Configure `MONGODB_URI` environment variable
-3. ✅ Run migration script to import existing posts
-4. ✅ Test admin platform at `/admin`
-5. ✅ Deploy to Vercel with environment variables
+1. Set up MongoDB (local or Atlas)
+2. Configure `MONGODB_URI` environment variable
+3. Run migration script to import existing posts
+4. Test admin platform at `/admin`
+5. Deploy to Vercel with environment variables
 
-Your blog now uses MongoDB for persistent, scalable storage! 🚀
+Your blog now uses MongoDB for persistent, scalable storage!

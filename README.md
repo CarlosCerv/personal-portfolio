@@ -1,16 +1,16 @@
-# 🚀 Personal Portfolio Website Template
+# Personal Portfolio Website Template
 
 A modern, professional portfolio website template perfect for developers, QA engineers, and tech professionals. Built with Node.js, Express, MongoDB, and EJS, featuring a blog system, project showcase, and beautiful animations.
 
-**[🌐 Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)** | **[📚 Documentation](docs/)**
+**[Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)** | **[Documentation](docs/)**
 
 ---
 
 > **This is a template!** Scroll down for quick start instructions or check the [docs/](docs/) folder for detailed guides.
 
-## ✨ Features
+## Features
 
-### 🎨 Design & UI
+### Design & UI
 - **Modern, Professional Design** with clean typography
 - **Dark/Light Mode** toggle with persistent preference
 - **Fully Responsive** - works perfectly on all devices
@@ -18,7 +18,7 @@ A modern, professional portfolio website template perfect for developers, QA eng
 - **Interactive Backgrounds** with subtle animations
 - **Smooth Transitions** throughout
 
-### 📝 Content Sections
+### Content Sections
 - **Professional Profile** with stats showcase
 - **Work Experience Timeline** with detailed history
 - **Technical Skills** organized by category
@@ -27,7 +27,7 @@ A modern, professional portfolio website template perfect for developers, QA eng
 - **Podcast Section** for episodes and platforms
 - **Hobbies/Interests** section
 
-### ✍️ Blog System
+### Blog System
 - **Markdown-based** with frontmatter support
 - **Admin Panel** with visual editor and live preview
 - **Real-time Search** functionality
@@ -36,7 +36,7 @@ A modern, professional portfolio website template perfect for developers, QA eng
 - **Copy Code Blocks** feature
 - **SEO Optimized** with meta tags
 
-### 🔧 Technical Features
+### Technical Features
 - **MongoDB Integration** for blog posts
 - **GitHub API** for automatic project listing
 - **Open Graph** meta tags for social sharing
@@ -44,7 +44,7 @@ A modern, professional portfolio website template perfect for developers, QA eng
 - **Fast Performance** and optimized assets
 - **Scroll Animations** and interactive elements
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** (v14 or higher)
@@ -72,11 +72,12 @@ npm run dev
 # Visit http://localhost:3000
 ```
 
-### 📖 Documentation
+### Documentation
 
 For detailed guides, see the **[docs/](docs/)** folder:
 - **[Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md)** - Update personal info, blog, projects
 - **[Database Setup](docs/DATABASE_SETUP.md)** - MongoDB configuration
+- **[Deployment Guide](DEPLOYMENT.md)** - Complete deployment instructions
 - **[GitHub Actions](docs/GITHUB_ACTIONS_GUIDE.md)** - CI/CD setup
 - **[Brand Guide](docs/BRAND_GUIDE.md)** - Design system and colors
 
@@ -87,24 +88,26 @@ For detailed guides, see the **[docs/](docs/)** folder:
 ├── /public          # Static assets (CSS, JS, images)
 ├── /views           # EJS templates
 ├── /posts           # Blog posts in Markdown
+├── /models          # MongoDB models
+├── /docs            # Documentation
 ├── app.js           # Main Express server
 └── package.json     # Dependencies
 ```
 
-## 🎨 Customization Overview
+## Customization Overview
 
 The template is designed for easy customization. Here's what you can change:
 
 ### Quick Customization
-- ✏️ **Personal Info** - Name, title, bio, location
-- 📊 **Professional Stats** - Years, projects, certifications
-- 💼 **Experience** - Job history with details
-- 🎓 **Education** - Degrees and institutions
-- 🏆 **Certifications** - Professional certifications
-- 🛠️ **Skills** - Technical skills by category
-- 📱 **Contact** - Social media links
-- 🎨 **Theme Colors** - Brand colors and styling
-- 🖼️ **Logo & Images** - Branding and photos
+- Personal Info - Name, title, bio, location
+- Professional Stats - Years, projects, certifications
+- Experience - Job history with details
+- Education - Degrees and institutions
+- Certifications - Professional certifications
+- Skills - Technical skills by category
+- Contact - Social media links
+- Theme Colors - Brand colors and styling
+- Logo & Images - Branding and photos
 
 ### Content Management
 - **Blog Posts** - Use admin panel at `/admin` or create markdown files
@@ -118,9 +121,9 @@ The template is designed for easy customization. Here's what you can change:
 - **Custom Domain** - Configure your own domain
 - **Styling** - CSS variables for colors and spacing
 
-**👉 See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed instructions on each section.**
+**See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed instructions on each section.**
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Backend
 - **Node.js** - Runtime environment
@@ -150,7 +153,7 @@ The template is designed for easy customization. Here's what you can change:
 - **Railway** - Alternative option
 - **DigitalOcean** - Alternative option
 
-## � Deployment
+## Deployment
 
 ### Deploy to Vercel (Recommended)
 
@@ -172,11 +175,11 @@ Set environment variables in Vercel dashboard:
 - **Railway** - Connect GitHub and set environment variables
 - **DigitalOcean** - Use App Platform or Droplets
 
-See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed deployment instructions.
+See the [Deployment Guide](DEPLOYMENT.md) for detailed deployment instructions.
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 ### Homepage
 ![Homepage Hero Section](docs/screenshots/hero.png)
@@ -192,13 +195,14 @@ See the [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md) for detailed deploy
 
 ---
 
-## � Project Structure
+## Detailed Project Structure
 
 ```
 personal-website/
 ├── app.js                 # Express server and routes
 ├── package.json           # Dependencies
 ├── .env                   # Environment variables
+├── DEPLOYMENT.md          # Deployment guide
 ├── public/
 │   ├── css/
 │   │   └── style.css     # Main stylesheet
@@ -213,37 +217,40 @@ personal-website/
 │   ├── podcast.ejs       # Podcast page
 │   ├── hobbies.ejs       # Hobbies listing
 │   └── partials/         # Reusable components
-└── posts/                # Markdown blog posts
+├── models/
+│   └── Post.js           # MongoDB post model
+├── posts/                # Markdown blog posts
+└── docs/                 # Documentation
 ```
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This template is open for contributions! Feel free to:
-- 🐛 Report bugs
-- 💡 Suggest new features
-- 🔧 Submit pull requests
-- ⭐ Star the repository
+- Report bugs
+- Suggest new features
+- Submit pull requests
+- Star the repository
 
 ---
 
-## 📄 License
+## License
 
 MIT License - feel free to use this template for your personal portfolio!
 
 ---
 
-## 👤 Original Template By
+## Original Template By
 
 **Carlos Cervantes**
-- 🔗 [GitHub](https://github.com/CarlosCerv)
-- 💼 [LinkedIn](https://linkedin.com/in/carloscerteaga)
-- 🌐 [Portfolio](https://personal-website-carlos-cervantes-projects.vercel.app)
+- [GitHub](https://github.com/CarlosCerv)
+- [LinkedIn](https://linkedin.com/in/carloscerteaga)
+- [Portfolio](https://personal-website-carlos-cervantes-projects.vercel.app)
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Node.js](https://nodejs.org/) - JavaScript runtime
 - [Express.js](https://expressjs.com/) - Web framework
@@ -254,11 +261,11 @@ MIT License - feel free to use this template for your personal portfolio!
 
 ---
 
-## 🌟 Show Your Support
+## Show Your Support
 
 If this template helped you create your portfolio, please:
-- ⭐ Star this repository
-- 🔗 Share it with others
-- 💬 Provide feedback
+- Star this repository
+- Share it with others
+- Provide feedback
 
-**Happy building! 🚀**
+**Happy building!**

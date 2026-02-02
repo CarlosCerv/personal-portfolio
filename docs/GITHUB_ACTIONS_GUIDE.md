@@ -1,6 +1,6 @@
 # GitHub Actions & Deployment Guide
 
-## 🎯 Quick Summary
+## Quick Summary
 
 Your portfolio is a **Node.js server application**, which means it needs a hosting platform that can run Node.js. GitHub Pages only hosts **static files** (HTML/CSS/JS), so it's not ideal for your setup.
 
@@ -8,14 +8,14 @@ Your portfolio is a **Node.js server application**, which means it needs a hosti
 
 ---
 
-## ✅ Option 1: GitHub Actions + Render (RECOMMENDED)
+## Option 1: GitHub Actions + Render (RECOMMENDED)
 
 This is the best approach for your Node.js application.
 
 ### What It Does:
-- ✅ Runs tests on every push
-- ✅ Automatically deploys to Render when you push to `main`
-- ✅ Provides continuous integration and deployment (CI/CD)
+- Runs tests on every push
+- Automatically deploys to Render when you push to `main`
+- Provides continuous integration and deployment (CI/CD)
 
 ### Setup Steps:
 
@@ -49,15 +49,15 @@ Go to your repo → **Actions** tab to see the workflow running!
 
 ---
 
-## 🌐 Option 2: Static Site on GitHub Pages
+## Option 2: Static Site on GitHub Pages
 
 If you want a free `.github.io` URL, you can generate a static version of your site.
 
-### ⚠️ Limitations:
-- ❌ No admin blog platform (requires server)
-- ❌ No dynamic GitHub projects fetching
-- ❌ No server-side rendering
-- ✅ Free hosting at `https://carloscerv.github.io/personal-portfolio`
+### Limitations:
+- No admin blog platform (requires server)
+- No dynamic GitHub projects fetching
+- No server-side rendering
+- Free hosting at `https://carloscerv.github.io/personal-portfolio`
 
 ### Setup Steps:
 
@@ -78,16 +78,16 @@ https://carloscerv.github.io/personal-portfolio
 ```
 
 ### What Gets Generated:
-- ✅ Homepage
-- ✅ Projects page
-- ✅ Blog posts
-- ✅ Podcast page
-- ✅ Hobbies pages
-- ❌ Admin platform (won't work without server)
+- Homepage
+- Projects page
+- Blog posts
+- Podcast page
+- Hobbies pages
+- Admin platform (won't work without server)
 
 ---
 
-## 🚀 Option 3: Use Both! (Best of Both Worlds)
+## Option 3: Use Both! (Best of Both Worlds)
 
 You can have:
 - **Primary site on Render**: Full functionality with admin panel
@@ -125,7 +125,7 @@ If you have a custom domain (e.g., `carloscervantes.dev`):
 
 ---
 
-## 🔧 Workflow Details
+## Workflow Details
 
 ### deploy.yml (Render Deployment)
 ```yaml
@@ -150,12 +150,12 @@ jobs:
 
 ---
 
-## 📝 Next Steps
+## Next Steps
 
 ### Recommended:
-1. ✅ Commit the GitHub Actions workflows
-2. ✅ Keep using Render for main deployment
-3. ✅ Optionally enable GitHub Pages for backup/portfolio link
+1. Commit the GitHub Actions workflows
+2. Keep using Render for main deployment
+3. Optionally enable GitHub Pages for backup/portfolio link
 
 ### Commands:
 ```bash
@@ -170,7 +170,7 @@ git push
 
 ---
 
-## 🆘 Troubleshooting
+## Troubleshooting
 
 ### Workflow Fails
 - Check **Actions** tab for error details
@@ -189,7 +189,7 @@ git push
 
 ---
 
-## 💡 Pro Tips
+## Pro Tips
 
 1. **Use Render for Development**: Full features, admin panel, dynamic content
 2. **Use GitHub Pages for Resume**: Fast loading, always-on, great for sharing
@@ -198,7 +198,7 @@ git push
 
 ---
 
-## 🔗 Useful Links
+## Useful Links
 
 - **Your Repo**: https://github.com/CarlosCerv/personal-portfolio
 - **GitHub Actions Docs**: https://docs.github.com/actions
@@ -207,4 +207,4 @@ git push
 
 ---
 
-Need help with any of these options? Let me know which approach you'd like to use! 🚀
+Need help with any of these options? Let me know which approach you'd like to use!

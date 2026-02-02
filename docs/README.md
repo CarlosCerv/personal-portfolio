@@ -1,8 +1,8 @@
-# 📚 Documentation
+# Documentation
 
 Welcome to the documentation for the Personal Portfolio Website Template.
 
-## 📖 Available Guides
+## Available Guides
 
 ### [Content Update Guide](CONTENT_UPDATE_GUIDE.md)
 **Start here!** Learn how to customize the portfolio with your personal information, add blog posts, update projects, and deploy to production.
@@ -56,7 +56,7 @@ Design system documentation including colors, typography, and visual guidelines.
 
 ---
 
-## 🚀 Quick Links
+## Quick Links
 
 - [Back to Main README](../README.md)
 - [Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)
@@ -64,7 +64,7 @@ Design system documentation including colors, typography, and visual guidelines.
 
 ---
 
-## 💡 Need Help?
+## Need Help?
 
 If you can't find what you're looking for:
 1. Check the relevant guide above
@@ -73,6 +73,6 @@ If you can't find what you're looking for:
 
 ---
 
-## 🤝 Contributing to Docs
+## Contributing to Docs
 
 Found an error or want to improve the documentation? Pull requests are welcome!

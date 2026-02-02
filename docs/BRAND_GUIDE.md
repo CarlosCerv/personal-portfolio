@@ -1,4 +1,4 @@
-# 🎨 Professional Brand Identity
+# Professional Brand Identity
 
 ## Logo Design
 
@@ -87,13 +87,13 @@ Success Green:   #28A745
 
 ## Brand Guidelines
 
-### Do's ✅
+### Do's
 - Use the full logo with both icon and text for primary branding
 - Maintain the hexagonal shape identity
 - Keep the QA checkmark badge visible
 - Use on light or dark backgrounds (logo adapts to dark mode)
 
-### Don'ts ❌
+### Don'ts
 - Don't distort or stretch the hexagon
 - Don't change the color gradient
 - Don't remove the QA checkmark badge
