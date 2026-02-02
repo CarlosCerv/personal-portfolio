@@ -316,7 +316,8 @@ section {
   gap: var(--space-3);
   transition: transform var(--transition-base);
   line-height: 1;
-  /* Ensure text consistency */
+  padding-top: 6px;
+  /* Shift entire brand block down */
 }
 
 
@@ -338,8 +339,8 @@ section {
   display: flex;
   align-items: center;
   height: 100%;
-  padding-top: 2px;
-  /* Reduced padding as height increased */
+  padding-top: 4px;
+  /* Optical alignment with logo */
   font-family: var(--font-display);
   font-weight: var(--font-bold);
   letter-spacing: -0.01em;
