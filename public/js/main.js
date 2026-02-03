@@ -234,83 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ==========================================
-  // BLOG SEARCH FUNCTIONALITY
+  // BLOG SEARCH & FILTERS (Handled by apple-interactions.js)
   // ==========================================
-  const blogSearch = document.getElementById('blogSearch');
-  const postCards = document.querySelectorAll('.post-card');
-
-  if (blogSearch && postCards.length > 0) {
-    blogSearch.addEventListener('input', function (e) {
-      const searchTerm = e.target.value.toLowerCase();
-
-      postCards.forEach(card => {
-        const title = card.querySelector('.post-title')?.textContent.toLowerCase() || '';
-        const excerpt = card.querySelector('.post-excerpt')?.textContent.toLowerCase() || '';
-        const tags = card.dataset.tags?.toLowerCase() || '';
-
-        if (title.includes(searchTerm) || excerpt.includes(searchTerm) || tags.includes(searchTerm)) {
-          card.style.display = '';
-          card.style.animation = 'fadeIn 0.5s ease';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      // Show empty state if no results
-      const visibleCards = Array.from(postCards).filter(card => card.style.display !== 'none');
-      const emptyState = document.querySelector('.blog-list .empty-state');
-
-      if (visibleCards.length === 0 && !emptyState) {
-        const postsGrid = document.querySelector('.posts-grid');
-        const noResults = document.createElement('div');
-        noResults.className = 'empty-state no-results';
-        noResults.innerHTML = `
-          <i class="fas fa-search"></i>
-          <p>No articles found matching "${searchTerm}"</p>
-        `;
-        postsGrid.parentNode.appendChild(noResults);
-      } else if (visibleCards.length > 0) {
-        const noResults = document.querySelector('.no-results');
-        if (noResults) noResults.remove();
-      }
-    });
-  }
-
-  // ==========================================
-  // BLOG FILTER FUNCTIONALITY
-  // ==========================================
-  const filterButtons = document.querySelectorAll('.filter-btn');
-
-  if (filterButtons.length > 0 && postCards.length > 0) {
-    filterButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        // Update active button
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-
-        const filterValue = this.dataset.filter;
-
-        // Reset search
-        if (blogSearch) blogSearch.value = '';
-
-        // Filter posts
-        postCards.forEach(card => {
-          const tags = card.dataset.tags || '';
-
-          if (filterValue === 'all' || tags.includes(filterValue)) {
-            card.style.display = '';
-            card.style.animation = 'fadeIn 0.5s ease';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        // Remove any no-results message
-        const noResults = document.querySelector('.no-results');
-        if (noResults) noResults.remove();
-      });
-    });
-  }
+  // Logic moved to apple-interactions.js for enhanced Recent Searches support
 
   // ==========================================
   // READING PROGRESS BAR (for blog posts)
@@ -344,88 +270,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ==========================================
-  // PROJECT SEARCH FUNCTIONALITY
+  // PROJECT SEARCH & FILTERS (Handled by apple-interactions.js)
   // ==========================================
-  const projectSearch = document.getElementById('projectSearch');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  if (projectSearch && projectCards.length > 0) {
-    projectSearch.addEventListener('input', function (e) {
-      const searchTerm = e.target.value.toLowerCase();
-
-      projectCards.forEach(card => {
-        const name = card.dataset.name || '';
-        const description = card.querySelector('.project-description')?.textContent.toLowerCase() || '';
-        const language = card.dataset.language?.toLowerCase() || '';
-
-        if (name.includes(searchTerm) || description.includes(searchTerm) || language.includes(searchTerm)) {
-          card.classList.remove('hidden');
-          card.style.animation = 'fadeIn 0.5s ease';
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-
-      // Show empty state if no results
-      showProjectEmptyState(projectCards, searchTerm);
-    });
-  }
-
-  // ==========================================
-  // PROJECT FILTER FUNCTIONALITY
-  // ==========================================
-  const projectFilterButtons = document.querySelectorAll('.project-filters .filter-btn');
-
-  if (projectFilterButtons.length > 0 && projectCards.length > 0) {
-    projectFilterButtons.forEach(button => {
-      button.addEventListener('click', function () {
-        // Update active button
-        projectFilterButtons.forEach(btn => btn.classList.remove('active'));
-        this.classList.add('active');
-
-        const filterValue = this.dataset.filter;
-
-        // Reset search
-        if (projectSearch) projectSearch.value = '';
-
-        // Filter projects
-        projectCards.forEach(card => {
-          const language = card.dataset.language || '';
-
-          if (filterValue === 'all' || language === filterValue) {
-            card.classList.remove('hidden');
-            card.style.animation = 'fadeIn 0.5s ease';
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-
-        // Remove any no-results message
-        const noResults = document.querySelector('.projects .no-results');
-        if (noResults) noResults.remove();
-      });
-    });
-  }
-
-  // Helper function to show empty state for projects
-  function showProjectEmptyState(cards, searchTerm = '') {
-    const visibleCards = Array.from(cards).filter(card => !card.classList.contains('hidden'));
-    const existingNoResults = document.querySelector('.projects .no-results');
-    const projectsContainer = document.querySelector('.projects .container');
-
-    if (visibleCards.length === 0 && !existingNoResults && projectsContainer) {
-      const noResults = document.createElement('div');
-      noResults.className = 'no-results';
-      noResults.innerHTML = `
-        <i class="fas fa-folder-open"></i>
-        <h3>No projects found</h3>
-        <p>${searchTerm ? `No projects match "${searchTerm}"` : 'Try adjusting your filters'}</p>
-      `;
-      projectsContainer.appendChild(noResults);
-    } else if (visibleCards.length > 0 && existingNoResults) {
-      existingNoResults.remove();
-    }
-  }
+  // Logic moved to apple-interactions.js for enhanced Recent Searches support
 
   // ==========================================
   // ADD FADE IN ANIMATION CSS

@@ -191,6 +191,318 @@ document.addEventListener('DOMContentLoaded', function () {
         document.documentElement.style.scrollBehavior = 'auto';
     }
 
+    // ==========================================
+    // PROJECT SEARCH & RECENT HISTORY
+    // ==========================================
+    const projectSearch = document.getElementById('projectSearch');
+    const projectCards = document.querySelectorAll('.project-card');
+    const recentSearchesContainer = document.getElementById('recentSearches');
+    const MAX_RECENT_SEARCHES = 5;
+
+    if (projectSearch) {
+        // Initial render of recent searches
+        renderRecentSearches();
+
+        // Handle search input
+        projectSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            filterProjects(searchTerm);
+        });
+
+        // Save search on Enter key
+        projectSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const searchTerm = projectSearch.value.trim();
+                if (searchTerm) {
+                    saveSearch(searchTerm);
+                    renderRecentSearches();
+                }
+            }
+        });
+
+        // Also save on blur if not empty
+        projectSearch.addEventListener('blur', () => {
+            const searchTerm = projectSearch.value.trim();
+            if (searchTerm && searchTerm.length > 2) {
+                saveSearch(searchTerm);
+                renderRecentSearches();
+            }
+        });
+
+        function filterProjects(term) {
+            projectCards.forEach(card => {
+                const name = card.dataset.name || '';
+                const description = card.querySelector('.project-description')?.textContent.toLowerCase() || '';
+                const language = card.dataset.language?.toLowerCase() || '';
+
+                if (name.includes(term) || description.includes(term) || language.includes(term)) {
+                    card.classList.remove('hidden');
+                    card.style.display = '';
+                } else {
+                    card.classList.add('hidden');
+                    card.style.display = 'none';
+                }
+            });
+            showEmptyState(term);
+        }
+
+        function saveSearch(term) {
+            let history = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            // Remove if already exists (to move to front)
+            history = history.filter(item => item.toLowerCase() !== term.toLowerCase());
+            // Add to front
+            history.unshift(term);
+            // Limit size
+            history = history.slice(0, MAX_RECENT_SEARCHES);
+            localStorage.setItem('recentSearches', JSON.stringify(history));
+        }
+
+        function renderRecentSearches() {
+            if (!recentSearchesContainer) return;
+
+            const history = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+
+            if (history.length === 0) {
+                recentSearchesContainer.innerHTML = '';
+                return;
+            }
+
+            recentSearchesContainer.innerHTML = history.map(term => `
+                <div class="search-pill" data-term="${term}">
+                    <span class="pill-text">${term}</span>
+                    <span class="pill-remove" onclick="event.stopPropagation(); window.removeRecentSearch('${term}')">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+            `).join('');
+
+            // Add click listeners to pills
+            recentSearchesContainer.querySelectorAll('.search-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const term = pill.dataset.term;
+                    projectSearch.value = term;
+                    filterProjects(term.toLowerCase());
+                    // Update filters UI if needed
+                    resetCategoryFilters();
+                });
+            });
+        }
+
+        // Expose remove function globally for the onclick handler
+        window.removeRecentSearch = (term) => {
+            let history = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+            history = history.filter(item => item !== term);
+            localStorage.setItem('recentSearches', JSON.stringify(history));
+            renderRecentSearches();
+        };
+
+        function showEmptyState(term) {
+            const visibleCards = Array.from(projectCards).filter(card => !card.classList.contains('hidden'));
+            const container = document.querySelector('.projects .container');
+            let emptyState = document.querySelector('.no-results-projects');
+
+            if (visibleCards.length === 0) {
+                if (!emptyState) {
+                    emptyState = document.createElement('div');
+                    emptyState.className = 'no-results-projects';
+                    emptyState.style.textAlign = 'center';
+                    emptyState.style.padding = 'var(--space-12) 0';
+                    container.appendChild(emptyState);
+                }
+                emptyState.innerHTML = `
+                    <i class="fas fa-search" style="font-size: 3rem; color: var(--border-medium); margin-bottom: var(--space-4); display: block;"></i>
+                    <h3 style="margin-bottom: var(--space-2);">No projects found</h3>
+                    <p style="color: var(--text-secondary);">No results matching "${term}". Try a different search term.</p>
+                `;
+            } else if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        // Category Filters Integration
+        const filterButtons = document.querySelectorAll('.project-filters .filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                projectSearch.value = ''; // Clear search when switching categories
+
+                projectCards.forEach(card => {
+                    const lang = card.dataset.language || '';
+                    if (filter === 'all' || lang === filter) {
+                        card.classList.remove('hidden');
+                        card.style.display = '';
+                    } else {
+                        card.classList.add('hidden');
+                        card.style.display = 'none';
+                    }
+                });
+                showEmptyState('');
+            });
+        });
+
+        function resetCategoryFilters() {
+            filterButtons.forEach(btn => {
+                if (btn.dataset.filter === 'all') btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+    }
+
+    // ==========================================
+    // BLOG SEARCH & RECENT HISTORY
+    // ==========================================
+    const blogSearch = document.getElementById('blogSearch');
+    const blogPosts = document.querySelectorAll('.post-card');
+    const recentBlogSearchesContainer = document.getElementById('recentBlogSearches');
+    const MAX_RECENT_BLOG_SEARCHES = 5;
+
+    if (blogSearch) {
+        // Initial render
+        renderRecentBlogSearches();
+
+        // Handle search input
+        blogSearch.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            filterBlogPosts(searchTerm);
+        });
+
+        // Save search on Enter
+        blogSearch.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const searchTerm = blogSearch.value.trim();
+                if (searchTerm) {
+                    saveBlogSearch(searchTerm);
+                    renderRecentBlogSearches();
+                }
+            }
+        });
+
+        // Save on blur
+        blogSearch.addEventListener('blur', () => {
+            const searchTerm = blogSearch.value.trim();
+            if (searchTerm && searchTerm.length > 2) {
+                saveBlogSearch(searchTerm);
+                renderRecentBlogSearches();
+            }
+        });
+
+        function filterBlogPosts(term) {
+            blogPosts.forEach(card => {
+                const title = card.querySelector('.post-title')?.textContent.toLowerCase() || '';
+                const excerpt = card.querySelector('.post-excerpt')?.textContent.toLowerCase() || '';
+                const tags = card.dataset.tags?.toLowerCase() || '';
+
+                if (title.includes(term) || excerpt.includes(term) || tags.includes(term)) {
+                    card.style.display = '';
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            showBlogEmptyState(term);
+        }
+
+        function saveBlogSearch(term) {
+            let history = JSON.parse(localStorage.getItem('recentBlogSearches') || '[]');
+            history = history.filter(item => item.toLowerCase() !== term.toLowerCase());
+            history.unshift(term);
+            history = history.slice(0, MAX_RECENT_BLOG_SEARCHES);
+            localStorage.setItem('recentBlogSearches', JSON.stringify(history));
+        }
+
+        function renderRecentBlogSearches() {
+            if (!recentBlogSearchesContainer) return;
+
+            const history = JSON.parse(localStorage.getItem('recentBlogSearches') || '[]');
+
+            if (history.length === 0) {
+                recentBlogSearchesContainer.innerHTML = '';
+                return;
+            }
+
+            recentBlogSearchesContainer.innerHTML = history.map(term => `
+                <div class="search-pill" data-term="${term}">
+                    <span class="pill-text">${term}</span>
+                    <span class="pill-remove" onclick="event.stopPropagation(); window.removeRecentBlogSearch('${term}')">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+            `).join('');
+
+            recentBlogSearchesContainer.querySelectorAll('.search-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    const term = pill.dataset.term;
+                    blogSearch.value = term;
+                    filterBlogPosts(term.toLowerCase());
+                    resetBlogCategoryFilters();
+                });
+            });
+        }
+
+        window.removeRecentBlogSearch = (term) => {
+            let history = JSON.parse(localStorage.getItem('recentBlogSearches') || '[]');
+            history = history.filter(item => item !== term);
+            localStorage.setItem('recentBlogSearches', JSON.stringify(history));
+            renderRecentBlogSearches();
+        };
+
+        function showBlogEmptyState(term) {
+            const visiblePosts = Array.from(blogPosts).filter(card => card.style.display !== 'none');
+            const postsGrid = document.querySelector('.posts-grid');
+            let emptyState = document.querySelector('.no-results-blog');
+
+            if (visiblePosts.length === 0) {
+                if (!emptyState) {
+                    emptyState = document.createElement('div');
+                    emptyState.className = 'no-results-blog';
+                    emptyState.style.textAlign = 'center';
+                    emptyState.style.padding = 'var(--space-12) 0';
+                    emptyState.style.width = '100%';
+                    postsGrid.parentNode.appendChild(emptyState);
+                }
+                emptyState.innerHTML = `
+                    <i class="fas fa-search" style="font-size: 3rem; color: var(--border-medium); margin-bottom: var(--space-4); display: block;"></i>
+                    <h3 style="margin-bottom: var(--space-2);">No articles found</h3>
+                    <p style="color: var(--text-secondary);">No results matching "${term}". Try a different search term.</p>
+                `;
+            } else if (emptyState) {
+                emptyState.remove();
+            }
+        }
+
+        // Blog Category Filters
+        const blogFilterButtons = document.querySelectorAll('.blog-filters .filter-btn');
+        blogFilterButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                blogFilterButtons.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                blogSearch.value = '';
+
+                blogPosts.forEach(card => {
+                    const tags = card.dataset.tags || '';
+                    if (filter === 'all' || tags.includes(filter)) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                showBlogEmptyState('');
+            });
+        });
+
+        function resetBlogCategoryFilters() {
+            blogFilterButtons.forEach(btn => {
+                if (btn.dataset.filter === 'all') btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+    }
+
 });
 
 // ==========================================

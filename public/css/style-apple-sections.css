@@ -1192,6 +1192,101 @@
     color: var(--accent-blue);
 }
 
+.recent-searches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: center;
+    margin-top: var(--space-4);
+    min-height: 32px;
+}
+
+.search-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 6px 12px;
+    background: var(--off-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.search-pill:hover {
+    background: var(--white);
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.project-filters {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-light);
+    background: var(--white);
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.filter-btn:hover {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    background: var(--off-white);
+}
+
+.filter-btn.active {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
+}
+
+.pill-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.pill-remove:hover {
+    background: rgba(0, 0, 0, 0.05);
+    opacity: 1;
+    color: var(--status-error);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==========================================
    RESPONSIVE ADJUSTMENTS
    ========================================== */
@@ -1293,12 +1388,11 @@
         margin-right: 0;
     }
 
-    .project-filters {
+    .project-filters,
+    .blog-filters {
         display: flex;
-        /* Force flex display */
         gap: var(--space-2);
         flex-wrap: wrap;
-        /* Fix horizontal overflow */
         justify-content: center;
     }
 
@@ -1306,7 +1400,6 @@
         padding: 8px 16px;
         font-size: var(--text-xs);
         flex: 0 0 auto;
-        /* Allow buttons to size based on content */
         white-space: nowrap;
     }
 

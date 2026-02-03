@@ -1,88 +1,98 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content">
-  
-  <!-- Blog Header -->
-  <section class="page-header blog-header">
-    <div class="container">
-      <h1 class="page-title">Blog</h1>
-      <p class="page-description">
-        Insights on QA automation, testing strategies, and quality assurance best practices.
-      </p>
-      <div class="blog-search">
-        <input type="text" id="blogSearch" placeholder="Search articles..." class="search-input">
-        <i class="fas fa-search search-icon"></i>
-      </div>
-      <div class="blog-filters">
-        <button class="filter-btn active" data-filter="all">All Posts</button>
-        <button class="filter-btn" data-filter="Mobile Testing">Mobile</button>
-        <button class="filter-btn" data-filter="Automation">Automation</button>
-        <button class="filter-btn" data-filter="CI/CD">CI/CD</button>
-        <button class="filter-btn" data-filter="QA">QA</button>
-      </div>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main class="main-content">
 
-  <!-- Blog Posts List -->
-  <section class="blog-list">
-    <div class="container">
-      <% if (posts.length > 0) { %>
-        <div class="posts-grid">
-          <% posts.forEach(post => { %>
-            <article class="post-card" data-tags="<%= post.tags.join(',') %>">
-              <div class="post-card-inner">
-                <div class="post-header-section">
-                  <div class="post-meta">
-                    <time datetime="<%= new Date(post.date).toISOString() %>">
-                      <i class="far fa-calendar-alt"></i>
-                      <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
-                    </time>
-                    <span class="reading-time">
-                      <i class="far fa-clock"></i>
-                      5 min read
-                    </span>
-                  </div>
-                  
-                  <% if (post.tags && post.tags.length > 0) { %>
-                    <div class="post-tags">
-                      <% post.tags.slice(0, 3).forEach(tag => { %>
-                        <span class="tag"><i class="fas fa-tag"></i><%= tag %></span>
-                      <% }); %>
+    <!-- Blog Header -->
+    <section class="page-header blog-header">
+      <div class="container">
+        <h1 class="page-title">Blog</h1>
+        <p class="page-description">
+          Insights on QA automation, testing strategies, and quality assurance best practices.
+        </p>
+        <div class="blog-search project-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="blogSearch" placeholder="Search articles..." aria-label="Search articles">
+        </div>
+
+        <!-- Recent Searches -->
+        <div id="recentBlogSearches" class="recent-searches"></div>
+        <div class="blog-filters">
+          <button class="filter-btn active" data-filter="all">All Posts</button>
+          <button class="filter-btn" data-filter="Mobile Testing">Mobile</button>
+          <button class="filter-btn" data-filter="Automation">Automation</button>
+          <button class="filter-btn" data-filter="CI/CD">CI/CD</button>
+          <button class="filter-btn" data-filter="QA">QA</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Posts List -->
+    <section class="blog-list">
+      <div class="container">
+        <% if (posts.length> 0) { %>
+          <div class="posts-grid">
+            <% posts.forEach(post=> { %>
+              <article class="post-card" data-tags="<%= post.tags.join(',') %>">
+                <div class="post-card-inner">
+                  <div class="post-header-section">
+                    <div class="post-meta">
+                      <time datetime="<%= new Date(post.date).toISOString() %>">
+                        <i class="far fa-calendar-alt"></i>
+                        <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'short' ,
+                          day: 'numeric' }) %>
+                      </time>
+                      <span class="reading-time">
+                        <i class="far fa-clock"></i>
+                        5 min read
+                      </span>
                     </div>
-                  <% } %>
-                </div>
-                
-                <h2 class="post-title">
-                  <a href="/blog/<%= post.slug %>"><%= post.title %></a>
-                </h2>
-                
-                <p class="post-excerpt">
-                  <%= post.excerpt %>
-                </p>
-                
-                <div class="post-footer">
-                  <a href="/blog/<%= post.slug %>" class="read-more">
-                    Read Full Article <i class="fas fa-arrow-right"></i>
-                  </a>
-                  <div class="post-author">
-                    <i class="fas fa-user-circle"></i>
-                    <span><%= post.author %></span>
+
+                    <% if (post.tags && post.tags.length> 0) { %>
+                      <div class="post-tags">
+                        <% post.tags.slice(0, 3).forEach(tag=> { %>
+                          <span class="tag"><i class="fas fa-tag"></i>
+                            <%= tag %>
+                          </span>
+                          <% }); %>
+                      </div>
+                      <% } %>
+                  </div>
+
+                  <h2 class="post-title">
+                    <a href="/blog/<%= post.slug %>">
+                      <%= post.title %>
+                    </a>
+                  </h2>
+
+                  <p class="post-excerpt">
+                    <%= post.excerpt %>
+                  </p>
+
+                  <div class="post-footer">
+                    <a href="/blog/<%= post.slug %>" class="read-more">
+                      Read Full Article <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <div class="post-author">
+                      <i class="fas fa-user-circle"></i>
+                      <span>
+                        <%= post.author %>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          <% }); %>
-        </div>
-      <% } else { %>
-        <div class="empty-state">
-          <i class="fas fa-pen-fancy"></i>
-          <p>No blog posts yet. Check back soon!</p>
-        </div>
-      <% } %>
-    </div>
-  </section>
+              </article>
+              <% }); %>
+          </div>
+          <% } else { %>
+            <div class="empty-state">
+              <i class="fas fa-pen-fancy"></i>
+              <p>No blog posts yet. Check back soon!</p>
+            </div>
+            <% } %>
+      </div>
+    </section>
 
-</main>
+  </main>
 
-<%- include('partials/footer') %>
+  <%- include('partials/footer') %>
