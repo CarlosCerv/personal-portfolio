@@ -9,6 +9,11 @@ const matter = require('gray-matter');
 const mongoose = require('mongoose');
 const Post = require('./models/Post');
 
+const helmet = require('helmet');
+const cors = require('cors');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -37,6 +42,55 @@ mongoose.connect(MONGODB_URI)
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// ==========================================
+// SECURITY MIDDLEWARE
+// ==========================================
+
+// 1. Helmet: Secure HTTP headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://api.github.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://carloscervantes.dev"],
+      connectSrc: ["'self'", "https://api.github.com"],
+    },
+  },
+}));
+
+// 2. CORS: Restrict domain access
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' ? 'https://carloscervantes.dev' : '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// 3. Compression: Improve performance and obscure size
+app.use(compression());
+
+// 4. Rate Limiting: Prevent abuse/scraping
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
+// Apply rate limiting to all requests
+app.use(limiter);
+
+// Specific stricter limit for admin routes
+const adminLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 10, // Limit each IP to 10 login attempts per hour
+  message: 'Too many login attempts, please try again later'
+});
+app.use('/admin', adminLimiter);
+
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));

@@ -246,7 +246,7 @@ MIT License - feel free to use this template for your personal portfolio!
 **Carlos Cervantes**
 - [GitHub](https://github.com/CarlosCerv)
 - [LinkedIn](https://linkedin.com/in/carloscerteaga)
-- [Portfolio](https://personal-website-carlos-cervantes-projects.vercel.app)
+- [Portfolio](https://carloscervantes.dev)
 
 ---
 
@@ -257,7 +257,7 @@ MIT License - feel free to use this template for your personal portfolio!
 - [MongoDB](https://www.mongodb.com/) - Database
 - [Font Awesome](https://fontawesome.com/) - Icons
 - [Google Fonts](https://fonts.google.com/) - Typography
-- [Vercel](https://vercel.com/) - Hosting platform
+- [Render](https://render.com/) - Hosting platform
 
 ---
 
