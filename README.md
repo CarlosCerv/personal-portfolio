@@ -1,12 +1,10 @@
-# Personal Portfolio Website Template
+# Carlos Cervantes - Personal Portfolio
 
-A modern, professional portfolio website template perfect for developers, QA engineers, and tech professionals. Built with Node.js, Express, MongoDB, and EJS, featuring a blog system, project showcase, and beautiful animations.
+A modern, professional portfolio website showcasing my projects, skills, and experience. Built with Node.js, Express, MongoDB, and EJS.
 
-**[Live Demo](https://personal-website-carlos-cervantes-projects.vercel.app)** | **[Documentation](docs/)**
+**[Live Demo](https://personal-portfolio-carlos-cervantes.onrender.com)** | **[Documentation](docs/)**
 
 ---
-
-> **This is a template!** Scroll down for quick start instructions or check the [docs/](docs/) folder for detailed guides.
 
 ## Features
 
@@ -155,14 +153,8 @@ The template is designed for easy customization. Here's what you can change:
 
 ## Deployment
 
-### Deploy to Vercel (Recommended)
-
 ```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
+# Deployed on Render
 ```
 
 Set environment variables in Vercel dashboard:
@@ -237,11 +229,11 @@ This template is open for contributions! Feel free to:
 
 ## License
 
-MIT License - feel free to use this template for your personal portfolio!
+MIT License
 
 ---
 
-## Original Template By
+## Created By
 
 **Carlos Cervantes**
 - [GitHub](https://github.com/CarlosCerv)
