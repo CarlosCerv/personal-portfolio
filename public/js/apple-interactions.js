@@ -503,69 +503,77 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // ==========================================
+    // SINGLE BLOG POST VIEW - INTERACTIONS
+    // ==========================================
+    const blogPost = document.querySelector('.blog-post');
+    const readingProgress = document.getElementById('readingProgress');
+    const progressDot = document.getElementById('progressIndicator');
+    const readingTimeEl = document.getElementById('readingTime');
+    const postContent = document.querySelector('.post-content-refined');
+
+    if (blogPost && postContent) {
+        // Calculate reading time
+        const text = postContent.innerText;
+        const wpm = 225; // Average reading speed
+        const words = text.trim().split(/\s+/).length;
+        const time = Math.ceil(words / wpm);
+        if (readingTimeEl) readingTimeEl.innerText = `${time} min read`;
+
+        // Update reading progress
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const fullHeight = blogPost.offsetHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / (fullHeight - windowHeight)) * 100;
+
+            if (readingProgress) {
+                readingProgress.style.width = `${Math.min(progress, 100)}%`;
+            }
+
+            if (progressDot) {
+                // Subtle dot movement or scale for Apple vibe
+                const scale = 1 + (progress / 100);
+                progressDot.style.transform = `scale(${Math.min(scale, 1.5)})`;
+                if (progress > 95) progressDot.style.background = 'var(--accent-blue)';
+                else progressDot.style.background = 'var(--border-medium)';
+            }
+        });
+
+        // Initialize scroll animations for post elements
+        const postObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    postObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            postObserver.observe(el);
+        });
+    }
+
+    // Social Sharing - Copy Link
+    window.copyPostLink = () => {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            // Simple toast notification replacement
+            const btn = document.querySelector('.share-btn i.fa-link').parentElement;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            btn.style.borderColor = 'var(--accent-green)';
+            btn.style.color = 'var(--accent-green)';
+
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            }, 2000);
+        });
+    };
+
 });
 
-// ==========================================
-// CSS FOR ANIMATIONS (Add to style-apple.css)
-// ==========================================
-const animationStyles = `
-  .animate-on-scroll {
-    animation: fadeInUp 0.6s ease forwards;
-  }
-  
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    transform: scale(0);
-    animation: ripple-animation 0.6s ease-out;
-    pointer-events: none;
-  }
-  
-  @keyframes ripple-animation {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
-  }
-  
-  /* Mobile Navigation */
-  @media (max-width: 768px) {
-    .nav-list {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: saturate(180%) blur(20px);
-      flex-direction: column;
-      padding: var(--space-8);
-      gap: var(--space-4);
-      transform: translateY(-100%);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    }
-    
-    .nav-list.active {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    
-    .nav-toggle.active .hamburger:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    
-    .nav-toggle.active .hamburger:nth-child(2) {
-      opacity: 0;
-    }
-    
-    .nav-toggle.active .hamburger:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-    
-    body.nav-open {
-      overflow: hidden;
-    }
-  }
-`;
+

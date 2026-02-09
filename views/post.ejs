@@ -1,46 +1,89 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content">
-  
-  <!-- Blog Post -->
-  <article class="blog-post">
-    <div class="container-narrow">
-      <!-- Post Header -->
-      <header class="post-header">
-        <div class="post-meta">
-          <time datetime="<%= new Date(post.date).toISOString() %>">
-            <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
-          </time>
-          <span class="separator">•</span>
-          <span class="author">By <%= post.author %></span>
-        </div>
-        
-        <h1 class="post-title"><%= post.title %></h1>
-        
-        <% if (post.tags && post.tags.length > 0) { %>
-          <div class="post-tags">
-            <% post.tags.forEach(tag => { %>
-              <span class="tag"><%= tag %></span>
-            <% }); %>
-          </div>
-        <% } %>
-      </header>
+  <!-- Main Content -->
+  <main class="main-content">
 
-      <!-- Post Content -->
-      <div class="post-content">
-        <%- post.htmlContent %>
+    <!-- Reading Progress Bar -->
+    <div id="readingProgress" class="reading-progress"></div>
+
+    <!-- Blog Post -->
+    <article class="blog-post">
+      <!-- Progress Indicator (Dot style for Apple vibe) -->
+      <div class="progress-container">
+        <div id="progressIndicator" class="progress-dot"></div>
       </div>
 
-      <!-- Post Footer -->
-      <footer class="post-footer">
-        <a href="/blog" class="back-to-blog">
-          <i class="fas fa-arrow-left"></i> Back to Blog
-        </a>
-      </footer>
-    </div>
-  </article>
+      <div class="blog-post-container">
+        <!-- Post Header -->
+        <header class="post-header animate-on-scroll">
+          <div class="post-category">ARTICLE</div>
+          <h1 class="post-title">
+            <%= post.title %>
+          </h1>
 
-</main>
+          <div class="post-meta-refined">
+            <div class="meta-item">
+              <i class="far fa-calendar-alt"></i>
+              <span>
+                <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' , day: 'numeric'
+                  }) %>
+              </span>
+            </div>
+            <div class="meta-item">
+              <i class="far fa-user"></i>
+              <span>
+                <%= post.author %>
+              </span>
+            </div>
+            <div class="meta-item">
+              <i class="far fa-clock"></i>
+              <span id="readingTime">Calculating...</span>
+            </div>
+          </div>
 
-<%- include('partials/footer') %>
+          <% if (post.tags && post.tags.length> 0) { %>
+            <div class="post-tags-refined">
+              <% post.tags.forEach(tag=> { %>
+                <span class="tag-pill">
+                  <%= tag %>
+                </span>
+                <% }); %>
+            </div>
+            <% } %>
+
+              <div class="post-sharing">
+                <button class="share-btn" onclick="window.copyPostLink()" title="Copy Link">
+                  <i class="fas fa-link"></i>
+                </button>
+                <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent('https://cervantesqa.com/blog/' + post.slug) %>"
+                  target="_blank" class="share-btn" title="Share on X">
+                  <i class="fab fa-x-twitter"></i>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent('https://cervantesqa.com/blog/' + post.slug) %>"
+                  target="_blank" class="share-btn" title="Share on LinkedIn">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </div>
+        </header>
+
+        <!-- Post Content -->
+        <div class="post-content-refined typography-serif animate-on-scroll">
+          <%- post.htmlContent %>
+        </div>
+
+        <!-- Post Footer -->
+        <footer class="post-footer-refined animate-on-scroll">
+          <div class="footer-divider"></div>
+          <div class="footer-actions">
+            <a href="/blog" class="back-link">
+              <i class="fas fa-chevron-left"></i> Back to Insights
+            </a>
+            <div class="end-of-article">End of Article</div>
+          </div>
+        </footer>
+      </div>
+    </article>
+
+  </main>
+
+  <%- include('partials/footer') %>
