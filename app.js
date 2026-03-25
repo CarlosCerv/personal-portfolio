@@ -12,10 +12,12 @@ const cors = require('cors');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
+const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const mongoSanitize = require('express-mongo-sanitize');
 const sanitizeHtml = require('sanitize-html');
 
 const app = express();
+app.set('trust proxy', 1); // Respect Vercel's proxy for express-rate-limit
 const PORT = process.env.PORT || 3000;
 
 // MongoDB connection string (use environment variable in production)
@@ -106,6 +108,11 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'qa-consultant-super-secret-key-2026',
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({ 
+    mongoUrl: MONGODB_URI,
+    collectionName: 'sessions',
+    ttl: 24 * 60 * 60 // 1 day
+  }),
   cookie: {
     secure: process.env.NODE_ENV === 'production', // true on HTTPS
     httpOnly: true,
