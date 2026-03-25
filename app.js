@@ -23,7 +23,12 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
 // Connect to MongoDB with better error handling
 if (process.env.NODE_ENV !== 'test') {
-  mongoose.connect(MONGODB_URI)
+  const connectOptions = {
+    serverSelectionTimeoutMS: 5000, // 5 seconds timeout
+    connectTimeoutMS: 10000,
+  };
+  
+  mongoose.connect(MONGODB_URI, connectOptions)
     .then(() => {
       console.log('SUCCESS: Connected to MongoDB');
       console.log(`   Database: ${MONGODB_URI.split('/').pop().split('?')[0]}`);
@@ -32,10 +37,6 @@ if (process.env.NODE_ENV !== 'test') {
       console.error('❌ MongoDB connection error:', err.message);
       console.error('\n⚠️  DATABASE NOT CONNECTED!');
       console.error('   The app will run, but blog functionality will not work.');
-      console.error('   To fix this:');
-      console.error('   1. Install MongoDB: brew install mongodb-community');
-      console.error('   2. Start MongoDB: brew services start mongodb-community');
-      console.error('   3. Or use MongoDB Atlas (see DATABASE_SETUP.md)\n');
     });
 }
 
@@ -856,7 +857,7 @@ app.use((req, res) => {
   });
 });
 
-// Start the server only when this file is run directly (not required by tests)
+// Start the server only when this file is run directly (not required by Vercel or tests)
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
@@ -864,4 +865,9 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, getHobbyData, getAllHobbies };
+// Export the app instance directly for Vercel compatibility
+// Attach helpers to the app object so tests can still access them
+app.getHobbyData = getHobbyData;
+app.getAllHobbies = getAllHobbies;
+
+module.exports = app;

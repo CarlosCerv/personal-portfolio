@@ -18,7 +18,7 @@ beforeAll(async () => {
   process.env.NODE_ENV = 'test';
 
   // Import app after setting env
-  ({ app } = require('../app'));
+  app = require('../app');
 
   // Manually connect for tests since app.js bypasses it in test mode
   await mongoose.connect(uri);
