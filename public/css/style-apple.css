@@ -284,14 +284,12 @@ section {
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  height: 72px;
-  /* Increased from 60px for more breathing room */
+  height: 84px;
   transition: all var(--transition-base);
 }
 
 .navbar.scrolled {
-  height: 60px;
-  /* Increased from 56px */
+  height: 68px;
   backdrop-filter: saturate(180%) blur(30px);
   -webkit-backdrop-filter: saturate(180%) blur(30px);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -316,8 +314,6 @@ section {
   gap: var(--space-3);
   transition: transform var(--transition-base);
   line-height: 1;
-  padding-top: 6px;
-  /* Shift entire brand block down */
 }
 
 

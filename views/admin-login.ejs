@@ -1,150 +1,188 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content">
-  
-  <!-- Login Section -->
-  <section class="admin-login" style="margin-top: 80px;">
-    <div class="container">
-      <div class="login-card">
-        <div class="login-header">
-          <i class="fas fa-shield-alt"></i>
-          <h1>Admin Access</h1>
-          <p>Enter your password to manage blog posts</p>
-        </div>
-        
-        <% if (error) { %>
-          <div class="error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <%= error %>
-          </div>
-        <% } %>
-        
-        <form method="POST" action="/admin" class="login-form">
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password" 
-              name="password" 
-              required 
-              autofocus
-              placeholder="Enter admin password"
-            >
-          </div>
-          
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-sign-in-alt"></i>
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-</main>
-
 <style>
-.admin-login {
-  min-height: calc(100vh - 200px);
+/* ============================================
+   ADMIN PANEL — Premium Standalone Styles
+   Aligned with carloscervantes.qa brand
+   ============================================ */
+:root {
+  --admin-bg:        #F7F7F8;
+  --admin-surface:   #FFFFFF;
+  --admin-border:    #E5E7EB;
+  --admin-text:      #111111;
+  --admin-text-2:    #4B5563;
+  --admin-text-3:    #9CA3AF;
+  --admin-accent:    #2563EB;
+  --admin-accent-h:  #1D4ED8;
+  --admin-accent-bg: rgba(37, 99, 235, 0.07);
+  --admin-danger:    #DC2626;
+  --admin-danger-bg: #FEF2F2;
+  --admin-shadow:    0 2px 12px rgba(0,0,0,0.07);
+  --admin-radius:    10px;
+  --font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:       'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
+}
+
+body { background: var(--admin-bg); }
+
+/* ---- Page wrapper ---- */
+.admin-page {
+  min-height: calc(100vh - 80px);
+  padding: 2.5rem 0;
+  margin-top: 80px;
+}
+
+/* ---- Card ---- */
+.admin-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+}
+
+/* ---- Section header bar ---- */
+.admin-bar {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.admin-bar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--admin-text);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.admin-bar-sub {
+  font-size: 0.875rem;
+  color: var(--admin-text-2);
+  margin: 0;
+}
+
+/* ---- Buttons ---- */
+.ab {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
-}
-
-.login-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 3rem;
-  max-width: 450px;
-  width: 100%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.login-header i {
-  font-size: 3rem;
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-}
-
-.login-header h1 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-}
-
-.login-header p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
-
-.error-message {
-  background: #fee;
-  color: #c33;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
   gap: 0.5rem;
-}
-
-.login-form .form-group {
-  margin-bottom: 1.5rem;
-}
-
-.login-form label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.login-form input {
-  width: 100%;
-  padding: 0.875rem;
-  border: 2px solid var(--border-color);
+  padding: 0.65rem 1.25rem;
   border-radius: 8px;
-  font-size: 1rem;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  transition: border-color 0.3s;
-}
-
-.login-form input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.login-form .btn {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
+  font-family: var(--font);
   font-weight: 600;
-  border: none;
-  border-radius: 8px;
+  font-size: 0.9rem;
+  border: 1.5px solid transparent;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.3s;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
 }
-
-.btn-primary {
-  background: var(--primary-color);
-  color: white;
+.ab-primary {
+  background: var(--admin-accent);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.28);
 }
+.ab-primary:hover {
+  background: var(--admin-accent-h);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37,99,235,0.3);
+}
+.ab-secondary {
+  background: transparent;
+  color: var(--admin-text);
+  border-color: var(--admin-border);
+}
+.ab-secondary:hover {
+  border-color: var(--admin-accent);
+  color: var(--admin-accent);
+  background: var(--admin-accent-bg);
+}
+.ab-icon {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 7px;
+  background: var(--admin-bg);
+  color: var(--admin-text-2);
+  border: 1px solid var(--admin-border);
+}
+.ab-icon:hover { background: var(--admin-accent); color: #fff; border-color: var(--admin-accent); }
+.ab-danger:hover { background: var(--admin-danger); color: #fff; border-color: var(--admin-danger); }
 
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+/* ---- Mono label  ---- */
+.a-mono {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--admin-accent);
+  font-weight: 600;
+  padding: 0.2rem 0.7rem;
+  background: var(--admin-accent-bg);
+  border: 1px solid rgba(37,99,235,0.15);
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 0.5rem;
 }
 </style>
+
+<!-- Login Page Content -->
+<main class="admin-page">
+  <div class="container" style="max-width:520px; margin:0 auto;">
+    <div class="admin-card" style="padding: 3rem 2.5rem;">
+
+      <!-- Header -->
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <!-- Textual Logo -->
+        <a href="/" class="nav-brand" style="display:flex;align-items:center;justify-content:center;gap:0.5rem;text-decoration:none;margin-bottom:1.25rem;">
+          <div style="background:var(--admin-accent);color:white;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:700;font-size:1.2rem;">Q</div>
+          <span style="font-weight:600;letter-spacing:-0.5px;color:var(--admin-text);">Dashboard</span>
+        </a>
+        <h1 style="font-size:1.75rem;font-weight:700;margin:0.5rem 0 0.5rem;color:var(--admin-text);">Admin Access</h1>
+        <p style="color:var(--admin-text-2);margin:0;font-size:0.95rem;">Ingresa tu contraseña para gestionar el blog</p>
+      </div>
+
+      <!-- Error -->
+      <% if (error) { %>
+        <div style="background:var(--admin-danger-bg);color:var(--admin-danger);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;font-size:0.9rem;">
+          <i class="fas fa-exclamation-circle"></i>
+          <%= error %>
+        </div>
+      <% } %>
+
+      <!-- Form -->
+      <form method="POST" action="/admin/login">
+        <div style="margin-bottom:1.5rem;">
+          <label for="password" style="display:block;margin-bottom:0.5rem;font-weight:600;font-size:0.875rem;color:var(--admin-text);">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            autofocus
+            placeholder="••••••••••••"
+            style="width:100%;padding:0.8rem 1rem;border:1.5px solid var(--admin-border);border-radius:8px;font-size:1rem;font-family:var(--font);background:#fff;color:var(--admin-text);transition:border-color 0.2s;outline:none;"
+            onfocus="this.style.borderColor='var(--admin-accent)'"
+            onblur="this.style.borderColor='var(--admin-border)'"
+          >
+        </div>
+
+        <button type="submit" class="ab ab-primary" style="width:100%;padding:0.85rem;">
+          <i class="fas fa-sign-in-alt"></i>
+          Ingresar al Panel
+        </button>
+      </form>
+
+      <p style="text-align:center;margin-top:1.5rem;margin-bottom:0;font-size:0.8rem;color:var(--admin-text-3);">
+        <a href="/" style="color:var(--admin-text-3);">← Volver al sitio</a>
+      </p>
+    </div>
+  </div>
+</main>
 
 <%- include('partials/footer') %>

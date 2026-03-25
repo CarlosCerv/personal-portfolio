@@ -6,43 +6,42 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     // ==========================================
-    // NAVBAR SCROLL BEHAVIOR
+    // NAVBAR SCROLL BEHAVIOR + NAV HIGHLIGHT
+    // (throttled via requestAnimationFrame)
     // ==========================================
     const navbar = document.querySelector('.navbar');
-    let lastScroll = 0;
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    let ticking = false;
 
-    window.addEventListener('scroll', () => {
+    function onScroll() {
         const currentScroll = window.pageYOffset;
 
-        // Add scrolled class for styling
-        if (currentScroll > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
+        // Navbar compact state
+        if (currentScroll > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
 
-        lastScroll = currentScroll;
-    });
-
-    // ==========================================
-    // SMOOTH SCROLL FOR ANCHOR LINKS
-    // ==========================================
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href !== '#' && href !== '') {
-                e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
+        // Active nav link highlighting
+        const scrollPosition = currentScroll + 100;
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) link.classList.add('active');
+                });
             }
         });
-    });
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => { onScroll(); ticking = false; });
+            ticking = true;
+        }
+    }, { passive: true });
 
     // ==========================================
     // SCROLL-TRIGGERED ANIMATIONS
@@ -96,49 +95,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==========================================
-    // ACTIVE NAV LINK HIGHLIGHTING
-    // ==========================================
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
 
-    function highlightNavLink() {
-        const scrollPosition = window.pageYOffset + 100;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }
-
-    window.addEventListener('scroll', highlightNavLink);
-
-    // ==========================================
-    // PARALLAX EFFECT ON HERO IMAGE
-    // ==========================================
-    const heroImage = document.querySelector('.profile-pic');
-
-    if (heroImage) {
-        window.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768) {
-                heroImage.style.transform = 'none';
-                return;
-            }
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * 0.3;
-            heroImage.style.transform = `translateY(${rate}px) scale(${1 + scrolled * 0.0001})`;
-        });
-    }
+    // Parallax removed — replaced with CSS transform on hover only.
+    // (JS parallax caused layout thrashing; CSS-only solution has zero scroll cost)
 
     // ==========================================
     // BUTTON RIPPLE EFFECT

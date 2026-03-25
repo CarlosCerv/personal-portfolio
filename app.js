@@ -11,6 +11,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const session = require('express-session');
+const mongoSanitize = require('express-mongo-sanitize');
+const sanitizeHtml = require('sanitize-html');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -53,10 +56,11 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://api.github.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://api.github.com", "https://cdn.jsdelivr.net"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://carloscervantes.dev"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://carloscervantes.qa"],
       connectSrc: ["'self'", "https://api.github.com"],
     },
   },
@@ -64,10 +68,18 @@ app.use(helmet({
 
 // 2. CORS: Restrict domain access
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://carloscervantes.dev' : '*',
+  origin: process.env.NODE_ENV === 'production' ? ['https://carloscervantes.qa', 'https://personal-portfolio-kappa-five-68.vercel.app'] : '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// 2b. Cache-Control for HTML responses (revalidate, don't cache stale)
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.path.match(/\.(css|js|png|jpg|svg|ico|webp|woff2?)$/)) {
+    res.setHeader('Cache-Control', 'no-cache');
+  }
+  next();
+});
 
 // 3. Compression: Improve performance and obscure size
 app.use(compression());
@@ -83,6 +95,32 @@ const limiter = rateLimit({
 
 // Apply rate limiting to all requests
 app.use(limiter);
+
+// 5. NoSQL Injection Prevention
+app.use(mongoSanitize({
+  replaceWith: '_'
+}));
+
+// 6. Session Management for Admin Auth
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'qa-consultant-super-secret-key-2026',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // true on HTTPS
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Admin Authentication Middleware
+const requireAdmin = (req, res, next) => {
+  if (req.session && req.session.isAuthenticated) {
+    return next();
+  }
+  res.redirect('/admin');
+};
 
 // Specific stricter limit for admin routes
 const adminLimiter = rateLimit({
@@ -101,8 +139,9 @@ app.get('/favicon.ico', (req, res) => {
 
 // Serve remaining static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public'), {
-  maxAge: '1d',
-  etag: true
+  maxAge: '7d',
+  etag: true,
+  lastModified: true
 }));
 
 // Parse JSON and URL-encoded bodies
@@ -115,21 +154,42 @@ marked.setOptions({
   gfm: true
 });
 
+// ==========================================
+// SIMPLE IN-MEMORY CACHE
+// ==========================================
+const cache = {
+  _store: {},
+  get(key) {
+    const item = this._store[key];
+    if (!item) return null;
+    if (Date.now() > item.expiresAt) { delete this._store[key]; return null; }
+    return item.value;
+  },
+  set(key, value, ttlMs) {
+    this._store[key] = { value, expiresAt: Date.now() + ttlMs };
+  }
+};
+
 /**
  * Helper function to read and parse all blog posts from database
  * Returns an array of post objects sorted by date (newest first)
  */
 async function getBlogPosts() {
+  const cached = cache.get('blogPosts');
+  if (cached) return cached;
+
   try {
     const posts = await Post.find({ published: true })
       .sort({ date: -1 })
       .lean();
 
-    // Add excerpt to each post
-    return posts.map(post => ({
+    const result = posts.map(post => ({
       ...post,
       excerpt: post.content.trim().substring(0, 150).replace(/\n/g, ' ') + '...'
     }));
+
+    cache.set('blogPosts', result, 5 * 60 * 1000); // 5 min TTL
+    return result;
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     return [];
@@ -189,50 +249,41 @@ async function getRepoDescription(username, repoName) {
  * Helper function to fetch GitHub repositories dynamically
  */
 async function getGitHubProjects() {
-  try {
-    // GitHub username - update this if needed
-    const username = 'CarlosCerv';
+  const cached = cache.get('githubProjects');
+  if (cached) return cached;
 
-    // Fetch repositories from GitHub API
+  try {
+    const username = 'CarlosCerv';
+    const headers = {
+      'Accept': 'application/vnd.github.v3+json',
+      ...(process.env.GITHUB_TOKEN && { 'Authorization': `token ${process.env.GITHUB_TOKEN}` })
+    };
+
     const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`,
-      {
-        headers: {
-          'Accept': 'application/vnd.github.v3+json',
-          // Optional: Add GitHub Personal Access Token for higher rate limits
-          // 'Authorization': 'token YOUR_GITHUB_TOKEN'
-        }
-      }
+      `https://api.github.com/users/${username}/repos?sort=updated&per_page=50`,
+      { headers }
     );
 
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
 
     const repos = await response.json();
-
-    // Repositories to exclude from the projects page
     const excludedRepos = ['personal-portfolio'];
 
-    // Include all public repositories (original repos and forks), excluding specified repos
     const filteredRepos = repos
-      .filter(repo => !repo.private) // Only public repos
-      .filter(repo => !excludedRepos.includes(repo.name)) // Exclude personal-portfolio
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)); // Sort by most recently updated
+      .filter(repo => !repo.private)
+      .filter(repo => !excludedRepos.includes(repo.name))
+      .slice(0, 30); // Cap at 30 to avoid excessive README fetches
 
-    // Fetch descriptions from README if repo description is missing
+    // Only fetch READMEs for repos without a description — limit concurrency
     const projectsPromises = filteredRepos.map(async (repo) => {
       let description = repo.description;
-
-      // If no description, try to get it from README
       if (!description || description.trim() === '') {
         const readmeDesc = await getRepoDescription(username, repo.name);
         description = readmeDesc || 'No description available';
       }
-
       return {
         name: repo.name,
-        description: description,
+        description,
         url: repo.html_url,
         language: repo.language,
         stars: repo.stargazers_count,
@@ -241,14 +292,13 @@ async function getGitHubProjects() {
       };
     });
 
-    return await Promise.all(projectsPromises);
+    const result = await Promise.all(projectsPromises);
+    cache.set('githubProjects', result, 10 * 60 * 1000); // 10 min TTL
+    return result;
 
   } catch (error) {
     console.error('Error fetching from GitHub API:', error);
-
-    // Fallback to empty array if API fails
-    // Projects are fetched dynamically from GitHub
-    return [];
+    return cache.get('githubProjects') || []; // Return stale cache if available
   }
 }
 
@@ -655,195 +705,155 @@ function checkAdminAuth(req, res, next) {
  */
 app.get('/admin', (req, res) => {
   // Check if already authenticated
-  const password = req.query.password;
-  if (password === ADMIN_PASSWORD) {
+  if (req.session && req.session.isAuthenticated) {
     return res.redirect('/admin/posts');
   }
-
   res.render('admin-login', {
     title: 'Admin Login',
-    currentPage: 'admin',
-    error: null
+    error: req.query.error
   });
 });
 
 /**
- * ADMIN LOGIN POST
+ * ADMIN - Login Process
  */
-app.post('/admin', (req, res) => {
-  if (req.body.password === ADMIN_PASSWORD) {
-    res.redirect('/admin/posts?password=' + req.body.password);
+app.post('/admin/login', adminLimiter, (req, res) => {
+  const { password } = req.body;
+
+  if (password === ADMIN_PASSWORD) {
+    req.session.isAuthenticated = true;
+    res.redirect('/admin/posts');
   } else {
-    res.render('admin-login', {
-      title: 'Admin Login',
-      currentPage: 'admin',
-      error: 'Invalid password'
-    });
+    // Basic counter-measure for timing attacks
+    setTimeout(() => {
+      res.redirect('/admin?error=invalid');
+    }, 500);
   }
 });
 
 /**
- * ADMIN POSTS LIST
+ * ADMIN - Logout
  */
-app.get('/admin/posts', async (req, res) => {
-  const password = req.query.password;
-  if (password !== ADMIN_PASSWORD) {
-    return res.redirect('/admin');
-  }
-
-  const posts = await getBlogPosts();
-  res.render('admin-posts', {
-    title: 'Manage Posts',
-    currentPage: 'admin',
-    posts,
-    password
-  });
-});
-
-/**
- * ADMIN NEW POST PAGE
- */
-app.get('/admin/posts/new', (req, res) => {
-  const password = req.query.password;
-  if (password !== ADMIN_PASSWORD) {
-    return res.redirect('/admin');
-  }
-
-  res.render('admin-editor', {
-    title: 'New Post',
-    currentPage: 'admin',
-    post: null,
-    password
-  });
-});
-
-/**
- * ADMIN EDIT POST PAGE
- */
-app.get('/admin/posts/edit/:slug', async (req, res) => {
-  const password = req.query.password;
-  if (password !== ADMIN_PASSWORD) {
-    return res.redirect('/admin');
-  }
-
-  const { slug } = req.params;
-
-  try {
-    const post = await Post.findOne({ slug });
-
-    if (!post) {
-      return res.status(404).send('Post not found');
+app.get('/admin/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Could not log out.');
     }
+    res.redirect('/admin');
+  });
+});
 
-    res.render('admin-editor', {
-      title: 'Edit Post',
-      currentPage: 'admin',
-      post: {
-        slug: post.slug,
-        title: post.title,
-        date: post.date.toISOString().split('T')[0],
-        author: post.author,
-        tags: post.tags,
-        content: post.content
-      },
-      password
+/**
+ * ADMIN - Posts List
+ */
+app.get('/admin/posts', requireAdmin, async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ date: -1 }).lean();
+    res.render('admin-posts', {
+      title: 'Gestión de Posts',
+      posts: posts
     });
   } catch (error) {
-    console.error('Error fetching post:', error);
-    res.status(500).send('Server error');
+    console.error('Error in /admin/posts:', error);
+    res.status(500).send('Error interno del servidor');
   }
 });
 
 /**
- * ADMIN SAVE POST API
+ * ADMIN - New Post Form
  */
-app.post('/admin/posts/save', express.json(), async (req, res) => {
-  const password = req.body.password || req.query.password;
-  if (password !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+app.get('/admin/posts/new', requireAdmin, (req, res) => {
+  res.render('admin-editor', {
+    title: 'Nuevo Post',
+    post: null
+  });
+});
 
+/**
+ * ADMIN - SAVE POST API
+ */
+app.post('/admin/posts/save', requireAdmin, express.json(), async (req, res) => {
   const { slug, title, date, author, tags, content, originalSlug } = req.body;
 
-  // Validate required fields
   if (!slug || !title || !content) {
-    return res.status(400).json({ error: 'Missing required fields' });
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
 
   try {
+    const cleanContent = sanitizeHtml(content, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'h1', 'h2', 'h3', 'span']),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        'img': ['src', 'alt', 'class'],
+        'span': ['class', 'style']
+      }
+    });
+
     const postData = {
-      slug,
       title,
-      date: date || new Date(),
+      slug,
+      content: cleanContent,
+      published: true,
+      tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(tag => tag.trim()) : []),
       author: author || 'Carlos Cervantes',
-      tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(t => t.trim()) : []),
-      content,
-      published: true
+      date: date || new Date()
     };
 
-    // If editing existing post (originalSlug exists)
     if (originalSlug) {
-      // If slug changed, check if new slug is available
       if (originalSlug !== slug) {
-        const existingPost = await Post.findOne({ slug });
-        if (existingPost) {
-          return res.status(400).json({ error: 'Slug already exists' });
-        }
+         const existing = await Post.findOne({ slug });
+         if (existing) return res.status(400).json({ error: 'El slug ya existe' });
       }
-
-      // Update the post
       await Post.findOneAndUpdate({ slug: originalSlug }, postData, { upsert: true });
     } else {
-      // Creating new post - check if slug exists
-      const existingPost = await Post.findOne({ slug });
-      if (existingPost) {
-        return res.status(400).json({ error: 'Slug already exists' });
-      }
-
-      // Create new post
+      const existing = await Post.findOne({ slug });
+      if (existing) return res.status(400).json({ error: 'El slug ya existe' });
       await Post.create(postData);
     }
 
+    cache.set('blogPosts', null, 0); 
     res.json({ success: true, slug });
   } catch (error) {
     console.error('Error saving post:', error);
-
-    // Provide more specific error messages
-    let errorMessage = 'Failed to save post';
-    if (error.name === 'MongooseServerSelectionError' || error.name === 'MongoNetworkError') {
-      errorMessage = 'Database connection failed. Please ensure MongoDB is running.';
-    } else if (error.name === 'ValidationError') {
-      errorMessage = `Validation error: ${error.message}`;
-    } else if (error.code === 11000) {
-      errorMessage = 'A post with this slug already exists';
-    }
-
-    res.status(500).json({ error: errorMessage, details: error.message });
+    res.status(500).json({ error: `Error al guardar: ${error.message}` });
   }
 });
 
 /**
- * ADMIN DELETE POST API
+ * ADMIN - Delete Post (API specific endpoint for the JS fetch)
  */
-app.post('/admin/posts/delete/:slug', async (req, res) => {
-  const password = req.body.password || req.query.password;
-  if (password !== ADMIN_PASSWORD) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  const { slug } = req.params;
-
+app.delete('/api/admin/posts/:slug', requireAdmin, async (req, res) => {
   try {
-    const result = await Post.findOneAndDelete({ slug });
-
-    if (!result) {
-      return res.status(404).json({ error: 'Post not found' });
+    const deletedPost = await Post.findOneAndDelete({ slug: req.params.slug });
+    
+    if (!deletedPost) {
+      return res.status(404).json({ success: false, message: 'Post no encontrado' });
     }
 
-    res.json({ success: true });
+    cache.set('blogPosts', null, 0); 
+    res.json({ success: true, message: 'Post eliminado correctamente' });
   } catch (error) {
     console.error('Error deleting post:', error);
-    res.status(500).json({ error: 'Failed to delete post' });
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/**
+ * ADMIN - Edit Post Form
+ */
+app.get('/admin/posts/edit/:slug', requireAdmin, async (req, res) => {
+  try {
+    const post = await Post.findOne({ slug: req.params.slug }).lean();
+    if (!post) return res.status(404).send('Post no encontrado');
+
+    res.render('admin-editor', {
+      title: 'Editar Post',
+      post: post
+    });
+  } catch (error) {
+    console.error('Error in /admin/posts/edit:', error);
+    res.status(500).send('Error interno del servidor');
   }
 });
 

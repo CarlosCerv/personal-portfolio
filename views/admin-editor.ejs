@@ -1,619 +1,376 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content admin-editor-content">
-  
-  <!-- Editor Header -->
-  <section class="editor-header">
-    <div class="container-fluid">
-      <div class="editor-header-content">
-        <div class="editor-title">
-          <a href="/admin/posts?password=<%= password %>" class="back-btn">
-            <i class="fas fa-arrow-left"></i>
-          </a>
-          <h1><%= post ? 'Edit Post' : 'New Post' %></h1>
-        </div>
-        <div class="editor-actions">
-          <button onclick="togglePreview()" class="btn btn-secondary">
-            <i class="fas fa-eye"></i>
-            <span class="preview-toggle-text">Show Preview</span>
-          </button>
-          <button onclick="savePost()" class="btn btn-primary">
-            <i class="fas fa-save"></i>
-            Save Post
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Editor -->
-  <section class="editor-section">
-    <div class="container-fluid">
-      <div class="editor-layout">
-        
-        <!-- Editor Panel -->
-        <div class="editor-panel">
-          <div class="editor-form">
-            
-            <!-- Frontmatter Fields -->
-            <div class="frontmatter-section">
-              <h3>Post Information</h3>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="title">Title *</label>
-                  <input 
-                    type="text" 
-                    id="title" 
-                    placeholder="Your Post Title"
-                    value="<%= post ? post.title : '' %>"
-                    required
-                  >
-                </div>
-              </div>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="slug">Slug *</label>
-                  <input 
-                    type="text" 
-                    id="slug" 
-                    placeholder="post-url-slug"
-                    value="<%= post ? post.slug : '' %>"
-                    required
-                  >
-                  <small>URL-friendly version (e.g., my-awesome-post)</small>
-                </div>
-                
-                <div class="form-group">
-                  <label for="date">Date</label>
-                  <input 
-                    type="date" 
-                    id="date"
-                    value="<%= post && post.date ? new Date(post.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>"
-                  >
-                </div>
-              </div>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="author">Author</label>
-                  <input 
-                    type="text" 
-                    id="author" 
-                    placeholder="Author Name"
-                    value="<%= post && post.author ? post.author : 'Carlos Cervantes' %>"
-                  >
-                </div>
-                
-                <div class="form-group">
-                  <label for="tags">Tags</label>
-                  <input 
-                    type="text" 
-                    id="tags" 
-                    placeholder="Mobile Testing, Automation, QA"
-                    value="<%= post && post.tags ? post.tags.join(', ') : '' %>"
-                  >
-                  <small>Comma-separated tags</small>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Content Editor -->
-            <div class="content-section">
-              <div class="content-header">
-                <h3>Content</h3>
-                <div class="editor-tools">
-                  <button onclick="insertMarkdown('**', '**')" title="Bold" class="tool-btn">
-                    <i class="fas fa-bold"></i>
-                  </button>
-                  <button onclick="insertMarkdown('*', '*')" title="Italic" class="tool-btn">
-                    <i class="fas fa-italic"></i>
-                  </button>
-                  <button onclick="insertMarkdown('`', '`')" title="Code" class="tool-btn">
-                    <i class="fas fa-code"></i>
-                  </button>
-                  <button onclick="insertMarkdown('[', '](url)')" title="Link" class="tool-btn">
-                    <i class="fas fa-link"></i>
-                  </button>
-                  <button onclick="insertMarkdown('\n## ', '')" title="Heading" class="tool-btn">
-                    <i class="fas fa-heading"></i>
-                  </button>
-                  <button onclick="insertMarkdown('\n- ', '')" title="List" class="tool-btn">
-                    <i class="fas fa-list"></i>
-                  </button>
-                  <button onclick="insertMarkdown('\n```\n', '\n```')" title="Code Block" class="tool-btn">
-                    <i class="fas fa-file-code"></i>
-                  </button>
-                </div>
-              </div>
-              
-              <textarea 
-                id="content" 
-                placeholder="Write your post content in Markdown..."
-                rows="20"
-              ><%= post && post.content ? post.content.trim() : '' %></textarea>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Preview Panel -->
-        <div class="preview-panel" id="previewPanel">
-          <div class="preview-header">
-            <h3>Live Preview</h3>
-          </div>
-          <div class="preview-content" id="previewContent">
-            <p class="preview-placeholder">Preview will appear here...</p>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-</main>
-
 <style>
-.admin-editor-content {
-  padding: 0;
-  margin-top: 80px; /* Account for fixed navigation */
+:root {
+  --admin-bg:        #F7F7F8;
+  --admin-surface:   #FFFFFF;
+  --admin-border:    #E5E7EB;
+  --admin-text:      #111111;
+  --admin-text-2:    #4B5563;
+  --admin-text-3:    #9CA3AF;
+  --admin-accent:    #2563EB;
+  --admin-accent-h:  #1D4ED8;
+  --admin-accent-bg: rgba(37, 99, 235, 0.07);
+  --admin-shadow:    0 2px 12px rgba(0,0,0,0.06);
+  --admin-radius:    10px;
+  --font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:       'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
+
+/* ---- Editor layout ---- */
+.editor-page {
+  margin-top: 80px;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
 }
 
-.editor-header {
-  background: var(--card-bg);
-  border-bottom: 2px solid var(--border-color);
-  padding: 1rem 0;
+/* ---- Sticky top toolbar ---- */
+.editor-toolbar {
   position: sticky;
-  top: 80px; /* Position below main navigation */
+  top: 80px;
   z-index: 99;
-}
-
-.container-fluid {
-  max-width: 100%;
-  padding: 0 2rem;
-}
-
-.editor-header-content {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--admin-border);
+  padding: 0.75rem 2rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--admin-shadow);
 }
 
-.editor-title {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
+.editor-toolbar-left { display: flex; align-items: center; gap: 0.875rem; }
+.editor-toolbar-right { display: flex; gap: 0.75rem; align-items: center; }
 
 .back-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  text-decoration: none;
-  transition: all 0.2s;
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--admin-bg); color: var(--admin-text-2);
+  border: 1px solid var(--admin-border);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; transition: all 0.2s;
 }
+.back-btn:hover { background: var(--admin-accent); color: #fff; border-color: var(--admin-accent); }
 
-.back-btn:hover {
-  background: var(--primary-color);
-  color: white;
+.toolbar-title { font-size: 1.1rem; font-weight: 700; color: var(--admin-text); }
+
+/* ---- Buttons ---- */
+.ab {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 8px;
+  font-family: var(--font); font-weight: 600; font-size: 0.875rem;
+  border: 1.5px solid transparent; cursor: pointer;
+  text-decoration: none; transition: all 0.2s; white-space: nowrap;
 }
+.ab-primary { background: var(--admin-accent); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
+.ab-primary:hover { background: var(--admin-accent-h); color: #fff; transform: translateY(-1px); }
+.ab-secondary { background: transparent; color: var(--admin-text); border-color: var(--admin-border); }
+.ab-secondary:hover { border-color: var(--admin-accent); color: var(--admin-accent); background: var(--admin-accent-bg); }
 
-.editor-title h1 {
-  font-size: 1.5rem;
-  margin: 0;
+/* ---- Save status ---- */
+.save-indicator {
+  font-family: var(--font-mono); font-size: 0.75rem; color: var(--admin-text-3);
+  padding: 0.3rem 0.75rem; border: 1px solid var(--admin-border);
+  border-radius: 999px; background: var(--admin-bg);
+  display: none;
 }
+.save-indicator.visible { display: inline-flex; align-items: center; gap: 0.4rem; }
 
-.editor-actions {
-  display: flex;
-  gap: 1rem;
-}
-
-.editor-section {
-  padding: 2rem 0;
-}
-
-.editor-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-
-.editor-layout.split-view {
-  grid-template-columns: 1fr 1fr;
-}
-
-.editor-panel {
-  background: var(--card-bg);
-  border-radius: 12px;
+/* ---- Editor body ---- */
+.editor-body {
+  flex: 1;
   padding: 2rem;
-}
-
-.frontmatter-section {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.frontmatter-section h3,
-.content-section h3 {
-  margin-bottom: 1.5rem;
-  color: var(--text-primary);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.form-row:has(.form-group + .form-group) {
-  grid-template-columns: 1fr 1fr;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.form-group input {
+  max-width: 1400px;
+  margin: 0 auto;
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-size: 1rem;
-  transition: border-color 0.3s;
 }
 
-.form-group input:focus {
-  outline: none;
-  border-color: var(--primary-color);
+/* ---- Metadata card ---- */
+.meta-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--admin-shadow);
 }
 
-.form-group small {
-  display: block;
-  margin-top: 0.25rem;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
+.meta-card h3 {
+  font-size: 0.875rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--admin-text-3);
+  font-family: var(--font-mono); margin-bottom: 1.25rem;
 }
 
-.content-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-grid-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.25rem; }
+
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group label { font-size: 0.825rem; font-weight: 600; color: var(--admin-text); }
+.form-group small { font-size: 0.75rem; color: var(--admin-text-3); }
+
+.fi {
+  width: 100%; padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--admin-border); border-radius: 8px;
+  font-family: var(--font); font-size: 0.9rem;
+  background: var(--admin-surface); color: var(--admin-text);
+  transition: border-color 0.2s; outline: none;
+}
+.fi:focus { border-color: var(--admin-accent); }
+
+/* ---- Content editor area ---- */
+.content-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
+  overflow: hidden;
 }
 
-.editor-tools {
-  display: flex;
-  gap: 0.5rem;
+.content-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.875rem 1.5rem; border-bottom: 1px solid var(--admin-border);
+  background: var(--admin-bg);
 }
 
-.tool-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.content-bar-title { font-size: 0.825rem; font-weight: 600; color: var(--admin-text-2); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--font-mono); }
 
-.tool-btn:hover {
-  background: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
+/* Markdown tools */
+.md-tools { display: flex; gap: 0.35rem; }
+.md-btn {
+  width: 32px; height: 32px; border-radius: 6px;
+  border: 1px solid var(--admin-border); background: var(--admin-surface);
+  color: var(--admin-text-2); cursor: pointer; font-size: 0.8rem;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
 }
+.md-btn:hover { background: var(--admin-accent); color: #fff; border-color: var(--admin-accent); }
+
+/* Editor / Preview layout */
+.editor-split { display: grid; grid-template-columns: 1fr; }
+.editor-split.active { grid-template-columns: 1fr 1fr; }
 
 #content {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  resize: vertical;
-  min-height: 500px;
-}
-
-#content:focus {
-  outline: none;
-  border-color: var(--primary-color);
+  width: 100%; min-height: 560px; padding: 1.5rem;
+  border: none; outline: none; resize: vertical;
+  font-family: var(--font-mono); font-size: 0.9rem; line-height: 1.75;
+  color: var(--admin-text); background: var(--admin-surface);
+  border-right: 1px solid var(--admin-border);
 }
 
 .preview-panel {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 2rem;
-  display: none;
+  display: none; padding: 1.5rem;
+  min-height: 560px; overflow-y: auto;
+  background: #FBFBFD;
+  border-left: 1px solid var(--admin-border);
 }
+.preview-panel.active { display: block; }
 
-.preview-panel.active {
-  display: block;
+.preview-panel .preview-placeholder {
+  color: var(--admin-text-3); text-align: center;
+  padding: 3rem 0; font-style: italic;
 }
+.preview-panel h1, .preview-panel h2, .preview-panel h3 { margin: 1.25rem 0 0.75rem; color: var(--admin-text); }
+.preview-panel p { margin-bottom: 1rem; color: var(--admin-text-2); line-height: 1.75; }
+.preview-panel code { background: var(--admin-bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.875em; font-family: var(--font-mono); }
+.preview-panel pre { background: var(--admin-bg); border: 1px solid var(--admin-border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+.preview-panel a { color: var(--admin-accent); }
 
-.preview-header {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.preview-content {
-  line-height: 1.8;
-  color: var(--text-primary);
-}
-
-.preview-placeholder {
-  color: var(--text-secondary);
-  text-align: center;
-  padding: 3rem 0;
-}
-
-.preview-content h1,
-.preview-content h2,
-.preview-content h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.preview-content p {
-  margin-bottom: 1rem;
-}
-
-.preview-content code {
-  background: var(--bg-secondary);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-
-.preview-content pre {
-  background: var(--bg-secondary);
-  padding: 1rem;
-  border-radius: 8px;
-  overflow-x: auto;
-  margin: 1rem 0;
-}
-
-.preview-content ul,
-.preview-content ol {
-  margin-bottom: 1rem;
-  padding-left: 2rem;
-}
-
-.preview-content a {
-  color: var(--primary-color);
-  text-decoration: underline;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btn-primary {
-  background: var(--primary-color);
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-
-.btn-secondary {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-  background: var(--primary-color);
-  color: white;
-}
-
-@media (max-width: 1200px) {
-  .editor-layout.split-view {
-    grid-template-columns: 1fr;
-  }
-  
-  .preview-panel.active {
-    margin-top: 2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .container-fluid {
-    padding: 0 1rem;
-  }
-  
-  .editor-header-content {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: stretch;
-  }
-  
-  .editor-actions {
-    justify-content: stretch;
-  }
-  
-  .editor-actions .btn {
-    flex: 1;
-  }
-  
-  .form-row:has(.form-group + .form-group) {
-    grid-template-columns: 1fr;
-  }
-  
-  .editor-tools {
-    flex-wrap: wrap;
-  }
+@media (max-width: 900px) {
+  .editor-split.active { grid-template-columns: 1fr; }
+  .form-grid, .form-grid-3 { grid-template-columns: 1fr; }
+  .editor-toolbar { padding: 0.75rem 1rem; }
+  .editor-body { padding: 1rem; }
 }
 </style>
 
+<main class="editor-page">
+
+  <!-- Sticky Toolbar -->
+  <div class="editor-toolbar">
+    <div class="editor-toolbar-left">
+      <a href="/admin/posts" class="back-btn" title="Volver">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <span class="toolbar-title"><%= post ? 'Editar Post' : 'Nuevo Post' %></span>
+    </div>
+    <div class="editor-toolbar-right">
+      <span class="save-indicator" id="saveIndicator">
+        <i class="fas fa-circle-notch fa-spin"></i> Guardando…
+      </span>
+      <button onclick="togglePreview()" class="ab ab-secondary" id="previewBtn">
+        <i class="fas fa-eye"></i> Vista Previa
+      </button>
+      <button onclick="savePost()" class="ab ab-primary">
+        <i class="fas fa-save"></i> Guardar
+      </button>
+    </div>
+  </div>
+
+  <!-- Editor Body -->
+  <div class="editor-body">
+
+    <!-- Metadata -->
+    <div class="meta-card">
+      <h3>Información del Post</h3>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input type="text" id="title" class="fi" placeholder="Título del artículo" value="<%= post ? post.title : '' %>" required>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="slug">Slug (URL) *</label>
+            <input type="text" id="slug" class="fi" placeholder="mi-articulo-url" value="<%= post ? post.slug : '' %>" required>
+            <small>Solo letras minúsculas, números y guiones</small>
+          </div>
+          <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" class="fi" value="<%= post && post.date ? new Date(post.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0] %>">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="author">Autor</label>
+            <input type="text" id="author" class="fi" placeholder="Carlos Cervantes" value="<%= post && post.author ? post.author : 'Carlos Cervantes' %>">
+          </div>
+          <div class="form-group">
+            <label for="tags">Tags</label>
+            <input type="text" id="tags" class="fi" placeholder="Performance, Automation, QA" value="<%= post && post.tags ? post.tags.join(', ') : '' %>">
+            <small>Separados por coma</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content + Preview -->
+    <div class="content-card">
+      <div class="content-bar">
+        <span class="content-bar-title">Contenido (Markdown)</span>
+        <div class="md-tools">
+          <button onclick="insertMarkdown('**','**')" class="md-btn" title="Bold"><strong>B</strong></button>
+          <button onclick="insertMarkdown('*','*')" class="md-btn" title="Italic"><em>I</em></button>
+          <button onclick="insertMarkdown('\`','\`')" class="md-btn" title="Code" style="font-family:monospace;">&lt;/&gt;</button>
+          <button onclick="insertMarkdown('[','](url)')" class="md-btn" title="Link">🔗</button>
+          <button onclick="insertMarkdown('\n## ','')" class="md-btn" title="Heading" style="font-size:0.75rem;font-weight:700;">H2</button>
+          <button onclick="insertMarkdown('\n- ','')" class="md-btn" title="List">≡</button>
+          <button onclick="insertMarkdown('\n```\n','\n```')" class="md-btn" title="Code Block" style="font-family:monospace;font-size:0.7rem;">```</button>
+        </div>
+      </div>
+      <div class="editor-split" id="editorSplit">
+        <textarea id="content" placeholder="Escribe tu artículo en Markdown…"><%= post && post.content ? post.content.trim() : '' %></textarea>
+        <div class="preview-panel" id="previewPanel">
+          <p class="preview-placeholder">La vista previa aparecerá aquí…</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-const PASSWORD = '<%= password %>';
 const ORIGINAL_SLUG = '<%= post ? post.slug : "" %>';
 
-// Auto-generate slug from title
+// Auto-generate slug
 document.getElementById('title').addEventListener('input', function(e) {
-  if (!ORIGINAL_SLUG || document.getElementById('slug').value === '') {
-    const slug = e.target.value
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    document.getElementById('slug').value = slug;
+  if (!ORIGINAL_SLUG) {
+    document.getElementById('slug').value = e.target.value
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
   }
 });
 
-// Live preview update
+// Live preview
 let previewTimeout;
-document.getElementById('content').addEventListener('input', function() {
+document.getElementById('content').addEventListener('input', () => {
   clearTimeout(previewTimeout);
-  previewTimeout = setTimeout(updatePreview, 500);
+  previewTimeout = setTimeout(updatePreview, 400);
 });
 
 function updatePreview() {
   const content = document.getElementById('content').value;
-  const previewContent = document.getElementById('previewContent');
-  
-  if (content.trim()) {
-    previewContent.innerHTML = marked.parse(content);
-  } else {
-    previewContent.innerHTML = '<p class="preview-placeholder">Preview will appear here...</p>';
-  }
+  const panel = document.getElementById('previewPanel');
+  panel.innerHTML = content.trim()
+    ? marked.parse(content)
+    : '<p class="preview-placeholder">La vista previa aparecerá aquí…</p>';
 }
 
 function togglePreview() {
-  const previewPanel = document.getElementById('previewPanel');
-  const editorLayout = document.querySelector('.editor-layout');
-  const toggleText = document.querySelector('.preview-toggle-text');
-  
-  previewPanel.classList.toggle('active');
-  editorLayout.classList.toggle('split-view');
-  
-  if (previewPanel.classList.contains('active')) {
-    toggleText.textContent = 'Hide Preview';
-    updatePreview();
-  } else {
-    toggleText.textContent = 'Show Preview';
-  }
+  const split = document.getElementById('editorSplit');
+  const panel = document.getElementById('previewPanel');
+  const btn = document.getElementById('previewBtn');
+  const isActive = panel.classList.toggle('active');
+  split.classList.toggle('active', isActive);
+  btn.innerHTML = isActive
+    ? '<i class="fas fa-eye-slash"></i> Ocultar Preview'
+    : '<i class="fas fa-eye"></i> Vista Previa';
+  if (isActive) updatePreview();
 }
 
 function insertMarkdown(before, after) {
-  const textarea = document.getElementById('content');
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const text = textarea.value;
-  const selectedText = text.substring(start, end);
-  
-  const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
-  textarea.value = newText;
-  
-  // Set cursor position
-  const newPos = start + before.length + selectedText.length;
-  textarea.focus();
-  textarea.setSelectionRange(newPos, newPos);
-  
+  const ta = document.getElementById('content');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const selected = ta.value.substring(s, e);
+  ta.value = ta.value.substring(0, s) + before + selected + after + ta.value.substring(e);
+  ta.focus(); ta.setSelectionRange(s + before.length + selected.length, s + before.length + selected.length);
   updatePreview();
 }
 
 async function savePost() {
   const title = document.getElementById('title').value.trim();
   const slug = document.getElementById('slug').value.trim();
-  const date = document.getElementById('date').value;
-  const author = document.getElementById('author').value.trim();
-  const tags = document.getElementById('tags').value.trim();
   const content = document.getElementById('content').value.trim();
-  
+
   if (!title || !slug || !content) {
-    alert('Please fill in all required fields (Title, Slug, Content)');
+    alert('Por favor completa los campos requeridos: Título, Slug y Contenido.');
     return;
   }
-  
-  // Validate slug format
   if (!/^[a-z0-9-]+$/.test(slug)) {
-    alert('Slug must contain only lowercase letters, numbers, and hyphens');
+    alert('El slug solo puede contener letras minúsculas, números y guiones.');
     return;
   }
-  
-  const postData = {
-    title,
-    slug,
-    date,
-    author,
-    tags,
-    content,
-    originalSlug: ORIGINAL_SLUG,
-    password: PASSWORD
-  };
-  
+
+  const indicator = document.getElementById('saveIndicator');
+  indicator.classList.add('visible');
+
   try {
     const response = await fetch('/admin/posts/save', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title, slug, content, originalSlug: ORIGINAL_SLUG,
+        date: document.getElementById('date').value,
+        author: document.getElementById('author').value.trim(),
+        tags: document.getElementById('tags').value.trim()
+      })
     });
-    
     const result = await response.json();
-    
     if (response.ok && result.success) {
-      alert('Post saved successfully!');
-      window.location.href = `/admin/posts?password=${PASSWORD}`;
+      window.location.href = `/admin/posts`;
     } else {
-      alert('Error saving post: ' + (result.error || 'Unknown error'));
+      alert('Error al guardar: ' + (result.error || 'Error desconocido'));
     }
-  } catch (error) {
-    alert('Error saving post: ' + error.message);
-    console.error(error);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  } finally {
+    indicator.classList.remove('visible');
   }
 }
 
-// Keyboard shortcuts
+// Keyboard shortcuts (Cmd/Ctrl + S → save)
 document.addEventListener('keydown', function(e) {
-  // Ctrl/Cmd + S to save
-  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-    e.preventDefault();
-    savePost();
-  }
-  
-  // Ctrl/Cmd + P to toggle preview
-  if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
-    e.preventDefault();
-    togglePreview();
-  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); savePost(); }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'p') { e.preventDefault(); togglePreview(); }
 });
 
-// Initial preview if editing existing post
-<% if (post && post.content) { %>
-  updatePreview();
-<% } %>
 </script>
+
+<% if (post && post.content) { %>
+<script>
+  updatePreview();
+</script>
+<% } %>
 
 <%- include('partials/footer') %>
