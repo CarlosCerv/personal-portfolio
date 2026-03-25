@@ -42,10 +42,7 @@ const postSchema = new mongoose.Schema({
   timestamps: true // Adds createdAt and updatedAt fields
 });
 
-// Index for faster slug lookups
-postSchema.index({ slug: 1 });
-
-// Index for date sorting
+// Index for date-based sorting (slug lookup uses the unique field index)
 postSchema.index({ date: -1 });
 
 module.exports = mongoose.model('Post', postSchema);

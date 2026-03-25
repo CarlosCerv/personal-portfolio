@@ -3,9 +3,7 @@
 
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 const { marked } = require('marked');
-const matter = require('gray-matter');
 const mongoose = require('mongoose');
 const Post = require('./models/Post');
 
@@ -24,20 +22,22 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/person
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
 // Connect to MongoDB with better error handling
-mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log('SUCCESS: Connected to MongoDB');
-    console.log(`   Database: ${MONGODB_URI.split('/').pop().split('?')[0]}`);
-  })
-  .catch(err => {
-    console.error('❌ MongoDB connection error:', err.message);
-    console.error('\n⚠️  DATABASE NOT CONNECTED!');
-    console.error('   The app will run, but blog functionality will not work.');
-    console.error('   To fix this:');
-    console.error('   1. Install MongoDB: brew install mongodb-community');
-    console.error('   2. Start MongoDB: brew services start mongodb-community');
-    console.error('   3. Or use MongoDB Atlas (see DATABASE_SETUP.md)\n');
-  });
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect(MONGODB_URI)
+    .then(() => {
+      console.log('SUCCESS: Connected to MongoDB');
+      console.log(`   Database: ${MONGODB_URI.split('/').pop().split('?')[0]}`);
+    })
+    .catch(err => {
+      console.error('❌ MongoDB connection error:', err.message);
+      console.error('\n⚠️  DATABASE NOT CONNECTED!');
+      console.error('   The app will run, but blog functionality will not work.');
+      console.error('   To fix this:');
+      console.error('   1. Install MongoDB: brew install mongodb-community');
+      console.error('   2. Start MongoDB: brew services start mongodb-community');
+      console.error('   3. Or use MongoDB Atlas (see DATABASE_SETUP.md)\n');
+    });
+}
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
@@ -92,19 +92,26 @@ const adminLimiter = rateLimit({
 app.use('/admin', adminLimiter);
 
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Explicit favicon route — placed before static middleware and rate limiter scope
+// to guarantee it is served correctly in all environments
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+});
+
+// Serve remaining static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1d',
+  etag: true
+}));
 
 // Parse JSON and URL-encoded bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configure marked options for better rendering
+// Configure marked for Markdown rendering
 marked.setOptions({
   breaks: true,
-  gfm: true,
-  headerIds: true,
-  mangle: false
+  gfm: true
 });
 
 /**
@@ -849,8 +856,12 @@ app.use((req, res) => {
   });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Start the server only when this file is run directly (not required by tests)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+}
+
+module.exports = { app, getHobbyData, getAllHobbies };
