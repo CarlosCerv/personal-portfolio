@@ -2,15 +2,15 @@
 
 <style>
 :root {
-  --admin-bg:        #F7F7F8;
+  --admin-bg:        #FBFBFD;
   --admin-surface:   #FFFFFF;
   --admin-border:    #E5E7EB;
   --admin-text:      #111111;
-  --admin-text-2:    #4B5563;
-  --admin-text-3:    #9CA3AF;
-  --admin-accent:    #2563EB;
-  --admin-accent-h:  #1D4ED8;
-  --admin-accent-bg: rgba(37, 99, 235, 0.07);
+  --admin-text-2:    #555555;
+  --admin-text-3:    #86868B;
+  --admin-accent:    #000000;
+  --admin-accent-h:  #333333;
+  --admin-accent-bg: rgba(0, 0, 0, 0.05);
   --admin-shadow:    0 2px 12px rgba(0,0,0,0.06);
   --admin-radius:    10px;
   --font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -172,11 +172,11 @@ body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
   color: var(--admin-text-3); text-align: center;
   padding: 3rem 0; font-style: italic;
 }
-.preview-panel h1, .preview-panel h2, .preview-panel h3 { margin: 1.25rem 0 0.75rem; color: var(--admin-text); }
-.preview-panel p { margin-bottom: 1rem; color: var(--admin-text-2); line-height: 1.75; }
-.preview-panel code { background: var(--admin-bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.875em; font-family: var(--font-mono); }
-.preview-panel pre { background: var(--admin-bg); border: 1px solid var(--admin-border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
-.preview-panel a { color: var(--admin-accent); }
+.preview-panel h1, .preview-panel h2, .preview-panel h3 { margin: 1.25rem 0 0.75rem; color: var(--admin-text); font-weight: 700; letter-spacing: -0.02em; }
+.preview-panel p { margin-bottom: 1.25rem; color: var(--admin-text-2); line-height: 1.8; font-size: 1.05rem; }
+.preview-panel code { background: #F2F2F7; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.875em; font-family: var(--font-mono); color: #D10000; }
+.preview-panel pre { background: #1C1C1E; color: #F2F2F7; border: 1px solid #3A3A3C; padding: 1.25rem; border-radius: 12px; overflow-x: auto; margin: 1.5rem 0; }
+.preview-panel a { color: var(--admin-text); text-decoration: underline; font-weight: 500; }
 
 @media (max-width: 900px) {
   .editor-split.active { grid-template-columns: 1fr; }
@@ -194,7 +194,10 @@ body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
       <a href="/admin/posts" class="back-btn" title="Volver">
         <i class="fas fa-arrow-left"></i>
       </a>
-      <span class="toolbar-title"><%= post ? 'Editar Post' : 'Nuevo Post' %></span>
+      <div style="display:flex; flex-direction:column;">
+        <span class="toolbar-title"><%= post ? 'Editar Post' : 'Nuevo Post' %></span>
+        <span class="a-mono" style="font-size:0.6rem; opacity:0.6; margin-top:0.25rem;">Quality & Performance</span>
+      </div>
     </div>
     <div class="editor-toolbar-right">
       <span class="save-indicator" id="saveIndicator">

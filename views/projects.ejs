@@ -1,96 +1,49 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
 <main class="main-content">
   
-  <!-- Projects Header -->
-  <section class="page-header">
+  <!-- Unified Header -->
+  <section class="content-page-hero">
     <div class="container">
-      <h1 class="page-title">My Work & Projects</h1>
-      <p class="page-description">
-        A collection of my QA automation projects and contributions. 
-        Check out my <a href="https://github.com/CarlosCerv" target="_blank" rel="noopener noreferrer">GitHub profile</a> for more.
+      <div class="hero-badge">
+        <i class="fas fa-code-branch"></i>
+        <span>Engineering & Automation</span>
+      </div>
+      <h1 class="hero-title-large">Strategic Projects</h1>
+      <p class="hero-subtitle-refined">
+        A collection of performance-driven QA frameworks and open-source contributions optimized for high-scale environments.
       </p>
-      
-      <!-- Project Search -->
-      <div class="project-search">
-        <i class="fas fa-search"></i>
-        <input type="text" id="projectSearch" placeholder="Search projects..." aria-label="Search projects">
-      </div>
-
-      <!-- Recent Searches -->
-      <div id="recentSearches" class="recent-searches"></div>
-      
-      <!-- Project Filters -->
-      <div class="project-filters">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="JavaScript">JavaScript</button>
-        <button class="filter-btn" data-filter="Python">Python</button>
-        <button class="filter-btn" data-filter="Java">Java</button>
-        <button class="filter-btn" data-filter="TypeScript">TypeScript</button>
-      </div>
     </div>
   </section>
 
   <!-- Projects Grid -->
-  <section class="projects">
+  <section class="projects-section">
     <div class="container">
-      <% if (typeof error !== 'undefined' && error) { %>
-        <div class="error-message">
-          <p><%= error %></p>
-        </div>
-      <% } %>
-      
-      <div class="projects-grid">
+      <div class="content-grid">
         <% projects.forEach((project, index) => { %>
-          <article class="project-card" data-language="<%= project.language %>" data-name="<%= project.name.toLowerCase() %>" style="animation-delay: <%= index * 0.1 %>s;">
-            <div class="project-icon">
-              <i class="fas fa-folder-open"></i>
+          <a href="<%= project.url %>" class="unified-card" target="_blank" rel="noopener noreferrer" style="animation-delay: <%= index * 0.1 %>s;">
+            <div class="card-icon-container">
+              <i class="fas fa-cube"></i>
             </div>
             
-            <div class="project-header">
-              <h3 class="project-title">
-                <a href="<%= project.url %>" target="_blank" rel="noopener noreferrer">
-                  <%= project.name %>
-                </a>
-              </h3>
+            <div class="card-tag-wrapper">
               <% if (project.language) { %>
-                <span class="project-language">
-                  <span class="language-dot" style="background-color: <%= getLanguageColor(project.language) %>;"></span>
-                  <%= project.language %>
-                </span>
+                <span class="card-tag"><%= project.language %></span>
               <% } %>
             </div>
             
-            <p class="project-description">
-              <%= project.description || 'No description available' %>
+            <h3 class="card-title-refined"><%= project.name %></h3>
+            
+            <p class="card-desc-refined">
+              <%= project.description || 'Enterprise-grade automation project focused on performance and reliability.' %>
             </p>
             
-            <div class="project-footer">
-              <div class="project-stats">
-                <span class="stat" title="Stars">
-                  <i class="fas fa-star"></i>
-                  <%= project.stars %>
-                </span>
-                <span class="stat" title="Forks">
-                  <i class="fas fa-code-branch"></i>
-                  <%= project.forks %>
-                </span>
-              </div>
-              
-              <a href="<%= project.url %>" class="project-link" target="_blank" rel="noopener noreferrer">
-                View Project <i class="fas fa-arrow-right"></i>
-              </a>
+            <div class="card-action-refined">
+              View Repository <i class="fas fa-arrow-right"></i>
             </div>
-          </article>
+          </a>
         <% }); %>
       </div>
-      
-      <% if (projects.length === 0 && !error) { %>
-        <div class="empty-state">
-          <p>No projects to display at the moment.</p>
-        </div>
-      <% } %>
     </div>
   </section>
 

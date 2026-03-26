@@ -1,39 +1,18 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
 <main class="main-content">
   
-  <!-- Podcast Hero Section -->
-  <section class="podcast-hero">
+  <!-- Unified Header -->
+  <section class="content-page-hero">
     <div class="container">
-      <div class="podcast-hero-content">
-        <div class="podcast-badge">
-          <i class="fas fa-podcast"></i>
-          <span>New Episode Every Week</span>
-        </div>
-        <h1 class="podcast-hero-title">QA Insights Podcast</h1>
-        <p class="podcast-hero-subtitle">
-          Quality Assurance, Test Automation & Career Growth
-        </p>
-        <p class="podcast-hero-description">
-          Join me weekly as I sit down with QA professionals, automation experts, and quality leaders to discuss 
-          testing strategies, automation frameworks, and career advancement in Quality Assurance.
-        </p>
-        <div class="podcast-stats">
-          <div class="stat-item">
-            <div class="stat-number">50+</div>
-            <div class="stat-label">Episodes</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">10K+</div>
-            <div class="stat-label">Downloads</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">4.8★</div>
-            <div class="stat-label">Rating</div>
-          </div>
-        </div>
+      <div class="hero-badge">
+        <i class="fas fa-microphone-alt"></i>
+        <span>Audio Insights</span>
       </div>
+      <h1 class="hero-title-large">QA Insights Podcast</h1>
+      <p class="hero-subtitle-refined">
+        Weekly deep dives into Quality Assurance, Test Automation, and Strategic Career Growth with industry leaders.
+      </p>
     </div>
   </section>
 
@@ -41,15 +20,16 @@
   <section class="podcast-section">
     <div class="container">
       
-      <!-- Podcast Player Embed -->
-      <div class="podcast-player">
-        <!-- Replace this with your actual podcast embed code -->
-        <!-- Example: Spotify Embed -->
+      <!-- Featured Player -->
+      <div class="unified-card featured-player-card" style="margin-bottom: var(--space-12);">
+        <div class="card-tag-wrapper">
+          <span class="card-tag">Latest Episode</span>
+        </div>
         <iframe 
-          style="border-radius:12px" 
+          style="border-radius:16px" 
           src="https://open.spotify.com/embed/show/YOUR_SHOW_ID?utm_source=generator&theme=0" 
           width="100%" 
-          height="352" 
+          height="152" 
           frameBorder="0" 
           allowfullscreen="" 
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
@@ -57,188 +37,30 @@
         </iframe>
       </div>
 
-      <!-- Podcast Description -->
-      <div class="podcast-about">
-        <h2>About The Podcast</h2>
-        <p>
-          "QA Insights" is a weekly podcast where I sit down with Quality Assurance professionals, test automation experts, 
-          and quality leaders to discuss testing strategies, automation frameworks, and career advancement in QA. Each episode 
-          is packed with practical insights, real-world testing scenarios, and best practices from experienced QA practitioners.
-        </p>
-        <p>
-          Whether you're a manual tester looking to transition into automation, a QA engineer seeking to advance your career, 
-          or a quality leader building effective testing teams, this podcast offers valuable takeaways from real-world 
-          experiences in Quality Assurance and software testing.
-        </p>
-      </div>
-
-      <!-- Listen On Platforms -->
-      <div class="podcast-platforms">
-        <h2>Listen On Your Favorite Platform</h2>
-        <div class="platform-links">
-          <a href="https://podcasts.apple.com/podcast/your-podcast" target="_blank" rel="noopener noreferrer" class="platform-btn">
-            <i class="fab fa-apple"></i>
-            <span>Apple Podcasts</span>
-          </a>
-          <a href="https://open.spotify.com/show/your-show" target="_blank" rel="noopener noreferrer" class="platform-btn">
-            <i class="fab fa-spotify"></i>
-            <span>Spotify</span>
-          </a>
-          <a href="https://podcasts.google.com/feed/your-feed" target="_blank" rel="noopener noreferrer" class="platform-btn">
-            <i class="fab fa-google"></i>
-            <span>Google Podcasts</span>
-          </a>
-          <a href="https://www.youtube.com/@yourchannel" target="_blank" rel="noopener noreferrer" class="platform-btn">
-            <i class="fab fa-youtube"></i>
-            <span>YouTube</span>
-          </a>
+      <!-- Episodes Grid -->
+      <div class="content-grid">
+        <div class="unified-card">
+          <div class="card-icon-container"><i class="fas fa-play"></i></div>
+          <div class="card-tag-wrapper"><span class="card-tag">Mobile</span></div>
+          <h3 class="card-title-refined">Appium vs Espresso: The Final Verdict</h3>
+          <p class="card-desc-refined">Deep dive into mobile testing frameworks, comparing cross-platform and native solutions for iOS and Android automation.</p>
+          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
         </div>
-      </div>
 
-      <!-- Recent Episodes -->
-      <div class="recent-episodes">
-        <h2>Recent Episodes</h2>
-        <div class="episodes-grid">
-          
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 28</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Oct 25, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 45 min</span>
-              </div>
-              <h3>Mobile Test Automation: Appium vs Espresso</h3>
-              <p>Deep dive into mobile testing frameworks, comparing cross-platform and native solutions for iOS and Android automation.</p>
-              <div class="episode-tags">
-                <span class="tag">Mobile Testing</span>
-                <span class="tag">Automation</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 27</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Oct 18, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 52 min</span>
-              </div>
-              <h3>Building Effective CI/CD Pipelines for QA</h3>
-              <p>Best practices for integrating automated testing into CI/CD pipelines with GitHub Actions and Jenkins.</p>
-              <div class="episode-tags">
-                <span class="tag">CI/CD</span>
-                <span class="tag">DevOps</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 26</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Oct 11, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 38 min</span>
-              </div>
-              <h3>From Manual Testing to QA Leadership</h3>
-              <p>Career progression stories and insights on transitioning from hands-on testing to leading QA teams and strategy.</p>
-              <div class="episode-tags">
-                <span class="tag">Career</span>
-                <span class="tag">Leadership</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 25</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Oct 4, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 41 min</span>
-              </div>
-              <h3>API Testing Best Practices with Postman</h3>
-              <p>Comprehensive guide to API testing automation using Postman and Newman for continuous integration.</p>
-              <div class="episode-tags">
-                <span class="tag">API Testing</span>
-                <span class="tag">Tools</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 24</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Sep 27, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 47 min</span>
-              </div>
-              <h3>Performance Testing at Scale</h3>
-              <p>Learn how to design and implement performance tests that scale with k6 and JMeter.</p>
-              <div class="episode-tags">
-                <span class="tag">Performance</span>
-                <span class="tag">Scale</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="episode-card">
-            <div class="episode-image">
-              <div class="episode-play-btn">
-                <i class="fas fa-play"></i>
-              </div>
-              <div class="episode-number">Episode 23</div>
-            </div>
-            <div class="episode-content">
-              <div class="episode-meta">
-                <span class="episode-date"><i class="far fa-calendar"></i> Sep 20, 2025</span>
-                <span class="episode-duration"><i class="far fa-clock"></i> 43 min</span>
-              </div>
-              <h3>Test Data Management Strategies</h3>
-              <p>Effective approaches to managing test data, from synthetic data generation to production data masking.</p>
-              <div class="episode-tags">
-                <span class="tag">Test Data</span>
-                <span class="tag">Strategy</span>
-              </div>
-            </div>
-          </div>
-
+        <div class="unified-card">
+          <div class="card-icon-container"><i class="fas fa-play"></i></div>
+          <div class="card-tag-wrapper"><span class="card-tag">CI/CD</span></div>
+          <h3 class="card-title-refined">CI/CD Pipelines for QA Teams</h3>
+          <p class="card-desc-refined">Best practices for integrating automated testing into CI/CD pipelines with GitHub Actions and Jenkins.</p>
+          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
         </div>
-      </div>
 
-      <!-- Subscribe Section -->
-      <div class="podcast-subscribe">
-        <div class="subscribe-card">
-          <i class="fas fa-bell"></i>
-          <h3>Never Miss an Episode</h3>
-          <p>Subscribe to get notified when new episodes are released every week</p>
-          <div class="subscribe-actions">
-            <a href="#" class="btn-subscribe"><i class="fas fa-rss"></i> Subscribe via RSS</a>
-            <a href="#" class="btn-subscribe"><i class="fas fa-envelope"></i> Email Updates</a>
-          </div>
+        <div class="unified-card">
+          <div class="card-icon-container"><i class="fas fa-play"></i></div>
+          <div class="card-tag-wrapper"><span class="card-tag">Leadership</span></div>
+          <h3 class="card-title-refined">From Manual Testing to Leadership</h3>
+          <p class="card-desc-refined">Career progression stories and insights on transitioning from hands-on testing to leading QA teams and strategy.</p>
+          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
         </div>
       </div>
 

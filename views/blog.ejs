@@ -1,98 +1,184 @@
 <%- include('partials/header') %>
 
-  <!-- Main Content -->
-  <main class="main-content">
+<main class="main-content">
 
-    <!-- Blog Header -->
-    <section class="page-header blog-header">
-      <div class="container">
-        <h1 class="page-title">Blog</h1>
-        <p class="page-description">
-          Insights on QA automation, testing strategies, and quality assurance best practices.
-        </p>
-        <div class="blog-search project-search">
+  <!-- Unified Header -->
+  <section class="content-page-hero">
+    <div class="container">
+      <div class="hero-badge">
+        <i class="fas fa-edit"></i>
+        <span>Thoughts & Insights</span>
+      </div>
+      <h1 class="hero-title-large">Knowledge Hub</h1>
+      <p class="hero-subtitle-refined">
+        Strategic insights on high-scale QA automation, software quality architecture, and industry best practices.
+      </p>
+
+      <!-- Refined Search & Filters -->
+      <div class="search-filter-container" style="margin-top: var(--space-12);">
+        <div class="blog-search-wrapper">
           <i class="fas fa-search"></i>
-          <input type="text" id="blogSearch" placeholder="Search articles..." aria-label="Search articles">
+          <input type="text" id="blogSearch" placeholder="Search insights..." aria-label="Search articles">
         </div>
 
-        <!-- Recent Searches -->
-        <div id="recentBlogSearches" class="recent-searches"></div>
-        <div class="blog-filters">
-          <button class="filter-btn active" data-filter="all">All Posts</button>
-          <button class="filter-btn" data-filter="Mobile Testing">Mobile</button>
-          <button class="filter-btn" data-filter="Automation">Automation</button>
-          <button class="filter-btn" data-filter="CI/CD">CI/CD</button>
-          <button class="filter-btn" data-filter="QA">QA</button>
+        <div class="blog-filters-refined">
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="Mobile Testing">Mobile</button>
+          <button class="filter-pill" data-filter="Automation">Automation</button>
+          <button class="filter-pill" data-filter="CI/CD">CI/CD</button>
+          <button class="filter-pill" data-filter="QA">QA</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Blog Posts List -->
-    <section class="blog-list">
-      <div class="container">
-        <% if (posts.length> 0) { %>
-          <div class="posts-grid">
-            <% posts.forEach(post=> { %>
-              <article class="post-card" data-tags="<%= post.tags.join(',') %>">
-                <div class="post-card-inner">
-                  <div class="post-header-section">
-                    <div class="post-meta">
-                      <time datetime="<%= new Date(post.date).toISOString() %>">
-                        <i class="far fa-calendar-alt"></i>
-                        <%= new Date(post.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'short' ,
-                          day: 'numeric' }) %>
-                      </time>
-                      <span class="reading-time">
-                        <i class="far fa-clock"></i>
-                        5 min read
-                      </span>
-                    </div>
-
-                  </div>
-
-                  <h2 class="post-title">
-                    <a href="/blog/<%= post.slug %>">
-                      <%= post.title %>
-                    </a>
-                  </h2>
-
-                  <% if (post.tags && post.tags.length > 0) { %>
-                    <div class="post-tags-v2">
-                      <% post.tags.slice(0, 3).forEach(tag => { %>
-                        <span class="tag-pill">#<%= tag %></span>
-                      <% }); %>
-                    </div>
-                  <% } %>
-
-                  <p class="post-excerpt">
-                    <%= post.excerpt %>
-                  </p>
-
-                  <div class="post-footer">
-                    <a href="/blog/<%= post.slug %>" class="read-more-btn">
-                      Read Article
-                    </a>
-                    <div class="post-author-premium">
-                      <img src="/images/profile.jpg" alt="Carlos Cervantes" class="author-avatar">
-                      <div class="author-info">
-                        <span class="author-name"><%= post.author %></span>
-                        <span class="author-label">QA Strategist</span>
-                      </div>
-                    </div>
+  <!-- Blog Content -->
+  <section class="blog-list-section">
+    <div class="container">
+      <div class="content-grid">
+        <% posts.forEach((post, index) => { %>
+          <a href="/blog/<%= post.slug %>" class="unified-card post-card" data-tags="<%= post.tags.join(',') %>" style="animation-delay: <%= index * 0.1 %>s;">
+            <div class="card-tag-wrapper">
+              <% post.tags.slice(0, 2).forEach(tag => { %>
+                <span class="card-tag"><%= tag %></span>
+              <% }); %>
+            </div>
+            
+            <h3 class="card-title-refined"><%= post.title %></h3>
+            
+            <p class="card-desc-refined">
+              <%= post.excerpt %>
+            </p>
+            
+            <div class="blog-card-footer">
+              <div class="post-author-mini">
+                <img src="/images/profile.jpg" alt="<%= post.author %>" class="author-avatar-xs">
+                <div class="author-info-mini">
+                  <span class="author-name-mini"><%= post.author %></span>
+                  <div class="post-meta-mini">
+                    <time><%= new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+                    <span class="separator">•</span>
+                    <span>5 min read</span>
                   </div>
                 </div>
-              </article>
-              <% }); %>
-          </div>
-          <% } else { %>
-            <div class="empty-state">
-              <i class="fas fa-pen-fancy"></i>
-              <p>No blog posts yet. Check back soon!</p>
+              </div>
+              
+              <div class="card-action-mini">
+                <i class="fas fa-arrow-right"></i>
+              </div>
             </div>
-            <% } %>
+          </a>
+        <% }); %>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <%- include('partials/footer') %>
+<style>
+  /* Local styles for Search/Filters to keep them isolated */
+  .blog-search-wrapper {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto var(--space-6);
+  }
+  .blog-search-wrapper i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-hint);
+  }
+  .blog-search-wrapper input {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    font-size: var(--text-md);
+    transition: all 0.3s ease;
+  }
+  .blog-search-wrapper input:focus {
+    background: var(--bg-surface);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 4px var(--accent-light);
+    outline: none;
+  }
+  .blog-filters-refined {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .filter-pill {
+    padding: 6px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .filter-pill.active, .filter-pill:hover {
+    background: var(--text-main);
+    color: var(--bg-surface);
+    border-color: var(--text-main);
+  }
+  .blog-card-footer {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .post-author-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .author-avatar-xs {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 1px solid var(--border-light);
+  }
+  .author-info-mini {
+    display: flex;
+    flex-direction: column;
+  }
+  .author-name-mini {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-main);
+  }
+  .post-meta-mini {
+    display: flex;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-hint);
+    font-weight: 500;
+  }
+  .card-action-mini {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+  }
+  .unified-card:hover .card-action-mini {
+    background: var(--text-main);
+    color: var(--bg-surface);
+    transform: translateX(4px);
+  }
+</style>
+
+<%- include('partials/footer') %>
