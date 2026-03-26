@@ -1681,3 +1681,174 @@
         gap: var(--space-8);
     }
 }
+/* ==========================================
+   PREMIUM BLOG REDESIGN
+   ========================================== */
+
+/* Blog Card v2 - Premium Layout */
+.post-card {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(209, 213, 219, 0.3) !important;
+    border-radius: 20px !important;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02) !important;
+    overflow: hidden;
+}
+
+.post-card:hover {
+    transform: translateY(-8px) scale(1.01) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12) !important;
+    border-color: var(--accent-blue) !important;
+}
+
+.post-card::before {
+    display: none !important; /* Remove old legacy indicator */
+}
+
+/* Author Redesign */
+.post-author-premium {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+}
+
+.author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.author-label {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Premium "Read Article" Button */
+.read-more-btn {
+    padding: 10px 20px;
+    background: var(--accent-blue);
+    color: var(--white) !important;
+    border-radius: 40px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.2);
+}
+
+.read-more-btn:hover {
+    background: var(--accent-blue-hover);
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 113, 227, 0.4);
+}
+
+/* Tag Refinements */
+.tag {
+    background: rgba(0, 113, 227, 0.08) !important;
+    color: var(--accent-blue) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 6px 14px !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.02em;
+}
+
+/* Blog Post Header v2 */
+.post-header-premium {
+    text-align: center;
+    margin-bottom: var(--space-16);
+    padding: var(--space-10) 0;
+}
+
+.post-category-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: var(--space-6);
+}
+
+.post-author-box {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    background: var(--off-white);
+    padding: 14px 28px;
+    border-radius: 60px;
+    margin-bottom: var(--space-10);
+    box-shadow: var(--shadow-sm);
+}
+
+.author-pfp {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--white);
+}
+
+.author-name-text {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: var(--text-base);
+}
+
+.post-meta-line {
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-sharing-fixed {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin: var(--space-8) 0;
+}
+
+.share-icon-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-sm);
+}
+
+.share-icon-btn:hover {
+    background: var(--accent-blue);
+    color: var(--white);
+    border-color: var(--accent-blue);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 12px 24px rgba(0, 113, 227, 0.25);
+}
