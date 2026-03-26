@@ -109,9 +109,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ 
-    clientPromise: mongoose.connection.asPromise().then(m => m.getClient()),
+    mongoUrl: MONGODB_URI,
     collectionName: 'sessions',
-    ttl: 24 * 60 * 60 // 1 day
+    ttl: 24 * 60 * 60, // 1 day
+    autoRemove: 'native'
   }),
   cookie: {
     secure: process.env.NODE_ENV === 'production', // true on HTTPS
