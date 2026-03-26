@@ -118,16 +118,26 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production', // true on HTTPS
     httpOnly: true,
-    sameSite: 'strict',
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    sameSite: 'strict'
+    // REMOVED maxAge: Session will expire when the browser is closed
   }
 }));
+
+// 7. Cache Control Middleware for Admin Security
+// Prevents the browser from caching sensitive admin pages
+const noCache = (req, res, next) => {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+};
 
 // Admin Authentication Middleware
 const requireAdmin = (req, res, next) => {
   if (req.session && req.session.isAuthenticated) {
     return next();
   }
+  // If not authenticated, ensure we don't clear an accidental valid session
   res.redirect('/admin');
 };
 
@@ -721,7 +731,7 @@ function checkAdminAuth(req, res, next) {
 /**
  * ADMIN LOGIN PAGE
  */
-app.get('/admin', (req, res) => {
+app.get('/admin', noCache, (req, res) => {
   // Check if already authenticated
   if (req.session && req.session.isAuthenticated) {
     return res.redirect('/admin/posts');
@@ -758,6 +768,7 @@ app.get('/admin/logout', (req, res) => {
       console.error('Error destroying session:', err);
       return res.status(500).send('Could not log out.');
     }
+    res.clearCookie('connect.sid'); // Clear the session cookie explicitly
     res.redirect('/admin');
   });
 });
@@ -765,7 +776,7 @@ app.get('/admin/logout', (req, res) => {
 /**
  * ADMIN - Posts List
  */
-app.get('/admin/posts', requireAdmin, async (req, res) => {
+app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 }).lean();
     res.render('admin-posts', {
@@ -781,7 +792,7 @@ app.get('/admin/posts', requireAdmin, async (req, res) => {
 /**
  * ADMIN - New Post Form
  */
-app.get('/admin/posts/new', requireAdmin, (req, res) => {
+app.get('/admin/posts/new', requireAdmin, noCache, (req, res) => {
   res.render('admin-editor', {
     title: 'Nuevo Post',
     post: null
@@ -791,7 +802,7 @@ app.get('/admin/posts/new', requireAdmin, (req, res) => {
 /**
  * ADMIN - SAVE POST API
  */
-app.post('/admin/posts/save', requireAdmin, express.json(), async (req, res) => {
+app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req, res) => {
   const { slug, title, date, author, tags, content, originalSlug } = req.body;
 
   if (!slug || !title || !content) {
@@ -841,7 +852,7 @@ app.post('/admin/posts/save', requireAdmin, express.json(), async (req, res) => 
 /**
  * ADMIN - Delete Post (API specific endpoint for the JS fetch)
  */
-app.delete('/api/admin/posts/:slug', requireAdmin, async (req, res) => {
+app.delete('/api/admin/posts/:slug', requireAdmin, noCache, async (req, res) => {
   try {
     const deletedPost = await Post.findOneAndDelete({ slug: req.params.slug });
     
@@ -860,7 +871,7 @@ app.delete('/api/admin/posts/:slug', requireAdmin, async (req, res) => {
 /**
  * ADMIN - Edit Post Form
  */
-app.get('/admin/posts/edit/:slug', requireAdmin, async (req, res) => {
+app.get('/admin/posts/edit/:slug', requireAdmin, noCache, async (req, res) => {
   try {
     const post = await Post.findOne({ slug: req.params.slug }).lean();
     if (!post) return res.status(404).send('Post no encontrado');
