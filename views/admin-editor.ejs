@@ -21,8 +21,8 @@ body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
 
 /* ---- Editor layout ---- */
 .editor-page {
-  margin-top: 80px;
-  min-height: calc(100vh - 80px);
+  margin-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height));
   display: flex;
   flex-direction: column;
 }
@@ -30,7 +30,7 @@ body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
 /* ---- Sticky top toolbar ---- */
 .editor-toolbar {
   position: sticky;
-  top: 80px;
+  top: var(--nav-height);
   z-index: 99;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(12px);
@@ -41,6 +41,7 @@ body { background: var(--admin-bg); font-family: var(--font); margin: 0; }
   justify-content: space-between;
   gap: 1rem;
   box-shadow: var(--admin-shadow);
+  transition: top var(--transition-base);
 }
 
 .editor-toolbar-left { display: flex; align-items: center; gap: 0.875rem; }

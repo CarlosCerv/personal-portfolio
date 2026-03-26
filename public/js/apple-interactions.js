@@ -18,8 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentScroll = window.pageYOffset;
 
         // Navbar compact state
-        if (currentScroll > 50) navbar.classList.add('scrolled');
-        else navbar.classList.remove('scrolled');
+        if (currentScroll > 50) {
+            navbar.classList.add('scrolled');
+            document.body.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+            document.body.classList.remove('scrolled');
+        }
 
         // Active nav link highlighting
         const scrollPosition = currentScroll + 100;
