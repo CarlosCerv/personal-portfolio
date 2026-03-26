@@ -29,6 +29,8 @@
                 </time>
                 <span class="dot-separator">•</span>
                 <span class="read-time" id="readingTime">Calculating...</span>
+                <span class="dot-separator">•</span>
+                <span class="post-views-count"><i class="far fa-eye"></i> <span id="viewCountDisplay"><%= post.views %></span> views</span>
               </div>
             </div>
           </div>
@@ -80,9 +82,21 @@
           <%- post.htmlContent %>
         </div>
 
-        <!-- Post Footer -->
+        <!-- Post Footer Actions -->
         <footer class="post-footer-refined animate-on-scroll">
           <div class="footer-divider"></div>
+          <div class="footer-social-actions">
+            <button id="likeBtn" class="social-action-btn <%= (user && post.likes.includes(user._id)) ? 'liked' : '' %>" onclick="toggleLike()">
+                <i class="<%= (user && post.likes.includes(user._id)) ? 'fas' : 'far' %> fa-heart"></i>
+                <span id="likeCount"><%= post.likes.length %></span>
+            </button>
+            <div class="footer-divider-mini"></div>
+            <a href="#comments" class="social-action-btn">
+                <i class="far fa-comment"></i>
+                <span><%= post.commentCount %></span>
+            </a>
+          </div>
+          
           <div class="footer-actions">
             <a href="/blog" class="back-link">
               <i class="fas fa-chevron-left"></i> Back to Insights
@@ -90,6 +104,131 @@
             <div class="end-of-article">End of Article</div>
           </div>
         </footer>
+
+        <!-- Community Section -->
+        <section id="comments" class="community-section animate-on-scroll">
+            <h2 class="section-title-sm">Community Discussion</h2>
+            
+            <% if (user) { %>
+                <form action="/posts/<%= post.slug %>/comment" method="POST" class="comment-form">
+                    <div class="comment-input-wrapper">
+                        <img src="<%= user.profilePicture %>" alt="<%= user.name %>" class="comment-pfp">
+                        <textarea name="content" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    <div class="comment-form-footer">
+                        <button type="submit" class="comment-submit-btn">Post Comment</button>
+                    </div>
+                </form>
+            <% } else { %>
+                <div class="auth-prompt-card">
+                    <p>Want to join the discussion?</p>
+                    <div class="auth-prompt-actions">
+                        <a href="/login" class="prompt-login">Log In</a>
+                        <span>or</span>
+                        <a href="/register" class="prompt-register">Create Account</a>
+                    </div>
+                </div>
+            <% } %>
+
+            <div class="comments-list">
+                <% if (comments && comments.length > 0) { %>
+                    <% comments.forEach(comment => { %>
+                        <div class="comment-card">
+                            <img src="<%= comment.user.profilePicture %>" alt="<%= comment.user.name %>" class="comment-card-pfp">
+                            <div class="comment-card-content">
+                                <div class="comment-card-header">
+                                    <span class="comment-author"><%= comment.user.name %></span>
+                                    <span class="comment-date"><%= new Date(comment.createdAt).toLocaleDateString() %></span>
+                                </div>
+                                <div class="comment-body">
+                                    <%= comment.content %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+                <% } %>
+            </div>
+        </section>
+
+        <style>
+            /* Social Engagement Styles */
+            .footer-social-actions { display: flex; gap: 1.5rem; margin-bottom: 2rem; padding: 0.5rem 0; }
+            .social-action-btn { background: none; border: none; font-size: 1rem; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s; padding: 0.5rem 1rem; border-radius: 99px; }
+            .social-action-btn:hover { background: var(--off-white); color: var(--text-main); }
+            .social-action-btn.liked { color: #FF3B30; }
+            .social-action-btn.liked i { animation: heart-beat 0.3s ease-out; }
+            @keyframes heart-beat { 0% { transform: scale(1); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+            .community-section { margin-top: 4rem; padding-top: 2rem; }
+            .section-title-sm { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2rem; }
+            
+            .comment-form { background: var(--white); border: 1px solid var(--border-light); border-radius: 20px; padding: 1.5rem; margin-bottom: 3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+            .comment-input-wrapper { display: flex; gap: 1rem; }
+            .comment-pfp { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+            .comment-form textarea { width: 100%; border: none; outline: none; resize: none; min-height: 80px; font-family: inherit; font-size: 1rem; padding-top: 0.5rem; }
+            .comment-form-footer { display: flex; justify-content: flex-end; margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 1rem; }
+            .comment-submit-btn { background: var(--text-main); color: var(--white); border: none; padding: 0.6rem 1.5rem; border-radius: 99px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+            .comment-submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+            .comments-list { display: flex; flex-direction: column; gap: 2.5rem; }
+            .comment-card { display: flex; gap: 1rem; }
+            .comment-card-pfp { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+            .comment-card-header { margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.75rem; }
+            .comment-author { font-weight: 600; font-size: 0.95rem; color: var(--text-main); }
+            .comment-date { font-size: 0.85rem; color: var(--text-muted); }
+            .comment-body { color: var(--text-secondary); line-height: 1.6; font-size: 1rem; }
+
+            .auth-prompt-card { background: var(--off-white); border-radius: 20px; padding: 2rem; text-align: center; margin-bottom: 3rem; }
+            .auth-prompt-card p { margin-bottom: 1rem; font-weight: 500; }
+            .auth-prompt-actions { display: flex; align-items: center; justify-content: center; gap: 1rem; }
+            .prompt-login, .prompt-register { color: var(--text-main); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--text-main); padding-bottom: 2px; }
+            .no-comments { text-align: center; color: var(--text-muted); font-style: italic; padding: 2rem 0; }
+        </style>
+
+        <script>
+            // Engagement Logic
+            const postSlug = '<%= post.slug %>';
+
+            // 1. Initial View Tracking
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    fetch(`/api/posts/${postSlug}/view`, { method: 'POST' })
+                        .then(res => res.json())
+                        .then(data => {
+                            if(data.success) document.getElementById('viewCountDisplay').innerText = data.views;
+                        });
+                }, 2000); // Wait 2s to count as a real view
+            });
+
+            // 2. Like Toggle
+            async function toggleLike() {
+                const btn = document.getElementById('likeBtn');
+                try {
+                    const res = await fetch(`/api/posts/${postSlug}/like`, { method: 'POST' });
+                    if (res.status === 401) {
+                        window.location.href = '/login';
+                        return;
+                    }
+                    const data = await res.json();
+                    if (data.success) {
+                        const icon = btn.querySelector('i');
+                        const count = document.getElementById('likeCount');
+                        if (data.liked) {
+                            btn.classList.add('liked');
+                            icon.className = 'fas fa-heart';
+                        } else {
+                            btn.classList.remove('liked');
+                            icon.className = 'far fa-heart';
+                        }
+                        count.innerText = data.likeCount;
+                    }
+                } catch (err) {
+                    console.error('Like error:', err);
+                }
+            }
+        </script>
       </div>
     </article>
 

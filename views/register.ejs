@@ -1,0 +1,112 @@
+<%- include('partials/header') %>
+
+<style>
+/* Register Page Styling - Apple Inspired */
+.auth-page {
+    min-height: calc(100vh - var(--nav-height));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-12) var(--space-6);
+    background: var(--bg-main);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--white);
+    padding: var(--space-10);
+    border-radius: 28px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+}
+
+.auth-header { text-align: center; margin-bottom: var(--space-8); }
+.auth-header h1 { font-size: var(--text-3xl); font-weight: 700; letter-spacing: -0.03em; margin-bottom: var(--space-2); }
+.auth-header p { color: var(--text-muted); font-size: var(--text-base); }
+
+.auth-form { display: flex; flex-direction: column; gap: var(--space-4); }
+.form-group { display: flex; flex-direction: column; gap: var(--space-1); }
+.form-group label { font-size: var(--text-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); padding-left: 4px; }
+
+.auth-input {
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: var(--bg-main);
+    border: 1.5px solid var(--border-light);
+    border-radius: 14px;
+    font-family: inherit;
+    font-size: var(--text-base);
+    transition: all 0.2s;
+}
+.auth-input:focus { border-color: var(--text-main); outline: none; background: var(--white); }
+
+.auth-btn {
+    width: 100%;
+    padding: var(--space-4);
+    background: var(--text-main);
+    color: var(--white);
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: var(--text-base);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: var(--space-4);
+}
+.auth-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+.auth-footer { text-align: center; margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--border-light); }
+.auth-footer p { font-size: var(--text-sm); color: var(--text-muted); }
+.auth-footer a { color: var(--text-main); font-weight: 600; text-decoration: none; }
+
+.auth-error {
+    background: rgba(255, 59, 48, 0.05);
+    color: #FF3B30;
+    padding: var(--space-4);
+    border-radius: 12px;
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+</style>
+
+<main class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Create Account</h1>
+            <p>Join the Quality & Performance community</p>
+        </div>
+
+        <% if (error) { %>
+            <div class="auth-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/register" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" class="auth-input" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="auth-input" placeholder="john@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="auth-input" placeholder="••••••••" required minlength="8">
+            </div>
+            <button type="submit" class="auth-btn">Create Profile</button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="/login">Log in here</a></p>
+        </div>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

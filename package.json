@@ -24,6 +24,7 @@
   "author": "Carlos Cervantes",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "compression": "^1.8.1",
     "connect-mongo": "^6.0.0",
     "cors": "^2.8.6",

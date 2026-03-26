@@ -6,6 +6,9 @@ const path = require('path');
 const { marked } = require('marked');
 const mongoose = require('mongoose');
 const Post = require('./models/Post');
+const User = require('./models/User');
+const Comment = require('./models/Comment');
+const bcrypt = require('bcrypt');
 
 const helmet = require('helmet');
 const cors = require('cors');
@@ -116,12 +119,26 @@ app.use(session({
     autoRemove: 'native'
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // true on HTTPS
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'strict'
-    // REMOVED maxAge: Session will expire when the browser is closed
+    sameSite: 'lax',
+    maxAge: 24 * 60 * 60 * 1000 // 1 day
   }
 }));
+
+// Middleware to add user to all templates
+app.use(async (req, res, next) => {
+  res.locals.user = null;
+  if (req.session.userId) {
+    try {
+      const user = await User.findById(req.session.userId);
+      res.locals.user = user;
+    } catch (err) {
+      console.error('Session user lookup error:', err);
+    }
+  }
+  next();
+});
 
 // 7. Cache Control Middleware for Admin Security
 // Prevents the browser from caching sensitive admin pages
@@ -377,36 +394,44 @@ app.get('/blog', async (req, res) => {
  * SINGLE BLOG POST PAGE
  */
 app.get('/blog/:slug', async (req, res) => {
-  const { slug } = req.params;
-  const post = await getBlogPost(slug);
+  try {
+    const { slug } = req.params;
+    const post = await Post.findOne({ slug });
 
-  if (!post) {
-    return res.status(404).render('404', {
-      title: 'Post Not Found',
-      currentPage: 'blog'
-    });
-  }
-
-  // Convert markdown content to HTML
-  const htmlContent = marked(post.content);
-
-  // Generate a clean text excerpt for meta description (strip markdown/HTML)
-  const metaDescription = post.content
-    .replace(/[#*`_~\[\]()]/g, '') // Strip common markdown
-    .trim()
-    .substring(0, 160)
-    .replace(/\n/g, ' ') + '...';
-
-  res.render('post', {
-    title: post.title,
-    currentPage: 'blog',
-    metaDescription,
-    metaUrl: `${BASE_URL}/blog/${post.slug}`,
-    post: {
-      ...post,
-      htmlContent
+    if (!post) {
+      return res.status(404).render('404', {
+        title: 'Post Not Found',
+        currentPage: 'blog'
+      });
     }
-  });
+
+    // Convert markdown content to HTML
+    post.htmlContent = marked(post.content);
+
+    // Fetch comments
+    const comments = await Comment.find({ post: post._id, status: 'approved' })
+      .populate('user', 'name profilePicture')
+      .sort({ createdAt: -1 });
+
+    // Generate a clean text excerpt for meta description
+    const metaDescription = post.content
+      .replace(/[#*`_~\[\]()]/g, '')
+      .trim()
+      .substring(0, 160)
+      .replace(/\n/g, ' ') + '...';
+
+    res.render('post', {
+      title: post.title,
+      currentPage: 'blog',
+      metaDescription,
+      metaUrl: `${BASE_URL}/blog/${post.slug}`,
+      post,
+      comments
+    });
+  } catch (err) {
+    console.error('Blog post error:', err);
+    res.status(500).send('Server Error');
+  }
 });
 
 /**
@@ -895,5 +920,132 @@ if (require.main === module) {
 // Attach helpers to the app object so tests can still access them
 app.getHobbyData = getHobbyData;
 app.getAllHobbies = getAllHobbies;
+
+// ==========================================
+// USER AUTHENTICATION (READERS)
+// ==========================================
+
+// Register Page
+app.get('/register', (req, res) => {
+  if (req.session.userId) return res.redirect('/blog');
+  res.render('register', { title: 'Join the Community', error: null, currentPage: 'register' });
+});
+
+// Register Action
+app.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.render('register', { title: 'Join the Community', error: 'Email already registered', currentPage: 'register' });
+    }
+    const user = new User({ name, email, password });
+    await user.save();
+    req.session.userId = user._id;
+    res.redirect('/blog');
+  } catch (err) {
+    res.render('register', { title: 'Join the Community', error: 'Error creating account', currentPage: 'register' });
+  }
+});
+
+// Login Page
+app.get('/login', (req, res) => {
+  if (req.session.userId) return res.redirect('/blog');
+  res.render('login', { title: 'Welcome Back', error: null, currentPage: 'login' });
+});
+
+// Login Action
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || !(await user.comparePassword(password))) {
+      return res.render('login', { title: 'Welcome Back', error: 'Invalid email or password', currentPage: 'login' });
+    }
+    req.session.userId = user._id;
+    res.redirect('/blog');
+  } catch (err) {
+    res.render('login', { title: 'Welcome Back', error: 'Login error', currentPage: 'login' });
+  }
+});
+
+// Logout
+app.get('/logout', (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie('connect.sid');
+    res.redirect('/blog');
+  });
+});
+
+// ==========================================
+// ENGAGEMENT API (VIEWS, LIKES)
+// ==========================================
+
+// Track View
+app.post('/api/posts/:slug/view', async (req, res) => {
+  try {
+    const post = await Post.findOne({ slug: req.params.slug });
+    if (post) {
+      post.views += 1;
+      await post.save();
+      return res.json({ success: true, views: post.views });
+    }
+    res.status(404).json({ error: 'Post not found' });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Toggle Like
+app.post('/api/posts/:slug/like', async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+
+  try {
+    const post = await Post.findOne({ slug: req.params.slug });
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    const userId = req.session.userId;
+    const index = post.likes.indexOf(userId);
+
+    if (index === -1) {
+      post.likes.push(userId);
+    } else {
+      post.likes.splice(index, 1);
+    }
+
+    await post.save();
+    res.json({ success: true, liked: index === -1, likeCount: post.likes.length });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Post Comment
+app.post('/posts/:slug/comment', async (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
+
+  try {
+    const post = await Post.findOne({ slug: req.params.slug });
+    if (!post) return res.status(404).send('Post not found');
+
+    const comment = new Comment({
+      post: post._id,
+      user: req.session.userId,
+      content: req.body.content
+    });
+
+    await comment.save();
+    
+    // Increment count
+    post.commentCount += 1;
+    await post.save();
+
+    res.redirect(`/blog/${req.params.slug}#comments`);
+  } catch (err) {
+    res.status(500).send('Error posting comment');
+  }
+});
 
 module.exports = app;

@@ -37,6 +37,18 @@ const postSchema = new mongoose.Schema({
   published: {
     type: Boolean,
     default: true
+  },
+  views: {
+    type: Number,
+    default: 0
+  },
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  commentCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt fields

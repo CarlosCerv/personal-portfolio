@@ -58,7 +58,10 @@
                   <div class="post-meta-mini">
                     <time><%= new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
                     <span class="separator">•</span>
-                    <span>5 min read</span>
+                    <div class="card-social-previews">
+                        <span><i class="far fa-heart"></i> <%= post.likes ? post.likes.length : 0 %></span>
+                        <span><i class="far fa-comment"></i> <%= post.commentCount || 0 %></span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -174,11 +177,15 @@
     color: var(--text-main);
     transition: all 0.3s ease;
   }
-  .unified-card:hover .card-action-mini {
-    background: var(--text-main);
-    color: var(--bg-surface);
-    transform: translateX(4px);
-  }
-</style>
+    .unified-card:hover .card-action-mini {
+      background: var(--text-main);
+      color: var(--bg-surface);
+      transform: translateX(4px);
+    }
+    /* Community Engagement Counters */
+    .card-social-previews { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; }
+    .card-social-previews span { display: flex; align-items: center; gap: 0.25rem; }
+    .post-meta-mini { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+  </style>
 
 <%- include('partials/footer') %>
