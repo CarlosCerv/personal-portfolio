@@ -170,7 +170,7 @@ const adminLimiter = rateLimit({
 // Explicit favicon route — placed before static middleware and rate limiter scope
 // to guarantee it is served correctly in all environments
 app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'favicon.ico'));
+  res.sendFile(path.join(__dirname, 'public', 'images', 'brand-logo.png'));
 });
 
 // Serve remaining static files from the 'public' directory
@@ -341,14 +341,26 @@ async function getGitHubProjects() {
 // ==================== ROUTES ====================
 
 /**
- * HOME PAGE - About Me
+ * STRATEGIC LANDING PAGE - Software Quality Assurance
  */
 app.get('/', (req, res) => {
   res.render('index', {
-    title: 'Home',
+    title: 'Quality & Performance | Software QA Consulting',
     currentPage: 'home',
     metaDescription: 'Carlos Cervantes — Performance & QA Strategic Consultant. Specializing in high-scale systems, mobile automation, and quality engineering strategies for mission-critical applications.',
     metaUrl: BASE_URL
+  });
+});
+
+/**
+ * PROFESSIONAL PROFILE - Experience & Proof
+ */
+app.get('/profile', (req, res) => {
+  res.render('profile', {
+    title: 'Professional Profile | Carlos Cervantes',
+    currentPage: 'profile',
+    metaDescription: 'Detailed professional experience, certifications, and technical skills of Carlos Cervantes.',
+    metaUrl: `${BASE_URL}/profile`
   });
 });
 
