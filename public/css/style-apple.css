@@ -59,6 +59,7 @@
   /* Font Stack - System Fonts */
   --font-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  --font-mono: 'SF Mono', SFMono-Regular, ui-monospace, 'JetBrains Mono', monospace;
 
   /* Type Scale */
   --text-xs: 0.75rem;

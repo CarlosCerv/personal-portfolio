@@ -1780,7 +1780,7 @@
 }
 
 .typography-serif {
-    font-family: 'SF Pro Text', -apple-system, Georgia, serif;
+    font-family: var(--font-primary);
 }
 
 .post-content-refined p {
@@ -1824,7 +1824,7 @@
 }
 
 .post-content-refined code {
-    font-family: 'SF Mono', SFMono-Regular, ui-monospace, monospace;
+    font-family: var(--font-mono);
     font-size: 0.9em;
     padding: 2px 6px;
     background: var(--bg-secondary);

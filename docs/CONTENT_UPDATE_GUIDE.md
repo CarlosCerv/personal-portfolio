@@ -9,7 +9,7 @@ This guide covers how to update all content on your personal portfolio website, 
 4. [Hobbies](#4-hobbies)
 5. [Podcast Episodes](#5-podcast-episodes)
 6. [Navigation & Footer](#6-navigation--footer)
-7. [Styling & Theme](#7-styling--theme)
+7. [Styling & Design Tokens](#7-styling--design-tokens)
 
 ---
 
@@ -505,33 +505,17 @@ Update image source in episode card:
 
 ### Update Colors
 
-**File**: `public/css/style.css`
+**File**: `public/css/style-apple.css`
 
-#### CSS Custom Properties (Line ~5-30)
+#### CSS Variable System (Line ~10-150)
+The platform uses a strict monochrome variable system. Avoid ad-hoc colors.
+
 ```css
 :root {
-  /* Change primary color */
-  --primary-color: #3498db;      /* Blue */
-  --primary-dark: #2980b9;       /* Darker blue */
-  
-  /* Change secondary color */
-  --secondary-color: #2ecc71;    /* Green */
-  
-  /* Change text colors */
-  --text-color: #333333;
-  --text-light: #666666;
-  
-  /* Change background colors */
-  --bg-color: #ffffff;
-  --bg-secondary: #f8f9fa;
-}
-
-/* Dark mode variables */
-[data-theme="dark"] {
-  --primary-color: #5dade2;      /* Lighter blue for dark mode */
-  --text-color: #e0e0e0;
-  --bg-color: #1a1a1a;
-  --bg-secondary: #2d2d2d;
+  /* Main palette */
+  --white: #FFFFFF;
+  --off-white: #F5F5F7;
+  --text-primary: #1D1D1F;
 }
 ```
 
@@ -605,9 +589,8 @@ Modify specific component styles in `style.css`:
 - [ ] Commit and push
 
 ### Change Theme/Colors
-- [ ] Edit CSS custom properties in `public/css/style.css`
-- [ ] Update `:root` and `[data-theme="dark"]` variables
-- [ ] (Optional) Add Google Fonts
+- [ ] Edit CSS variables in `public/css/style-apple.css`
+- [ ] Update `:root` tokens for branding
 - [ ] Commit and push
 
 ---

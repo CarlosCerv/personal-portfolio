@@ -767,12 +767,12 @@ app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 }).lean();
     res.render('admin-posts', {
-      title: 'Gestión de Posts',
+      title: 'Post Management',
       posts: posts
     });
   } catch (error) {
     console.error('Error in /admin/posts:', error);
-    res.status(500).send('Error interno del servidor');
+    res.status(500).send('Internal Server Error');
   }
 });
 
@@ -781,7 +781,7 @@ app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
  */
 app.get('/admin/posts/new', requireAdmin, noCache, (req, res) => {
   res.render('admin-editor', {
-    title: 'Nuevo Post',
+    title: 'New Post',
     post: null
   });
 });
@@ -793,7 +793,7 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
   const { slug, title, date, author, tags, content, originalSlug } = req.body;
 
   if (!slug || !title || !content) {
-    return res.status(400).json({ error: 'Faltan campos obligatorios' });
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
   try {
@@ -819,12 +819,12 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
     if (originalSlug) {
       if (originalSlug !== slug) {
          const existing = await Post.findOne({ slug });
-         if (existing) return res.status(400).json({ error: 'El slug ya existe' });
+         if (existing) return res.status(400).json({ error: 'Slug already exists' });
       }
       await Post.findOneAndUpdate({ slug: originalSlug }, postData, { upsert: true });
     } else {
       const existing = await Post.findOne({ slug });
-      if (existing) return res.status(400).json({ error: 'El slug ya existe' });
+      if (existing) return res.status(400).json({ error: 'Slug already exists' });
       await Post.create(postData);
     }
 
@@ -832,7 +832,7 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
     res.json({ success: true, slug });
   } catch (error) {
     console.error('Error saving post:', error);
-    res.status(500).json({ error: `Error al guardar: ${error.message}` });
+    res.status(500).json({ error: `Error saving: ${error.message}` });
   }
 });
 
@@ -844,11 +844,11 @@ app.delete('/api/admin/posts/:slug', requireAdmin, noCache, async (req, res) => 
     const deletedPost = await Post.findOneAndDelete({ slug: req.params.slug });
     
     if (!deletedPost) {
-      return res.status(404).json({ success: false, message: 'Post no encontrado' });
+      return res.status(404).json({ success: false, message: 'Post not found' });
     }
 
     cache.set('blogPosts', null, 0); 
-    res.json({ success: true, message: 'Post eliminado correctamente' });
+    res.json({ success: true, message: 'Post deleted successfully' });
   } catch (error) {
     console.error('Error deleting post:', error);
     res.status(500).json({ success: false, message: error.message });
@@ -861,15 +861,15 @@ app.delete('/api/admin/posts/:slug', requireAdmin, noCache, async (req, res) => 
 app.get('/admin/posts/edit/:slug', requireAdmin, noCache, async (req, res) => {
   try {
     const post = await Post.findOne({ slug: req.params.slug }).lean();
-    if (!post) return res.status(404).send('Post no encontrado');
+    if (!post) return res.status(404).send('Post not found');
 
     res.render('admin-editor', {
-      title: 'Editar Post',
+      title: 'Edit Post',
       post: post
     });
   } catch (error) {
     console.error('Error in /admin/posts/edit:', error);
-    res.status(500).send('Error interno del servidor');
+    res.status(500).send('Internal Server Error');
   }
 });
 

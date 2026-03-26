@@ -1,118 +1,65 @@
-# Professional Brand Identity
+# Brand Identity Guide — Quality & Performance
 
-## Logo Design
+## 🔘 Visual Essence
 
-Your brand features a modern, clean identity for a Senior QA Engineer.
-
-### Design Elements
-
-- **Color**: Electric Blue (`#0071E3`) — conveys trust, professionalism, and technical expertise
-- **CC Initials**: Bold, modern typography
-- **QA Identity**: Clean, precision-focused aesthetic
-
-### Current Asset Files
-
-```
-public/
-├── favicon.ico                   # Browser tab icon (16×16 + 32×32, binary ICO)
-└── images/
-    ├── favicon.svg               # Scalable favicon for modern browsers (SVG)
-    ├── apple-touch-icon.svg      # iOS home screen icon (180×180)
-    ├── logo-icon.svg             # Standalone icon for nav/branding
-    └── profile.jpg               # Profile photo
-```
+The **Quality & Performance** brand identity is built on three pillars: **Precision**, **Clarity**, and **Luxury**. It uses an Apple-inspired monochrome aesthetic to project technical authority and international professionalism.
 
 ---
 
-## Favicon Usage
+## 🎨 Design Tokens
 
-Favicon tags are integrated in `views/partials/header.ejs`:
+### The Monochrome Palette
+Strict adherence to this grayscale palette ensures a cohesive, high-end identity.
 
-```html
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.svg">
-```
-
-> `favicon.ico` is a valid binary ICO file (16×16 + 32×32 px). No regeneration needed.
-
----
-
-## Navigation Logo
-
-```html
-<a href="/" class="nav-brand">
-  <img src="/images/logo-icon.svg" alt="CC Logo" class="brand-logo">
-  <span class="brand-name">CervantesQA</span>
-</a>
-```
-
-### Logo Features
-
-- **Hover Animation**: Logo scales and rotates slightly on hover
-- **Gradient Text**: Brand name has a gradient effect
-- **Drop Shadow**: Blue glow effect
-- **Responsive**: Scales on all screen sizes and themes
-
----
-
-## Brand Colors
-
-```css
-Primary Blue:    #0071E3   /* Main brand color — buttons, accents */
-Dark Blue:       #003D99   /* Hover states, secondary elements */
-Accent Cyan:     #00D9FF   /* Highlights, badges */
-Success Green:   #28A745   /* Positive states */
-Text Primary:    #1D1D1F   /* Body text (light mode) */
-Text Secondary:  #6E6E73   /* Muted text */
-```
-
----
-
-## Typography
-
-| Role | Font | Weight |
+| Name | Hex | Usage |
 |---|---|---|
-| Body / UI | Inter | 300–900 |
-| Display / Headings | Space Grotesk | 300–700 |
-| Code / Terminal | JetBrains Mono | 400–700 |
-
-All loaded via Google Fonts CDN in `views/partials/header.ejs`.
-
----
-
-## Brand Guidelines
-
-### Do's
-- Use `#0071E3` as the primary accent color consistently
-- Keep `favicon.ico` and `favicon.svg` in sync visually
-- Use Inter for all UI text
-
-### Don'ts
-- Do not rename `favicon.ico` to `.svg` or another format
-- Do not add SVG-only favicon files for pixel-sized variants — use `favicon.ico` for those
-- Do not change primary colors without updating CSS variables in `style-apple.css`
+| **White** | `#FFFFFF` | Primary surface background |
+| **Off-White** | `#F5F5F7` | Secondary containers, subtle badges |
+| **Near-White** | `#FBFBFD` | Global body background |
+| **Deep Slate** | `#1D1D1F` | Primary text, titles, accent buttons |
+| **Text Secondary** | `#6E6E73` | Subtitles, metadata, muted labels |
+| **Border Light** | `#D2D2D7` | Subtle dividers and card outlines |
 
 ---
 
-## Dark Mode Support
+##  Typography
 
-The UI automatically adapts to dark mode via CSS variables. See `public/css/style-apple.css` for the `[data-theme="dark"]` overrides.
+We use the Apple system font stack globally to ensure a consistent, native feel on all devices.
+
+### Font Variables
+- **--font-primary**: `-apple-system`, `BlinkMacSystemFont`, `SF Pro Display`, `Inter`, `sans-serif`
+- **--font-mono**: `SF Mono`, `SFMono-Regular`, `ui-monospace`, `JetBrains Mono`, `monospace`
+
+### Hierarchy Rules
+- **Headers**: Bold weights (700), tight letter spacing (-0.03em).
+- **Body**: Regular weight (400), relaxed line height (1.625).
+- **Labels**: Medium/Semibold (500/600), monochrome accents.
 
 ---
 
-## Future Enhancements
+## 🔘 Branding Assets
 
-- [ ] Animated logo for loading states
-- [ ] Logo variations (icon only, text only)
-- [ ] Social media profile images (square format)
-- [ ] Email signature version
+### The Monogram
+The "CC" Monogram serves as the global icon. It is strictly monochrome with a transparent background.
+
+- **Favicon**: Located at `/favicon.ico`
+- **Global Logo**: Located at `/images/brand-logo.png`
+- **Styling**: Served in a white container in the header for maximum contrast.
+
+### UI Components
+- **Bento Grid**: Uniform card design with `320px` minimum width and `24px` border radius.
+- **Glassmorphism**: Used on mobile menus with `backdrop-filter: blur(20px)` and white translucency.
 
 ---
 
-## Credits
+## 🌍 Language Standard
 
-Designed for Carlos Cervantes — Senior QA Engineer  
-Updated: March 2026  
-Style: Modern, Technical, Professional
+This platform is **100% English-Localized**. 
+
+- **Exceptions**: Only the individual blog posts (content) may be in Spanish if requested by the author.
+- **UI & Metadata**: Must always strictly adhere to US-English standards.
+
+---
+
+*Updated: March 2026*
+*Style Authority: Carlos Cervantes — Quality & Performance*
