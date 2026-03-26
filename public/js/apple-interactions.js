@@ -469,11 +469,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const readingProgress = document.getElementById('readingProgress');
     const progressDot = document.getElementById('progressIndicator');
     const readingTimeEl = document.getElementById('readingTime');
-    const postContent = document.querySelector('.post-content-refined');
+    const refinedContent = document.querySelector('.post-content-refined');
 
-    if (blogPost && postContent) {
+    if (blogPost && refinedContent) {
         // Calculate reading time
-        const text = postContent.innerText;
+        const text = refinedContent.innerText;
         const wpm = 225; // Average reading speed
         const words = text.trim().split(/\s+/).length;
         const time = Math.ceil(words / wpm);
@@ -532,6 +532,119 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000);
         });
     };
+
+    // ==========================================
+    // STATS COUNTER ANIMATION
+    // ==========================================
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers.length > 0) {
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats(entry.target);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(stat => statsObserver.observe(stat));
+    }
+
+    function animateStats(el) {
+        const targetAttr = el.getAttribute('data-target');
+        if (!targetAttr) return;
+        
+        const target = parseInt(targetAttr);
+        const duration = 2000;
+        const startTime = performance.now();
+        const originalText = el.textContent;
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out expo
+            const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+            
+            el.textContent = Math.floor(easeProgress * target) + (originalText.includes('%') ? '%' : '+');
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                el.textContent = target + (originalText.includes('%') ? '%' : '+');
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    // ==========================================
+    // READING PROGRESS BAR (For Blog)
+    // ==========================================
+    const postContent = document.querySelector('.post-content-body') || document.querySelector('.post-body');
+    if (postContent) {
+        const progressBar = document.createElement('div');
+        progressBar.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--accent-blue);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(progressBar);
+
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const progress = (scrollTop / documentHeight) * 100;
+
+            progressBar.style.width = progress + '%';
+        }, { passive: true });
+    }
+
+    // ==========================================
+    // CODE BLOCK COPY BUTTONS
+    // ==========================================
+    const codeBlocks = document.querySelectorAll('pre');
+    codeBlocks.forEach(block => {
+        if (block.closest('.post-content')) {
+            block.style.position = 'relative';
+            const copyBtn = document.createElement('button');
+            copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+            copyBtn.style.cssText = `
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: white;
+                padding: 6px 10px;
+                border-radius: 6px;
+                cursor: pointer;
+                backdrop-filter: blur(4px);
+                transition: all 0.2s ease;
+                z-index: 10;
+            `;
+            block.appendChild(copyBtn);
+
+            copyBtn.addEventListener('click', async () => {
+                const code = block.innerText;
+                try {
+                    await navigator.clipboard.writeText(code);
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    copyBtn.style.background = 'var(--status-success)';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="far fa-copy"></i>';
+                        copyBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy code:', err);
+                }
+            });
+        }
+    });
 
 });
 

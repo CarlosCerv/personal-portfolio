@@ -19,15 +19,33 @@
   --text-secondary: #6E6E73;
   --text-tertiary: #86868B;
 
-  /* Accent Colors - Sophisticated */
-  --accent-blue: #0071E3;
-  --accent-blue-hover: #0077ED;
-  --accent-green: #30D158;
-  --accent-orange: #FF9500;
+  /* Accent Colors - Monochrome Premium */
+  --accent-primary: #1D1D1F; /* Deep Slate/Black */
+  --accent-primary-hover: #333333;
+  --accent-light: #E8E8ED;
+  --accent-light-hover: #D2D2D7;
+  
+  /* Retain for specific needs but override main usages */
+  --accent-blue: var(--accent-primary);
+  --accent-blue-hover: var(--accent-primary-hover);
 
   /* Borders & Dividers */
   --border-light: #D2D2D7;
   --border-medium: #C7C7CC;
+
+  /* ===== SEMANTIC COLORS - UX SYSTEM ===== */
+  --bg-body: var(--near-white);
+  --bg-surface: var(--white);
+  --bg-secondary: var(--off-white);
+  
+  --text-main: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --text-hint: var(--text-tertiary);
+  --text-link: var(--accent-primary);
+  
+  --status-success: #28A745;
+  --status-warning: #FFC107;
+  --status-error: #FF3B30; /* Apple Red */
 
   /* Shadows - Subtle Depth */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -152,8 +170,8 @@ body {
   font-family: var(--font-primary);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
-  color: var(--text-primary);
-  background-color: var(--white);
+  color: var(--text-main);
+  background-color: var(--bg-surface);
   overflow-x: hidden;
 }
 
@@ -185,7 +203,7 @@ h6 {
   font-family: var(--font-display);
   font-weight: var(--font-semibold);
   line-height: var(--leading-tight);
-  color: var(--text-primary);
+  color: var(--text-main);
   margin-bottom: var(--space-4);
 }
 
@@ -223,19 +241,19 @@ h6 {
 
 p {
   margin-bottom: var(--space-4);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: var(--leading-relaxed);
 }
 
 .lead {
   font-size: var(--text-lg);
   line-height: var(--leading-relaxed);
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 strong {
   font-weight: var(--font-semibold);
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 /* ==========================================
@@ -312,6 +330,8 @@ section {
   gap: var(--space-3);
   text-decoration: none;
   transition: transform var(--transition-base);
+  /* Lower the brand block slightly from the top */
+  margin-top: 6px;
 }
 
 .nav-brand:hover {
@@ -331,12 +351,12 @@ section {
 
 .brand-name-text {
   font-family: 'Inter', var(--font-display);
-  font-weight: 800;
+  font-weight: 500;
   font-size: 1.25rem;
-  letter-spacing: -0.04em;
-  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  color: var(--text-main);
   /* Optical alignment with the stylized logo */
-  padding-bottom: 3px;
+  padding-bottom: 1px;
 }
 
 @media (max-width: 480px) {
@@ -368,7 +388,7 @@ section {
 }
 
 .nav-link {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-weight: var(--font-medium);
   font-size: var(--text-sm);
   padding: var(--space-2) var(--space-3);
@@ -388,7 +408,7 @@ section {
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .nav-link:hover::after,
@@ -397,7 +417,7 @@ section {
 }
 
 .nav-link.active {
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 /* Mobile Menu Toggle */
@@ -414,7 +434,7 @@ section {
 .hamburger {
   width: 24px;
   height: 2px;
-  background: var(--text-primary);
+  background: var(--text-main);
   transition: all var(--transition-base);
   border-radius: 2px;
 }
@@ -440,7 +460,7 @@ section {
 
 .btn-primary {
   background: var(--accent-blue);
-  color: var(--white);
+  color: var(--bg-surface);
   box-shadow: 0 4px 16px rgba(0, 113, 227, 0.25);
 }
 
@@ -448,7 +468,7 @@ section {
   background: var(--accent-blue-hover);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 113, 227, 0.35);
-  color: var(--white);
+  color: var(--bg-surface);
 }
 
 .btn-primary:active {
@@ -456,7 +476,7 @@ section {
 }
 
 .btn-secondary {
-  background: var(--white);
+  background: var(--bg-surface);
   color: var(--accent-blue);
   border: 2px solid var(--accent-blue);
   padding: 10px 30px;
@@ -481,7 +501,7 @@ section {
 }
 
 .btn-secondary:hover {
-  color: var(--white);
+  color: var(--bg-surface);
   border-color: var(--accent-blue);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -501,7 +521,7 @@ section {
   display: flex;
   align-items: center;
   padding: var(--section-padding-lg);
-  background: linear-gradient(to bottom, var(--white) 0%, var(--off-white) 100%);
+  background: linear-gradient(to bottom, var(--bg-surface) 0%, var(--bg-secondary) 100%);
 }
 
 .hero-content {
@@ -522,7 +542,7 @@ section {
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   margin-bottom: var(--space-6);
-  color: var(--text-primary);
+  color: var(--text-main);
   letter-spacing: -0.02em;
 }
 
@@ -533,7 +553,7 @@ section {
 
 .hero-subtitle {
   font-size: var(--text-2xl);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-8);
   font-weight: var(--font-regular);
@@ -543,11 +563,11 @@ section {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--text-tertiary);
+  color: var(--text-hint);
   font-size: var(--text-base);
   margin-bottom: var(--space-10);
   padding: var(--space-3) var(--space-5);
-  background: var(--off-white);
+  background: var(--bg-secondary);
   border-radius: var(--radius-full);
   border: 1px solid var(--border-light);
 }
@@ -601,13 +621,13 @@ section {
   font-weight: var(--font-bold);
   text-align: center;
   margin-bottom: var(--space-16);
-  color: var(--text-primary);
+  color: var(--text-main);
   letter-spacing: -0.01em;
 }
 
 .section-subtitle {
   font-size: var(--text-lg);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   text-align: center;
   max-width: 600px;
   margin: 0 auto var(--space-16);
@@ -625,7 +645,7 @@ section {
 }
 
 .bento-card {
-  background: var(--white);
+  background: var(--bg-surface);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
   box-shadow: var(--shadow-card);
@@ -644,7 +664,7 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--off-white);
+  background: var(--bg-secondary);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-4);
   color: var(--accent-blue);
@@ -660,12 +680,12 @@ section {
   font-size: var(--text-xl);
   font-weight: var(--font-semibold);
   margin-bottom: var(--space-3);
-  color: var(--text-primary);
+  color: var(--text-main);
 }
 
 .bento-card-description {
   font-size: var(--text-base);
-  color: var(--text-secondary);
+  color: var(--text-muted);
   line-height: var(--leading-relaxed);
   margin-bottom: var(--space-4);
 }
@@ -678,8 +698,8 @@ section {
 
 .tag {
   padding: var(--space-1) var(--space-3);
-  background: var(--off-white);
-  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
   border-radius: var(--radius-sm);
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -688,7 +708,7 @@ section {
 
 .tag:hover {
   background: var(--accent-blue);
-  color: var(--white);
+  color: var(--bg-surface);
   transform: translateY(-1px);
 }
 
@@ -696,7 +716,7 @@ section {
    CARDS
    ========================================== */
 .card {
-  background: var(--white);
+  background: var(--bg-surface);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
   box-shadow: var(--shadow-card);

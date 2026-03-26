@@ -3,7 +3,7 @@
    ========================================== */
 
 .footer {
-    background: var(--off-white);
+    background: var(--bg-secondary);
     border-top: 1px solid var(--border-light);
     padding: var(--space-16) 0 var(--space-8);
     margin-top: var(--space-24);
@@ -34,7 +34,7 @@
     gap: var(--space-3);
     font-size: var(--text-xl);
     font-weight: var(--font-bold);
-    color: var(--text-primary);
+    color: var(--text-main);
     margin-bottom: var(--space-2);
 }
 
@@ -44,7 +44,7 @@
 }
 
 .footer-description {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: var(--text-sm);
     line-height: var(--leading-relaxed);
     max-width: 300px;
@@ -54,7 +54,7 @@
     font-size: var(--text-base);
     font-weight: var(--font-semibold);
     margin-bottom: var(--space-4);
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 .footer-links {
@@ -68,7 +68,7 @@
 }
 
 .footer-links a {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     font-size: var(--text-sm);
     transition: color var(--transition-base);
 }
@@ -89,16 +89,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--white);
+    background: var(--bg-surface);
     border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     transition: all var(--transition-base);
     border: 1px solid var(--border-light);
 }
 
 .social-icon:hover {
     background: var(--accent-blue);
-    color: var(--white);
+    color: var(--bg-surface);
     transform: translateY(-2px);
     box-shadow: var(--shadow-sm);
 }
@@ -114,7 +114,7 @@
 }
 
 .footer-copyright {
-    color: var(--text-tertiary);
+    color: var(--text-hint);
     font-size: var(--text-sm);
 }
 
@@ -124,7 +124,7 @@
 }
 
 .footer-legal a {
-    color: var(--text-tertiary);
+    color: var(--text-hint);
     font-size: var(--text-sm);
     transition: color var(--transition-base);
 }
@@ -139,7 +139,7 @@
 .blog-header {
     text-align: center;
     padding: var(--section-padding-lg);
-    background: linear-gradient(to bottom, var(--white) 0%, var(--off-white) 100%);
+    background: linear-gradient(to bottom, var(--bg-surface) 0%, var(--bg-secondary) 100%);
 }
 
 .blog-grid {
@@ -150,7 +150,7 @@
 }
 
 .blog-card {
-    background: var(--white);
+    background: var(--bg-surface);
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-card);
@@ -167,7 +167,7 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
-    background: var(--off-white);
+    background: var(--bg-secondary);
 }
 
 .blog-card-content {
@@ -180,17 +180,17 @@
     gap: var(--space-4);
     margin-bottom: var(--space-3);
     font-size: var(--text-xs);
-    color: var(--text-tertiary);
+    color: var(--text-hint);
 }
 
 .blog-card-title {
     font-size: var(--text-xl);
     margin-bottom: var(--space-3);
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 .blog-card-excerpt {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
     margin-bottom: var(--space-4);
 }
@@ -210,7 +210,7 @@
 .podcast-header {
     text-align: center;
     padding: var(--section-padding-lg);
-    background: linear-gradient(to bottom, var(--white) 0%, var(--off-white) 100%);
+    background: linear-gradient(to bottom, var(--bg-surface) 0%, var(--bg-secondary) 100%);
 }
 
 .podcast-grid {
@@ -221,7 +221,7 @@
 }
 
 .podcast-card {
-    background: var(--white);
+    background: var(--bg-surface);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
     box-shadow: var(--shadow-card);
@@ -247,7 +247,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--off-white);
+    background: var(--bg-secondary);
     border-radius: var(--radius-md);
     color: var(--accent-blue);
     font-size: var(--text-2xl);
@@ -257,16 +257,16 @@
 .podcast-card h3 {
     font-size: var(--text-lg);
     margin-bottom: var(--space-2);
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 .podcast-meta {
     font-size: var(--text-xs);
-    color: var(--text-tertiary);
+    color: var(--text-hint);
 }
 
 .podcast-description {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
     margin-bottom: var(--space-4);
 }
@@ -291,7 +291,7 @@
 }
 
 .hobby-card {
-    background: var(--white);
+    background: var(--bg-surface);
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-card);
@@ -308,7 +308,7 @@
     width: 100%;
     height: 180px;
     object-fit: cover;
-    background: var(--off-white);
+    background: var(--bg-secondary);
 }
 
 .hobby-content {
@@ -318,11 +318,11 @@
 .hobby-title {
     font-size: var(--text-xl);
     margin-bottom: var(--space-3);
-    color: var(--text-primary);
+    color: var(--text-main);
 }
 
 .hobby-description {
-    color: var(--text-secondary);
+    color: var(--text-muted);
     line-height: var(--leading-relaxed);
 }
 

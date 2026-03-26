@@ -716,25 +716,6 @@ app.get('/hobbies/:slug', (req, res) => {
 // ==================== ADMIN ROUTES ====================
 
 /**
- * Simple middleware to check admin password
- */
-function checkAdminAuth(req, res, next) {
-  const password = req.body.password || req.query.password || req.session?.password;
-
-  if (password === ADMIN_PASSWORD) {
-    if (!req.session) req.session = {};
-    req.session.password = password;
-    next();
-  } else {
-    res.status(401).render('admin-login', {
-      title: 'Admin Login',
-      currentPage: 'admin',
-      error: req.body.password ? 'Invalid password' : null
-    });
-  }
-}
-
-/**
  * ADMIN LOGIN PAGE
  */
 app.get('/admin', noCache, (req, res) => {
