@@ -52,18 +52,37 @@
             <% } %>
 
               <div class="post-sharing">
-                <button class="share-btn" onclick="window.copyPostLink()" title="Copy Link">
+                <button class="share-btn" onclick="copyPostLink()" title="Copy Link">
                   <i class="fas fa-link"></i>
                 </button>
-                <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent('https://cervantesqa.com/blog/' + post.slug) %>"
+                <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(post.title) %>&url=<%= encodeURIComponent(metaUrl) %>"
                   target="_blank" class="share-btn" title="Share on X">
                   <i class="fab fa-x-twitter"></i>
                 </a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent('https://cervantesqa.com/blog/' + post.slug) %>"
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= encodeURIComponent(metaUrl) %>"
                   target="_blank" class="share-btn" title="Share on LinkedIn">
                   <i class="fab fa-linkedin-in"></i>
                 </a>
               </div>
+
+              <script>
+                function copyPostLink() {
+                  const url = '<%= metaUrl %>';
+                  navigator.clipboard.writeText(url).then(() => {
+                    const btn = document.querySelector('.share-btn i.fa-link').parentElement;
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                    btn.style.backgroundColor = 'var(--accent)';
+                    btn.style.color = 'white';
+                    
+                    setTimeout(() => {
+                      btn.innerHTML = originalHTML;
+                      btn.style.backgroundColor = '';
+                      btn.style.color = '';
+                    }, 2000);
+                  });
+                }
+              </script>
         </header>
 
         <!-- Post Content -->

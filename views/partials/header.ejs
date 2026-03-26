@@ -5,37 +5,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems — carloscervantes.qa">
+    content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems — carloscervantes.qa' %>">
   <meta name="author" content="Carlos Cervantes">
   <meta name="keywords"
     content="QA Consultant, Performance Engineering, Test Automation, Quality Assurance, Software Testing, Appium, JMeter, k6, carloscervantes.qa">
 
   <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://carloscervantes.qa">
+  <meta property="og:type" content="<%= typeof metaType !== 'undefined' ? metaType : 'website' %>">
+  <meta property="og:url" content="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'https://carloscervantes.qa' %>">
   <meta property="og:title" content="<%= title %> | carloscervantes.qa — Performance & QA Consultant">
   <meta property="og:description"
-    content="Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.">
-  <meta property="og:image" content="https://carloscervantes.qa/images/og-image.jpg">
+    content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.' %>">
+  <meta property="og:image" content="<%= typeof metaImage !== 'undefined' ? metaImage : 'https://carloscervantes.qa/images/og-image.jpg' %>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="carloscervantes.qa — Performance & QA Strategic Consultant">
+  <meta property="og:image:alt" content="<%= title %> — carloscervantes.qa">
   <meta property="og:site_name" content="carloscervantes.qa">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://carloscervantes.qa">
+  <meta name="twitter:url" content="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'https://carloscervantes.qa' %>">
   <meta name="twitter:title" content="<%= title %> | carloscervantes.qa — Performance & QA Consultant">
   <meta name="twitter:description"
-    content="Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.">
-  <meta name="twitter:image" content="https://carloscervantes.qa/images/og-image.jpg">
-  <meta name="twitter:image:alt" content="carloscervantes.qa — Performance & QA Strategic Consultant">
+    content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.' %>">
+  <meta name="twitter:image" content="<%= typeof metaImage !== 'undefined' ? metaImage : 'https://carloscervantes.qa/images/og-image.jpg' %>">
+  <meta name="twitter:image:alt" content="<%= title %> — carloscervantes.qa">
 
   <!-- Additional SEO -->
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
   <meta name="revisit-after" content="7 days">
-  <link rel="canonical" href="https://carloscervantes.qa">
+  <link rel="canonical" href="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'https://carloscervantes.qa' %>">
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="/favicon.ico">

@@ -19,6 +19,7 @@ const sanitizeHtml = require('sanitize-html');
 const app = express();
 app.set('trust proxy', 1); // Respect Vercel's proxy for express-rate-limit
 const PORT = process.env.PORT || 3000;
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://carloscervantes.qa' : 'http://localhost:3000';
 
 // MongoDB connection string (use environment variable in production)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/personal-portfolio';
@@ -130,13 +131,13 @@ const requireAdmin = (req, res, next) => {
   res.redirect('/admin');
 };
 
-// Specific stricter limit for admin routes
+// Specific stricter limit for admin login POST requests
 const adminLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 10 login attempts per hour
-  message: 'Too many login attempts, please try again later'
+  windowMs: 15 * 60 * 1000, // 15 minutes instead of 1 hour
+  max: 20, // Limit each IP to 20 login attempts per 15 minutes
+  message: 'Too many login attempts, please try again after 15 minutes'
 });
-app.use('/admin', adminLimiter);
+// REMOVED: app.use('/admin', adminLimiter) to avoid blocking authorized dashboard navigation
 
 
 // Explicit favicon route — placed before static middleware and rate limiter scope
@@ -311,12 +312,6 @@ async function getGitHubProjects() {
 }
 
 // ==================== ROUTES ====================
-app.get('/debug/db', (req, res) => {
-  res.json({
-    uri: process.env.MONGODB_URI ? process.env.MONGODB_URI.replace(/:([^:@]+)@/, ':***@') : 'MISSING',
-    readyState: mongoose.connection.readyState
-  });
-});
 
 /**
  * HOME PAGE - About Me
@@ -379,9 +374,18 @@ app.get('/blog/:slug', async (req, res) => {
   // Convert markdown content to HTML
   const htmlContent = marked(post.content);
 
+  // Generate a clean text excerpt for meta description (strip markdown/HTML)
+  const metaDescription = post.content
+    .replace(/[#*`_~\[\]()]/g, '') // Strip common markdown
+    .trim()
+    .substring(0, 160)
+    .replace(/\n/g, ' ') + '...';
+
   res.render('post', {
     title: post.title,
     currentPage: 'blog',
+    metaDescription,
+    metaUrl: `${BASE_URL}/blog/${post.slug}`,
     post: {
       ...post,
       htmlContent

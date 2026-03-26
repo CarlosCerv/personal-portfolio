@@ -102,6 +102,25 @@ describe('Hobby Detail Pages', () => {
 // ─── Blog Post Routes ─────────────────────────────────────────────────────────
 
 describe('Blog Post Routes', () => {
+  test('GET /blog/:slug → 200 with dynamic metadata', async () => {
+    const Post = require('../models/Post');
+    const testPost = new Post({
+      title: 'Test AI Post',
+      slug: 'test-ai-post',
+      content: 'This is a test post about Artificial Intelligence and QA.',
+      author: 'Carlos',
+      published: true
+    });
+    await testPost.save();
+
+    const res = await request(app).get('/blog/test-ai-post');
+    expect(res.status).toBe(200);
+    expect(res.text).toContain('test-ai-post');
+    expect(res.text).toContain('Artificial Intelligence and QA'); // Excerpt in meta tag
+    expect(res.text).toContain('og:description');
+    expect(res.text).toContain('twitter:description');
+  });
+
   test('GET /blog/nonexistent-post → 404', async () => {
     const res = await request(app).get('/blog/nonexistent-post-slug');
     expect(res.status).toBe(404);
@@ -117,13 +136,13 @@ describe('Admin Routes', () => {
     expect(res.text).toContain('Admin');
   });
 
-  test('POST /admin with wrong password → shows error', async () => {
+  test('POST /admin/login with wrong password → redirects to /admin?error=invalid', async () => {
     const res = await request(app)
-      .post('/admin')
+      .post('/admin/login')
       .send('password=wrongpassword')
       .set('Content-Type', 'application/x-www-form-urlencoded');
-    expect(res.status).toBe(200);
-    expect(res.text).toContain('Invalid');
+    expect(res.status).toBe(302);
+    expect(res.headers.location).toContain('/admin?error=invalid');
   });
 
   test('GET /admin/posts without password → redirects to /admin', async () => {
