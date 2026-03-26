@@ -307,39 +307,47 @@ section {
 }
 
 .nav-brand {
-  font-size: var(--text-xl);
-  font-weight: var(--font-bold);
-  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  text-decoration: none;
   transition: transform var(--transition-base);
 }
-
 
 .nav-brand:hover {
   transform: scale(1.02);
 }
 
-.brand-logo {
-  width: 40px;
-  height: 40px;
+.brand-logo-img {
+  height: 44px;
+  width: 44px;
+  object-fit: contain;
   transition: transform var(--transition-base);
 }
 
-.nav-brand:hover .brand-logo {
-  transform: scale(1.1);
+.nav-brand:hover .brand-logo-img {
+  transform: scale(1.1) rotate(5deg);
 }
 
-.brand-name {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-top: 4px;
-  /* Optical alignment with logo */
-  font-family: var(--font-display);
-  font-weight: var(--font-bold);
-  letter-spacing: -0.01em;
+.brand-name-text {
+  font-family: 'Inter', var(--font-display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  /* Optical alignment with the stylized logo */
+  padding-bottom: 3px;
+}
+
+@media (max-width: 480px) {
+  .brand-name-text {
+    font-size: 1.2rem;
+    letter-spacing: -0.03em;
+  }
+  .brand-logo-img {
+    height: 38px;
+    width: 38px;
+  }
 }
 
 .brand-highlight {
