@@ -311,6 +311,12 @@ async function getGitHubProjects() {
 }
 
 // ==================== ROUTES ====================
+app.get('/debug/db', (req, res) => {
+  res.json({
+    uri: process.env.MONGODB_URI ? process.env.MONGODB_URI.replace(/:([^:@]+)@/, ':***@') : 'MISSING',
+    readyState: mongoose.connection.readyState
+  });
+});
 
 /**
  * HOME PAGE - About Me
