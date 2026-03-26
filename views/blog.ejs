@@ -70,14 +70,15 @@
                   </p>
 
                   <div class="post-footer">
-                    <a href="/blog/<%= post.slug %>" class="read-more">
-                      Read Full Article <i class="fas fa-arrow-right"></i>
+                    <a href="/blog/<%= post.slug %>" class="read-more-btn">
+                      Read Article
                     </a>
-                    <div class="post-author">
-                      <i class="fas fa-user-circle"></i>
-                      <span>
-                        <%= post.author %>
-                      </span>
+                    <div class="post-author-premium">
+                      <img src="/images/profile.jpg" alt="Carlos Cervantes" class="author-avatar">
+                      <div class="author-info">
+                        <span class="author-name"><%= post.author %></span>
+                        <span class="author-label">QA Strategist</span>
+                      </div>
                     </div>
                   </div>
                 </div>
