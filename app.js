@@ -329,7 +329,9 @@ async function getGitHubProjects() {
 app.get('/', (req, res) => {
   res.render('index', {
     title: 'Home',
-    currentPage: 'home'
+    currentPage: 'home',
+    metaDescription: 'Carlos Cervantes — Performance & QA Strategic Consultant. Specializing in high-scale systems, mobile automation, and quality engineering strategies for mission-critical applications.',
+    metaUrl: BASE_URL
   });
 });
 
@@ -342,7 +344,9 @@ app.get('/projects', async (req, res) => {
     res.render('projects', {
       title: 'Projects',
       currentPage: 'projects',
-      projects
+      projects,
+      metaDescription: 'Explore my open-source contributions and professional projects in QA automation, performance testing, and full-stack development.',
+      metaUrl: `${BASE_URL}/projects`
     });
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -363,7 +367,9 @@ app.get('/blog', async (req, res) => {
   res.render('blog', {
     title: 'Blog',
     currentPage: 'blog',
-    posts
+    posts,
+    metaDescription: 'Technical insights on Quality Assurance, Performance Engineering, and Software Architecture by Carlos Cervantes.',
+    metaUrl: `${BASE_URL}/blog`
   });
 });
 

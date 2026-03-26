@@ -1352,17 +1352,50 @@
 /* Mobile Specific Fixes for Overflow */
 @media (max-width: 480px) {
     .experience-timeline {
-        padding-left: var(--space-4);
-        margin-left: 0;
+        padding-left: var(--space-6) !important;
+        margin-left: 0 !important;
+    }
+
+    .experience-timeline::before {
+        left: 17px !important;
+        /* Center line under the briefcase icon roughly */
+    }
+
+    .experience-timeline h3 {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        font-size: var(--text-xl) !important;
+        margin-bottom: var(--space-8) !important;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    .experience-timeline h3 i {
+        font-size: 1.2rem;
+        /* Size icon consistently */
     }
 
     .timeline-item {
-        padding-left: var(--space-6);
+        padding-left: var(--space-6) !important;
+        margin-bottom: var(--space-8) !important;
+    }
+
+    .timeline-marker {
+        left: -21px !important;
+        /* Align with the shifted vertical line */
+        top: 6px !important;
     }
 
     .timeline-content {
-        padding: var(--space-4);
+        padding: var(--space-5) !important;
+        /* More air inside card but not too much */
         width: 100%;
+        border-radius: var(--radius-md) !important;
+    }
+
+    .timeline-header h4 {
+        font-size: var(--text-lg) !important;
     }
 
     .timeline-header,
