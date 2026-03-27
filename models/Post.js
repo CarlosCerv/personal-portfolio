@@ -49,6 +49,14 @@ const postSchema = new mongoose.Schema({
   commentCount: {
     type: Number,
     default: 0
+  },
+  metaDescription: {
+    type: String,
+    trim: true
+  },
+  coverImage: {
+    type: String,
+    trim: true
   }
 }, {
   timestamps: true // Adds createdAt and updatedAt fields

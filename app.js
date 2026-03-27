@@ -126,9 +126,15 @@ app.use(session({
   }
 }));
 
-// Middleware to add user to all templates
+// Middleware to add user and SEO defaults to all templates
 app.use(async (req, res, next) => {
   res.locals.user = null;
+  res.locals.BASE_URL = BASE_URL;
+  res.locals.metaDescription = 'Carlos Cervantes — Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.';
+  res.locals.metaImage = `${BASE_URL}/images/og-image.png`;
+  res.locals.metaUrl = `${BASE_URL}${req.path}`;
+  res.locals.metaType = 'website';
+  
   if (req.session.userId) {
     try {
       const user = await User.findById(req.session.userId);
@@ -425,17 +431,20 @@ app.get('/blog/:slug', async (req, res) => {
       .populate('user', 'name profilePicture')
       .sort({ createdAt: -1 });
 
-    // Generate a clean text excerpt for meta description
-    const metaDescription = post.content
+    // Generate a clean text excerpt for meta description if not provided
+    const metaDescription = post.metaDescription || post.content
       .replace(/[#*`_~\[\]()]/g, '')
       .trim()
       .substring(0, 160)
       .replace(/\n/g, ' ') + '...';
 
+    const metaImage = post.coverImage || `${BASE_URL}/images/og-image.png`;
+
     res.render('post', {
       title: post.title,
       currentPage: 'blog',
       metaDescription,
+      metaImage,
       metaUrl: `${BASE_URL}/blog/${post.slug}`,
       post,
       comments
@@ -847,9 +856,11 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
       title,
       slug,
       content: cleanContent,
-      published: true,
-      tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map(tag => tag.trim()) : []),
-      author: author || 'Carlos Cervantes',
+      author: req.body.author,
+      tags: req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [],
+      published: req.body.published !== undefined ? req.body.published : true,
+      metaDescription: req.body.metaDescription,
+      coverImage: req.body.coverImage,
       date: date || new Date()
     };
 
