@@ -171,6 +171,12 @@
     .pillars-section { padding: 20px 0 60px; }
 }
 
+/* Mobile Scroll Fluidity Overrides */
+@media (max-width: 768px) {
+    .scroll-sequence { height: 250vh !important; }
+    .sticky-view { height: 100dvh !important; }
+}
+
 /* Scroll Sequence CSS */
 .scroll-sequence {
     height: 400vh;
@@ -181,6 +187,7 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -230,7 +237,28 @@
 .ide-header .red { background: #ff5f56; }
 .ide-header .yellow { background: #ffbd2e; }
 .ide-header .green { background: #27c93f; }
-.typing-code { color: #a6accd; font-family: var(--font-mono); font-size: 0.9rem; white-space: pre-wrap; }
+.typing-code { color: #a6accd; font-family: var(--font-mono); font-size: 0.85rem; white-space: pre-wrap; line-height: 1.6; }
+.code-line { padding: 2px 8px; border-radius: 4px; transition: all 0.2s; opacity: 0.4; border-left: 3px solid transparent; }
+.code-line.active { opacity: 1; background: rgba(0, 122, 255, 0.1); border-left-color: #007aff; }
+.line-num { opacity: 0.3; margin-right: 0.75rem; user-select: none; font-size: 0.75rem; }
+.c-keyword { color: #c792ea; font-weight: 600; }
+.c-func { color: #82aaff; }
+.c-str { color: #c3e88d; }
+
+.ai-chip {
+    margin-top: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #82aaff;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+}
 
 /* Layer 2: Browser Mockup (25% - 75%) */
 /* Fades in starting 0.20, out by 0.70 */
@@ -268,6 +296,11 @@
 .b-dots .red { background: #ff5f56; }
 .b-dots .yellow { background: #ffbd2e; }
 .b-dots .green { background: #27c93f; }
+/* Layer 4: Results (75% - 100%) */
+.layer-4 {
+    opacity: calc(min(max((var(--scroll-p) - 0.75) * 4, 0), 1));
+    transform: translateY(calc( (1 - min(max((var(--scroll-p) - 0.75) * 4, 0), 1)) * 50px ));
+}
 .address-bar {
     position: absolute;
     left: 50%; transform: translateX(-50%);
@@ -291,7 +324,46 @@
 .mock-hero { display:flex; flex-direction:column; align-items:center; gap: 20px; margin-top:20px;}
 .mock-title { width: 60%; height: 40px; background: var(--text-main); border-radius: 8px;}
 .mock-subtitle { width: 40%; height: 16px; background: var(--border-medium); border-radius: 4px;}
-.mock-btn { margin-top: 20px; padding: 12px 30px; background: #007aff; color:var(--white); border-radius: 30px; font-weight:600; font-size:14px;}
+.mock-btn { margin-top: 20px; padding: 12px 30px; background: #007aff; color:var(--white); border-radius: 30px; font-weight:600; font-size:14px; position:relative;}
+
+/* Annotations & Arrows */
+.test-annotation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
+    z-index: 20;
+}
+.test-annotation.active { opacity: 1; transform: translateX(0); }
+.a-arrow { width: 40px; height: 2px; background: var(--text-main); position: relative; }
+.a-arrow::after { content: ''; position: absolute; right: 0; top: -4px; border: 5px solid transparent; border-left-color: var(--text-main); }
+.a-label { background: var(--white); border: 1px solid var(--border-light); padding: 4px 12px; border-radius: 99px; font-size: 11px; font-weight: 700; box-shadow: var(--shadow-sm); white-space: nowrap; }
+
+/* AI Status Overlay */
+.ai-status-overlay {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+.ai-status-overlay.active { opacity: 1; }
+.ai-pulse { width: 8px; height: 8px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
 /* CSS Hardware Animation driven by scroll progress */
 /* Cursor starts at bottom right (x=200px, y=200px) and moves to the button when scroll intersects 0.4 */
@@ -550,13 +622,17 @@
             <div class="scroll-layer layer-1">
                 <div class="ide-window">
                     <div class="ide-header"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-                    <pre><code class="typing-code">describe('Automated UI Regression', () => {
-  it('should navigate and validate components', async () => {
-    await browser.url('https://carloscervantes.qa');
-    await $('#get-started-btn').click();
-    expect(await metrics.getFCP()).toBeLessThan(1.5);
-  });
-});</code></pre>
+                    <div class="typing-code" id="automation-code">
+                        <div class="code-line" data-line="1"><span class="line-num">1</span> <span class="c-keyword">const</span> { test, expect } = <span class="c-func">require</span>(<span class="c-str">'@playwright/test'</span>);</div>
+                        <div class="code-line" data-line="2"><span class="line-num">2</span> <span class="c-func">test</span>(<span class="c-str">'Critical Path: User Journey'</span>, <span class="c-keyword">async</span> ({ page }) => {</div>
+                        <div class="code-line" data-line="3"><span class="line-num">3</span>   <span class="c-keyword">await</span> page.<span class="c-func">goto</span>(<span class="c-str">'https://carloscervantes.qa'</span>);</div>
+                        <div class="code-line" data-line="4"><span class="line-num">4</span>   <span class="c-keyword">await</span> page.<span class="c-func">click</span>(<span class="c-str">'.cta-primary'</span>);</div>
+                        <div class="code-line" data-line="5"><span class="line-num">5</span>   <span class="c-keyword">await</span> <span class="c-func">expect</span>(page).<span class="c-func">toHaveURL</span>(<span class="c-str">/contact/</span>);</div>
+                        <div class="code-line" data-line="6"><span class="line-num">6</span> });</div>
+                    </div>
+                </div>
+                <div class="ai-chip" id="automation-ai-chip">
+                    <i class="fas fa-robot"></i> <span>AI Insight: Resilience Mode Active</span>
                 </div>
                 <h2>Scripting Quality.<br>Line by Line.</h2>
             </div>
@@ -568,7 +644,7 @@
                         <div class="b-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                         <div class="address-bar"><i class="fas fa-lock" style="font-size: 10px; opacity:0.5; margin-right:6px;"></i> https://carloscervantes.qa</div>
                     </div>
-                    <div class="browser-viewport">
+                    <div class="browser-viewport" id="automation-viewport">
                         <div class="mock-ui">
                             <div class="mock-nav">
                                 <div>Quality & Performance</div>
@@ -577,23 +653,51 @@
                             <div class="mock-hero">
                                 <div class="mock-title"></div>
                                 <div class="mock-subtitle"></div>
-                                <div class="mock-btn" id="mock-btn">Get Started</div>
+                                <div class="mock-btn" id="target-cta">Contact Sales</div>
                             </div>
                         </div>
-                        <div class="mock-cursor"><i class="fas fa-mouse-pointer"></i></div>
-                        <div class="mock-click-ripple"></div>
+
+                        <!-- Annotations -->
+                        <div class="test-annotation" id="ann-1" style="top: 20%; left: 30%;">
+                            <div class="a-label">DOM Validation</div>
+                            <div class="a-arrow"></div>
+                        </div>
+                        <div class="test-annotation" id="ann-2" style="top: 55%; left: 10%;">
+                            <div class="a-label">Element Interactivity Check</div>
+                            <div class="a-arrow"></div>
+                        </div>
+
+                        <!-- AI Overlay -->
+                        <div class="ai-status-overlay" id="ai-status">
+                            <div class="ai-pulse"></div>
+                            <span>AI ENGINE: VALIDATING SELECTOR RESILIENCE...</span>
+                        </div>
+
+                        <div class="mock-cursor" id="mock-cursor"><i class="fas fa-mouse-pointer"></i></div>
+                        <div class="mock-click-ripple" id="click-ripple"></div>
                     </div>
                 </div>
                 <h2>Automated browser<br>execution & testing.</h2>
             </div>
             
-            <!-- Stage 4: Execution Results -->
+            <!-- Stage 4: Execution Results & Visual Report -->
             <div class="scroll-layer layer-4">
                 <div class="validation-hud">
-                    <h3 style="color:var(--text-main); margin-bottom:1rem;">Test Results</h3>
-                    <div class="check-node"><i class="fas fa-check-circle"></i> Load Tested (10K+ req/s)</div>
-                    <div class="check-node"><i class="fas fa-check-circle"></i> Components Validated</div>
-                    <div class="check-node"><i class="fas fa-check-circle"></i> 0 Flaky Tests</div>
+                    <h3 style="color:var(--text-main); margin-bottom:1.5rem;">Automation Suite Results</h3>
+                    <div class="check-node"><i class="fas fa-check-circle"></i> UI Components Validated (142/142)</div>
+                    <div class="check-node"><i class="fas fa-check-circle"></i> DOM Stability: 100%</div>
+                    <div class="check-node"><i class="fas fa-check-circle"></i> Visual Regression: Pass</div>
+                    
+                    <div class="visual-report-chart" style="margin-top:20px; border-top:1px solid var(--border-light); padding-top:15px;">
+                        <div style="font-size:10px; font-weight:700; opacity:0.5; margin-bottom:10px;">TEST COVERAGE ROI</div>
+                        <div style="display:flex; gap:4px; align-items:flex-end; height:40px;">
+                            <div style="flex:1; background:#007aff; height:40%; border-radius:2px;"></div>
+                            <div style="flex:1; background:#007aff; height:65%; border-radius:2px;"></div>
+                            <div style="flex:1; background:#007aff; height:85%; border-radius:2px;"></div>
+                            <div style="flex:1; background:#007aff; height:95%; border-radius:2px;"></div>
+                            <div style="flex:1; background:#333; height:100%; border-radius:2px;"></div>
+                        </div>
+                    </div>
                 </div>
                 <h2 style="margin-top: 2rem;">Ship with<br>absolute confidence.</h2>
             </div>

@@ -48,6 +48,41 @@ document.addEventListener('DOMContentLoaded', function () {
             let progress = -rect.top / totalScrollDistance;
             progress = Math.max(0, Math.min(1, progress));
             stickyView.style.setProperty('--scroll-p', progress);
+
+            // 1. Line Highlighting (0% to 28%)
+            const codeLines = document.querySelectorAll('#automation-code .code-line');
+            if (codeLines.length > 0) {
+                const lineProgress = Math.min(progress / 0.28, 1);
+                const activeIndex = Math.floor(lineProgress * (codeLines.length - 1));
+                codeLines.forEach((line, idx) => {
+                    line.classList.toggle('active', idx === activeIndex && progress < 0.28);
+                });
+            }
+
+            // 2. Cursor movement & Annotations (30% to 75%)
+            const mockCursor = document.getElementById('mock-cursor');
+            const ripple = document.getElementById('click-ripple');
+            const ann1 = document.getElementById('ann-1');
+            const ann2 = document.getElementById('ann-2');
+            const aiStatus = document.getElementById('ai-status');
+
+            if (mockCursor && progress >= 0.3) {
+                let targetX = 70, targetY = 70; // Idle
+                if (progress > 0.35 && progress < 0.50) { // Hovering nav/title
+                    targetX = 30; targetY = 30;
+                } else if (progress >= 0.50 && progress < 0.70) { // Moving to CTA
+                    targetX = 50; targetY = 60;
+                }
+                mockCursor.style.left = `${targetX}%`;
+                mockCursor.style.top = `${targetY}%`;
+                
+                // Show ripple at "click" moment
+                if (ripple) ripple.style.opacity = (progress > 0.68 && progress < 0.72) ? '1' : '0';
+            }
+
+            if (ann1) ann1.classList.toggle('active', progress > 0.32 && progress < 0.48);
+            if (ann2) ann2.classList.toggle('active', progress > 0.52 && progress < 0.68);
+            if (aiStatus) aiStatus.classList.toggle('active', progress > 0.3 && progress < 0.75);
         }
 
         // Update API Scroll Sequence
