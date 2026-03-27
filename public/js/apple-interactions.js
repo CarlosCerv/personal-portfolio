@@ -39,6 +39,45 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
+        // Update Interactive Scroll Sequence (Automation)
+        const scrollSequence = document.getElementById('automation-scroll');
+        const stickyView = document.getElementById('sticky-view');
+        if (scrollSequence && stickyView) {
+            const rect = scrollSequence.getBoundingClientRect();
+            const totalScrollDistance = rect.height - window.innerHeight;
+            let progress = -rect.top / totalScrollDistance;
+            progress = Math.max(0, Math.min(1, progress));
+            stickyView.style.setProperty('--scroll-p', progress);
+        }
+
+        // Update API Scroll Sequence
+        const scrollSequenceApi = document.getElementById('api-scroll');
+        const stickyViewApi = document.getElementById('sticky-view-api');
+        if (scrollSequenceApi && stickyViewApi) {
+            const rectApi = scrollSequenceApi.getBoundingClientRect();
+            const totalScrollDistanceApi = rectApi.height - window.innerHeight;
+            let progressApi = -rectApi.top / totalScrollDistanceApi;
+            progressApi = Math.max(0, Math.min(1, progressApi));
+            stickyViewApi.style.setProperty('--api-scroll-p', progressApi);
+        }
+
+        // Update Performance Scroll Sequence
+        const scrollSequencePerf = document.getElementById('perf-scroll');
+        const stickyViewPerf = document.getElementById('sticky-view-perf');
+        if (scrollSequencePerf && stickyViewPerf) {
+            const rectPerf = scrollSequencePerf.getBoundingClientRect();
+            const totalScrollDistancePerf = rectPerf.height - window.innerHeight;
+            let progressPerf = -rectPerf.top / totalScrollDistancePerf;
+            progressPerf = Math.max(0, Math.min(1, progressPerf));
+            stickyViewPerf.style.setProperty('--perf-scroll-p', progressPerf);
+
+            // Update VU Counter based on progress
+            const vuNumber = document.getElementById('vu-number');
+            if (vuNumber && progressPerf > 0.25 && progressPerf < 0.55) {
+                const scaledUsers = Math.floor(Math.min(Math.max((progressPerf - 0.25) * 4, 0), 1) * 98000) + 2000;
+                vuNumber.textContent = scaledUsers.toLocaleString();
+            }
+        }
     }
 
     window.addEventListener('scroll', () => {
@@ -61,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (entry.isIntersecting) {
                 // Add stagger delay
                 setTimeout(() => {
-                    entry.target.classList.add('animate-on-scroll');
+                    entry.target.classList.add('is-visible');
                 }, index * 100);
                 observer.unobserve(entry.target);
             }
@@ -70,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Observe elements for animation
     const animateElements = document.querySelectorAll(
-        '.bento-card, .timeline-item, .cert-card, .project-card, .about-card, .highlight-item'
+        '.reveal-on-scroll, .bento-card, .timeline-item, .cert-card, .project-card, .about-card, .highlight-item'
     );
 
     animateElements.forEach(el => {

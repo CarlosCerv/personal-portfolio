@@ -1845,10 +1845,13 @@
 
 .footer-actions {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: var(--space-6);
     color: var(--text-hint);
     font-size: var(--text-sm);
+    margin-top: var(--space-6);
 }
 
 .back-link {
