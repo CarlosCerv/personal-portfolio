@@ -39,79 +39,124 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
-        // Update Interactive Scroll Sequence (Automation)
-        const scrollSequence = document.getElementById('automation-scroll');
-        const stickyView = document.getElementById('sticky-view');
-        if (scrollSequence && stickyView) {
-            const rect = scrollSequence.getBoundingClientRect();
-            const totalScrollDistance = rect.height - window.innerHeight;
-            let progress = -rect.top / totalScrollDistance;
-            progress = Math.max(0, Math.min(1, progress));
-            stickyView.style.setProperty('--scroll-p', progress);
+        // ==========================================
+        // TESTING PYRAMID SCROLL SEQUENCES
+        // ==========================================
 
-            // 1. Line Highlighting (0% to 28%)
-            const codeLines = document.querySelectorAll('#automation-code .code-line');
-            if (codeLines.length > 0) {
-                const lineProgress = Math.min(progress / 0.28, 1);
-                const activeIndex = Math.floor(lineProgress * (codeLines.length - 1));
-                codeLines.forEach((line, idx) => {
-                    line.classList.toggle('active', idx === activeIndex && progress < 0.28);
-                });
+        // 1. Matrix Scroll (Foundation)
+        const scrollMatrix = document.getElementById('matrix-scroll');
+        const viewMatrix = document.getElementById('sticky-view-matrix');
+        if (scrollMatrix && viewMatrix) {
+            const rect = scrollMatrix.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p));
+            viewMatrix.style.setProperty('--matrix-scroll-p', p);
+            
+            // Annotation (0.1 - 0.3)
+            const ann = document.getElementById('matrix-ann-1');
+            if (ann) ann.classList.toggle('active', p > 0.1 && p < 0.3);
+
+            // Pyramid levels highlighting
+            for(let i=1; i<=4; i++) {
+                const el = document.getElementById(`py-level-${i}`);
+                if(el) el.classList.toggle('active', p > 0.75 && i === 1);
             }
-
-            // 2. Cursor movement & Annotations (30% to 75%)
-            const mockCursor = document.getElementById('mock-cursor');
-            const ripple = document.getElementById('click-ripple');
-            const ann1 = document.getElementById('ann-1');
-            const ann2 = document.getElementById('ann-2');
-            const aiStatus = document.getElementById('ai-status');
-
-            if (mockCursor && progress >= 0.3) {
-                let targetX = 70, targetY = 70; // Idle
-                if (progress > 0.35 && progress < 0.50) { // Hovering nav/title
-                    targetX = 30; targetY = 30;
-                } else if (progress >= 0.50 && progress < 0.70) { // Moving to CTA
-                    targetX = 50; targetY = 60;
-                }
-                mockCursor.style.left = `${targetX}%`;
-                mockCursor.style.top = `${targetY}%`;
-                
-                // Show ripple at "click" moment
-                if (ripple) ripple.style.opacity = (progress > 0.68 && progress < 0.72) ? '1' : '0';
-            }
-
-            if (ann1) ann1.classList.toggle('active', progress > 0.32 && progress < 0.48);
-            if (ann2) ann2.classList.toggle('active', progress > 0.52 && progress < 0.68);
-            if (aiStatus) aiStatus.classList.toggle('active', progress > 0.3 && progress < 0.75);
         }
 
-        // Update API Scroll Sequence
-        const scrollSequenceApi = document.getElementById('api-scroll');
-        const stickyViewApi = document.getElementById('sticky-view-api');
-        if (scrollSequenceApi && stickyViewApi) {
-            const rectApi = scrollSequenceApi.getBoundingClientRect();
-            const totalScrollDistanceApi = rectApi.height - window.innerHeight;
-            let progressApi = -rectApi.top / totalScrollDistanceApi;
-            progressApi = Math.max(0, Math.min(1, progressApi));
-            stickyViewApi.style.setProperty('--api-scroll-p', progressApi);
+        // 2. API Scroll (Integration)
+        const scrollApi = document.getElementById('api-scroll');
+        const viewApi = document.getElementById('sticky-view-api');
+        if (scrollApi && viewApi) {
+            const rect = scrollApi.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p));
+            viewApi.style.setProperty('--api-scroll-p', p);
+
+            // Annotation (0 - 0.25)
+            const reqAnn = document.getElementById('api-ann-req');
+            if (reqAnn) reqAnn.classList.toggle('active', p > 0.1 && p < 0.25);
+
+            // Network Annotation (0.3 - 0.5)
+            const netAnn = document.getElementById('api-ann-1');
+            if (netAnn) netAnn.classList.toggle('active', p > 0.3 && p < 0.5);
+
+            // Annotation (0.5 - 0.75)
+            const resAnn = document.getElementById('api-ann-res');
+            if (resAnn) resAnn.classList.toggle('active', p > 0.55 && p < 0.75);
         }
 
-        // Update Performance Scroll Sequence
-        const scrollSequencePerf = document.getElementById('perf-scroll');
-        const stickyViewPerf = document.getElementById('sticky-view-perf');
-        if (scrollSequencePerf && stickyViewPerf) {
-            const rectPerf = scrollSequencePerf.getBoundingClientRect();
-            const totalScrollDistancePerf = rectPerf.height - window.innerHeight;
-            let progressPerf = -rectPerf.top / totalScrollDistancePerf;
-            progressPerf = Math.max(0, Math.min(1, progressPerf));
-            stickyViewPerf.style.setProperty('--perf-scroll-p', progressPerf);
+        // 3. UI Automation Scroll (E2E)
+        const scrollUi = document.getElementById('automation-scroll');
+        const viewUi = document.getElementById('sticky-view-ui');
+        if (scrollUi && viewUi) {
+            const rect = scrollUi.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p));
+            viewUi.style.setProperty('--ui-scroll-p', p);
+            viewUi.style.setProperty('--scroll-p', p);
 
-            // Update VU Counter based on progress
-            const vuNumber = document.getElementById('vu-number');
-            if (vuNumber && progressPerf > 0.25 && progressPerf < 0.55) {
-                const scaledUsers = Math.floor(Math.min(Math.max((progressPerf - 0.25) * 4, 0), 1) * 98000) + 2000;
-                vuNumber.textContent = scaledUsers.toLocaleString();
+            const lines = document.querySelectorAll('#automation-code .code-line');
+            if (lines.length) {
+                const lp = Math.min(p / 0.28, 1);
+                const idx = Math.floor(lp * (lines.length - 1));
+                lines.forEach((l, i) => l.classList.toggle('active', i === idx && p < 0.28));
             }
+
+            const cursor = document.getElementById('ui-cursor');
+            const ripple = document.getElementById('ui-ripple');
+            const ann1 = document.getElementById('ui-ann-1');
+            const ai = document.getElementById('ui-ai-status');
+
+            if (cursor && p >= 0.3) {
+                let tx = 70, ty = 70;
+                if (p > 0.35 && p < 0.5) { tx = 30; ty = 30; }
+                else if (p >= 0.5 && p < 0.7) { tx = 50; ty = 60; }
+                cursor.style.left = `${tx}%`;
+                cursor.style.top = `${ty}%`;
+                if (ripple) ripple.style.opacity = (p > 0.68 && p < 0.72) ? '1' : '0';
+            }
+            if (ann1) ann1.classList.toggle('active', p > 0.35 && p < 0.65);
+            if (ai) ai.classList.toggle('active', p > 0.3 && p < 0.75);
+        }
+
+        // 4. Performance Scroll (Scalability)
+        const scrollPerf = document.getElementById('perf-scroll');
+        const viewPerf = document.getElementById('sticky-view-perf');
+        if (scrollPerf && viewPerf) {
+            const rect = scrollPerf.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p));
+            viewPerf.style.setProperty('--perf-scroll-p', p);
+
+            // Annotation (0.05 - 0.2)
+            const pAnn = document.getElementById('perf-ann-1');
+            if (pAnn) pAnn.classList.toggle('active', p > 0.05 && p < 0.2);
+
+            const vu = document.getElementById('perf-vu-number');
+            const dialValue = document.querySelector('.dial-value');
+            if (p > 0.2 && p < 0.7) {
+                const val = Math.floor(Math.min(Math.max((p - 0.2) * 2, 0), 1) * 48000) + 1200;
+                if (vu) vu.textContent = val.toLocaleString();
+                if (dialValue) dialValue.textContent = Math.floor(val/1000) + 'K';
+            }
+
+            const diag = document.getElementById('perf-diag-1');
+            if (diag) diag.classList.toggle('active', p > 0.45 && p < 0.65);
+
+            const cpu = document.getElementById('perf-gauge-cpu');
+            const err = document.getElementById('perf-gauge-err');
+            if (cpu) cpu.style.width = `${40 + Math.min(Math.max((p-0.5)*4, 0), 1)*55}%`;
+            if (err) err.style.width = `${95 - Math.min(Math.max((p-0.6)*4, 0), 1)*80}%`;
+        }
+
+        // 5. Final Product Scroll
+        const scrollProd = document.getElementById('product-scroll');
+        const viewProd = document.getElementById('sticky-view-product');
+        if (scrollProd && viewProd) {
+            const rect = scrollProd.getBoundingClientRect();
+            let p = -rect.top / (rect.height - window.innerHeight);
+            p = Math.max(0, Math.min(1, p));
+            viewProd.style.setProperty('--product-scroll-p', p);
         }
     }
 

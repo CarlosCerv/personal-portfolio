@@ -1,72 +1,139 @@
 <%- include('partials/header') %>
 
-<main class="main-content">
-  
-  <!-- Unified Header -->
-  <section class="content-page-hero">
-    <div class="container">
-      <div class="hero-badge">
-        <i class="fas fa-microphone-alt"></i>
-        <span>Audio Insights</span>
+<main class="page-shell">
+  <section class="section page-hero podcast-hero">
+    <div class="podcast-hero-grid">
+      <div class="page-hero-copy reveal">
+        <span class="section-eyebrow">Podcast</span>
+        <h1 class="page-title">Conversaciones sobre calidad, automatización y performance con criterio real.</h1>
+        <p class="page-intro">Una propuesta editorial para compartir aprendizajes de QA, delivery y crecimiento profesional con un formato claro, técnico y accesible.</p>
+        <div class="hero-actions compact podcast-hero-actions">
+          <a href="#podcast-player" class="button button-primary">Escuchar formato</a>
+          <a href="/blog" class="button button-ghost">Explorar artículos</a>
+        </div>
+        <div class="podcast-stat-row">
+          <div class="podcast-stat-card">
+            <strong>QA</strong>
+            <span>Estrategia, procesos y calidad continua</span>
+          </div>
+          <div class="podcast-stat-card">
+            <strong>E2E</strong>
+            <span>Automatización usable para equipos reales</span>
+          </div>
+          <div class="podcast-stat-card">
+            <strong>Scale</strong>
+            <span>Performance engineering y resiliencia</span>
+          </div>
+        </div>
       </div>
-      <h1 class="hero-title-large">QA Insights Podcast</h1>
-      <p class="hero-subtitle-refined">
-        Weekly deep dives into Quality Assurance, Test Automation, and Strategic Career Growth with industry leaders.
-      </p>
+
+      <div class="podcast-hero-panel glass-card reveal d1">
+        <div class="podcast-surface-top">
+          <span class="tag">Próximo formato</span>
+          <span class="podcast-surface-note">Serie editorial en construcción</span>
+        </div>
+        <h3>Temporada inicial orientada a equipos que quieren calidad sin burocracia.</h3>
+        <div class="podcast-agenda">
+          <div class="podcast-agenda-item">
+            <span>01</span>
+            <div>
+              <strong>Cómo diseñar una estrategia de QA útil</strong>
+              <p>Del requerimiento al riesgo crítico sin perder foco.</p>
+            </div>
+          </div>
+          <div class="podcast-agenda-item">
+            <span>02</span>
+            <div>
+              <strong>Automatización que sí ayuda al negocio</strong>
+              <p>Frameworks, deuda y decisiones que escalan.</p>
+            </div>
+          </div>
+          <div class="podcast-agenda-item">
+            <span>03</span>
+            <div>
+              <strong>Performance antes de la crisis</strong>
+              <p>Preparar plataformas para tráfico agresivo y eventos pico.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Podcast Content -->
-  <section class="podcast-section">
-    <div class="container">
-      
-      <!-- Featured Player -->
-      <div class="unified-card featured-player-card" style="margin-bottom: var(--space-12);">
-        <div class="card-tag-wrapper">
-          <span class="card-tag">Latest Episode</span>
-        </div>
-        <iframe 
-          style="border-radius:16px" 
-          src="https://open.spotify.com/embed/show/YOUR_SHOW_ID?utm_source=generator&theme=0" 
-          width="100%" 
-          height="152" 
-          frameBorder="0" 
-          allowfullscreen="" 
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-          loading="lazy">
-        </iframe>
+  <section class="section podcast-editorial">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Concepto</span>
+        <h2 class="section-title">Un espacio pensado para líderes, QAs e ingenieros que construyen producto.</h2>
+        <p class="s-sub">El tono mezcla experiencia práctica, lenguaje claro y ejemplos que conectan testing, release confidence y performance con impacto real en el usuario.</p>
       </div>
 
-      <!-- Episodes Grid -->
-      <div class="content-grid">
-        <div class="unified-card">
-          <div class="card-icon-container"><i class="fas fa-play"></i></div>
-          <div class="card-tag-wrapper"><span class="card-tag">Mobile</span></div>
-          <h3 class="card-title-refined">Appium vs Espresso: The Final Verdict</h3>
-          <p class="card-desc-refined">Deep dive into mobile testing frameworks, comparing cross-platform and native solutions for iOS and Android automation.</p>
-          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
-        </div>
+      <div class="podcast-editorial-grid">
+        <article class="content-card reveal">
+          <span class="tag">Formato</span>
+          <h3>Episodios cortos, técnicos y accionables</h3>
+          <p class="muted-copy">Cada episodio está pensado para dejar una idea concreta que el equipo pueda aplicar en su stack, proceso o estrategia de calidad.</p>
+          <ul class="bullet-list">
+            <li>Duración ideal de 12 a 20 minutos</li>
+            <li>Un problema real, una decisión clara y un takeaway útil</li>
+            <li>Lenguaje profesional sin volverse rígido</li>
+          </ul>
+        </article>
 
-        <div class="unified-card">
-          <div class="card-icon-container"><i class="fas fa-play"></i></div>
-          <div class="card-tag-wrapper"><span class="card-tag">CI/CD</span></div>
-          <h3 class="card-title-refined">CI/CD Pipelines for QA Teams</h3>
-          <p class="card-desc-refined">Best practices for integrating automated testing into CI/CD pipelines with GitHub Actions and Jenkins.</p>
-          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
-        </div>
-
-        <div class="unified-card">
-          <div class="card-icon-container"><i class="fas fa-play"></i></div>
-          <div class="card-tag-wrapper"><span class="card-tag">Leadership</span></div>
-          <h3 class="card-title-refined">From Manual Testing to Leadership</h3>
-          <p class="card-desc-refined">Career progression stories and insights on transitioning from hands-on testing to leading QA teams and strategy.</p>
-          <div class="card-action-refined">Listen to Episode <i class="fas fa-arrow-right"></i></div>
-        </div>
+        <article class="content-card reveal d1">
+          <span class="tag success">Audiencia</span>
+          <h3>Dirigido a equipos que buscan madurez, no solo tooling</h3>
+          <p class="muted-copy">La intención es hablarle tanto a quien automatiza como a quien prioriza riesgos, coordina releases o necesita hacer visible el valor de calidad dentro del negocio.</p>
+          <div class="podcast-audience-list">
+            <span class="chip">QA Engineers</span>
+            <span class="chip">SDETs</span>
+            <span class="chip">Tech Leads</span>
+            <span class="chip">Engineering Managers</span>
+            <span class="chip">Product Teams</span>
+          </div>
+        </article>
       </div>
-
     </div>
   </section>
 
+  <section class="section">
+    <div class="section-wrap">
+      <div class="podcast-player-card content-card reveal" id="podcast-player">
+        <div class="podcast-player-copy">
+          <span class="tag warning">Reproductor</span>
+          <h3>Espacio preparado para el episodio destacado</h3>
+          <p class="muted-copy">Cuando el show esté activo, solo hace falta reemplazar el `YOUR_SHOW_ID` de Spotify para mantener el mismo layout y ritmo visual del sitio.</p>
+        </div>
+        <iframe class="podcast-embed" src="https://open.spotify.com/embed/show/YOUR_SHOW_ID?utm_source=generator&theme=0" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section podcast-topics">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Líneas editoriales</span>
+        <h2 class="section-title">Temas que pueden sostener una temporada completa.</h2>
+      </div>
+      <div class="cards-grid">
+        <article class="mini-card glass-card reveal">
+          <span class="tag">Mobile</span>
+          <h3>Appium vs frameworks nativos</h3>
+          <p class="muted-copy">Qué gana y qué pierde un equipo cuando decide entre portabilidad, velocidad de feedback y mantenibilidad.</p>
+        </article>
+        <article class="mini-card glass-card reveal d1">
+          <span class="tag success">CI/CD</span>
+          <h3>Quality gates en los que el equipo confía</h3>
+          <p class="muted-copy">Cómo diseñar validaciones útiles para evitar ruido y aumentar la confianza antes de release.</p>
+        </article>
+        <article class="mini-card glass-card reveal d2">
+          <span class="tag warning">Carrera</span>
+          <h3>De testing manual a liderazgo técnico</h3>
+          <p class="muted-copy">Rutas de crecimiento para perfiles de QA que amplían su impacto hacia estrategia, mentoring y calidad de producto.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 </main>
 
 <%- include('partials/footer') %>

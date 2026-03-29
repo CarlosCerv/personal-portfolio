@@ -1,75 +1,37 @@
 <%- include('partials/header') %>
 
-<main class="main-content">
-  
-  <!-- Unified Header -->
-  <section class="content-page-hero">
-    <div class="container">
-      <div class="hero-badge">
-        <i class="fas fa-code-branch"></i>
-        <span>Engineering & Automation</span>
-      </div>
-      <h1 class="hero-title-large">Strategic Projects</h1>
-      <p class="hero-subtitle-refined">
-        A collection of performance-driven QA frameworks and open-source contributions optimized for high-scale environments.
-      </p>
-    </div>
-  </section>
-
-  <!-- Projects Grid -->
+<main class="page-shell">
   <section class="projects-section">
-    <div class="container">
-      <div class="content-grid">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Ingeniería y automatización</span>
+        <h1 class="s-title">Proyectos estratégicos.</h1>
+        <p class="s-sub">Frameworks de QA, experimentos y contribuciones open source presentados con la misma estructura editorial del HTML de referencia.</p>
+      </div>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="empty-state-card">
+        <p class="section-eyebrow">No disponible</p>
+        <h2>No se pudieron cargar los proyectos en este momento.</h2>
+        <p><%= error %></p>
+      </div>
+    <% } else { %>
+      <div class="projects-grid">
         <% projects.forEach((project, index) => { %>
-          <a href="<%= project.url %>" class="unified-card" target="_blank" rel="noopener noreferrer" style="animation-delay: <%= index * 0.1 %>s;">
-            <div class="card-icon-container">
-              <i class="fas fa-cube"></i>
+          <a href="<%= project.url %>" target="_blank" rel="noopener noreferrer" class="project-card reveal" style="transition-delay:<%= index * 40 %>ms;">
+            <span class="project-lang"><%= project.language || 'Repositorio' %></span>
+            <div class="project-name"><%= project.name %></div>
+            <p class="project-desc"><%= project.description || 'Proyecto de automatización y calidad orientado a performance, confiabilidad y mejoras de workflow de ingeniería.' %></p>
+            <div class="project-meta" style="margin-top:14px;">
+              <% if (project.stargazers_count) { %><span><%= project.stargazers_count %> estrellas</span><% } %>
+              <% if (project.updated_at) { %><span>Actualizado <%= new Date(project.updated_at).toLocaleDateString('es-MX') %></span><% } %>
             </div>
-            
-            <div class="card-tag-wrapper">
-              <% if (project.language) { %>
-                <span class="card-tag"><%= project.language %></span>
-              <% } %>
-            </div>
-            
-            <h3 class="card-title-refined"><%= project.name %></h3>
-            
-            <p class="card-desc-refined">
-              <%= project.description || 'Enterprise-grade automation project focused on performance and reliability.' %>
-            </p>
-            
-            <div class="card-action-refined">
-              View Repository <i class="fas fa-arrow-right"></i>
-            </div>
+            <span class="project-link">Ver repositorio →</span>
           </a>
         <% }); %>
       </div>
+    <% } %>
     </div>
   </section>
-
 </main>
 
 <%- include('partials/footer') %>
-
-<%
-// Helper function to get language colors (similar to GitHub)
-function getLanguageColor(language) {
-  const colors = {
-    'JavaScript': '#f1e05a',
-    'Python': '#3572A5',
-    'Java': '#b07219',
-    'TypeScript': '#2b7489',
-    'Go': '#00ADD8',
-    'Ruby': '#701516',
-    'PHP': '#4F5D95',
-    'C++': '#f34b7d',
-    'C': '#555555',
-    'Shell': '#89e051',
-    'Dart': '#00B4AB',
-    'Rust': '#dea584',
-    'Swift': '#ffac45',
-    'Kotlin': '#F18E33'
-  };
-  return colors[language] || '#ccc';
-}
-%>

@@ -1,197 +1,126 @@
 <%- include('partials/header') %>
 
-<style>
-:root {
-  --admin-bg:        #FBFBFD;
-  --admin-surface:   #FFFFFF;
-  --admin-border:    #E5E7EB;
-  --admin-text:      #111111;
-  --admin-text-2:    #555555;
-  --admin-text-3:    #86868B;
-  --admin-accent:    #000000;
-  --admin-accent-h:  #333333;
-  --admin-accent-bg: rgba(0, 0, 0, 0.05);
-  --admin-danger:    #DC2626;
-  --admin-danger-bg: #FEF2F2;
-  --admin-shadow:    0 2px 12px rgba(0,0,0,0.06);
-  --admin-radius:    10px;
-  --font:            'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono:       'JetBrains Mono', 'SFMono-Regular', Menlo, monospace;
-}
-body { background: var(--admin-bg); font-family: var(--font); }
+<%
+  const totalPosts = posts.length;
+  const publishedPosts = posts.filter(post => post.published !== false).length;
+  const draftPosts = totalPosts - publishedPosts;
+  const uniqueTags = [...new Set(posts.flatMap(post => post.tags || []).filter(Boolean))];
+%>
 
-/* ---- Layout ---- */
-.admin-page { min-height: calc(100vh - var(--nav-height)); padding: 2rem 0 4rem; margin-top: var(--nav-height); }
-.admin-card { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: var(--admin-radius); box-shadow: var(--admin-shadow); overflow: hidden; }
-.admin-card-body { padding: 1.5rem 2rem; }
+<main class="page-shell admin-shell">
+  <section class="section">
+    <div class="admin-workspace reveal">
+      <div class="admin-overview-card admin-card">
+        <div class="admin-toolbar admin-toolbar-top">
+          <div class="admin-intro">
+            <span class="section-eyebrow">Panel editorial</span>
+            <h1 class="admin-title">Gestiona el blog con una vista más clara y profesional.</h1>
+            <p class="muted-copy">Revisa el estado del contenido, entra directo al editor y mantén el blog alineado con el diseño actual del sitio.</p>
+            <div class="admin-switcher">
+              <a href="/admin/posts" class="chip active">Posts</a>
+              <a href="/admin/hobbies" class="chip">Intereses</a>
+            </div>
+          </div>
+          <div class="toolbar-actions admin-hero-actions">
+            <a href="/admin/logout" class="button button-ghost">Cerrar sesión</a>
+            <a href="/admin/posts/new" class="button button-primary">Crear nuevo post</a>
+          </div>
+        </div>
 
-/* ---- Top bar ---- */
-.admin-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
-}
-.admin-bar-info { display: flex; flex-direction: column; gap: 0.25rem; }
-.admin-bar-title { font-size: 1.5rem; font-weight: 700; color: var(--admin-text); letter-spacing: -0.02em; margin: 0; }
-.admin-bar-sub { font-size: 0.875rem; color: var(--admin-text-2); margin: 0; }
-
-/* ---- Mono label ---- */
-.a-mono {
-  font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase;
-  letter-spacing: 0.1em; color: var(--admin-accent); font-weight: 600;
-  padding: 0.2rem 0.7rem; background: var(--admin-accent-bg);
-  border: 1px solid rgba(37,99,235,0.15); border-radius: 999px;
-  display: inline-block; margin-bottom: 0.25rem;
-}
-
-/* ---- Buttons ---- */
-.ab {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 8px;
-  font-family: var(--font); font-weight: 600; font-size: 0.875rem;
-  border: 1.5px solid transparent; cursor: pointer;
-  text-decoration: none; transition: all 0.2s; white-space: nowrap;
-}
-.ab-primary { background: var(--admin-accent); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.25); }
-.ab-primary:hover { background: var(--admin-accent-h); color: #fff; transform: translateY(-1px); }
-.ab-icon {
-  width: 34px; height: 34px; padding: 0; border-radius: 7px;
-  background: var(--admin-bg); color: var(--admin-text-2);
-  border: 1px solid var(--admin-border); display: inline-flex;
-  align-items: center; justify-content: center;
-}
-.ab-icon:hover { background: var(--admin-accent); color: #fff; border-color: var(--admin-accent); }
-.ab-danger:hover { background: var(--admin-danger) !important; color: #fff !important; border-color: var(--admin-danger) !important; }
-
-/* ---- Table ---- */
-.admin-table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-thead { background: var(--admin-bg); border-bottom: 2px solid var(--admin-border); }
-th {
-  padding: 0.75rem 1rem; text-align: left;
-  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.07em; color: var(--admin-text-3);
-  font-family: var(--font-mono);
-}
-td { padding: 1rem; border-bottom: 1px solid var(--admin-border); vertical-align: middle; }
-tbody tr:last-child td { border-bottom: none; }
-tbody tr:hover { background: #FBFBFD; }
-
-.post-title-strong { font-weight: 600; color: var(--admin-text); font-size: 0.95rem; }
-.post-date-text { font-size: 0.85rem; color: var(--admin-text-2); white-space: nowrap; }
-.tag-badge {
-  display: inline-block; padding: 0.2rem 0.65rem;
-  background: var(--admin-accent-bg); color: var(--admin-accent);
-  border: 1px solid rgba(37,99,235,0.2);
-  border-radius: 999px; font-size: 0.75rem; font-weight: 500;
-  margin-right: 0.35rem;
-}
-.actions-cell { white-space: nowrap; display: flex; gap: 0.5rem; }
-
-/* ---- Empty state ---- */
-.empty-state {
-  text-align: center; padding: 4rem 2rem;
-  display: flex; flex-direction: column; align-items: center; gap: 1rem;
-}
-.empty-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--admin-accent-bg); display: flex; align-items: center; justify-content: center; }
-.empty-icon i { font-size: 1.75rem; color: var(--admin-accent); }
-.empty-state h3 { font-size: 1.25rem; font-weight: 700; color: var(--admin-text); margin: 0; }
-.empty-state p { color: var(--admin-text-2); margin: 0; font-size: 0.95rem; }
-</style>
-
-<main class="admin-page">
-  <div class="container" style="max-width:1100px;">
-
-    <!-- Top Bar -->
-    <div class="admin-bar">
-      <div class="admin-bar-info">
-        <h1 class="admin-bar-title">Blog Posts</h1>
-        <span class="a-mono" style="margin-top: 0.25rem;">Quality & Performance</span>
-        <p class="admin-bar-sub">Manage your thought leadership content</p>
+        <div class="admin-stats-grid">
+          <article class="admin-stat-card">
+            <span class="admin-stat-label">Posts totales</span>
+            <strong><%= totalPosts %></strong>
+            <p>Contenido disponible en el panel editorial.</p>
+          </article>
+          <article class="admin-stat-card">
+            <span class="admin-stat-label">Publicados</span>
+            <strong><%= publishedPosts %></strong>
+            <p>Artículos listos para leerse en el sitio.</p>
+          </article>
+          <article class="admin-stat-card">
+            <span class="admin-stat-label">Borradores</span>
+            <strong><%= draftPosts %></strong>
+            <p>Piezas que todavía necesitan revisión o cierre.</p>
+          </article>
+          <article class="admin-stat-card">
+            <span class="admin-stat-label">Etiquetas</span>
+            <strong><%= uniqueTags.length %></strong>
+            <p>Temas que ayudan a organizar la navegación del blog.</p>
+          </article>
+        </div>
       </div>
-      <div class="top-actions">
-        <!-- New Session Logout -->
-        <a href="/admin/logout" class="ab ab-secondary" style="margin-right:1rem;">Logout</a>
-        <a href="/admin/posts/new" class="ab ab-primary">New Post</a>
-      </div>
-    </div>
 
-    <!-- Posts Table or Empty -->
-    <div class="admin-card">
       <% if (posts.length > 0) { %>
-        <div class="admin-table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Tags</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% posts.forEach(post => { %>
-                <tr>
-                  <td style="max-width:380px;">
-                    <span class="post-title-strong"><%= post.title %></span>
-                  </td>
-                  <td>
-                    <span class="post-date-text">
-                      <%= new Date(post.date).toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+        <div class="admin-collection-grid">
+          <% posts.forEach(post => { %>
+            <article class="admin-post-card admin-card reveal">
+              <div class="admin-post-card-top">
+                <div class="admin-post-copy">
+                  <div class="admin-post-meta">
+                    <span class="status-chip <%= post.published !== false ? 'success' : '' %>">
+                      <%= post.published !== false ? 'Publicado' : 'Borrador' %>
                     </span>
-                  </td>
-                  <td>
-                    <% if (post.tags && post.tags.length > 0) { %>
-                      <% post.tags.slice(0, 2).forEach(tag => { %>
-                        <span class="tag-badge"><%= tag %></span>
-                      <% }); %>
-                    <% } %>
-                  </td>
-                  <td>
-                    <div class="actions-cell">
-                      <a href="/blog/<%= post.slug %>" class="ab ab-icon" title="View post" target="_blank">👁</a>
-                      <a href="/admin/posts/edit/<%= post.slug %>" class="ab ab-icon" title="Edit">✏️</a>
-                      <button onclick="deletePost('<%= post.slug %>')" class="ab ab-icon ab-danger" title="Delete">🗑</button>
-                    </div>
-                  </td>
-                </tr>
-              <% }); %>
-            </tbody>
-          </table>
+                    <span class="admin-meta-slug">/<%= post.slug %></span>
+                  </div>
+                  <h2><%= post.title %></h2>
+                  <p><%= post.metaDescription || 'Añade una meta descripción para mejorar la vista previa al compartir el artículo.' %></p>
+                </div>
+                <div class="admin-post-date">
+                  <span class="admin-stat-label">Fecha</span>
+                  <strong><%= new Date(post.date).toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' }) %></strong>
+                </div>
+              </div>
+
+              <div class="admin-post-tags">
+                <% if ((post.tags || []).length > 0) { %>
+                  <% (post.tags || []).forEach(tag => { %>
+                    <span class="tag"><%= tag %></span>
+                  <% }) %>
+                <% } else { %>
+                  <span class="tag warning">Sin tags</span>
+                <% } %>
+              </div>
+
+              <div class="admin-post-actions">
+                <a href="/blog/<%= post.slug %>" target="_blank" rel="noreferrer" class="button button-ghost">Ver post</a>
+                <a href="/admin/posts/edit/<%= post.slug %>" class="button button-ghost">Editar</a>
+                <button type="button" class="button button-dark" onclick="deletePost('<%= post.slug %>')">Eliminar</button>
+              </div>
+            </article>
+          <% }) %>
         </div>
       <% } else { %>
-        <div class="empty-state">
-          <div class="empty-icon"><span style="font-size:1.75rem;">✍️</span></div>
-          <h3>No posts yet</h3>
-          <p>Create your first article to start publishing content.</p>
-          <a href="/admin/posts/new" class="ab ab-primary" style="margin-top:0.5rem;">
-            <i class="fas fa-plus"></i> Create first post
-          </a>
+        <div class="empty-state-card admin-empty-state">
+          <p class="section-eyebrow">Estado vacío</p>
+          <h2>Aún no hay publicaciones creadas.</h2>
+          <p>Empieza con un nuevo artículo y usa el editor renovado para publicar con mejor estructura, metadata y vista previa.</p>
+          <div class="hero-actions compact" style="justify-content:center;">
+            <a href="/admin/posts/new" class="button button-primary">Crear primer post</a>
+          </div>
         </div>
       <% } %>
     </div>
-
-  </div>
+  </section>
 </main>
 
 <script>
-async function deletePost(slug) {
-  if (confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+  async function deletePost(slug) {
+    if (!confirm('¿Seguro que quieres eliminar este post?')) return;
+
     try {
-      const response = await fetch(`/api/admin/posts/${slug}`, {
-        method: 'DELETE'
-      });
+      const response = await fetch(`/api/admin/posts/${slug}`, { method: 'DELETE' });
       const data = await response.json();
       if (data.success) {
         window.location.reload();
-      } else {
-        alert('Error deleting: ' + data.message);
+        return;
       }
+      alert(data.message || 'No fue posible eliminar el post.');
     } catch (error) {
-      console.error('Error:', error);
-      alert('Hubo un error al intentar eliminar el post.');
+      alert('Error al eliminar el post.');
+      console.error(error);
     }
   }
-}
 </script>
 
 <%- include('partials/footer') %>

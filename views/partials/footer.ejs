@@ -1,31 +1,79 @@
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <!-- Social Links -->
-        <div class="social-links">
-          <a href="https://github.com/CarlosCerv" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <i class="fab fa-github"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/carlos-eduardo-cervantes-arteaga" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a href="https://twitter.com/CarlosCerv" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="mailto:carlos.cervart@icloud.com" aria-label="Email">
-            <i class="fas fa-envelope"></i>
-          </a>
+  <footer class="site-footer">
+    <div class="site-footer-shell">
+      <div class="site-footer-spotlight">
+        <div class="site-footer-spotlight-copy">
+          <p class="footer-kicker">Quality & Performance</p>
+          <h2>Una plataforma pensada para mostrar estrategia, ejecución y confianza técnica.</h2>
+          <p class="footer-copy">QA, performance engineering, automatización, contenido técnico e intereses personales integrados dentro de una experiencia más clara, visual y profesional.</p>
+
+          <div class="footer-signal-row">
+            <span class="nav-status">Disponible para proyectos de QA</span>
+            <span class="chip footer-signal-chip">Guadalajara, México</span>
+            <span class="chip footer-signal-chip">Remoto / Híbrido</span>
+          </div>
+
+          <div class="footer-cta-row">
+            <% if (typeof user !== 'undefined' && user) { %>
+              <a href="/account" class="button button-primary footer-cta-primary">Ir a mi panel</a>
+              <a href="/blog" class="button button-ghost footer-cta-secondary">Explorar blog</a>
+            <% } else { %>
+              <a href="/register" class="button button-primary footer-cta-primary">Crear cuenta</a>
+              <a href="/profile" class="button button-ghost footer-cta-secondary">Ver perfil</a>
+            <% } %>
+          </div>
         </div>
-        
-        <!-- Copyright -->
-        <div class="copyright">
-          <p>&copy; <%= new Date().getFullYear() %> Carlos Cervantes. All rights reserved.</p>
+
+        <div class="site-footer-spotlight-card">
+          <div class="footer-mini-grid">
+            <article class="footer-mini-card">
+              <span class="footer-mini-label">Enfoque</span>
+              <strong>QA que escala</strong>
+              <p>Calidad, automatización y performance con una narrativa clara para clientes y equipos.</p>
+            </article>
+            <article class="footer-mini-card">
+              <span class="footer-mini-label">Contenido</span>
+              <strong>Blog + intereses</strong>
+              <p>Una experiencia editorial donde lo técnico y lo personal conviven con mejor estructura.</p>
+            </article>
+          </div>
         </div>
+      </div>
+
+      <div class="site-footer-top">
+        <div class="site-footer-grid">
+          <div class="footer-column">
+            <span class="footer-column-title">Navegación</span>
+            <a href="/">Inicio</a>
+            <a href="/profile">Perfil</a>
+            <a href="/projects">Proyectos</a>
+            <a href="/blog">Blog</a>
+          </div>
+          <div class="footer-column">
+            <span class="footer-column-title">Explorar</span>
+            <a href="/podcast">Podcast</a>
+            <a href="/hobbies">Intereses</a>
+            <a href="/Carlos_Cervantes_CV.pdf" target="_blank" rel="noopener noreferrer">CV</a>
+            <% if (typeof user !== 'undefined' && user) { %>
+              <a href="/account">Mi panel</a>
+            <% } else { %>
+              <a href="/login">Iniciar sesión</a>
+            <% } %>
+          </div>
+          <div class="footer-column">
+            <span class="footer-column-title">Contacto</span>
+            <a href="https://github.com/CarlosCerv" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/carlos-eduardo-cervantes-arteaga" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://x.com/CarlosCerv" target="_blank" rel="noopener noreferrer">X</a>
+            <a href="mailto:carlos.cervart@icloud.com">carlos.cervart@icloud.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-footer-meta">
+        <span>&copy; <%= new Date().getFullYear() %> Carlos Cervantes</span>
+        <span>Construido para calidad, velocidad y claridad.</span>
       </div>
     </div>
   </footer>
-
-  <!-- Interactions handled in header via apple-interactions.js -->
 </body>
 </html>

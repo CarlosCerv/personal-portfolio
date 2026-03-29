@@ -1,22 +1,19 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content">
-  
-  <!-- 404 Error Page -->
-  <section class="error-page">
-    <div class="container">
-      <div class="error-content">
-        <h1 class="error-code">404</h1>
-        <h2 class="error-title">Page Not Found</h2>
-        <p class="error-description">
-          Oops! The page you're looking for doesn't exist. It might have been moved or deleted.
-        </p>
-        <a href="/" class="btn btn-primary">Go Back Home</a>
+<main class="page-shell">
+  <section class="section">
+    <div class="shell-center">
+      <div class="empty-state-card">
+        <p class="section-eyebrow">404</p>
+        <h1>Página no encontrada.</h1>
+        <p>La página que solicitaste ya no está disponible o nunca existió.</p>
+        <div class="hero-actions compact">
+          <a href="/" class="button button-primary">Volver al inicio</a>
+          <a href="/blog" class="button button-ghost">Ir al blog</a>
+        </div>
       </div>
     </div>
   </section>
-
 </main>
 
 <%- include('partials/footer') %>

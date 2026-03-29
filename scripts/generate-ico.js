@@ -1,22 +1,21 @@
-// FILE: scripts/generate-ico.js
-// Utility to generate a valid multi-resolution ICO file from PNG sources
-// Supporting 16x16 and 32x32 resolutions with transparency
-
 const fs = require('fs');
 const path = require('path');
 
 const ICON_DIR = path.join(__dirname, '..', 'public', 'images');
 const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'favicon.ico');
-
-const sizes = [
+const PNG_SOURCES = [
   { path: path.join(ICON_DIR, 'favicon_16.png'), width: 16, height: 16 },
   { path: path.join(ICON_DIR, 'favicon_32.png'), width: 32, height: 32 }
 ];
 
 function createIco() {
-  const images = sizes.map(size => {
-    const data = fs.readFileSync(size.path);
-    return { ...size, data };
+  const images = PNG_SOURCES.map((source) => {
+    if (!fs.existsSync(source.path)) {
+      throw new Error(`Missing PNG source: ${source.path}`);
+    }
+
+    const data = fs.readFileSync(source.path);
+    return { ...source, data };
   });
 
   // ICO Header (6 bytes)
@@ -34,7 +33,7 @@ function createIco() {
 
   images.forEach((img, i) => {
     const size = img.data.length;
-    
+
     // Directory Entry (16 bytes)
     // 0: Width (0 means 256)
     // 1: Height (0 means 256)
@@ -63,4 +62,9 @@ function createIco() {
   console.log(`SUCCESS: Generated transparent ICO at ${OUTPUT_PATH} (${finalIco.length} bytes)`);
 }
 
-createIco();
+try {
+  createIco();
+} catch (error) {
+  console.error(`ERROR: ${error.message}`);
+  process.exit(1);
+}

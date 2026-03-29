@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "jest --testEnvironment node --forceExit"
+    "test": "jest --testEnvironment node --forceExit",
+    "build:favicon": "node scripts/generate-ico.js"
   },
   "jest": {
     "testMatch": [
@@ -46,6 +47,6 @@
     "supertest": "^7.2.2"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   }
 }

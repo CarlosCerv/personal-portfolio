@@ -1,191 +1,127 @@
 <%- include('partials/header') %>
+<%
+  const allTags = [...new Set(posts.flatMap(post => post.tags || []))].filter(Boolean).sort((a, b) => a.localeCompare(b, 'es')).slice(0, 8);
+  const featuredPost = posts[0];
+  const remainingPosts = posts.slice(1);
+%>
 
-<main class="main-content">
-
-  <!-- Unified Header -->
-  <section class="content-page-hero">
-    <div class="container">
-      <div class="hero-badge">
-        <i class="fas fa-edit"></i>
-        <span>Thoughts & Insights</span>
+<main class="page-shell">
+  <section class="blog-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Centro de conocimiento</span>
+        <h1 class="s-title">Ideas y perspectivas.</h1>
+        <p class="s-sub">Perspectivas sobre calidad de software, performance, automatización y arquitectura, con una presentación más editorial, clara y profesional.</p>
       </div>
-      <h1 class="hero-title-large">Knowledge Hub</h1>
-      <p class="hero-subtitle-refined">
-        Strategic insights on high-scale QA automation, software quality architecture, and industry best practices.
-      </p>
 
-      <!-- Refined Search & Filters -->
-      <div class="search-filter-container" style="margin-top: var(--space-12);">
-        <div class="blog-search-wrapper">
-          <i class="fas fa-search"></i>
-          <input type="text" id="blogSearch" placeholder="Search insights..." aria-label="Search articles">
-        </div>
-
-        <div class="blog-filters-refined">
-          <button class="filter-pill active" data-filter="all">All</button>
-          <button class="filter-pill" data-filter="Mobile Testing">Mobile</button>
-          <button class="filter-pill" data-filter="Automation">Automation</button>
-          <button class="filter-pill" data-filter="CI/CD">CI/CD</button>
-          <button class="filter-pill" data-filter="QA">QA</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Blog Content -->
-  <section class="blog-list-section">
-    <div class="container">
-      <div class="content-grid">
-        <% posts.forEach((post, index) => { %>
-          <a href="/blog/<%= post.slug %>" class="unified-card post-card" data-tags="<%= post.tags.join(',') %>" style="animation-delay: <%= index * 0.1 %>s;">
-            <div class="card-tag-wrapper">
-              <% post.tags.slice(0, 2).forEach(tag => { %>
-                <span class="card-tag"><%= tag %></span>
-              <% }); %>
+      <div class="blog-shell">
+        <div class="blog-toolbar reveal">
+          <div class="blog-filter-panel">
+            <div class="search-shell search-shell-blog">
+              <span class="blog-search-icon" aria-hidden="true">⌕</span>
+              <input id="blogSearch" class="search-input blog-search-input" type="text" placeholder="Buscar por tema, extracto o tag">
+              <button type="button" class="blog-clear-button" data-blog-clear hidden>Limpiar</button>
             </div>
-            
-            <h3 class="card-title-refined"><%= post.title %></h3>
-            
-            <p class="card-desc-refined">
-              <%= post.excerpt %>
-            </p>
-            
-            <div class="blog-card-footer">
-              <div class="post-author-mini">
-                <img src="/images/profile.jpg" alt="<%= post.author %>" class="author-avatar-xs">
-                <div class="author-info-mini">
-                  <span class="author-name-mini"><%= post.author %></span>
-                  <div class="post-meta-mini">
-                    <time><%= new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
-                    <span class="separator">•</span>
-                    <div class="card-social-previews">
-                        <span><i class="far fa-heart"></i> <%= post.likes ? post.likes.length : 0 %></span>
-                        <span><i class="far fa-comment"></i> <%= post.commentCount || 0 %></span>
-                    </div>
-                  </div>
-                </div>
+            <div class="blog-filter-row">
+              <div class="filter-bar filter-bar-blog" role="tablist" aria-label="Filtrar posts por tag">
+                <button type="button" class="blog-filter-chip active" data-blog-filter="all">Todos</button>
+                <% allTags.forEach(tag => { %>
+                  <button type="button" class="blog-filter-chip" data-blog-filter="<%= tag %>"><%= tag %></button>
+                <% }); %>
               </div>
-              
-              <div class="card-action-mini">
-                <i class="fas fa-arrow-right"></i>
+              <div class="blog-filter-status" data-blog-results>
+                Mostrando <strong><%= posts.length %></strong> artículos
               </div>
+            </div>
+          </div>
+        </div>
+
+        <% if (featuredPost) { %>
+          <a
+            href="/blog/<%= featuredPost.slug %>"
+            class="blog-featured reveal"
+            data-post-card
+            data-title="<%= featuredPost.title %>"
+            data-excerpt="<%= featuredPost.excerpt %>"
+            data-tags="<%= (featuredPost.tags || []).join(',') %>"
+          >
+            <div class="blog-featured-copy">
+              <span class="blog-featured-label">Artículo destacado</span>
+              <div class="blog-tags blog-tags-featured">
+                <% (featuredPost.tags || []).slice(0, 4).forEach(tag => { %>
+                  <span class="blog-tag"><%= tag %></span>
+                <% }) %>
+              </div>
+              <h2><%= featuredPost.title %></h2>
+              <p><%= featuredPost.excerpt %></p>
+              <div class="blog-meta">
+                <img src="/images/profile.jpg" alt="<%= featuredPost.author %>">
+                <span><%= featuredPost.author %></span>
+                <span>·</span>
+                <time><%= new Date(featuredPost.date).toLocaleDateString('es-MX', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+                <span class="blog-stats">
+                  <span>·</span>
+                  <span><%= featuredPost.likes ? featuredPost.likes.length : 0 %> me gusta</span>
+                  <span>·</span>
+                  <span><%= featuredPost.commentCount || 0 %> comentarios</span>
+                </span>
+              </div>
+            </div>
+            <div class="blog-featured-side">
+              <span class="blog-featured-kicker">Lectura recomendada</span>
+              <div class="blog-featured-panel">
+                <strong>QA, performance y automatización</strong>
+                <span>Contenido pensado para líderes técnicos, equipos de calidad y profesionales que están construyendo sistemas más confiables.</span>
+              </div>
+              <span class="project-link">Leer artículo →</span>
             </div>
           </a>
-        <% }); %>
+        <% } %>
+
+        <div class="blog-grid-refined">
+      <% remainingPosts.forEach((post, index) => { %>
+        <a
+          href="/blog/<%= post.slug %>"
+          class="blog-card reveal"
+          data-post-card
+          data-title="<%= post.title %>"
+          data-excerpt="<%= post.excerpt %>"
+          data-tags="<%= (post.tags || []).join(',') %>"
+          style="transition-delay:<%= index * 40 %>ms;"
+        >
+          <div class="blog-tags">
+            <% (post.tags || []).slice(0, 3).forEach(tag => { %>
+              <span class="blog-tag"><%= tag %></span>
+            <% }) %>
+            <% if ((post.tags || []).length > 3) { %>
+              <span class="blog-tag blog-tag-muted">+<%= post.tags.length - 3 %></span>
+            <% } %>
+          </div>
+          <div class="blog-title"><%= post.title %></div>
+          <p class="blog-excerpt"><%= post.excerpt %></p>
+          <div class="blog-meta">
+            <img src="/images/profile.jpg" alt="<%= post.author %>">
+            <span><%= post.author %></span>
+            <span>·</span>
+            <time><%= new Date(post.date).toLocaleDateString('es-MX', { month: 'short', day: 'numeric', year: 'numeric' }) %></time>
+            <span class="blog-stats">
+              <span>·</span>
+              <span><%= post.likes ? post.likes.length : 0 %> me gusta</span>
+              <span>·</span>
+              <span><%= post.commentCount || 0 %> comentarios</span>
+            </span>
+          </div>
+        </a>
+      <% }) %>
+        </div>
+        <div class="blog-empty-state empty-state-card" data-blog-empty hidden>
+          <span class="tag">Sin resultados</span>
+          <h3>No encontramos artículos con esos filtros.</h3>
+          <p class="muted-copy">Prueba con otra palabra clave o limpia el filtro activo para volver a ver todo el contenido.</p>
+        </div>
       </div>
     </div>
   </section>
-
 </main>
-
-<style>
-  /* Local styles for Search/Filters to keep them isolated */
-  .blog-search-wrapper {
-    position: relative;
-    max-width: 500px;
-    margin: 0 auto var(--space-6);
-  }
-  .blog-search-wrapper i {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-hint);
-  }
-  .blog-search-wrapper input {
-    width: 100%;
-    padding: 16px 20px 16px 50px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-light);
-    border-radius: 12px;
-    font-size: var(--text-md);
-    transition: all 0.3s ease;
-  }
-  .blog-search-wrapper input:focus {
-    background: var(--bg-surface);
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 4px var(--accent-light);
-    outline: none;
-  }
-  .blog-filters-refined {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-2);
-    flex-wrap: wrap;
-  }
-  .filter-pill {
-    padding: 6px 16px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .filter-pill.active, .filter-pill:hover {
-    background: var(--text-main);
-    color: var(--bg-surface);
-    border-color: var(--text-main);
-  }
-  .blog-card-footer {
-    margin-top: auto;
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .post-author-mini {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-  .author-avatar-xs {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    object-fit: cover;
-    border: 1px solid var(--border-light);
-  }
-  .author-info-mini {
-    display: flex;
-    flex-direction: column;
-  }
-  .author-name-mini {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: var(--text-main);
-  }
-  .post-meta-mini {
-    display: flex;
-    gap: 6px;
-    font-size: 10px;
-    color: var(--text-hint);
-    font-weight: 500;
-  }
-  .card-action-mini {
-    width: 28px;
-    height: 28px;
-    border-radius: var(--radius-full);
-    background: var(--bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    color: var(--text-main);
-    transition: all 0.3s ease;
-  }
-    .unified-card:hover .card-action-mini {
-      background: var(--text-main);
-      color: var(--bg-surface);
-      transform: translateX(4px);
-    }
-    /* Community Engagement Counters */
-    .card-social-previews { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-muted); opacity: 0.8; }
-    .card-social-previews span { display: flex; align-items: center; gap: 0.25rem; }
-    .post-meta-mini { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-  </style>
 
 <%- include('partials/footer') %>

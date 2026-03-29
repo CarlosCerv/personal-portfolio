@@ -1,134 +1,108 @@
 <%- include('partials/header') %>
 
-<!-- Main Content -->
-<main class="main-content">
-  
-  <!-- Hobby Detail Header -->
-  <section class="hobby-detail-header" style="background-image: url('<%= hobby.backgroundImage %>');">
-    <div class="hobby-header-overlay"></div>
-    <div class="container">
-      <a href="/hobbies" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Hobbies
-      </a>
-      <div class="hobby-detail-hero">
-        <div class="hobby-detail-icon">
-          <i class="<%= hobby.icon %>"></i>
+<main class="page-shell">
+  <section class="section page-hero hobby-detail-hero">
+    <div class="detail-grid hobby-detail-grid">
+      <div class="reveal">
+        <a href="/hobbies" class="button button-ghost hobby-back-button">Volver a intereses</a>
+        <span class="section-eyebrow hobby-detail-eyebrow"><i class="<%= hobby.icon %>"></i><%= hobby.title %></span>
+        <h1 class="page-title"><%= hobby.subtitle %></h1>
+        <p class="page-intro"><%= hobby.description %></p>
+        <div class="hobby-hero-meta">
+          <span class="chip">Inicio: <%= hobby.started %></span>
+          <span class="chip">Frecuencia: <%= hobby.frequency %></span>
+          <span class="chip">Nivel: <%= hobby.level %></span>
         </div>
-        <h1 class="hobby-detail-title"><%= hobby.title %></h1>
-        <p class="hobby-detail-subtitle"><%= hobby.subtitle %></p>
+      </div>
+
+      <div class="detail-panel hobby-hero-panel reveal" style="background-image:linear-gradient(rgba(255,255,255,0.74), rgba(255,255,255,0.92)), url('<%= hobby.backgroundImage %>');background-size:cover;background-position:center;">
+        <span class="tag">Vista general</span>
+        <h3>Lo que este interés aporta a mi forma de pensar.</h3>
+        <ul class="meta-list hobby-meta-list">
+          <li>Práctica sostenida y mejora continua</li>
+          <li>Espacio personal para experimentar y aprender</li>
+          <li>Más energía, perspectiva y sensibilidad fuera del trabajo</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Hobby Content -->
-  <section class="hobby-detail-content">
-    <div class="container">
-      <div class="content-grid">
-        
-        <!-- Main Content -->
-        <div class="main-content-area">
-          <div class="content-section">
-            <h2>About My <%= hobby.title %> Journey</h2>
-            <p><%= hobby.description %></p>
-          </div>
+  <section class="section">
+    <div class="split-grid hobby-detail-content">
+      <div class="content-card reveal">
+        <span class="section-eyebrow">Por qué importa</span>
+        <h3>Por qué me gusta <%= hobby.title %></h3>
+        <p class="muted-copy"><%= hobby.why %></p>
+        <% if (hobby.experience) { %>
+          <div class="hobby-detail-divider"></div>
+          <span class="section-eyebrow">Experiencia</span>
+          <p class="muted-copy"><%= hobby.experience %></p>
+        <% } %>
+      </div>
 
-          <div class="content-section">
-            <h2>Why I Love <%= hobby.title %></h2>
-            <p><%= hobby.why %></p>
-          </div>
-
-          <% if (hobby.experience) { %>
-          <div class="content-section">
-            <h2>My Experience</h2>
-            <p><%= hobby.experience %></p>
-          </div>
-          <% } %>
-
-          <% if (hobby.highlights && hobby.highlights.length > 0) { %>
-          <div class="content-section">
-            <h2>Highlights & Favorites</h2>
-            <ul class="highlights-list">
-              <% hobby.highlights.forEach(highlight => { %>
-                <li><i class="fas fa-star"></i> <%= highlight %></li>
-              <% }); %>
-            </ul>
-          </div>
-          <% } %>
-
-          <% if (hobby.goals && hobby.goals.length > 0) { %>
-          <div class="content-section">
-            <h2>Goals & Aspirations</h2>
-            <ul class="goals-list">
-              <% hobby.goals.forEach(goal => { %>
-                <li><i class="fas fa-check-circle"></i> <%= goal %></li>
-              <% }); %>
-            </ul>
-          </div>
-          <% } %>
-        </div>
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-          <div class="info-card">
-            <h3>Quick Facts</h3>
-            <div class="fact-item">
-              <span class="fact-label">Started:</span>
-              <span class="fact-value"><%= hobby.started %></span>
-            </div>
-            <div class="fact-item">
-              <span class="fact-label">Frequency:</span>
-              <span class="fact-value"><%= hobby.frequency %></span>
-            </div>
-            <div class="fact-item">
-              <span class="fact-label">Level:</span>
-              <span class="fact-value"><%= hobby.level %></span>
-            </div>
-          </div>
-
-          <% if (hobby.equipment && hobby.equipment.length > 0) { %>
-          <div class="info-card">
-            <h3>Equipment & Tools</h3>
-            <ul class="equipment-list">
-              <% hobby.equipment.forEach(item => { %>
-                <li><%= item %></li>
-              <% }); %>
-            </ul>
-          </div>
-          <% } %>
-
-          <% if (hobby.resources && hobby.resources.length > 0) { %>
-          <div class="info-card">
-            <h3>Favorite Resources</h3>
-            <ul class="resources-list">
-              <% hobby.resources.forEach(resource => { %>
-                <li><i class="fas fa-link"></i> <%= resource %></li>
-              <% }); %>
-            </ul>
-          </div>
-          <% } %>
-        </aside>
-
+      <div class="content-card reveal d1">
+        <span class="section-eyebrow">Destacados</span>
+        <ul class="bullet-list hobby-feature-list">
+          <% hobby.highlights.forEach(highlight => { %>
+            <li><%= highlight %></li>
+          <% }) %>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Related Hobbies -->
-  <section class="related-hobbies">
-    <div class="container">
-      <h2 class="section-title">Other Interests</h2>
+  <section class="section">
+    <div class="split-grid hobby-detail-content">
+      <% if (hobby.goals && hobby.goals.length > 0) { %>
+        <div class="content-card reveal">
+          <span class="section-eyebrow">Objetivos</span>
+          <ul class="bullet-list hobby-feature-list">
+            <% hobby.goals.forEach(goal => { %>
+              <li><%= goal %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <div class="content-card reveal d1">
+        <% if (hobby.equipment && hobby.equipment.length > 0) { %>
+          <span class="section-eyebrow">Herramientas</span>
+          <ul class="bullet-list hobby-feature-list">
+            <% hobby.equipment.forEach(item => { %>
+              <li><%= item %></li>
+            <% }) %>
+          </ul>
+        <% } %>
+        <% if (hobby.resources && hobby.resources.length > 0) { %>
+          <div class="hobby-detail-divider"></div>
+          <span class="section-eyebrow">Recursos</span>
+          <ul class="resource-list hobby-feature-list">
+            <% hobby.resources.forEach(resource => { %>
+              <li><%= resource %></li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hobby-related-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">Más intereses</span>
+        <h2 class="section-title">Otros espacios que también forman parte de mi identidad.</h2>
+      </div>
       <div class="related-grid">
         <% relatedHobbies.forEach(related => { %>
-          <a href="/hobbies/<%= related.slug %>" class="related-card">
-            <div class="related-icon">
-              <i class="<%= related.icon %>"></i>
-            </div>
-            <h4><%= related.title %></h4>
+          <a href="/hobbies/<%= related.slug %>" class="related-card glass-card reveal">
+            <span class="tag"><i class="<%= related.icon %>"></i><%= related.title %></span>
+            <h3><%= related.title %></h3>
+            <p class="muted-copy">Explora cómo este interés complementa disciplina, creatividad y perspectiva personal.</p>
           </a>
-        <% }); %>
+        <% }) %>
       </div>
     </div>
   </section>
-
 </main>
 
 <%- include('partials/footer') %>

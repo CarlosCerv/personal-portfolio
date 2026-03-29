@@ -1,92 +1,79 @@
-# Quality & Performance — Premium Portfolio
+# Carlos Cervantes | QA & Performance Portfolio
 
 [![Platform](https://img.shields.io/badge/Platform-Node.js-black?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![Database](https://img.shields.io/badge/Database-MongoDB-black?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
-[![Design](https://img.shields.io/badge/Design-Apple--Inspired-black?style=flat-square&logo=apple)](https://www.apple.com/design/)
+[![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com/)
 [![License](https://img.shields.io/badge/License-MIT-black?style=flat-square)](LICENSE)
 
-A high-end, professional portfolio platform designed for **Quality Assurance Specialists** and **Performance Engineers**. Optimized for visual impact, high-scale recruitment, and international brand presence.
+Portafolio profesional construido con Express y EJS para presentar servicios de QA, performance engineering, blog técnico, secciones editoriales y flujos de autenticación con sesiones.
 
-**[Live Platform](https://carloscervantes.qa)** | **[Documentation](docs/)**
+Sitio en producción: [https://carloscervantes-qa.vercel.app](https://carloscervantes-qa.vercel.app)
 
----
+## Qué incluye
 
-##  The Design Philosophy
+- Home comercial con journeys visuales y animaciones suaves.
+- Perfil, proyectos, podcast e intereses con diseño editorial unificado.
+- Blog con filtros, etiquetas y detalle de posts.
+- Registro, login y panel de usuario con sesiones.
+- Panel admin privado accesible solo por URL.
+- Metadatos SEO/Open Graph listos para compartir en WhatsApp y redes.
 
-Built with a strict **Apple-inspired Monochrome Aesthetic**, the platform prioritizes clarity, precision, and visual hierarchy.
+## Stack
 
-- **Monochrome Slate Palette**: A sophisticated grayscale design system that eliminates distractions.
-- **Apple Typography**: Leveraging the system font stack (SF Pro, Inter, SF Mono) for a native, premium feel.
-- **Bento-Grid Architecture**: A unified content system for Projects, Podcast, Hobbies, and Blog cards.
-- **Glassmorphism**: Elegant mobile navigation with staggered animations and blurred backdrops.
+- Backend: Node.js, Express, Mongoose
+- Frontend: EJS, CSS personalizado, JavaScript vanilla
+- Base de datos: MongoDB
+- Auth y sesión: `express-session` + `connect-mongo`
+- Deploy: Vercel
 
----
+## Arranque local
 
-## 🔘 Key Features
-
-### International Identity
-- **Full English Localization**: Every user-facing and administrative label is in English.
-- **Global Branding**: Standardized under the **"Quality & Performance"** identity.
-- **Professional Metadata**: SEO-optimized descriptions and Open Graph integration.
-
-### Content Infrastructure
-- **Unified Card System**: Consistent design tokens across all content types.
-- **Markdown Blog Engine**: Flexible, high-performance publishing.
-- **Dynamic GitHub Sync**: Projects are automatically fetched and displayed via GitHub API.
-- **Admin Dashboard**: A secure, monochrome-styled backend for content management.
-
-### Technical Excellence
-- **Zero Framework Bloat**: Pure Vanilla JS and CSS variables for maximum performance.
-- **Security First**: Session-only cookies, No-Cache headers, and NoSQL injection protection.
-- **Responsive**: Pixel-perfect layout from UltraWide desktops to mobile devices.
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- **Node.js** (v18+)
-- **MongoDB** (Atlas or local)
-
-### Installation
 ```bash
 git clone https://github.com/CarlosCerv/personal-portfolio.git
 cd personal-portfolio
 npm install
-cp .env.example .env
-# Configure MONGODB_URI and ADMIN_PASSWORD in .env
 npm run dev
 ```
 
----
+Variables recomendadas:
 
-## 📂 Project Navigation
+```env
+PORT=3000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/personal-portfolio
+SESSION_SECRET=replace-this-secret
+ADMIN_PASSWORD=replace-this-password
+SITE_URL=http://localhost:3000
+GITHUB_TOKEN=optional
+```
 
-- **[docs/BRAND_GUIDE.md](docs/BRAND_GUIDE.md)**: Visual tokens, colors, and typography.
-- **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**: Vercel & MongoDB Atlas setup.
-- **[docs/CONTENT_UPDATE_GUIDE.md](docs/CONTENT_UPDATE_GUIDE.md)**: How to update profile and blog.
-- **[docs/MANUAL_DEPLOY_INSTRUCTIONS.md](docs/MANUAL_DEPLOY_INSTRUCTIONS.md)**: Advanced deployment scenarios.
+## Scripts
 
----
+```bash
+npm run dev
+npm test
+npm run build:favicon
+```
 
-## 🛠 Tech Stack
+`npm run build:favicon` genera `public/favicon.ico` a partir de los PNGs del logo actual.
 
-| Layer | Technologies |
-|---|---|
-| **Backend** | Node.js, Express, Mongoose |
-| **Frontend** | EJS Templates, Vanilla CSS, JS |
-| **Database** | MongoDB (Cloud Atlas) |
-| **Styling** | Custom CSS Variable System |
-| **Icons** | Font Awesome (Monochrome) |
-| **Deployment**| Vercel (Production) |
+## Estructura importante
 
----
+- `app.js`: servidor Express, sesiones, metadatos y rutas
+- `views/`: páginas y parciales EJS
+- `public/css/style-redesign.css`: sistema visual principal
+- `public/js/site.js`: interacciones y animaciones
+- `posts/`: contenido Markdown del blog
+- `docs/`: documentación de marca, contenido y despliegue
 
-## ⚖️ License
+## Documentación
 
-Distributed under the MIT License. See `LICENSE` for more information.
+- [Brand Guide](docs/BRAND_GUIDE.md)
+- [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
 
----
+## Notas
 
-**Developed by [Carlos Cervantes](https://linkedin.com/in/carloscerteaga)**  
-*Quality & Performance Engineering Strategy*
+- El botón del admin no se muestra en la UI pública; el acceso es por URL.
+- La aplicación usa un sistema híbrido de contenido: vistas estáticas + posts en MongoDB/Markdown.
+- El branding actual usa `brand-mark.svg`, `favicon.ico` y `apple-touch-icon.png`.

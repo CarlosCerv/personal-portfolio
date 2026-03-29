@@ -436,6 +436,7 @@ section {
 @media (max-width: 991px) {
   .nav-toggle {
     display: flex;
+    margin-top: 15px; /* Lower the hamburger */
   }
 
   .nav-menu {
@@ -445,15 +446,15 @@ section {
     width: 100%;
     height: 100vh;
     margin-top: 0;
-    background: rgba(255, 255, 255, 0.9); /* Light Apple Glass */
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.98); /* Purer background */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     transform: translateX(100%);
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 1000;
   }
 
@@ -468,12 +469,16 @@ section {
   }
 
   .nav-link {
-    font-size: var(--text-3xl) !important;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: 1.8rem !important; /* More elegant than 3xl */
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-main) !important;
     opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease;
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    padding: 1rem 0;
+    width: 100%;
+    text-align: center;
   }
 
   .nav-menu.active .nav-link {

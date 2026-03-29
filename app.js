@@ -8,7 +8,9 @@ const mongoose = require('mongoose');
 const Post = require('./models/Post');
 const User = require('./models/User');
 const Comment = require('./models/Comment');
+const Hobby = require('./models/Hobby');
 const bcrypt = require('bcrypt');
+const { getHobbyData, getAllHobbies } = require('./data/hobbies');
 
 const helmet = require('helmet');
 const cors = require('cors');
@@ -22,13 +24,55 @@ const sanitizeHtml = require('sanitize-html');
 const app = express();
 app.set('trust proxy', 1); // Respect Vercel's proxy for express-rate-limit
 const PORT = process.env.PORT || 3000;
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://carloscervantes.qa' : 'http://localhost:3000';
+const SITE_NAME = 'Carlos Cervantes';
+const SITE_TITLE = 'Quality Assurance y Performance Engineering';
+const DEFAULT_SITE_DESCRIPTION = 'Consultoría de QA, automatización y performance engineering para productos digitales que necesitan escalar con confianza.';
+const GITHUB_USERNAME = 'CarlosCerv';
+const PUBLIC_DIR = path.join(__dirname, 'public');
+const FAVICON_PATH = path.join(PUBLIC_DIR, 'favicon.ico');
+const BASE_URL = process.env.SITE_URL
+  || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null)
+  || (process.env.NODE_ENV === 'production' ? 'https://carloscervantes-qa.vercel.app' : 'http://localhost:3000');
 
 // MongoDB connection string (use environment variable in production)
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/personal-portfolio';
 
 // Admin password (in production, use environment variables and proper authentication)
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+
+function truncateText(text = '', maxLength = 160) {
+  const clean = String(text).replace(/\s+/g, ' ').trim();
+  if (clean.length <= maxLength) return clean;
+  return `${clean.substring(0, maxLength - 1).trim()}…`;
+}
+
+function buildMeta({
+  title,
+  description,
+  path = '/',
+  image,
+  type = 'website'
+}) {
+  const normalizedPath = path === '/' ? '' : path;
+  const metaTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | ${SITE_TITLE}`;
+
+  return {
+    metaTitle,
+    metaDescription: truncateText(description || DEFAULT_SITE_DESCRIPTION),
+    metaUrl: `${BASE_URL}${normalizedPath || '/'}`.replace(/([^:]\/)\/+/g, '$1'),
+    metaImage: image || `${BASE_URL}/images/og-image.png`,
+    metaImageAlt: `${title || SITE_NAME} - vista previa del sitio`,
+    metaType: type
+  };
+}
+
+function buildAuthMeta(path, title, description) {
+  return buildMeta({ title, description, path });
+}
+
+function renderPage(res, view, locals) {
+  res.render(view, locals);
+}
 
 // Connect to MongoDB with better error handling
 if (process.env.NODE_ENV !== 'test') {
@@ -66,7 +110,7 @@ app.use(helmet({
       scriptSrcAttr: ["'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://carloscervantes.qa"],
+      imgSrc: ["'self'", "data:", "https://images.unsplash.com", "https://carloscervantes-qa.vercel.app"],
       connectSrc: ["'self'", "https://api.github.com"],
     },
   },
@@ -74,7 +118,9 @@ app.use(helmet({
 
 // 2. CORS: Restrict domain access
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? ['https://carloscervantes.qa', 'https://personal-portfolio-kappa-five-68.vercel.app'] : '*',
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://carloscervantes-qa.vercel.app', 'https://personal-portfolio-kappa-five-68.vercel.app']
+    : '*',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -129,11 +175,19 @@ app.use(session({
 // Middleware to add user and SEO defaults to all templates
 app.use(async (req, res, next) => {
   res.locals.user = null;
+  res.locals.isAdminAuthenticated = !!(req.session && req.session.isAuthenticated);
   res.locals.BASE_URL = BASE_URL;
-  res.locals.metaDescription = 'Carlos Cervantes — Performance & QA Strategic Consultant. Helping CTOs and engineering leaders guarantee flawless launches and scalable systems.';
-  res.locals.metaImage = `${BASE_URL}/images/og-image.png`;
-  res.locals.metaUrl = `${BASE_URL}${req.path}`;
-  res.locals.metaType = 'website';
+  const defaultMeta = buildMeta({
+    title: SITE_TITLE,
+    description: DEFAULT_SITE_DESCRIPTION,
+    path: req.path
+  });
+  res.locals.metaTitle = defaultMeta.metaTitle;
+  res.locals.metaDescription = defaultMeta.metaDescription;
+  res.locals.metaImage = defaultMeta.metaImage;
+  res.locals.metaImageAlt = defaultMeta.metaImageAlt;
+  res.locals.metaUrl = defaultMeta.metaUrl;
+  res.locals.metaType = defaultMeta.metaType;
   
   if (req.session.userId) {
     try {
@@ -164,6 +218,13 @@ const requireAdmin = (req, res, next) => {
   res.redirect('/admin');
 };
 
+const requireUser = (req, res, next) => {
+  if (req.session && req.session.userId) {
+    return next();
+  }
+  res.redirect('/login');
+};
+
 // Specific stricter limit for admin login POST requests
 const adminLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes instead of 1 hour
@@ -176,11 +237,12 @@ const adminLimiter = rateLimit({
 // Explicit favicon route — placed before static middleware and rate limiter scope
 // to guarantee it is served correctly in all environments
 app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'images', 'brand-logo.png'));
+  res.type('image/x-icon');
+  res.sendFile(FAVICON_PATH);
 });
 
 // Serve remaining static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public'), {
+app.use(express.static(PUBLIC_DIR, {
   maxAge: '7d',
   etag: true,
   lastModified: true
@@ -211,6 +273,95 @@ const cache = {
     this._store[key] = { value, expiresAt: Date.now() + ttlMs };
   }
 };
+
+function toList(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item || '').trim()).filter(Boolean);
+  }
+  return String(value || '')
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function normalizeHobbyRecord(hobby = {}) {
+  return {
+    slug: hobby.slug,
+    title: hobby.title,
+    subtitle: hobby.subtitle,
+    icon: hobby.icon,
+    backgroundImage: hobby.backgroundImage,
+    description: hobby.description,
+    why: hobby.why,
+    experience: hobby.experience,
+    highlights: toList(hobby.highlights),
+    goals: toList(hobby.goals),
+    started: hobby.started,
+    frequency: hobby.frequency,
+    level: hobby.level,
+    equipment: toList(hobby.equipment),
+    resources: toList(hobby.resources),
+    order: Number.isFinite(Number(hobby.order)) ? Number(hobby.order) : 0,
+    visible: hobby.visible !== false,
+    source: hobby.source || 'database'
+  };
+}
+
+async function getManagedHobbies() {
+  const fallbackHobbies = getAllHobbies().map((item, index) => {
+    const hobby = getHobbyData(item.slug);
+    return normalizeHobbyRecord({ ...hobby, order: index, source: 'default' });
+  });
+
+  if (process.env.NODE_ENV === 'test' || mongoose.connection.readyState !== 1) {
+    return fallbackHobbies;
+  }
+
+  try {
+    const storedHobbies = await Hobby.find().sort({ order: 1, title: 1 }).lean();
+    if (!storedHobbies.length) {
+      return fallbackHobbies;
+    }
+
+    const storedMap = new Map(
+      storedHobbies.map((hobby) => [hobby.slug, normalizeHobbyRecord(hobby)])
+    );
+
+    const mergedDefaults = fallbackHobbies
+      .map((hobby) => storedMap.get(hobby.slug) || hobby)
+      .filter((hobby) => hobby.visible !== false);
+
+    const customHobbies = storedHobbies
+      .map((hobby) => normalizeHobbyRecord(hobby))
+      .filter((hobby) => !getHobbyData(hobby.slug))
+      .filter((hobby) => hobby.visible !== false);
+
+    return [...mergedDefaults, ...customHobbies];
+  } catch (error) {
+    console.error('Error fetching hobbies:', error);
+    return fallbackHobbies;
+  }
+}
+
+async function getManagedHobby(slug) {
+  const fallbackHobby = getHobbyData(slug)
+    ? normalizeHobbyRecord({ ...getHobbyData(slug), source: 'default' })
+    : null;
+
+  if (process.env.NODE_ENV === 'test' || mongoose.connection.readyState !== 1) {
+    return fallbackHobby;
+  }
+
+  try {
+    const hobby = await Hobby.findOne({ slug }).lean();
+    if (!hobby) return fallbackHobby;
+    if (hobby.visible === false) return null;
+    return normalizeHobbyRecord(hobby);
+  } catch (error) {
+    console.error('Error fetching hobby:', error);
+    return fallbackHobby;
+  }
+}
 
 /**
  * Helper function to read and parse all blog posts from database
@@ -295,14 +446,13 @@ async function getGitHubProjects() {
   if (cached) return cached;
 
   try {
-    const username = 'CarlosCerv';
     const headers = {
       'Accept': 'application/vnd.github.v3+json',
       ...(process.env.GITHUB_TOKEN && { 'Authorization': `token ${process.env.GITHUB_TOKEN}` })
     };
 
     const response = await fetch(
-      `https://api.github.com/users/${username}/repos?sort=updated&per_page=50`,
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=50`,
       { headers }
     );
 
@@ -320,7 +470,7 @@ async function getGitHubProjects() {
     const projectsPromises = filteredRepos.map(async (repo) => {
       let description = repo.description;
       if (!description || description.trim() === '') {
-        const readmeDesc = await getRepoDescription(username, repo.name);
+        const readmeDesc = await getRepoDescription(GITHUB_USERNAME, repo.name);
         description = readmeDesc || 'No description available';
       }
       return {
@@ -350,11 +500,15 @@ async function getGitHubProjects() {
  * STRATEGIC LANDING PAGE - Software Quality Assurance
  */
 app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Quality & Performance | Software QA Consulting',
+  const meta = buildMeta({
+    title: 'Consultoría de QA y Performance',
+    description: 'Carlos Cervantes ayuda a equipos de producto a mejorar calidad, automatización y performance para lanzar software más confiable.',
+    path: '/'
+  });
+  renderPage(res, 'index', {
+    title: 'Quality & Performance | Consultoría de QA',
     currentPage: 'home',
-    metaDescription: 'Carlos Cervantes — Performance & QA Strategic Consultant. Specializing in high-scale systems, mobile automation, and quality engineering strategies for mission-critical applications.',
-    metaUrl: BASE_URL
+    ...meta
   });
 });
 
@@ -362,11 +516,15 @@ app.get('/', (req, res) => {
  * PROFESSIONAL PROFILE - Experience & Proof
  */
 app.get('/profile', (req, res) => {
-  res.render('profile', {
-    title: 'Professional Profile | Carlos Cervantes',
+  const meta = buildMeta({
+    title: 'Perfil Profesional',
+    description: 'Conoce la trayectoria, experiencia y enfoque técnico de Carlos Cervantes en QA, automatización y performance engineering.',
+    path: '/profile'
+  });
+  renderPage(res, 'profile', {
+    title: 'Perfil Profesional | Carlos Cervantes',
     currentPage: 'profile',
-    metaDescription: 'Detailed professional experience, certifications, and technical skills of Carlos Cervantes.',
-    metaUrl: `${BASE_URL}/profile`
+    ...meta
   });
 });
 
@@ -376,20 +534,30 @@ app.get('/profile', (req, res) => {
 app.get('/projects', async (req, res) => {
   try {
     const projects = await getGitHubProjects();
-    res.render('projects', {
-      title: 'Projects',
+    const meta = buildMeta({
+      title: 'Proyectos',
+      description: 'Explora proyectos, repositorios y trabajo técnico de Carlos Cervantes en testing, automatización y desarrollo.',
+      path: '/projects'
+    });
+    renderPage(res, 'projects', {
+      title: 'Proyectos',
       currentPage: 'projects',
       projects,
-      metaDescription: 'Explore my open-source contributions and professional projects in QA automation, performance testing, and full-stack development.',
-      metaUrl: `${BASE_URL}/projects`
+      ...meta
     });
   } catch (error) {
     console.error('Error fetching projects:', error);
-    res.render('projects', {
-      title: 'Projects',
+    const meta = buildMeta({
+      title: 'Proyectos',
+      description: 'Explora proyectos, repositorios y trabajo técnico de Carlos Cervantes en testing, automatización y desarrollo.',
+      path: '/projects'
+    });
+    renderPage(res, 'projects', {
+      title: 'Proyectos',
       currentPage: 'projects',
       projects: [],
-      error: 'Unable to load projects at this time.'
+      error: 'No fue posible cargar los proyectos en este momento.',
+      ...meta
     });
   }
 });
@@ -399,12 +567,16 @@ app.get('/projects', async (req, res) => {
  */
 app.get('/blog', async (req, res) => {
   const posts = await getBlogPosts();
-  res.render('blog', {
+  const meta = buildMeta({
+    title: 'Blog de QA y Performance',
+    description: 'Artículos sobre calidad de software, performance, automatización y buenas prácticas para equipos de ingeniería.',
+    path: '/blog'
+  });
+  renderPage(res, 'blog', {
     title: 'Blog',
     currentPage: 'blog',
     posts,
-    metaDescription: 'Technical insights on Quality Assurance, Performance Engineering, and Software Architecture by Carlos Cervantes.',
-    metaUrl: `${BASE_URL}/blog`
+    ...meta
   });
 });
 
@@ -418,7 +590,7 @@ app.get('/blog/:slug', async (req, res) => {
 
     if (!post) {
       return res.status(404).render('404', {
-        title: 'Post Not Found',
+      title: 'Post No Encontrado',
         currentPage: 'blog'
       });
     }
@@ -432,20 +604,18 @@ app.get('/blog/:slug', async (req, res) => {
       .sort({ createdAt: -1 });
 
     // Generate a clean text excerpt for meta description if not provided
-    const metaDescription = post.metaDescription || post.content
-      .replace(/[#*`_~\[\]()]/g, '')
-      .trim()
-      .substring(0, 160)
-      .replace(/\n/g, ' ') + '...';
+    const meta = buildMeta({
+      title: post.title,
+      description: post.metaDescription || post.content.replace(/[#*`_~\[\]()]/g, '').replace(/\n/g, ' '),
+      path: `/blog/${post.slug}`,
+      image: post.coverImage,
+      type: 'article'
+    });
 
-    const metaImage = post.coverImage || `${BASE_URL}/images/og-image.png`;
-
-    res.render('post', {
+    renderPage(res, 'post', {
       title: post.title,
       currentPage: 'blog',
-      metaDescription,
-      metaImage,
-      metaUrl: `${BASE_URL}/blog/${post.slug}`,
+      ...meta,
       post,
       comments
     });
@@ -459,304 +629,119 @@ app.get('/blog/:slug', async (req, res) => {
  * PODCAST PAGE
  */
 app.get('/podcast', (req, res) => {
-  res.render('podcast', {
+  const meta = buildMeta({
     title: 'Podcast',
-    currentPage: 'podcast'
+    description: 'Una propuesta editorial sobre calidad, automatización y performance para equipos que construyen software confiable.',
+    path: '/podcast'
+  });
+  renderPage(res, 'podcast', {
+    title: 'Podcast',
+    currentPage: 'podcast',
+    ...meta
   });
 });
 
 /**
  * HOBBIES PAGE
  */
-app.get('/hobbies', (req, res) => {
-  res.render('hobbies', {
-    title: 'Hobbies',
-    currentPage: 'hobbies'
+app.get('/hobbies', async (req, res) => {
+  const hobbyCards = await getManagedHobbies();
+
+  const meta = buildMeta({
+    title: 'Intereses',
+    description: 'Conoce los intereses de Carlos Cervantes fuera del trabajo: fotografía, música, viajes, lectura, cocina y fitness.',
+    path: '/hobbies'
+  });
+
+  renderPage(res, 'hobbies', {
+    title: 'Intereses',
+    currentPage: 'hobbies',
+    hobbyCards,
+    ...meta
   });
 });
 
 /**
- * Helper function to get hobby data
- */
-function getHobbyData(slug) {
-  const hobbies = {
-    photography: {
-      slug: 'photography',
-      title: 'Photography',
-      subtitle: 'Capturing moments and telling stories through the lens',
-      icon: 'fas fa-camera',
-      backgroundImage: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1600&h=400&fit=crop',
-      description: 'Photography has been a creative passion of mine for several years. I started with basic smartphone photography and gradually evolved to using professional cameras. What began as a simple interest has transformed into a serious hobby where I constantly explore new techniques, compositions, and styles.',
-      why: 'Photography allows me to see the world differently. It trains my eye to notice details, patterns, and beauty in everyday moments that others might overlook. Each photograph tells a story, preserves a memory, and captures emotions that words sometimes cannot express. It\'s my way of documenting life and sharing my perspective with others.',
-      experience: 'I primarily focus on landscape and street photography, though I enjoy experimenting with different genres. I\'ve participated in local photography meetups in Guadalajara and have had some of my work featured in community exhibitions. The technical aspects of photography—understanding light, composition, and post-processing—continue to fascinate me.',
-      highlights: [
-        'Landscape photography in Jalisco\'s natural areas',
-        'Street photography in Guadalajara\'s historic center',
-        'Golden hour and blue hour photography',
-        'Long exposure techniques',
-        'Photo editing with Lightroom and Photoshop'
-      ],
-      goals: [
-        'Build a cohesive portfolio of Jalisco landscapes',
-        'Master advanced editing techniques',
-        'Participate in photography competitions',
-        'Create a photo blog to share my work'
-      ],
-      started: '2018',
-      frequency: 'Weekly',
-      level: 'Intermediate',
-      equipment: [
-        'Mirrorless camera',
-        'Wide-angle lens',
-        'Tripod for long exposures',
-        'Adobe Lightroom',
-        'Adobe Photoshop'
-      ],
-      resources: [
-        'r/photography community',
-        'YouTube photography channels',
-        'Local photography workshops',
-        'Instagram photography community'
-      ]
-    },
-    gym: {
-      slug: 'gym',
-      title: 'Gym & Fitness',
-      subtitle: 'Building strength, discipline, and a healthy lifestyle',
-      icon: 'fas fa-dumbbell',
-      backgroundImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&h=400&fit=crop',
-      description: 'Fitness has become an integral part of my daily routine. I\'ve been committed to gym training for the past few years, focusing on both strength training and cardiovascular health. What started as a goal to improve physical health has evolved into a lifestyle that positively impacts my mental clarity, productivity, and overall well-being.',
-      why: 'Regular exercise is essential for maintaining energy levels, especially in a demanding career like software quality assurance. The gym provides structure, discipline, and measurable progress. It\'s my time to disconnect from screens, challenge myself physically, and maintain the physical and mental stamina needed for long work hours and problem-solving.',
-      experience: 'My fitness journey includes a mix of compound weightlifting movements, functional training, and cardio work. I follow structured workout programs and track my progress consistently. The discipline required in fitness training has translated well into my professional life, teaching me about consistency, goal-setting, and gradual improvement.',
-      highlights: [
-        'Consistent 5-day per week training schedule',
-        'Progressive overload strength training',
-        'HIIT cardio sessions',
-        'Nutrition and meal planning',
-        'Recovery and mobility work'
-      ],
-      goals: [
-        'Achieve specific strength milestones',
-        'Maintain consistent year-round training',
-        'Improve flexibility and mobility',
-        'Help others start their fitness journey'
-      ],
-      started: '2020',
-      frequency: '5 times per week',
-      level: 'Intermediate',
-      equipment: [
-        'Gym membership',
-        'Workout tracking app',
-        'Resistance bands',
-        'Jump rope',
-        'Foam roller'
-      ],
-      resources: [
-        'Fitness YouTube channels',
-        'MyFitnessPal for nutrition',
-        'Personal training sessions',
-        'Fitness subreddits'
-      ]
-    },
-    cooking: {
-      slug: 'cooking',
-      title: 'Cooking',
-      subtitle: 'Experimenting with flavors and creating delicious experiences',
-      icon: 'fas fa-utensils',
-      backgroundImage: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1600&h=400&fit=crop',
-      description: 'Cooking is my creative outlet beyond the digital world. I enjoy the entire process—from selecting fresh ingredients at local markets in Guadalajara to experimenting with different cuisines and techniques. The kitchen is where I can be creative, try new things, and share the results with family and friends.',
-      why: 'Cooking is therapeutic and rewarding. There\'s something deeply satisfying about taking raw ingredients and transforming them into a delicious meal. It\'s also a practical skill that allows me to maintain a healthy diet, understand nutrition better, and explore cultures through their traditional dishes. Plus, sharing a home-cooked meal brings people together.',
-      experience: 'I\'ve experimented with various cuisines including Italian, Asian, Mexican traditional dishes, and Mediterranean fare. I enjoy both following traditional recipes and improvising with available ingredients. Over time, I\'ve developed an intuition for flavor combinations and cooking techniques that make the process more enjoyable and less rigid.',
-      highlights: [
-        'Homemade pasta and Italian sauces',
-        'Traditional Mexican dishes from Jalisco',
-        'Asian stir-fries and noodle dishes',
-        'Baking bread and pastries',
-        'Experimenting with fusion cuisine'
-      ],
-      goals: [
-        'Master knife skills and techniques',
-        'Create a personal recipe collection',
-        'Learn advanced baking techniques',
-        'Host dinner parties for friends and family'
-      ],
-      started: '2019',
-      frequency: '4-5 times per week',
-      level: 'Intermediate',
-      equipment: [
-        'Chef\'s knife set',
-        'Cast iron skillet',
-        'Dutch oven',
-        'Kitchen scale',
-        'Food processor'
-      ],
-      resources: [
-        'YouTube cooking channels',
-        'Recipe websites and apps',
-        'Local cooking classes',
-        'Cookbooks collection'
-      ]
-    },
-    reading: {
-      slug: 'reading',
-      title: 'Reading',
-      subtitle: 'Exploring new worlds and expanding knowledge through books',
-      icon: 'fas fa-book',
-      backgroundImage: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&h=400&fit=crop',
-      description: 'Reading has been a lifelong passion that continues to shape my thinking and worldview. I maintain a diverse reading list that includes science fiction, biographies, technical books, and non-fiction on various topics. Books are my gateway to different perspectives, ideas, and knowledge that I wouldn\'t encounter otherwise.',
-      why: 'Reading expands my mind beyond my immediate experiences and profession. Science fiction stimulates creativity and imagination, biographies provide lessons from remarkable lives, and technical books keep me learning and growing professionally. Reading before bed helps me unwind, and it\'s a more enriching use of time compared to scrolling through social media.',
-      experience: 'I try to read at least one book per month, though I often read multiple books simultaneously depending on my mood. I take notes on interesting concepts and maintain a reading journal. Some books have profoundly influenced my thinking about technology, society, and personal development.',
-      highlights: [
-        'Science fiction classics and contemporary works',
-        'Biographies of tech pioneers and innovators',
-        'Technical books on software testing and QA',
-        'Philosophy and psychology',
-        'Mexican and Latin American literature'
-      ],
-      goals: [
-        'Read 20+ books per year',
-        'Build a personal library',
-        'Write book reviews and summaries',
-        'Join or start a book club'
-      ],
-      started: 'Childhood',
-      frequency: 'Daily',
-      level: 'Advanced',
-      equipment: [
-        'Kindle e-reader',
-        'Physical book collection',
-        'Reading journal',
-        'Goodreads account',
-        'Library membership'
-      ],
-      resources: [
-        'Goodreads recommendations',
-        'r/books community',
-        'Local bookstores in Guadalajara',
-        'Book podcasts and reviews'
-      ]
-    },
-    music: {
-      slug: 'music',
-      title: 'Music',
-      subtitle: 'Finding rhythm, inspiration, and joy through sound',
-      icon: 'fas fa-music',
-      backgroundImage: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1600&h=400&fit=crop',
-      description: 'Music has been a constant companion throughout my life. Whether I\'m playing guitar, discovering new artists, or attending live concerts, music provides a soundtrack to my experiences and a way to express emotions that words cannot capture. It\'s both a source of relaxation and inspiration.',
-      why: 'Music has the unique power to change moods, evoke memories, and inspire creativity. Playing guitar is meditative and rewarding—it requires focus and practice, similar to coding, but engages a different part of my brain. Listening to music helps me concentrate during work, unwind after a long day, and connect with cultures and emotions across the world.',
-      experience: 'I\'ve been playing guitar for several years, focusing mainly on acoustic fingerstyle and some electric guitar. I enjoy learning covers of my favorite songs and occasionally trying to write original pieces. My music taste is eclectic, ranging from rock and indie to electronic and Latin music. Live concerts in Guadalajara are a special experience that I try not to miss.',
-      highlights: [
-        'Acoustic guitar fingerstyle playing',
-        'Attending live concerts and music festivals',
-        'Discovering indie and underground artists',
-        'Creating Spotify playlists for different moods',
-        'Learning music theory and composition basics'
-      ],
-      goals: [
-        'Write and record original songs',
-        'Perform at an open mic night',
-        'Master advanced guitar techniques',
-        'Build a collection of quality instruments'
-      ],
-      started: '2017',
-      frequency: '3-4 times per week',
-      level: 'Intermediate',
-      equipment: [
-        'Acoustic guitar',
-        'Electric guitar',
-        'Guitar amplifier',
-        'Audio interface',
-        'Spotify Premium subscription'
-      ],
-      resources: [
-        'YouTube guitar tutorials',
-        'Ultimate Guitar tabs',
-        'Music theory courses',
-        'Local music venues in Guadalajara'
-      ]
-    },
-    travel: {
-      slug: 'travel',
-      title: 'Travel',
-      subtitle: 'Exploring new places and experiencing diverse cultures',
-      icon: 'fas fa-plane',
-      backgroundImage: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&h=400&fit=crop',
-      description: 'Travel is my window to the world. Exploring new places, experiencing different cultures, and meeting people from diverse backgrounds has profoundly shaped who I am. Each trip teaches me something new about the world and myself, broadening my perspective and creating memories that last a lifetime.',
-      why: 'Travel pushes me out of my comfort zone and challenges my assumptions about the world. It\'s humbling to experience how people live in different parts of the world, taste authentic cuisines, and see historical sites in person. Travel also provides a break from routine, sparking creativity and giving me stories and experiences to share.',
-      experience: 'I\'ve traveled to various cities across Mexico and a few international destinations. I prefer a mix of planned activities and spontaneous exploration, often seeking out local experiences rather than typical tourist attractions. Photography and travel go hand-in-hand for me—I document my journeys through photos and travel journals.',
-      highlights: [
-        'Exploring Mexico\'s colonial cities and beaches',
-        'Experiencing local food markets and street food',
-        'Visiting historical and archaeological sites',
-        'Meeting locals and learning about their culture',
-        'Weekend trips from Guadalajara to nearby destinations'
-      ],
-      goals: [
-        'Visit all states of Mexico',
-        'International trips to South America and Europe',
-        'Learn basic phrases in multiple languages',
-        'Create a travel blog or vlog',
-        'Take more extended trips beyond weekends'
-      ],
-      started: '2016',
-      frequency: 'Monthly (local), Quarterly (extended)',
-      level: 'Intermediate',
-      equipment: [
-        'Travel backpack',
-        'Camera for photography',
-        'Travel journal',
-        'Maps and travel apps',
-        'Power bank and adapters'
-      ],
-      resources: [
-        'Travel blogs and vlogs',
-        'TripAdvisor and Google Maps',
-        'Local tourism websites',
-        'Travel photography communities'
-      ]
-    }
-  };
-
-  return hobbies[slug] || null;
-}
-
-/**
- * Get all hobbies for related section
- */
-function getAllHobbies() {
-  return [
-    { slug: 'photography', title: 'Photography', icon: 'fas fa-camera' },
-    { slug: 'gym', title: 'Gym & Fitness', icon: 'fas fa-dumbbell' },
-    { slug: 'cooking', title: 'Cooking', icon: 'fas fa-utensils' },
-    { slug: 'reading', title: 'Reading', icon: 'fas fa-book' },
-    { slug: 'music', title: 'Music', icon: 'fas fa-music' },
-    { slug: 'travel', title: 'Travel', icon: 'fas fa-plane' }
-  ];
-}
-
-/**
  * SINGLE HOBBY DETAIL PAGE
  */
-app.get('/hobbies/:slug', (req, res) => {
+app.get('/hobbies/:slug', async (req, res) => {
   const { slug } = req.params;
-  const hobby = getHobbyData(slug);
+  const hobby = await getManagedHobby(slug);
 
   if (!hobby) {
     return res.status(404).render('404', {
-      title: 'Hobby Not Found',
+      title: 'Interés No Encontrado',
       currentPage: 'hobbies'
     });
   }
 
-  // Get related hobbies (all except current)
-  const relatedHobbies = getAllHobbies().filter(h => h.slug !== slug);
+  const relatedHobbies = (await getManagedHobbies()).filter((item) => item.slug !== slug);
 
-  res.render('hobby-detail', {
+  renderPage(res, 'hobby-detail', {
     title: hobby.title,
     currentPage: 'hobbies',
     hobby,
-    relatedHobbies
+    relatedHobbies,
+    ...buildMeta({
+      title: hobby.title,
+      description: `${hobby.subtitle}. ${truncateText(hobby.description, 110)}`,
+      path: `/hobbies/${hobby.slug}`,
+      image: hobby.backgroundImage
+    })
   });
+});
+
+app.get('/account', requireUser, async (req, res) => {
+  try {
+    const accountUser = res.locals.user || await User.findById(req.session.userId).lean();
+    if (!accountUser) {
+      req.session.destroy(() => {
+        res.clearCookie('connect.sid');
+        res.redirect('/login');
+      });
+      return;
+    }
+
+    const [userPostsLiked, userCommentsCount, userComments] = await Promise.all([
+      Post.countDocuments({ likes: req.session.userId }),
+      Comment.countDocuments({ user: req.session.userId, status: 'approved' }),
+      Comment.find({ user: req.session.userId, status: 'approved' })
+        .populate('post', 'title slug')
+        .sort({ createdAt: -1 })
+        .limit(6)
+        .lean()
+    ]);
+
+    const memberSince = accountUser?.createdAt
+      ? new Date(accountUser.createdAt).toLocaleDateString('es-MX', { year: 'numeric', month: 'long' })
+      : 'Reciente';
+
+    renderPage(res, 'account', {
+      title: 'Mi Panel',
+      currentPage: 'account',
+      user: accountUser,
+      userStats: {
+        likes: userPostsLiked,
+        comments: userCommentsCount,
+        memberSince
+      },
+      recentComments: userComments,
+      ...buildMeta({
+        title: 'Mi Panel',
+        description: 'Gestiona tu sesión, revisa tu actividad reciente y participa en el blog de Carlos Cervantes.',
+        path: '/account'
+      })
+    });
+  } catch (error) {
+    console.error('Account panel error:', error);
+    res.status(500).render('login', {
+      title: 'Bienvenido de Nuevo',
+      error: 'No fue posible cargar tu panel en este momento.',
+      currentPage: 'login',
+      formData: { email: '' },
+      ...buildAuthMeta('/login', 'Iniciar sesión', 'Accede para comentar, interactuar con el blog y seguir el contenido de Carlos Cervantes.')
+    });
+  }
 });
 
 // ==================== ADMIN ROUTES ====================
@@ -769,9 +754,15 @@ app.get('/admin', noCache, (req, res) => {
   if (req.session && req.session.isAuthenticated) {
     return res.redirect('/admin/posts');
   }
-  res.render('admin-login', {
-    title: 'Admin Login',
-    error: req.query.error
+  renderPage(res, 'admin-login', {
+    title: 'Acceso Admin',
+    error: req.query.error === 'invalid' ? 'Contraseña incorrecta. Intenta de nuevo.' : null,
+    currentPage: 'admin',
+    ...buildMeta({
+      title: 'Acceso Admin',
+      description: 'Acceso privado al panel administrativo del sitio de Carlos Cervantes.',
+      path: '/admin'
+    })
   });
 });
 
@@ -812,9 +803,10 @@ app.get('/admin/logout', (req, res) => {
 app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 }).lean();
-    res.render('admin-posts', {
-      title: 'Post Management',
-      posts: posts
+    renderPage(res, 'admin-posts', {
+      title: 'Gestión de Posts',
+      posts: posts,
+      currentPage: 'admin'
     });
   } catch (error) {
     console.error('Error in /admin/posts:', error);
@@ -826,9 +818,10 @@ app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
  * ADMIN - New Post Form
  */
 app.get('/admin/posts/new', requireAdmin, noCache, (req, res) => {
-  res.render('admin-editor', {
-    title: 'New Post',
-    post: null
+  renderPage(res, 'admin-editor', {
+    title: 'Nuevo Post',
+    post: null,
+    currentPage: 'admin'
   });
 });
 
@@ -839,7 +832,7 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
   const { slug, title, date, author, tags, content, originalSlug } = req.body;
 
   if (!slug || !title || !content) {
-    return res.status(400).json({ error: 'Missing required fields' });
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
 
   try {
@@ -867,12 +860,12 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
     if (originalSlug) {
       if (originalSlug !== slug) {
          const existing = await Post.findOne({ slug });
-         if (existing) return res.status(400).json({ error: 'Slug already exists' });
+         if (existing) return res.status(400).json({ error: 'El slug ya existe' });
       }
       await Post.findOneAndUpdate({ slug: originalSlug }, postData, { upsert: true });
     } else {
       const existing = await Post.findOne({ slug });
-      if (existing) return res.status(400).json({ error: 'Slug already exists' });
+      if (existing) return res.status(400).json({ error: 'El slug ya existe' });
       await Post.create(postData);
     }
 
@@ -880,7 +873,7 @@ app.post('/admin/posts/save', requireAdmin, noCache, express.json(), async (req,
     res.json({ success: true, slug });
   } catch (error) {
     console.error('Error saving post:', error);
-    res.status(500).json({ error: `Error saving: ${error.message}` });
+    res.status(500).json({ error: `Error al guardar: ${error.message}` });
   }
 });
 
@@ -892,11 +885,11 @@ app.delete('/api/admin/posts/:slug', requireAdmin, noCache, async (req, res) => 
     const deletedPost = await Post.findOneAndDelete({ slug: req.params.slug });
     
     if (!deletedPost) {
-      return res.status(404).json({ success: false, message: 'Post not found' });
+      return res.status(404).json({ success: false, message: 'Post no encontrado' });
     }
 
     cache.set('blogPosts', null, 0); 
-    res.json({ success: true, message: 'Post deleted successfully' });
+    res.json({ success: true, message: 'Post eliminado correctamente' });
   } catch (error) {
     console.error('Error deleting post:', error);
     res.status(500).json({ success: false, message: error.message });
@@ -909,11 +902,12 @@ app.delete('/api/admin/posts/:slug', requireAdmin, noCache, async (req, res) => 
 app.get('/admin/posts/edit/:slug', requireAdmin, noCache, async (req, res) => {
   try {
     const post = await Post.findOne({ slug: req.params.slug }).lean();
-    if (!post) return res.status(404).send('Post not found');
+    if (!post) return res.status(404).send('Post no encontrado');
 
-    res.render('admin-editor', {
-      title: 'Edit Post',
-      post: post
+    renderPage(res, 'admin-editor', {
+      title: 'Editar Post',
+      post: post,
+      currentPage: 'admin'
     });
   } catch (error) {
     console.error('Error in /admin/posts/edit:', error);
@@ -922,13 +916,132 @@ app.get('/admin/posts/edit/:slug', requireAdmin, noCache, async (req, res) => {
 });
 
 /**
- * 404 ERROR HANDLER
+ * ADMIN - Hobbies List
  */
-app.use((req, res) => {
-  res.status(404).render('404', {
-    title: 'Page Not Found',
-    currentPage: ''
+app.get('/admin/hobbies', requireAdmin, noCache, async (req, res) => {
+  try {
+    const hobbies = await getManagedHobbies();
+    renderPage(res, 'admin-hobbies', {
+      title: 'Gestión de Intereses',
+      hobbies,
+      currentPage: 'admin'
+    });
+  } catch (error) {
+    console.error('Error in /admin/hobbies:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+/**
+ * ADMIN - New Hobby Form
+ */
+app.get('/admin/hobbies/new', requireAdmin, noCache, (req, res) => {
+  renderPage(res, 'admin-hobby-editor', {
+    title: 'Nuevo Interés',
+    hobby: null,
+    currentPage: 'admin'
   });
+});
+
+/**
+ * ADMIN - Edit Hobby Form
+ */
+app.get('/admin/hobbies/edit/:slug', requireAdmin, noCache, async (req, res) => {
+  try {
+    const hobby = await getManagedHobby(req.params.slug);
+    if (!hobby) return res.status(404).send('Interés no encontrado');
+
+    renderPage(res, 'admin-hobby-editor', {
+      title: 'Editar Interés',
+      hobby,
+      currentPage: 'admin'
+    });
+  } catch (error) {
+    console.error('Error in /admin/hobbies/edit:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+/**
+ * ADMIN - Save Hobby
+ */
+app.post('/admin/hobbies/save', requireAdmin, noCache, express.json(), async (req, res) => {
+  const { slug, title, subtitle, description, icon, originalSlug } = req.body;
+
+  if (!slug || !title || !subtitle || !description || !icon) {
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
+  }
+
+  try {
+    const hobbyData = normalizeHobbyRecord({
+      slug,
+      title,
+      subtitle,
+      icon,
+      backgroundImage: req.body.backgroundImage,
+      description,
+      why: req.body.why,
+      experience: req.body.experience,
+      highlights: req.body.highlights,
+      goals: req.body.goals,
+      started: req.body.started,
+      frequency: req.body.frequency,
+      level: req.body.level,
+      equipment: req.body.equipment,
+      resources: req.body.resources,
+      order: req.body.order,
+      visible: req.body.visible !== false
+    });
+
+    const slugInUseInDefaults = !originalSlug && !!getHobbyData(hobbyData.slug);
+    if (slugInUseInDefaults) {
+      return res.status(400).json({ error: 'Ese slug ya existe dentro de los intereses actuales.' });
+    }
+
+    if (originalSlug && originalSlug !== hobbyData.slug) {
+      const existing = await Hobby.findOne({ slug: hobbyData.slug });
+      if (existing || getHobbyData(hobbyData.slug)) {
+        return res.status(400).json({ error: 'El slug ya existe.' });
+      }
+    }
+
+    if (!originalSlug) {
+      const existing = await Hobby.findOne({ slug: hobbyData.slug });
+      if (existing) {
+        return res.status(400).json({ error: 'El slug ya existe.' });
+      }
+      await Hobby.create(hobbyData);
+    } else {
+      await Hobby.findOneAndUpdate({ slug: originalSlug }, hobbyData, {
+        upsert: true,
+        new: true,
+        runValidators: true
+      });
+    }
+
+    res.json({ success: true, slug: hobbyData.slug });
+  } catch (error) {
+    console.error('Error saving hobby:', error);
+    res.status(500).json({ error: `Error al guardar: ${error.message}` });
+  }
+});
+
+/**
+ * ADMIN - Delete Hobby
+ */
+app.delete('/api/admin/hobbies/:slug', requireAdmin, noCache, async (req, res) => {
+  try {
+    const deletedHobby = await Hobby.findOneAndDelete({ slug: req.params.slug });
+
+    if (!deletedHobby) {
+      return res.status(404).json({ success: false, message: 'Ese interés no se puede eliminar desde base de datos.' });
+    }
+
+    res.json({ success: true, message: 'Interés eliminado correctamente' });
+  } catch (error) {
+    console.error('Error deleting hobby:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
 });
 
 // Start the server only when this file is run directly (not required by Vercel or tests)
@@ -950,45 +1063,166 @@ app.getAllHobbies = getAllHobbies;
 
 // Register Page
 app.get('/register', (req, res) => {
-  if (req.session.userId) return res.redirect('/blog');
-  res.render('register', { title: 'Join the Community', error: null, currentPage: 'register' });
+  if (req.session.userId) return res.redirect('/account');
+  renderPage(res, 'register', {
+    title: 'Únete a la Comunidad',
+    error: null,
+    formData: { name: '', email: '' },
+    currentPage: 'register',
+    ...buildAuthMeta(
+      '/register',
+      'Registro',
+      'Crea una cuenta para comentar y participar en el blog de Carlos Cervantes.'
+    )
+  });
 });
 
 // Register Action
 app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
+  const formData = {
+    name: (name || '').trim(),
+    email: (email || '').trim().toLowerCase()
+  };
+  const registerMeta = buildAuthMeta(
+    '/register',
+    'Registro',
+    'Crea una cuenta para comentar y participar en el blog de Carlos Cervantes.'
+  );
+
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.render('register', { title: 'Join the Community', error: 'Email already registered', currentPage: 'register' });
+    if (!formData.name || formData.name.length < 2) {
+      return res.render('register', {
+        title: 'Únete a la Comunidad',
+        error: 'Ingresa un nombre válido.',
+        formData,
+        currentPage: 'register',
+        ...registerMeta
+      });
     }
-    const user = new User({ name, email, password });
+
+    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      return res.render('register', {
+        title: 'Únete a la Comunidad',
+        error: 'Ingresa un correo válido.',
+        formData,
+        currentPage: 'register',
+        ...registerMeta
+      });
+    }
+
+    if (!password || password.length < 8) {
+      return res.render('register', {
+        title: 'Únete a la Comunidad',
+        error: 'La contraseña debe tener al menos 8 caracteres.',
+        formData,
+        currentPage: 'register',
+        ...registerMeta
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.render('register', {
+        title: 'Únete a la Comunidad',
+        error: 'La confirmación de contraseña no coincide.',
+        formData,
+        currentPage: 'register',
+        ...registerMeta
+      });
+    }
+
+    const existingUser = await User.findOne({ email: formData.email });
+    if (existingUser) {
+      return res.render('register', {
+        title: 'Únete a la Comunidad',
+        error: 'El correo ya está registrado.',
+        formData,
+        currentPage: 'register',
+        ...registerMeta
+      });
+    }
+
+    const user = new User({
+      name: formData.name,
+      email: formData.email,
+      password
+    });
     await user.save();
     req.session.userId = user._id;
-    res.redirect('/blog');
+    res.redirect('/account');
   } catch (err) {
-    res.render('register', { title: 'Join the Community', error: 'Error creating account', currentPage: 'register' });
+    console.error('Register error:', err);
+    res.render('register', {
+      title: 'Únete a la Comunidad',
+      error: 'Error al crear la cuenta.',
+      formData,
+      currentPage: 'register',
+      ...registerMeta
+    });
   }
 });
 
 // Login Page
 app.get('/login', (req, res) => {
-  if (req.session.userId) return res.redirect('/blog');
-  res.render('login', { title: 'Welcome Back', error: null, currentPage: 'login' });
+  if (req.session.userId) return res.redirect('/account');
+  renderPage(res, 'login', {
+    title: 'Bienvenido de Nuevo',
+    error: null,
+    formData: { email: '' },
+    currentPage: 'login',
+    ...buildAuthMeta(
+      '/login',
+      'Iniciar sesión',
+      'Accede para comentar, interactuar con el blog y seguir el contenido de Carlos Cervantes.'
+    )
+  });
 });
 
 // Login Action
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  const formData = {
+    email: (email || '').trim().toLowerCase()
+  };
+  const loginMeta = buildAuthMeta(
+    '/login',
+    'Iniciar sesión',
+    'Accede para comentar, interactuar con el blog y seguir el contenido de Carlos Cervantes.'
+  );
+
   try {
-    const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
-      return res.render('login', { title: 'Welcome Back', error: 'Invalid email or password', currentPage: 'login' });
+    if (!formData.email || !password) {
+      return res.render('login', {
+        title: 'Bienvenido de Nuevo',
+        error: 'Completa correo y contraseña.',
+        formData,
+        currentPage: 'login',
+        ...loginMeta
+      });
     }
+
+    const user = await User.findOne({ email: formData.email });
+    if (!user || !(await user.comparePassword(password))) {
+      return res.render('login', {
+        title: 'Bienvenido de Nuevo',
+        error: 'Correo o contraseña inválidos.',
+        formData,
+        currentPage: 'login',
+        ...loginMeta
+      });
+    }
+
     req.session.userId = user._id;
-    res.redirect('/blog');
+    res.redirect('/account');
   } catch (err) {
-    res.render('login', { title: 'Welcome Back', error: 'Login error', currentPage: 'login' });
+    console.error('Login error:', err);
+    res.render('login', {
+      title: 'Bienvenido de Nuevo',
+      error: 'Error al iniciar sesión.',
+      formData,
+      currentPage: 'login',
+      ...loginMeta
+    });
   }
 });
 
@@ -996,7 +1230,7 @@ app.post('/login', async (req, res) => {
 app.get('/logout', (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('connect.sid');
-    res.redirect('/blog');
+    res.redirect('/');
   });
 });
 
@@ -1069,6 +1303,16 @@ app.post('/posts/:slug/comment', async (req, res) => {
   } catch (err) {
     res.status(500).send('Error posting comment');
   }
+});
+
+/**
+ * 404 ERROR HANDLER
+ */
+app.use((req, res) => {
+  res.status(404).render('404', {
+    title: 'Página No Encontrada',
+    currentPage: ''
+  });
 });
 
 module.exports = app;

@@ -10,7 +10,7 @@ describe('getHobbyData()', () => {
     const hobby = getHobbyData('photography');
     expect(hobby).not.toBeNull();
     expect(hobby.slug).toBe('photography');
-    expect(hobby.title).toBe('Photography');
+    expect(hobby.title).toBe('Fotografía');
     expect(hobby.icon).toBe('fas fa-camera');
     expect(Array.isArray(hobby.highlights)).toBe(true);
     expect(hobby.highlights.length).toBeGreaterThan(0);

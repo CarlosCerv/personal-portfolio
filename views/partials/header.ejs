@@ -1,73 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="<%= metaDescription %>">
   <meta name="author" content="Carlos Cervantes">
-  <meta name="keywords" content="QA Consultant, Performance Engineering, Test Automation, Quality Assurance, Software Testing, Appium, JMeter, k6, Quality & Performance">
-
-  <!-- Open Graph / Facebook -->
+  <meta name="keywords" content="QA, Quality Assurance, Performance Engineering, Automatización de pruebas, Testing de software, Carlos Cervantes, QA Consultant">
   <meta property="og:type" content="<%= metaType %>">
   <meta property="og:url" content="<%= metaUrl %>">
-  <meta property="og:title" content="<%= title %> | Carlos Cervantes — QA & Performance Consultant">
+  <meta property="og:title" content="<%= metaTitle %>">
   <meta property="og:description" content="<%= metaDescription %>">
   <meta property="og:image" content="<%= metaImage %>">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="<%= title %> — Carlos Cervantes Portfolio">
+  <meta property="og:image:alt" content="<%= metaImageAlt %>">
   <meta property="og:site_name" content="Quality & Performance">
-
-  <!-- Twitter Card -->
+  <meta property="og:locale" content="es_MX">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="<%= metaUrl %>">
-  <meta name="twitter:title" content="<%= title %> | Carlos Cervantes — QA & Performance Consultant">
+  <meta name="twitter:title" content="<%= metaTitle %>">
   <meta name="twitter:description" content="<%= metaDescription %>">
   <meta name="twitter:image" content="<%= metaImage %>">
-  <meta name="twitter:image:alt" content="<%= title %> — Carlos Cervantes Portfolio">
-
-  <!-- Additional SEO -->
+  <meta name="twitter:image:alt" content="<%= metaImageAlt %>">
   <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  <meta name="revisit-after" content="7 days">
-  <link rel="canonical" href="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'https://carloscervantes.qa' %>">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/images/brand-logo.png">
-  <link rel="apple-touch-icon" href="/images/brand-logo.png">
-
-  <!-- Title -->
-  <title>
-    <%= title %> | Quality & Performance
-  </title>
-
-  <!-- Google Fonts - Optimized: JetBrains Mono for Code Blocks -->
+  <meta name="language" content="Spanish">
+  <link rel="canonical" href="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'https://carloscervantes-qa.vercel.app' %>">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/svg+xml" href="/images/brand-mark.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <title><%= metaTitle %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-    rel="stylesheet">
-
-  <!-- Font Awesome - Non-render-blocking load -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"
-    media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      crossorigin="anonymous" referrerpolicy="no-referrer">
-  </noscript>
-
-  <!-- Main Stylesheet - Apple-Inspired White Theme -->
-  <link rel="stylesheet" href="/css/style-apple.css">
-  <link rel="stylesheet" href="/css/style-apple-sections.css">
-  <link rel="stylesheet" href="/css/style-apple-footer.css">
-
-  <!-- Apple-Inspired Interactions -->
-  <script src="/js/apple-interactions.js" defer></script>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="/css/style-redesign.css">
+  <script src="/js/site.js" defer></script>
 </head>
-
-<body>
+<body class="page-<%= typeof currentPage !== 'undefined' ? currentPage : 'default' %>">
   <%- include('navigation') %>

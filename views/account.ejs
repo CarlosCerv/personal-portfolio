@@ -1,0 +1,95 @@
+<%- include('partials/header') %>
+
+<main class="page-shell account-shell">
+  <section class="section page-hero account-hero">
+    <div class="account-hero-grid">
+      <div class="page-hero-copy reveal">
+        <span class="section-eyebrow">Mi panel</span>
+        <h1 class="page-title">Hola, <%= user.name.split(' ')[0] %>.</h1>
+        <p class="page-intro">Este espacio centraliza tu sesión, tu actividad en el blog y accesos rápidos para seguir interactuando con la plataforma.</p>
+        <div class="hero-actions compact account-hero-actions">
+          <a href="/blog" class="button button-primary">Ir al blog</a>
+          <a href="/logout" class="button button-ghost">Cerrar sesión</a>
+        </div>
+      </div>
+
+      <div class="account-summary-card glass-card reveal d1">
+        <div class="account-summary-head">
+          <img src="<%= user.profilePicture %>" alt="<%= user.name %>" class="account-avatar">
+          <div>
+            <div class="account-name"><%= user.name %></div>
+            <div class="account-email"><%= user.email %></div>
+          </div>
+        </div>
+        <div class="account-chip-row">
+          <span class="chip">Miembro desde <%= userStats.memberSince %></span>
+          <span class="chip">Rol: lector</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-wrap">
+      <div class="account-stats-grid">
+        <div class="metric-card reveal">
+          <strong><%= userStats.likes %></strong>
+          <span>Artículos con me gusta</span>
+        </div>
+        <div class="metric-card reveal d1">
+          <strong><%= userStats.comments %></strong>
+          <span>Comentarios recientes</span>
+        </div>
+        <div class="metric-card reveal d2">
+          <strong>Activa</strong>
+          <span>Sesión actual protegida</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section account-content">
+    <div class="section-wrap">
+      <div class="account-grid">
+        <div class="content-card reveal">
+          <span class="section-eyebrow">Actividad</span>
+          <h3>Tus comentarios recientes</h3>
+          <% if (recentComments.length > 0) { %>
+            <div class="account-comment-list">
+              <% recentComments.forEach((comment) => { %>
+                <a href="/blog/<%= comment.post?.slug || '' %>#comments" class="account-comment-item">
+                  <strong><%= comment.post?.title || 'Artículo eliminado' %></strong>
+                  <p><%= comment.content %></p>
+                  <span><%= new Date(comment.createdAt).toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                </a>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="muted-copy">Todavía no has comentado artículos. Puedes empezar desde el blog y participar en la conversación.</p>
+          <% } %>
+        </div>
+
+        <div class="content-card reveal d1">
+          <span class="section-eyebrow">Accesos rápidos</span>
+          <h3>Continúa explorando</h3>
+          <div class="account-quick-links">
+            <a href="/blog" class="account-link-card">
+              <strong>Blog</strong>
+              <span>Leer, comentar y guardar contexto técnico</span>
+            </a>
+            <a href="/projects" class="account-link-card">
+              <strong>Proyectos</strong>
+              <span>Explora repositorios y trabajo técnico</span>
+            </a>
+            <a href="/profile" class="account-link-card">
+              <strong>Perfil</strong>
+              <span>Revisa experiencia, enfoque y trayectoria</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

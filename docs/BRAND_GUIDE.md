@@ -1,65 +1,45 @@
-# Brand Identity Guide — Quality & Performance
+# Brand Guide
 
-## 🔘 Visual Essence
+## Identidad
 
-The **Quality & Performance** brand identity is built on three pillars: **Precision**, **Clarity**, and **Luxury**. It uses an Apple-inspired monochrome aesthetic to project technical authority and international professionalism.
+La marca actual combina consultoría técnica con una presentación editorial limpia. El tono visual debe sentirse:
 
----
+- preciso
+- confiable
+- contemporáneo
+- claro para clientes no técnicos
 
-## 🎨 Design Tokens
+## Activos principales
 
-### The Monochrome Palette
-Strict adherence to this grayscale palette ensures a cohesive, high-end identity.
+- `public/images/brand-mark.svg`
+- `public/favicon.ico`
+- `public/images/favicon_16.png`
+- `public/images/favicon_32.png`
+- `public/images/apple-touch-icon.png`
 
-| Name | Hex | Usage |
-|---|---|---|
-| **White** | `#FFFFFF` | Primary surface background |
-| **Off-White** | `#F5F5F7` | Secondary containers, subtle badges |
-| **Near-White** | `#FBFBFD` | Global body background |
-| **Deep Slate** | `#1D1D1F` | Primary text, titles, accent buttons |
-| **Text Secondary** | `#6E6E73` | Subtitles, metadata, muted labels |
-| **Border Light** | `#D2D2D7` | Subtle dividers and card outlines |
+## Uso del logo
 
----
+- El `brand-mark.svg` es el activo fuente para interfaz.
+- El `favicon.ico` se usa para navegadores y pestañas.
+- El `apple-touch-icon.png` se usa para accesos directos en iOS.
 
-##  Typography
+Cuando se actualice el logo:
 
-We use the Apple system font stack globally to ensure a consistent, native feel on all devices.
+```bash
+npm run build:favicon
+```
 
-### Font Variables
-- **--font-primary**: `-apple-system`, `BlinkMacSystemFont`, `SF Pro Display`, `Inter`, `sans-serif`
-- **--font-mono**: `SF Mono`, `SFMono-Regular`, `ui-monospace`, `JetBrains Mono`, `monospace`
+## Sistema visual
 
-### Hierarchy Rules
-- **Headers**: Bold weights (700), tight letter spacing (-0.03em).
-- **Body**: Regular weight (400), relaxed line height (1.625).
-- **Labels**: Medium/Semibold (500/600), monochrome accents.
+- Fondo claro con atmósfera suave
+- Tipografía sans moderna y legible
+- Tarjetas con bordes redondeados y sombra ligera
+- Azules como acento funcional y de confianza
+- Animaciones suaves al entrar y al hacer scroll
 
----
+## Principios de UI
 
-## 🔘 Branding Assets
-
-### The Monogram
-The "CC" Monogram serves as the global icon. It is strictly monochrome with a transparent background.
-
-- **Favicon**: Located at `/favicon.ico`
-- **Global Logo**: Located at `/images/brand-logo.png`
-- **Styling**: Served in a white container in the header for maximum contrast.
-
-### UI Components
-- **Bento Grid**: Uniform card design with `320px` minimum width and `24px` border radius.
-- **Glassmorphism**: Used on mobile menus with `backdrop-filter: blur(20px)` and white translucency.
-
----
-
-## 🌍 Language Standard
-
-This platform is **100% English-Localized**. 
-
-- **Exceptions**: Only the individual blog posts (content) may be in Spanish if requested by the author.
-- **UI & Metadata**: Must always strictly adhere to US-English standards.
-
----
-
-*Updated: March 2026*
-*Style Authority: Carlos Cervantes — Quality & Performance*
+- Priorizar jerarquía visual sobre densidad de texto
+- Explicar procesos con elementos visuales, no solo copy
+- Mantener consistencia entre home, blog, perfil y paneles
+- En mobile, primero claridad y flujo, después ornamento

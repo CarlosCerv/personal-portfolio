@@ -1,43 +1,45 @@
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container">
-      <div class="nav-wrapper">
-        <!-- Logo/Brand -->
-        <a href="/" class="nav-brand">
-          <img src="/images/brand-logo.png" alt="Carlos Cervantes Logo" class="brand-logo-img">
-          <span class="brand-name-text">Quality & Performance</span>
-        </a>
-        
-        <!-- Mobile Menu Toggle -->
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-          <span class="hamburger"></span>
-          <span class="hamburger"></span>
-          <span class="hamburger"></span>
-        </button>
-        
-        <!-- Navigation Links -->
-        <div class="nav-menu" id="navMenu">
-          <ul class="nav-list">
-            <li class="nav-item">
-              <a href="/" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'home' ? 'active' : '' %>">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/profile" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'profile' ? 'active' : '' %>">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a href="/projects" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'projects' ? 'active' : '' %>">Projects</a>
-            </li>
-            <li class="nav-item">
-              <a href="/blog" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'blog' ? 'active' : '' %>">Blog</a>
-            </li>
-            <li class="nav-item">
-              <a href="/podcast" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'podcast' ? 'active' : '' %>">Podcast</a>
-            </li>
-            <li class="nav-item">
-              <a href="/hobbies" class="nav-link <%= typeof currentPage !== 'undefined' && currentPage === 'hobbies' ? 'active' : '' %>">Hobbies</a>
-            </li>
-          </ul>
-        </div>
+<nav class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="nav-brand-mark">
+        <img src="/images/brand-mark.svg" alt="Carlos Cervantes">
+      </span>
+      <span class="nav-brand-copy">
+        <span class="nav-brand-name">Carlos Cervantes</span>
+        <span class="nav-brand-sub">Quality Assurance · Performance Engineering</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-panel" id="navPanel">
+      <div class="nav-links">
+        <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Inicio</a>
+        <a href="/profile" class="<%= currentPage === 'profile' ? 'active' : '' %>">Perfil</a>
+        <a href="/projects" class="<%= currentPage === 'projects' ? 'active' : '' %>">Proyectos</a>
+        <a href="/blog" class="<%= currentPage === 'blog' ? 'active' : '' %>">Blog</a>
+        <a href="/podcast" class="<%= currentPage === 'podcast' ? 'active' : '' %>">Podcast</a>
+        <a href="/hobbies" class="<%= currentPage === 'hobbies' ? 'active' : '' %>">Intereses</a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a href="/account" class="<%= currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
+        <% } %>
+      </div>
+
+      <div class="nav-actions">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <a href="/account" class="button button-ghost <%= currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
+          <a href="/logout" class="button button-dark">Cerrar sesión</a>
+        <% } else { %>
+          <a href="/login" class="button button-ghost <%= currentPage === 'login' ? 'active' : '' %>">Iniciar sesión</a>
+          <a href="/register" class="button button-primary <%= currentPage === 'register' ? 'active' : '' %>">Crear cuenta</a>
+        <% } %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>

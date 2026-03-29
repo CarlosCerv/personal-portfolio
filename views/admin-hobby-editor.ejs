@@ -1,0 +1,225 @@
+<%- include('partials/header') %>
+
+<main class="page-shell admin-shell">
+  <section class="section">
+    <div class="admin-editor-workspace reveal">
+      <div class="admin-card admin-editor-hero">
+        <div class="admin-toolbar admin-toolbar-top">
+          <div class="admin-intro">
+            <span class="section-eyebrow">Editor de intereses</span>
+            <h1 class="admin-title"><%= hobby ? 'Refina la ficha completa del interés.' : 'Crea un nuevo interés para la plataforma.' %></h1>
+            <p class="muted-copy">Gestiona copys, bloques largos, recursos y señales visuales para que la sección de intereses se vea sólida y coherente.</p>
+            <div class="admin-switcher">
+              <a href="/admin/posts" class="chip">Posts</a>
+              <a href="/admin/hobbies" class="chip active">Intereses</a>
+            </div>
+          </div>
+          <div class="toolbar-actions admin-hero-actions">
+            <span class="save-indicator" id="saveIndicator"><i class="fas fa-circle-notch fa-spin"></i>Guardando</span>
+            <a href="/admin/hobbies" class="button button-ghost">Volver a intereses</a>
+            <button type="button" onclick="saveHobby()" class="button button-primary"><%= hobby ? 'Guardar cambios' : 'Crear interés' %></button>
+          </div>
+        </div>
+
+        <div class="admin-editor-grid">
+          <aside class="admin-editor-sidebar content-card">
+            <div class="admin-sidebar-section">
+              <span class="admin-sidebar-label">Checklist</span>
+              <ul class="bullet-list admin-checklist">
+                <li>Usa un título corto y un subtítulo explicativo.</li>
+                <li>Coloca una imagen que funcione bien como hero.</li>
+                <li>Separa highlights, goals y resources por línea.</li>
+                <li>Define orden y visibilidad antes de guardar.</li>
+              </ul>
+            </div>
+
+            <div class="admin-sidebar-section admin-mini-metrics">
+              <article class="admin-mini-metric">
+                <span>Slug actual</span>
+                <strong><%= hobby ? hobby.slug : 'nuevo' %></strong>
+              </article>
+              <article class="admin-mini-metric">
+                <span>Estado</span>
+                <strong><%= hobby && hobby.visible === false ? 'Oculto' : 'Visible' %></strong>
+              </article>
+            </div>
+          </aside>
+
+          <div class="admin-editor-main">
+            <div class="content-card admin-form-card">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="title">Título</label>
+                  <input id="title" class="text-input" type="text" value="<%= hobby ? hobby.title : '' %>" placeholder="Fotografía" required>
+                </div>
+                <div class="field">
+                  <label for="slug">Slug</label>
+                  <input id="slug" class="text-input" type="text" value="<%= hobby ? hobby.slug : '' %>" placeholder="photography" required>
+                </div>
+              </div>
+
+              <div class="form-grid" style="margin-top:16px;">
+                <div class="field">
+                  <label for="subtitle">Subtítulo</label>
+                  <input id="subtitle" class="text-input" type="text" value="<%= hobby ? hobby.subtitle : '' %>" placeholder="Explica en una línea la esencia del interés">
+                </div>
+                <div class="field">
+                  <label for="icon">Ícono</label>
+                  <input id="icon" class="text-input" type="text" value="<%= hobby ? hobby.icon : 'fas fa-star' %>" placeholder="fas fa-camera">
+                </div>
+              </div>
+
+              <div class="form-grid three" style="margin-top:16px;">
+                <div class="field">
+                  <label for="started">Desde</label>
+                  <input id="started" class="text-input" type="text" value="<%= hobby ? hobby.started || '' : '' %>" placeholder="2018">
+                </div>
+                <div class="field">
+                  <label for="frequency">Frecuencia</label>
+                  <input id="frequency" class="text-input" type="text" value="<%= hobby ? hobby.frequency || '' : '' %>" placeholder="Semanal">
+                </div>
+                <div class="field">
+                  <label for="level">Nivel</label>
+                  <input id="level" class="text-input" type="text" value="<%= hobby ? hobby.level || '' : '' %>" placeholder="Intermedio">
+                </div>
+              </div>
+
+              <div class="form-grid" style="margin-top:16px;">
+                <div class="field">
+                  <label for="order">Orden</label>
+                  <input id="order" class="text-input" type="number" value="<%= hobby ? hobby.order || 0 : 0 %>" min="0">
+                </div>
+                <div class="field">
+                  <label for="backgroundImage">Imagen hero</label>
+                  <input id="backgroundImage" class="text-input" type="text" value="<%= hobby ? hobby.backgroundImage || '' : '' %>" placeholder="https://...">
+                </div>
+              </div>
+
+              <div class="field" style="margin-top:16px;">
+                <label class="checkbox-label" for="visible">
+                  <input id="visible" type="checkbox" <%= !hobby || hobby.visible !== false ? 'checked' : '' %>>
+                  Mostrar este interés en la plataforma
+                </label>
+              </div>
+            </div>
+
+            <div class="content-card admin-form-card">
+              <div class="field">
+                <label for="description">Descripción</label>
+                <textarea id="description" class="text-area-input" placeholder="Resumen principal del interés"><%= hobby ? hobby.description || '' : '' %></textarea>
+              </div>
+              <div class="field" style="margin-top:16px;">
+                <label for="why">Por qué me importa</label>
+                <textarea id="why" class="text-area-input" placeholder="Qué aporta este interés a tu vida o forma de pensar"><%= hobby ? hobby.why || '' : '' %></textarea>
+              </div>
+              <div class="field" style="margin-top:16px;">
+                <label for="experience">Experiencia</label>
+                <textarea id="experience" class="text-area-input" placeholder="Cómo lo practicas y qué has aprendido"><%= hobby ? hobby.experience || '' : '' %></textarea>
+              </div>
+            </div>
+
+            <div class="admin-list-grid">
+              <div class="content-card admin-form-card">
+                <div class="field">
+                  <label for="highlights">Highlights</label>
+                  <textarea id="highlights" class="text-area-input text-area-compact" placeholder="Un highlight por línea"><%= hobby && hobby.highlights ? hobby.highlights.join('\n') : '' %></textarea>
+                </div>
+              </div>
+              <div class="content-card admin-form-card">
+                <div class="field">
+                  <label for="goals">Metas</label>
+                  <textarea id="goals" class="text-area-input text-area-compact" placeholder="Una meta por línea"><%= hobby && hobby.goals ? hobby.goals.join('\n') : '' %></textarea>
+                </div>
+              </div>
+              <div class="content-card admin-form-card">
+                <div class="field">
+                  <label for="equipment">Equipo / herramientas</label>
+                  <textarea id="equipment" class="text-area-input text-area-compact" placeholder="Un item por línea"><%= hobby && hobby.equipment ? hobby.equipment.join('\n') : '' %></textarea>
+                </div>
+              </div>
+              <div class="content-card admin-form-card">
+                <div class="field">
+                  <label for="resources">Recursos</label>
+                  <textarea id="resources" class="text-area-input text-area-compact" placeholder="Un recurso por línea"><%= hobby && hobby.resources ? hobby.resources.join('\n') : '' %></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const ORIGINAL_SLUG = '<%= hobby ? hobby.slug : "" %>';
+
+  document.getElementById('title').addEventListener('input', function (event) {
+    if (!ORIGINAL_SLUG) {
+      document.getElementById('slug').value = event.target.value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+  });
+
+  async function saveHobby() {
+    const payload = {
+      title: document.getElementById('title').value.trim(),
+      slug: document.getElementById('slug').value.trim(),
+      subtitle: document.getElementById('subtitle').value.trim(),
+      icon: document.getElementById('icon').value.trim(),
+      started: document.getElementById('started').value.trim(),
+      frequency: document.getElementById('frequency').value.trim(),
+      level: document.getElementById('level').value.trim(),
+      order: document.getElementById('order').value,
+      backgroundImage: document.getElementById('backgroundImage').value.trim(),
+      visible: document.getElementById('visible').checked,
+      description: document.getElementById('description').value.trim(),
+      why: document.getElementById('why').value.trim(),
+      experience: document.getElementById('experience').value.trim(),
+      highlights: document.getElementById('highlights').value,
+      goals: document.getElementById('goals').value,
+      equipment: document.getElementById('equipment').value,
+      resources: document.getElementById('resources').value,
+      originalSlug: ORIGINAL_SLUG
+    };
+
+    if (!payload.title || !payload.slug || !payload.subtitle || !payload.description || !payload.icon) {
+      alert('Completa título, slug, subtítulo, ícono y descripción.');
+      return;
+    }
+
+    if (!/^[a-z0-9-]+$/.test(payload.slug)) {
+      alert('El slug solo puede contener minúsculas, números y guiones.');
+      return;
+    }
+
+    const indicator = document.getElementById('saveIndicator');
+    indicator.classList.add('visible');
+
+    try {
+      const response = await fetch('/admin/hobbies/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        window.location.href = '/admin/hobbies';
+        return;
+      }
+
+      alert(result.error || 'Error al guardar el interés.');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      indicator.classList.remove('visible');
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>
