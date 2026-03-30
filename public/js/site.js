@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     progressFill.style.width = `${Math.min(progress, 100)}%`;
   };
 
+  const closeNav = () => {
+    body.classList.remove('nav-open');
+    navToggle?.setAttribute('aria-expanded', 'false');
+  };
+
   updateProgress();
   window.addEventListener('scroll', updateProgress, { passive: true });
 
@@ -28,8 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelectorAll('.nav-links a, .nav-actions a').forEach((link) => {
-    link.addEventListener('click', () => body.classList.remove('nav-open'));
+    link.addEventListener('click', closeNav);
   });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 980) {
+      closeNav();
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth <= 980 && body.classList.contains('nav-open')) {
+      closeNav();
+    }
+  }, { passive: true });
 
   if (prefersReducedMotion.matches) {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
