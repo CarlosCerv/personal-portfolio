@@ -46,6 +46,24 @@
             </div>
 
             <div class="admin-sidebar-section">
+              <span class="admin-sidebar-label">Cómo llenar este formulario</span>
+              <div class="admin-guidance-list">
+                <div>
+                  <strong>Identidad del post</strong>
+                  <p>Título, slug y autor definen la base del artículo y su URL final.</p>
+                </div>
+                <div>
+                  <strong>SEO y vista previa</strong>
+                  <p>La meta descripción y la portada mejoran cómo se comparte el post en redes y buscadores.</p>
+                </div>
+                <div>
+                  <strong>Contenido principal</strong>
+                  <p>Escribe en Markdown y usa la vista previa para validar jerarquía, párrafos y legibilidad.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-sidebar-section">
               <label for="metaDescription" class="admin-sidebar-label">Meta descripción</label>
               <textarea id="metaDescription" class="text-area-input text-area-compact" placeholder="Resumen corto para WhatsApp, buscadores y tarjetas sociales"><%= post ? post.metaDescription || '' : '' %></textarea>
             </div>
@@ -58,14 +76,20 @@
 
           <div class="admin-editor-main">
             <div class="content-card admin-form-card">
+              <div class="admin-section-head">
+                <span class="section-eyebrow">Identidad del artículo</span>
+                <p class="muted-copy">Estos campos construyen el título visible, la URL y la estructura básica del contenido.</p>
+              </div>
               <div class="form-grid">
                 <div class="field">
                   <label for="title">Título</label>
                   <input id="title" class="text-input" type="text" value="<%= post ? post.title : '' %>" placeholder="Título del artículo" required>
+                  <p class="admin-field-note">Usa un título claro y directo. Es lo primero que verá el lector.</p>
                 </div>
                 <div class="field">
                   <label for="slug">Slug</label>
                   <input id="slug" class="text-input" type="text" value="<%= post ? post.slug : '' %>" placeholder="slug-del-articulo" required>
+                  <p class="admin-field-note">Se usa en la URL. Debe quedar corto, limpio y fácil de compartir.</p>
                 </div>
               </div>
 
@@ -81,6 +105,7 @@
                 <div class="field">
                   <label for="tags">Tags</label>
                   <input id="tags" class="text-input" type="text" value="<%= post && post.tags ? post.tags.join(', ') : '' %>" placeholder="QA, Automatización, Performance">
+                  <p class="admin-field-note">Sepáralos con coma. Ayudan a filtrar el blog y a reforzar el tema.</p>
                 </div>
               </div>
             </div>
@@ -217,4 +242,4 @@
   <% } %>
 </script>
 
-<%- include('partials/footer') %>
+<%- include('partials/admin-footer') %>

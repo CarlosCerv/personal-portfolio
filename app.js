@@ -758,6 +758,7 @@ app.get('/admin', noCache, (req, res) => {
     title: 'Acceso Admin',
     error: req.query.error === 'invalid' ? 'Contraseña incorrecta. Intenta de nuevo.' : null,
     currentPage: 'admin',
+    currentAdminSection: 'login',
     ...buildMeta({
       title: 'Acceso Admin',
       description: 'Acceso privado al panel administrativo del sitio de Carlos Cervantes.',
@@ -806,7 +807,8 @@ app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
     renderPage(res, 'admin-posts', {
       title: 'Gestión de Posts',
       posts: posts,
-      currentPage: 'admin'
+      currentPage: 'admin',
+      currentAdminSection: 'posts'
     });
   } catch (error) {
     console.error('Error in /admin/posts:', error);
@@ -821,7 +823,8 @@ app.get('/admin/posts/new', requireAdmin, noCache, (req, res) => {
   renderPage(res, 'admin-editor', {
     title: 'Nuevo Post',
     post: null,
-    currentPage: 'admin'
+    currentPage: 'admin',
+    currentAdminSection: 'new-post'
   });
 });
 
@@ -907,7 +910,8 @@ app.get('/admin/posts/edit/:slug', requireAdmin, noCache, async (req, res) => {
     renderPage(res, 'admin-editor', {
       title: 'Editar Post',
       post: post,
-      currentPage: 'admin'
+      currentPage: 'admin',
+      currentAdminSection: 'posts'
     });
   } catch (error) {
     console.error('Error in /admin/posts/edit:', error);
@@ -924,7 +928,8 @@ app.get('/admin/hobbies', requireAdmin, noCache, async (req, res) => {
     renderPage(res, 'admin-hobbies', {
       title: 'Gestión de Intereses',
       hobbies,
-      currentPage: 'admin'
+      currentPage: 'admin',
+      currentAdminSection: 'hobbies'
     });
   } catch (error) {
     console.error('Error in /admin/hobbies:', error);
@@ -939,7 +944,8 @@ app.get('/admin/hobbies/new', requireAdmin, noCache, (req, res) => {
   renderPage(res, 'admin-hobby-editor', {
     title: 'Nuevo Interés',
     hobby: null,
-    currentPage: 'admin'
+    currentPage: 'admin',
+    currentAdminSection: 'new-hobby'
   });
 });
 
@@ -954,7 +960,8 @@ app.get('/admin/hobbies/edit/:slug', requireAdmin, noCache, async (req, res) => 
     renderPage(res, 'admin-hobby-editor', {
       title: 'Editar Interés',
       hobby,
-      currentPage: 'admin'
+      currentPage: 'admin',
+      currentAdminSection: 'hobbies'
     });
   } catch (error) {
     console.error('Error in /admin/hobbies/edit:', error);

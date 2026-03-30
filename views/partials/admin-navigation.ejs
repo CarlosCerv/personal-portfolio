@@ -1,0 +1,32 @@
+<nav class="site-nav admin-nav">
+  <div class="site-nav-inner admin-nav-inner">
+    <a href="/admin/posts" class="nav-brand admin-nav-brand">
+      <span class="nav-brand-mark admin-nav-mark">
+        <img src="/images/brand-mark.svg" alt="Carlos Cervantes admin">
+      </span>
+      <span class="nav-brand-copy">
+        <span class="nav-brand-name">Admin Panel</span>
+        <span class="nav-brand-sub">Editorial Workspace · Carlos Cervantes</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="nav-panel admin-nav-panel" id="navPanel">
+      <div class="nav-links admin-nav-links">
+        <a href="/admin/posts" class="<%= currentAdminSection === 'posts' ? 'active' : '' %>">Posts</a>
+        <a href="/admin/hobbies" class="<%= currentAdminSection === 'hobbies' ? 'active' : '' %>">Intereses</a>
+        <a href="/admin/posts/new" class="<%= currentAdminSection === 'new-post' ? 'active' : '' %>">Nuevo post</a>
+        <a href="/admin/hobbies/new" class="<%= currentAdminSection === 'new-hobby' ? 'active' : '' %>">Nuevo interés</a>
+      </div>
+
+      <div class="nav-actions admin-nav-actions">
+        <a href="/" class="button button-ghost">Ver sitio</a>
+        <a href="/admin/logout" class="button button-dark">Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+</nav>

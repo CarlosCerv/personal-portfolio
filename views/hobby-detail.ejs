@@ -15,74 +15,97 @@
         </div>
       </div>
 
-      <div class="detail-panel hobby-hero-panel reveal" style="background-image:linear-gradient(rgba(255,255,255,0.74), rgba(255,255,255,0.92)), url('<%= hobby.backgroundImage %>');background-size:cover;background-position:center;">
-        <span class="tag">Vista general</span>
-        <h3>Lo que este interés aporta a mi forma de pensar.</h3>
-        <ul class="meta-list hobby-meta-list">
-          <li>Práctica sostenida y mejora continua</li>
-          <li>Espacio personal para experimentar y aprender</li>
-          <li>Más energía, perspectiva y sensibilidad fuera del trabajo</li>
-        </ul>
+      <div class="detail-panel hobby-hero-panel hobby-hero-surface reveal" style="background-image:linear-gradient(180deg, rgba(255,255,255,0.78), rgba(255,255,255,0.92)), url('<%= hobby.backgroundImage %>');background-size:cover;background-position:center;">
+        <div class="hobby-hero-surface-top">
+          <span class="tag">Vista general</span>
+          <span class="hobby-surface-note">Interés personal</span>
+        </div>
+        <h3>Lo que este interés aporta a mi enfoque, ritmo y perspectiva.</h3>
+        <div class="hobby-overview-grid">
+          <article class="hobby-overview-card">
+            <strong>Claridad</strong>
+            <p>Me obliga a observar mejor, elegir con intención y simplificar lo importante.</p>
+          </article>
+          <article class="hobby-overview-card">
+            <strong>Constancia</strong>
+            <p>Se construye con práctica real, repeticiones y mejora progresiva.</p>
+          </article>
+          <article class="hobby-overview-card">
+            <strong>Energía</strong>
+            <p>Aporta equilibrio y una forma distinta de pensar fuera del trabajo técnico.</p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="split-grid hobby-detail-content">
-      <div class="content-card reveal">
-        <span class="section-eyebrow">Por qué importa</span>
-        <h3>Por qué me gusta <%= hobby.title %></h3>
+    <div class="hobby-story-grid">
+      <article class="content-card hobby-story-card reveal">
+        <span class="section-eyebrow">Narrativa</span>
+        <h3>Por qué <%= hobby.title %> tiene un lugar real en mi vida.</h3>
         <p class="muted-copy"><%= hobby.why %></p>
-        <% if (hobby.experience) { %>
-          <div class="hobby-detail-divider"></div>
-          <span class="section-eyebrow">Experiencia</span>
-          <p class="muted-copy"><%= hobby.experience %></p>
-        <% } %>
-      </div>
+      </article>
 
-      <div class="content-card reveal d1">
-        <span class="section-eyebrow">Destacados</span>
-        <ul class="bullet-list hobby-feature-list">
+      <article class="content-card hobby-story-card reveal d1">
+        <span class="section-eyebrow">Experiencia</span>
+        <h3>Cómo lo practico hoy.</h3>
+        <p class="muted-copy"><%= hobby.experience || 'Este interés sigue evolucionando con práctica, curiosidad y aprendizaje constante.' %></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="hobby-detail-dashboard">
+      <article class="content-card hobby-detail-panel reveal">
+        <span class="section-eyebrow">Highlights</span>
+        <h3>Momentos, focos y áreas que más disfruto.</h3>
+        <ul class="hobby-feature-list hobby-feature-grid">
           <% hobby.highlights.forEach(highlight => { %>
             <li><%= highlight %></li>
           <% }) %>
         </ul>
-      </div>
-    </div>
-  </section>
+      </article>
 
-  <section class="section">
-    <div class="split-grid hobby-detail-content">
       <% if (hobby.goals && hobby.goals.length > 0) { %>
-        <div class="content-card reveal">
+        <article class="content-card hobby-detail-panel reveal d1">
           <span class="section-eyebrow">Objetivos</span>
-          <ul class="bullet-list hobby-feature-list">
+          <h3>Lo que quiero seguir construyendo.</h3>
+          <ul class="hobby-feature-list hobby-feature-grid">
             <% hobby.goals.forEach(goal => { %>
               <li><%= goal %></li>
             <% }) %>
           </ul>
-        </div>
+        </article>
       <% } %>
+    </div>
+  </section>
 
-      <div class="content-card reveal d1">
-        <% if (hobby.equipment && hobby.equipment.length > 0) { %>
+  <section class="section">
+    <div class="hobby-resource-grid">
+      <% if (hobby.equipment && hobby.equipment.length > 0) { %>
+        <article class="content-card hobby-resource-card reveal">
           <span class="section-eyebrow">Herramientas</span>
-          <ul class="bullet-list hobby-feature-list">
+          <h3>Qué uso para vivir este interés de forma más completa.</h3>
+          <ul class="resource-list hobby-feature-list">
             <% hobby.equipment.forEach(item => { %>
               <li><%= item %></li>
             <% }) %>
           </ul>
-        <% } %>
-        <% if (hobby.resources && hobby.resources.length > 0) { %>
-          <div class="hobby-detail-divider"></div>
+        </article>
+      <% } %>
+
+      <% if (hobby.resources && hobby.resources.length > 0) { %>
+        <article class="content-card hobby-resource-card reveal d1">
           <span class="section-eyebrow">Recursos</span>
+          <h3>Referencias que alimentan aprendizaje y descubrimiento.</h3>
           <ul class="resource-list hobby-feature-list">
             <% hobby.resources.forEach(resource => { %>
               <li><%= resource %></li>
             <% }) %>
           </ul>
-        <% } %>
-      </div>
+        </article>
+      <% } %>
     </div>
   </section>
 
@@ -97,7 +120,7 @@
           <a href="/hobbies/<%= related.slug %>" class="related-card glass-card reveal">
             <span class="tag"><i class="<%= related.icon %>"></i><%= related.title %></span>
             <h3><%= related.title %></h3>
-            <p class="muted-copy">Explora cómo este interés complementa disciplina, creatividad y perspectiva personal.</p>
+            <p class="muted-copy"><%= related.subtitle || 'Explora cómo este interés complementa disciplina, creatividad y perspectiva personal.' %></p>
           </a>
         <% }) %>
       </div>

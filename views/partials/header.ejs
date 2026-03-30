@@ -37,4 +37,8 @@
   <script src="/js/site.js" defer></script>
 </head>
 <body class="page-<%= typeof currentPage !== 'undefined' ? currentPage : 'default' %>">
-  <%- include('navigation') %>
+  <% if (currentPage === 'admin') { %>
+    <%- include('admin-navigation') %>
+  <% } else { %>
+    <%- include('navigation') %>
+  <% } %>
