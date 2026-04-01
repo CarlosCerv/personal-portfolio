@@ -1,14 +1,14 @@
 :root {
   --font-display: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
   --font-text: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, monospace;
+  --font-mono: "SF Mono", "ui-monospace", "Menlo", monospace;
   --bg: #ffffff;
   --bg-2: #f5f5f7;
   --bg-3: #fbfbfd;
-  --surface: rgba(255, 255, 255, 0.84);
+  --surface: rgba(255, 255, 255, 0.85);
   --surface-solid: #ffffff;
   --border: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.14);
+  --border-strong: rgba(0, 0, 0, 0.13);
   --text: #1d1d1f;
   --text-2: #424245;
   --muted: #6e6e73;
@@ -22,12 +22,12 @@
   --amber-soft: #fef3c7;
   --red: #c0392b;
   --red-soft: #fdecea;
-  --shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+  --shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
   --radius-xl: 28px;
   --radius-lg: 20px;
   --radius-md: 16px;
   --radius-sm: 12px;
-  --nav-height: 92px;
+  --nav-height: 52px;
   --nav-offset: 122px;
   --progress-offset: 108px;
 }
@@ -198,15 +198,21 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.03em;
   margin: 0;
 }
 
-.hero-title,
-.page-title,
-.article-title {
-  font-size: clamp(44px, 7vw, 86px);
+h1, .hero-title, .page-title, .article-title {
+  font-size: clamp(52px, 7.5vw, 88px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
   line-height: 1.02;
+}
+
+h2, .s-title {
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
 }
 
 .hero {
@@ -303,10 +309,6 @@ h4 {
 
 .s-title {
   font-family: var(--font-display);
-  font-size: clamp(36px, 4.5vw, 56px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.06;
   color: var(--text);
   margin-bottom: 18px;
 }
@@ -442,10 +444,10 @@ h4 {
   width: 100%;
   max-width: 390px;
   background: var(--bg);
-  border: 1px solid var(--border-strong);
+  border: 0.5px solid var(--border-strong);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
 }
 
 .card-header,
@@ -1501,8 +1503,8 @@ h4 {
   justify-content: center;
   gap: 8px;
   min-height: 44px;
-  padding: 11px 18px;
-  border-radius: 999px;
+  padding: 13px 28px;
+  border-radius: 980px;
   border: 1px solid transparent;
   text-decoration: none;
   transition: 0.2s ease;
@@ -1523,6 +1525,17 @@ h4 {
 
 .button-primary:hover {
   background: var(--accent-hover);
+}
+
+.button-outline {
+  border: 1px solid rgba(0, 113, 227, 0.28);
+  color: var(--accent);
+  background: transparent;
+}
+
+.button-outline:hover {
+  background: var(--accent-soft);
+  border-color: rgba(0, 113, 227, 0.35);
 }
 
 .button-ghost {
@@ -2772,6 +2785,28 @@ body.page-ready .article-page > *,
   animation: none !important;
   opacity: 1;
   transform: none;
+}
+
+body.page-ready .blog-page > *,
+.blog-page .reveal,
+.blog-page .reveal.in {
+  animation: none !important;
+  opacity: 1;
+  transform: none;
+}
+
+.blog-page .blog-featured,
+.blog-page .blog-card,
+.blog-page .blog-clear-button,
+.blog-page .blog-filter-chip {
+  transition: none !important;
+}
+
+.blog-page .blog-featured:hover,
+.blog-page .blog-card:hover,
+.blog-page .blog-filter-chip:hover {
+  transform: none !important;
+  box-shadow: none;
 }
 
 .article-header {
@@ -4070,6 +4105,14 @@ body.page-ready .article-page > *,
 }
 
 @media (max-width: 700px) {
+  body {
+    background: #ffffff;
+  }
+
+  body::before {
+    display: none;
+  }
+
   :root {
     --nav-offset: 96px;
     --progress-offset: 78px;

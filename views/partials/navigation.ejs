@@ -6,7 +6,7 @@
       </span>
       <span class="nav-brand-copy">
         <span class="nav-brand-name">Carlos Cervantes</span>
-        <span class="nav-brand-sub">Quality Assurance · Performance Engineering</span>
+        <span class="nav-brand-sub">Quality Assurance</span>
       </span>
     </a>
 
@@ -17,24 +17,23 @@
 
     <div class="nav-panel" id="navPanel">
       <div class="nav-links">
-        <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Inicio</a>
-        <a href="/profile" class="<%= currentPage === 'profile' ? 'active' : '' %>">Perfil</a>
-        <a href="/projects" class="<%= currentPage === 'projects' ? 'active' : '' %>">Proyectos</a>
-        <a href="/blog" class="<%= currentPage === 'blog' ? 'active' : '' %>">Blog</a>
-        <a href="/podcast" class="<%= currentPage === 'podcast' ? 'active' : '' %>">Podcast</a>
-        <a href="/hobbies" class="<%= currentPage === 'hobbies' ? 'active' : '' %>">Intereses</a>
+        <a href="/" class="<%= typeof currentPage !== 'undefined' && currentPage === 'home' ? 'active' : '' %>">Inicio</a>
+        <a href="/servicios" class="<%= typeof currentPage !== 'undefined' && currentPage === 'servicios' ? 'active' : '' %>">Servicios</a>
+        <a href="/profile" class="<%= typeof currentPage !== 'undefined' && currentPage === 'profile' ? 'active' : '' %>">Perfil</a>
+        <a href="/projects" class="<%= typeof currentPage !== 'undefined' && currentPage === 'projects' ? 'active' : '' %>">Proyectos</a>
+        <a href="/blog" class="<%= typeof currentPage !== 'undefined' && currentPage === 'blog' ? 'active' : '' %>">Blog</a>
+        <a href="/podcast" class="<%= typeof currentPage !== 'undefined' && currentPage === 'podcast' ? 'active' : '' %>">Podcast</a>
+        <a href="/hobbies" class="<%= typeof currentPage !== 'undefined' && currentPage === 'hobbies' ? 'active' : '' %>">Intereses</a>
         <% if (typeof user !== 'undefined' && user) { %>
-          <a href="/account" class="<%= currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
+          <a href="/account" class="<%= typeof currentPage !== 'undefined' && currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
         <% } %>
       </div>
 
       <div class="nav-actions">
+        <a href="/contacto" class="button button-outline <%= typeof currentPage !== 'undefined' && currentPage === 'contacto' ? 'active' : '' %>">Contacto</a>
         <% if (typeof user !== 'undefined' && user) { %>
-          <a href="/account" class="button button-ghost <%= currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
+          <a href="/account" class="button button-ghost <%= typeof currentPage !== 'undefined' && currentPage === 'account' ? 'active' : '' %>">Mi panel</a>
           <a href="/logout" class="button button-dark">Cerrar sesión</a>
-        <% } else { %>
-          <a href="/login" class="button button-ghost <%= currentPage === 'login' ? 'active' : '' %>">Iniciar sesión</a>
-          <a href="/register" class="button button-primary <%= currentPage === 'register' ? 'active' : '' %>">Crear cuenta</a>
         <% } %>
       </div>
     </div>

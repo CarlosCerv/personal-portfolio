@@ -529,6 +529,38 @@ app.get('/profile', (req, res) => {
 });
 
 /**
+ * SERVICIOS PAGE
+ */
+app.get('/servicios', (req, res) => {
+  const meta = buildMeta({
+    title: 'Servicios de Consultoría',
+    description: 'Servicios de auditoría QA, automatización y performance testing.',
+    path: '/servicios'
+  });
+  renderPage(res, 'servicios', {
+    title: 'Servicios | Carlos Cervantes',
+    currentPage: 'servicios',
+    ...meta
+  });
+});
+
+/**
+ * CONTACTO PAGE
+ */
+app.get('/contacto', (req, res) => {
+  const meta = buildMeta({
+    title: 'Contacto',
+    description: 'Ponte en contacto para elevar la calidad y rendimiento de tu software.',
+    path: '/contacto'
+  });
+  renderPage(res, 'contacto', {
+    title: 'Contacto | Carlos Cervantes',
+    currentPage: 'contacto',
+    ...meta
+  });
+});
+
+/**
  * PROJECTS PAGE - GitHub Projects
  */
 app.get('/projects', async (req, res) => {
