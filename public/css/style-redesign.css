@@ -1653,6 +1653,8 @@ h2, .s-title {
 
 .nav-links {
   flex-wrap: nowrap;
+  flex: 1;
+  justify-content: center;
 }
 
 .nav-actions {
@@ -2358,6 +2360,7 @@ h2, .s-title {
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 4;
+  line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
