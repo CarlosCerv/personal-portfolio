@@ -1,10 +1,163 @@
 <%- include('partials/header') %>
+
 <main class="page-shell">
-  <section class="hero-section">
-    <div class="section-wrap" style="text-align:center;">
-      <h1 class="hero-title">Contacto</h1>
-      <p class="hero-sub">Página en construcción (Área 4).</p>
+  <section class="ctc-hero">
+    <div class="section-wrap">
+      <div class="ctc-layout">
+
+        <!-- ══ LEFT: info ══ -->
+        <div class="ctc-info reveal">
+          <span class="s-eyebrow">Contacto</span>
+          <h1 class="ctc-h1">Hablemos.</h1>
+          <p class="ctc-intro">Cuéntame sobre tu proyecto. Respondo en menos de 24 horas.</p>
+
+          <div class="ctc-channels">
+            <a href="mailto:carlos.cervart@icloud.com" class="ctc-channel">
+              <span class="ctc-channel-icon"><i class="fa-solid fa-envelope"></i></span>
+              <div class="ctc-channel-text">
+                <strong>Email</strong>
+                <span>carlos.cervart@icloud.com</span>
+              </div>
+            </a>
+            <a href="https://www.linkedin.com/in/carlos-eduardo-cervantes-arteaga" target="_blank" rel="noopener" class="ctc-channel">
+              <span class="ctc-channel-icon"><i class="fa-brands fa-linkedin"></i></span>
+              <div class="ctc-channel-text">
+                <strong>LinkedIn</strong>
+                <span>carlos-eduardo-cervantes-arteaga</span>
+              </div>
+            </a>
+            <a href="https://github.com/CarlosCerv" target="_blank" rel="noopener" class="ctc-channel">
+              <span class="ctc-channel-icon"><i class="fa-brands fa-github"></i></span>
+              <div class="ctc-channel-text">
+                <strong>GitHub</strong>
+                <span>CarlosCerv</span>
+              </div>
+            </a>
+            <a href="https://x.com/CarlosCerv" target="_blank" rel="noopener" class="ctc-channel">
+              <span class="ctc-channel-icon"><i class="fa-brands fa-x-twitter"></i></span>
+              <div class="ctc-channel-text">
+                <strong>X / Twitter</strong>
+                <span>@CarlosCerv</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="ctc-avail">
+            <span class="pro-avail-dot"></span>
+            Disponible para nuevos proyectos · Remoto / Híbrido
+          </div>
+        </div>
+
+        <!-- ══ RIGHT: form ══ -->
+        <div class="ctc-form-wrap reveal d1">
+          <form id="ctcForm" class="ctc-form">
+
+            <div class="ctc-field-row">
+              <div class="ctc-field">
+                <label for="ctcNombre">Nombre *</label>
+                <input type="text" id="ctcNombre" name="nombre" placeholder="Tu nombre completo" required>
+              </div>
+              <div class="ctc-field">
+                <label for="ctcEmail">Email *</label>
+                <input type="email" id="ctcEmail" name="email" placeholder="tu@email.com" required>
+              </div>
+            </div>
+
+            <div class="ctc-field">
+              <label for="ctcEmpresa">Empresa <span class="ctc-opt">(opcional)</span></label>
+              <input type="text" id="ctcEmpresa" name="empresa" placeholder="Nombre de tu empresa o proyecto">
+            </div>
+
+            <div class="ctc-field">
+              <label for="ctcServicio">Servicio de interés *</label>
+              <select id="ctcServicio" name="servicio" required>
+                <option value="" disabled selected>Selecciona un servicio</option>
+                <option value="Diagnóstico QA">Diagnóstico QA — $500 USD</option>
+                <option value="Automatización">Automatización E2E — $2,500 USD</option>
+                <option value="Performance Engineering">Performance Engineering — $1,800 USD</option>
+                <option value="Consultoría general">Consultoría general / Otro</option>
+              </select>
+            </div>
+
+            <div class="ctc-field">
+              <label for="ctcDescripcion">¿Qué necesitas? *</label>
+              <textarea
+                id="ctcDescripcion"
+                name="descripcion"
+                placeholder="Cuéntame sobre tu proyecto, el problema que quieres resolver y el plazo que tienes en mente."
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <label class="ctc-check-label">
+              <input type="checkbox" id="ctcAcepto" required>
+              <span>Acepto que Carlos Cervantes me contacte para dar seguimiento a esta solicitud.</span>
+            </label>
+
+            <button type="submit" class="button button-primary ctc-submit" id="ctcSubmit">
+              <span id="ctcSubmitText">Enviar mensaje →</span>
+              <span id="ctcSubmitSpinner" class="svc-spinner" hidden></span>
+            </button>
+
+          </form>
+
+          <!-- States -->
+          <div id="ctcSuccess" class="ctc-success" hidden>
+            <div class="ctc-success-icon">✓</div>
+            <h3>Mensaje enviado</h3>
+            <p>Gracias por escribirme. Te responderé en menos de 24 horas a <strong id="ctcSuccessEmail"></strong>.</p>
+            <a href="/servicios" class="button button-outline" style="margin-top:20px;">Ver mis servicios →</a>
+          </div>
+
+          <div id="ctcError" class="ctc-error" hidden>
+            <p>No fue posible enviar el mensaje. <a href="mailto:carlos.cervart@icloud.com">Escríbeme directo →</a></p>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 </main>
+
 <%- include('partials/footer') %>
+
+<script>
+(function() {
+  document.getElementById('ctcForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('ctcNombre').value;
+    const email = document.getElementById('ctcEmail').value;
+    const empresa = document.getElementById('ctcEmpresa').value;
+    const servicio = document.getElementById('ctcServicio').value;
+    const descripcion = document.getElementById('ctcDescripcion').value;
+
+    document.getElementById('ctcSubmitText').hidden = true;
+    document.getElementById('ctcSubmitSpinner').hidden = false;
+    document.getElementById('ctcSubmit').disabled = true;
+
+    try {
+      const resp = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email, empresa, servicio, descripcion })
+      });
+      const data = await resp.json();
+
+      if (data.success) {
+        document.getElementById('ctcForm').hidden = true;
+        document.getElementById('ctcSuccess').hidden = false;
+        document.getElementById('ctcSuccessEmail').textContent = email;
+      } else {
+        throw new Error('failed');
+      }
+    } catch (err) {
+      document.getElementById('ctcError').hidden = false;
+      document.getElementById('ctcSubmitText').hidden = false;
+      document.getElementById('ctcSubmitSpinner').hidden = true;
+      document.getElementById('ctcSubmit').disabled = false;
+    }
+  });
+})();
+</script>

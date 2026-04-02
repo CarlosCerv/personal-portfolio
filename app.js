@@ -1344,6 +1344,202 @@ app.post('/posts/:slug/comment', async (req, res) => {
   }
 });
 
+// ==================== API ROUTES ====================
+
+/**
+ * API: Diagnóstico IA (Anthropic)
+ * POST /api/diagnostico
+ */
+app.post('/api/diagnostico', express.json(), async (req, res) => {
+  const { appType, appScale, mainProblem, nombre, email } = req.body;
+
+  if (!appType || !mainProblem || !email) {
+    return res.status(400).json({ error: 'Datos incompletos' });
+  }
+
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  if (!ANTHROPIC_API_KEY) {
+    return res.status(503).json({ error: 'Servicio de IA no disponible temporalmente' });
+  }
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 600,
+        system: `Eres Carlos Cervantes, QA consultant con 6+ años de experiencia en performance testing, automatización y calidad de software. 
+Genera un diagnóstico inicial en exactamente 3 párrafos en español:
+1) Riesgo principal según el tipo de app (${appType}) y escala de usuarios (${appScale})
+2) Top 3 recomendaciones concretas y accionables
+3) El paquete de servicio más adecuado (Diagnóstico QA $500 / Automatización $2,500 / Performance Engineering $1,800) con justificación.
+Tono: experto, directo, accesible. Sin bullet points, párrafos corridos.`,
+        messages: [
+          {
+            role: 'user',
+            content: `App: ${appType} | Escala: ${appScale} usuarios en pico\nProblema: ${mainProblem}`
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Anthropic error:', errText);
+      return res.status(502).json({ error: 'Error al generar diagnóstico' });
+    }
+
+    const data = await response.json();
+    const diagnostico = data.content?.[0]?.text || '';
+
+    // Also send notification email if Resend is configured
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    if (RESEND_API_KEY && email) {
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${RESEND_API_KEY}`
+        },
+        body: JSON.stringify({
+          from: 'Carlos Cervantes QA <noreply@carloscervantes-qa.vercel.app>',
+          to: ['carlos.cervart@icloud.com'],
+          subject: `[Diagnóstico QA] ${nombre || 'Visitante'} — ${appType}`,
+          html: `<h2>Nuevo diagnóstico solicitado</h2>
+            <p><strong>Nombre:</strong> ${nombre}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>App:</strong> ${appType} | <strong>Escala:</strong> ${appScale}</p>
+            <p><strong>Problema:</strong> ${mainProblem}</p>
+            <hr>
+            <h3>Diagnóstico generado:</h3>
+            <p>${diagnostico.replace(/\n\n/g, '</p><p>')}</p>`
+        })
+      }).catch(err => console.error('Resend notification error:', err));
+    }
+
+    res.json({ diagnostico });
+  } catch (err) {
+    console.error('Diagnostico API error:', err);
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+/**
+ * API: Formulario de contacto (Resend)
+ * POST /api/contacto
+ */
+app.post('/api/contacto', express.json(), async (req, res) => {
+  const { nombre, email, empresa, servicio, descripcion } = req.body;
+
+  if (!nombre || !email || !descripcion) {
+    return res.status(400).json({ error: 'Datos incompletos' });
+  }
+
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_API_KEY) {
+    // Graceful degradation: acknowledge without actually sending
+    console.log(`[Contacto] ${nombre} <${email}> — ${servicio}: ${descripcion.substring(0, 80)}`);
+    return res.json({ success: true, note: 'logged_only' });
+  }
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`
+      },
+      body: JSON.stringify({
+        from: 'Portfolio Contact <noreply@carloscervantes-qa.vercel.app>',
+        to: ['carlos.cervart@icloud.com'],
+        reply_to: email,
+        subject: `[Contacto Web] ${nombre}`,
+        html: `<h2>Nuevo mensaje de contacto</h2>
+          <p><strong>Nombre:</strong> ${nombre}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          ${empresa ? `<p><strong>Empresa:</strong> ${empresa}</p>` : ''}
+          <p><strong>Servicio:</strong> ${servicio || 'No especificado'}</p>
+          <p><strong>Mensaje:</strong></p>
+          <blockquote>${descripcion.replace(/\n/g, '<br>')}</blockquote>`
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Resend error:', errText);
+      return res.status(502).json({ error: 'Error al enviar email' });
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Contacto API error:', err);
+    res.status(500).json({ error: 'Error interno' });
+  }
+});
+
+/**
+ * API: Chat widget (Anthropic)
+ * POST /api/chat
+ */
+app.post('/api/chat', express.json(), async (req, res) => {
+  const { messages } = req.body;
+
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Mensajes inválidos' });
+  }
+
+  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  if (!ANTHROPIC_API_KEY) {
+    return res.json({
+      reply: 'Hola, soy el asistente de Carlos. En este momento el servicio de chat no está disponible, pero puedes escribirle directamente a carlos.cervart@icloud.com o visitar /servicios para conocer sus paquetes.'
+    });
+  }
+
+  try {
+    // Limit to last 10 messages to control tokens
+    const limitedMessages = messages.slice(-10).map(m => ({
+      role: m.role,
+      content: String(m.content).substring(0, 1000)
+    }));
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5',
+        max_tokens: 350,
+        system: `Eres el asistente virtual de Carlos Cervantes, QA consultant con 6+ años de experiencia en performance testing, automatización y calidad de software. 
+Responde siempre en español, máximo 3 párrafos cortos y directos.
+Para consultas sobre servicios, dirígelos a /servicios.
+Para experiencia o CV, dirígelos a /profile.
+Para contacto directo, sugiere /contacto o carlos.cervart@icloud.com.
+Tono: experto pero accesible. No inventes información. Si no sabes algo, dilo honestamente.`,
+        messages: limitedMessages
+      })
+    });
+
+    if (!response.ok) {
+      return res.json({ reply: 'Lo siento, no puedo responder en este momento. Puedes escribir a carlos.cervart@icloud.com' });
+    }
+
+    const data = await response.json();
+    const reply = data.content?.[0]?.text || 'No pude generar una respuesta.';
+    res.json({ reply });
+  } catch (err) {
+    console.error('Chat API error:', err);
+    res.json({ reply: 'Error temporal. Escribe a carlos.cervart@icloud.com' });
+  }
+});
+
 /**
  * 404 ERROR HANDLER
  */

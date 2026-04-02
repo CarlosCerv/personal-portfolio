@@ -3,10 +3,10 @@
 <main class="page-shell">
   <section class="projects-section">
     <div class="section-wrap">
-      <div class="section-header reveal">
+      <div class="page-hero-header reveal">
         <span class="s-eyebrow">Ingeniería y automatización</span>
-        <h1 class="s-title">Proyectos estratégicos.</h1>
-        <p class="s-sub">Frameworks de QA, experimentos y contribuciones open source presentados con la misma estructura editorial del HTML de referencia.</p>
+        <h1 class="s-title">Proyectos y repositorios.</h1>
+        <p class="s-sub">Frameworks de QA, automatización y contribuciones open source. Cada proyecto refleja un problema real resuelto con criterio técnico.</p>
       </div>
     <% if (typeof error !== 'undefined' && error) { %>
       <div class="empty-state-card">
@@ -32,6 +32,42 @@
     <% } %>
     </div>
   </section>
+
+  <hr class="divider">
+
+  <!-- Proyectos en producción -->
+  <section class="pg-notable-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">En producción</span>
+        <h2 class="s-title">Proyectos con<br>impacto real.</h2>
+        <p class="s-sub">Plataformas activas donde calidad y performance no son negociables.</p>
+      </div>
+      <div class="pro-notable-grid">
+        <div class="pro-notable-card reveal">
+          <span class="pro-notable-badge">10M Usuarios</span>
+          <h3 class="pro-notable-title">Real Estate Platform</h3>
+          <p class="pro-notable-desc">QA para iOS/Android en sector inmobiliario. Feature Flags, reducción 60% en tiempo de regresión con Appium y XCUITest.</p>
+        </div>
+        <div class="pro-notable-card reveal d1">
+          <span class="pro-notable-badge">5M transacciones</span>
+          <h3 class="pro-notable-title">E-Commerce Core</h3>
+          <p class="pro-notable-desc">Pruebas de carga extremas JMeter en flujos de pago. Black Friday y Cyber Monday sin downtime.</p>
+        </div>
+        <div class="pro-notable-card reveal d2">
+          <span class="pro-notable-badge">500K Pacientes</span>
+          <h3 class="pro-notable-title">Healthcare Cloud</h3>
+          <p class="pro-notable-desc">API testing médico en compliance. k6 y Postman para certificar 99.99% uptime y manejo seguro de datos.</p>
+        </div>
+        <div class="pro-notable-card reveal d3">
+          <span class="pro-notable-badge">2M Usuarios</span>
+          <h3 class="pro-notable-title">FinTech App</h3>
+          <p class="pro-notable-desc">Suite Cypress + Firebase para prevenir vulnerabilidades financieras en producción.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <%- include('partials/footer') %>
+

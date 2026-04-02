@@ -1,10 +1,464 @@
 <%- include('partials/header') %>
+
 <main class="page-shell">
-  <section class="hero-section">
-    <div class="section-wrap" style="text-align:center;">
-      <h1 class="hero-title">Servicios</h1>
-      <p class="hero-sub">Página en construcción (Área 4).</p>
+
+  <!-- ══ HERO ══ -->
+  <section class="svc-hero">
+    <div class="section-wrap">
+      <div class="svc-hero-inner">
+        <span class="s-eyebrow reveal">Consultoría</span>
+        <h1 class="svc-hero-title reveal d1">Mejora la calidad de tu<br>software. Sin adivinanzas.</h1>
+        <p class="svc-hero-sub reveal d2">QA, automatización y performance para equipos que lanzan con confianza.</p>
+        <div class="svc-hero-actions reveal d3">
+          <a href="#diagnostico" class="button button-primary">Diagnóstico gratuito</a>
+          <a href="/profile" class="button button-outline">Ver mi experiencia</a>
+        </div>
+      </div>
     </div>
   </section>
+
+  <hr class="divider">
+
+  <!-- ══ PAQUETES ══ -->
+  <section class="svc-packages-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Servicios</span>
+        <h2 class="s-title">Elige el paquete<br>que necesita tu equipo.</h2>
+        <p class="s-sub">Tres soluciones diseñadas para distintos momentos del ciclo de calidad.</p>
+      </div>
+
+      <div class="svc-packages-grid">
+
+        <!-- Paquete 1 -->
+        <div class="svc-pkg-card reveal">
+          <div class="svc-pkg-top">
+            <span class="svc-pkg-eyebrow">Inicio</span>
+            <h3 class="svc-pkg-name">Diagnóstico QA</h3>
+            <div class="svc-pkg-price">$500 <span>USD</span></div>
+            <div class="svc-pkg-duration">· 5 días</div>
+          </div>
+          <ul class="svc-pkg-list">
+            <li><span class="svc-check">✓</span>Auditoría completa del proceso de calidad</li>
+            <li><span class="svc-check">✓</span>Matriz de riesgos por módulo</li>
+            <li><span class="svc-check">✓</span>Roadmap de mejoras priorizado</li>
+            <li><span class="svc-check">✓</span>Sesión de presentación de hallazgos</li>
+          </ul>
+          <a href="#diagnostico" class="button button-outline svc-pkg-cta">Solicitar →</a>
+        </div>
+
+        <!-- Paquete 2 — Featured -->
+        <div class="svc-pkg-card svc-pkg-featured reveal d1">
+          <div class="svc-pkg-badge">Más solicitado</div>
+          <div class="svc-pkg-top">
+            <span class="svc-pkg-eyebrow">Core</span>
+            <h3 class="svc-pkg-name">Automatización</h3>
+            <div class="svc-pkg-price">$2,500 <span>USD</span></div>
+            <div class="svc-pkg-duration">· 4–6 semanas</div>
+          </div>
+          <ul class="svc-pkg-list">
+            <li><span class="svc-check">✓</span>Suite E2E completa (Web/Mobile)</li>
+            <li><span class="svc-check">✓</span>Integración CI/CD (GitHub Actions / Jenkins)</li>
+            <li><span class="svc-check">✓</span>Documentación y guía de mantenimiento</li>
+            <li><span class="svc-check">✓</span>2 semanas de soporte post-entrega</li>
+          </ul>
+          <a href="#diagnostico" class="button button-primary svc-pkg-cta">Solicitar →</a>
+        </div>
+
+        <!-- Paquete 3 -->
+        <div class="svc-pkg-card reveal d2">
+          <div class="svc-pkg-top">
+            <span class="svc-pkg-eyebrow">Escala</span>
+            <h3 class="svc-pkg-name">Performance Engineering</h3>
+            <div class="svc-pkg-price">$1,800 <span>USD</span></div>
+            <div class="svc-pkg-duration">· 2–4 semanas</div>
+          </div>
+          <ul class="svc-pkg-list">
+            <li><span class="svc-check">✓</span>Pruebas de carga con JMeter / k6</li>
+            <li><span class="svc-check">✓</span>Identificación de cuellos de botella</li>
+            <li><span class="svc-check">✓</span>Recomendaciones de arquitectura</li>
+            <li><span class="svc-check">✓</span>Reporte ejecutivo con evidencias</li>
+          </ul>
+          <a href="#diagnostico" class="button button-outline svc-pkg-cta">Solicitar →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ SOCIAL PROOF ══ -->
+  <section class="svc-proof-section">
+    <div class="section-wrap">
+      <div class="svc-proof-grid reveal">
+        <div class="svc-proof-item">
+          <span class="svc-proof-num">10M+</span>
+          <span class="svc-proof-label">Usuarios impactados</span>
+        </div>
+        <div class="svc-proof-item">
+          <span class="svc-proof-num">60%</span>
+          <span class="svc-proof-label">Reducción de regresión</span>
+        </div>
+        <div class="svc-proof-item">
+          <span class="svc-proof-num">99.99%</span>
+          <span class="svc-proof-label">Uptime garantizado</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ PROCESO ══ -->
+  <section class="svc-process-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Cómo funciona</span>
+        <h2 class="s-title">Un proceso simple,<br>transparente y enfocado.</h2>
+      </div>
+      <div class="svc-process-flow">
+        <div class="svc-process-step reveal">
+          <span class="svc-process-num">01</span>
+          <div class="svc-process-content">
+            <strong>Contacto</strong>
+            <p>Recibo tu brief y contexto.</p>
+          </div>
+        </div>
+        <div class="svc-process-arrow">→</div>
+        <div class="svc-process-step reveal d1">
+          <span class="svc-process-num">02</span>
+          <div class="svc-process-content">
+            <strong>IA analiza</strong>
+            <p>Proceso y detecto vacíos.</p>
+          </div>
+        </div>
+        <div class="svc-process-arrow">→</div>
+        <div class="svc-process-step reveal d2">
+          <span class="svc-process-num">03</span>
+          <div class="svc-process-content">
+            <strong>Diagnóstico</strong>
+            <p>Riesgos y prioridades.</p>
+          </div>
+        </div>
+        <div class="svc-process-arrow">→</div>
+        <div class="svc-process-step reveal">
+          <span class="svc-process-num">04</span>
+          <div class="svc-process-content">
+            <strong>Propuesta</strong>
+            <p>Plan, tiempos y entregables.</p>
+          </div>
+        </div>
+        <div class="svc-process-arrow">→</div>
+        <div class="svc-process-step reveal d1">
+          <span class="svc-process-num">05</span>
+          <div class="svc-process-content">
+            <strong>Entrega</strong>
+            <p>Evidencia y hallazgos.</p>
+          </div>
+        </div>
+        <div class="svc-process-arrow">→</div>
+        <div class="svc-process-step reveal d2">
+          <span class="svc-process-num">06</span>
+          <div class="svc-process-content">
+            <strong>Pago</strong>
+            <p>Aprobado y facturado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ FORMULARIO IA MULTI-STEP ══ -->
+  <section class="svc-diag-section" id="diagnostico">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Diagnóstico gratuito</span>
+        <h2 class="s-title">Cuéntame sobre<br>tu proyecto.</h2>
+        <p class="s-sub">La IA analiza tu caso y genera un diagnóstico inicial en segundos.</p>
+      </div>
+
+      <div class="svc-diag-card reveal d1">
+        <!-- Progress bar -->
+        <div class="svc-diag-progress">
+          <div class="svc-diag-progress-bar" id="diagProgressBar" style="width:25%"></div>
+        </div>
+        <div class="svc-diag-step-label" id="diagStepLabel">Paso 1 de 4</div>
+
+        <form id="diagForm">
+          <!-- STEP 0: Tipo de app -->
+          <div class="svc-diag-step active" data-step="0">
+            <h3 class="svc-diag-question">¿Qué tipo de aplicación tienes?</h3>
+            <div class="svc-type-grid" id="appTypeGrid">
+              <button type="button" class="svc-type-btn" data-value="Web">🌐 Web</button>
+              <button type="button" class="svc-type-btn" data-value="iOS">📱 iOS</button>
+              <button type="button" class="svc-type-btn" data-value="Android">🤖 Android</button>
+              <button type="button" class="svc-type-btn" data-value="API">⚡ API</button>
+              <button type="button" class="svc-type-btn" data-value="Microservicios">🔗 Microservicios</button>
+              <button type="button" class="svc-type-btn" data-value="Otra">✦ Otra</button>
+            </div>
+            <input type="hidden" id="appType" name="appType">
+            <div class="svc-diag-nav">
+              <span></span>
+              <button type="button" class="button button-primary" id="step0Next" disabled>Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- STEP 1: Escala -->
+          <div class="svc-diag-step" data-step="1">
+            <h3 class="svc-diag-question">¿Cuántos usuarios tienes en pico?</h3>
+            <div class="svc-scale-grid" id="scaleGrid">
+              <button type="button" class="svc-type-btn" data-value="<100">menos de 100</button>
+              <button type="button" class="svc-type-btn" data-value="100-1K">100 – 1,000</button>
+              <button type="button" class="svc-type-btn" data-value="1K-10K">1K – 10K</button>
+              <button type="button" class="svc-type-btn" data-value="10K-100K">10K – 100K</button>
+              <button type="button" class="svc-type-btn" data-value="100K+">100K+</button>
+            </div>
+            <input type="hidden" id="appScale" name="appScale">
+            <div class="svc-diag-nav">
+              <button type="button" class="button button-outline" id="step1Back">← Atrás</button>
+              <button type="button" class="button button-primary" id="step1Next" disabled>Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Problema -->
+          <div class="svc-diag-step" data-step="2">
+            <h3 class="svc-diag-question">¿Cuál es tu principal problema de calidad?</h3>
+            <textarea
+              id="mainProblem"
+              name="mainProblem"
+              class="svc-diag-textarea"
+              placeholder="Ej: Cada release rompe funcionalidades existentes. Tenemos errores de memoria en producción. Los tests tardan demasiado…"
+              rows="5"
+            ></textarea>
+            <div class="svc-diag-nav">
+              <button type="button" class="button button-outline" id="step2Back">← Atrás</button>
+              <button type="button" class="button button-primary" id="step2Next">Siguiente →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Contacto -->
+          <div class="svc-diag-step" data-step="3">
+            <h3 class="svc-diag-question">¿A dónde te envío el diagnóstico?</h3>
+            <div class="svc-contact-fields">
+              <input type="text" id="diagNombre" name="nombre" placeholder="Tu nombre" class="svc-diag-input" required>
+              <input type="email" id="diagEmail" name="email" placeholder="tu@email.com" class="svc-diag-input" required>
+            </div>
+            <label class="svc-diag-check-label">
+              <input type="checkbox" id="diagAccept" required>
+              <span>Acepto que Carlos Cervantes me contacte para dar seguimiento al diagnóstico.</span>
+            </label>
+            <div class="svc-diag-nav">
+              <button type="button" class="button button-outline" id="step3Back">← Atrás</button>
+              <button type="submit" class="button button-primary" id="diagSubmit">
+                <span id="diagSubmitText">Obtener diagnóstico IA ✦</span>
+                <span id="diagSubmitSpinner" class="svc-spinner" hidden></span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Success state -->
+        <div id="diagSuccess" class="svc-diag-result" hidden>
+          <div class="svc-diag-result-header">
+            <div class="svc-diag-result-icon">✦</div>
+            <h3>Tu diagnóstico inicial</h3>
+            <p class="svc-diag-result-meta">Generado por IA · Revisado por Carlos Cervantes</p>
+          </div>
+          <div id="diagResultText" class="svc-diag-result-body"></div>
+          <div class="svc-diag-result-footer">
+            <a href="mailto:carlos.cervart@icloud.com?subject=Seguimiento%20diagnóstico%20QA" class="button button-primary">Hablar con Carlos →</a>
+            <a href="/servicios" class="button button-outline">Ver paquetes</a>
+          </div>
+        </div>
+
+        <!-- Error state -->
+        <div id="diagError" class="svc-diag-error" hidden>
+          <p>No fue posible generar el diagnóstico. <a href="mailto:carlos.cervart@icloud.com">Escríbeme directo →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ FAQ ══ -->
+  <section class="svc-faq-section">
+    <div class="section-wrap">
+      <div class="section-header reveal">
+        <span class="s-eyebrow">Preguntas frecuentes</span>
+        <h2 class="s-title">Todo lo que necesitas<br>saber antes de empezar.</h2>
+      </div>
+
+      <div class="svc-faq-list reveal d1">
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Trabajas de forma remota?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Sí, trabajo 100% remoto con equipos en México, LATAM y Norte América. Todas las sesiones son por videollamada y los entregables se comparten en repositorios o documentos compartidos.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Cuánto tiempo tarda el diagnóstico gratuito de IA?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>El diagnóstico inicial se genera en segundos usando IA. El análisis profundo formal (Paquete Diagnóstico QA) toma 5 días hábiles e incluye una sesión de presentación de hallazgos.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Qué entrego al final de cada proyecto?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Dependiendo del paquete: repositorios de código con tests automatizados, reportes PDF con evidencias, matrices de riesgo, roadmaps de mejora, y dashboards de performance. Todo documentado y listo para continuar sin mí.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Puedo contratar solo parte de un paquete?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Los paquetes están diseñados para maximizar el impacto, pero puedo adaptar el alcance según tus necesidades y presupuesto. Contáctame y encontramos la solución correcta.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Con qué stacks tecnológicos trabajas?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Web: Playwright, Cypress, Selenium. Mobile: Appium, XCUITest, Espresso. Performance: JMeter, k6. CI/CD: GitHub Actions, Jenkins. Cloud: SauceLabs, BrowserStack, AWS, Firebase.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Qué pasa si no estoy satisfecho con el trabajo?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Todo proyecto incluye revisiones y ajustes hasta alcanzar el resultado acordado. Mi reputación depende de tu satisfacción. Si algo no está bien, lo corregimos.</p></div>
+        </div>
+        <div class="svc-faq-item">
+          <button class="svc-faq-q" aria-expanded="false">¿Puedes integrarte como parte de mi equipo interno?<span class="svc-faq-icon">+</span></button>
+          <div class="svc-faq-a"><p>Sí, puedo trabajar como consultor embebido en sprints, participar en planning, daily standups y revisiones. Tengo experiencia trabajando directamente dentro de equipos Scrum/Kanban.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ══ CTA FINAL ══ -->
+  <section class="svc-cta-section">
+    <div class="section-wrap">
+      <div class="svc-cta-card reveal">
+        <span class="s-eyebrow">¿Listo para empezar?</span>
+        <h2 class="svc-cta-title">Hablemos directamente.</h2>
+        <p class="svc-cta-sub">Sin formularios largos ni esperas. Un email es suficiente para arrancar.</p>
+        <a href="mailto:carlos.cervart@icloud.com?subject=Consulta%20de%20servicios%20QA" class="button button-primary svc-cta-btn">
+          Escribirme directo →
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
+
 <%- include('partials/footer') %>
+
+<script>
+(function() {
+  // ── Form multi-step ──
+  let currentStep = 0;
+  const steps = document.querySelectorAll('.svc-diag-step');
+  const progressBar = document.getElementById('diagProgressBar');
+  const stepLabel = document.getElementById('diagStepLabel');
+  const formData = { appType: '', appScale: '', mainProblem: '', nombre: '', email: '' };
+
+  function goToStep(n) {
+    steps[currentStep].classList.remove('active');
+    currentStep = n;
+    steps[currentStep].classList.add('active');
+    const pct = ((n + 1) / 4) * 100;
+    progressBar.style.width = pct + '%';
+    stepLabel.textContent = `Paso ${n + 1} de 4`;
+  }
+
+  // Step 0: app type
+  document.querySelectorAll('#appTypeGrid .svc-type-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#appTypeGrid .svc-type-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      document.getElementById('appType').value = this.dataset.value;
+      formData.appType = this.dataset.value;
+      document.getElementById('step0Next').disabled = false;
+    });
+  });
+  document.getElementById('step0Next').addEventListener('click', () => goToStep(1));
+
+  // Step 1: scale
+  document.querySelectorAll('#scaleGrid .svc-type-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#scaleGrid .svc-type-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      document.getElementById('appScale').value = this.dataset.value;
+      formData.appScale = this.dataset.value;
+      document.getElementById('step1Next').disabled = false;
+    });
+  });
+  document.getElementById('step1Back').addEventListener('click', () => goToStep(0));
+  document.getElementById('step1Next').addEventListener('click', () => goToStep(2));
+
+  // Step 2: problem
+  document.getElementById('step2Back').addEventListener('click', () => goToStep(1));
+  document.getElementById('step2Next').addEventListener('click', () => {
+    formData.mainProblem = document.getElementById('mainProblem').value;
+    goToStep(3);
+  });
+
+  // Step 3: contact
+  document.getElementById('step3Back').addEventListener('click', () => goToStep(2));
+
+  // Submit
+  document.getElementById('diagForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    formData.nombre = document.getElementById('diagNombre').value;
+    formData.email = document.getElementById('diagEmail').value;
+
+    const btn = document.getElementById('diagSubmit');
+    document.getElementById('diagSubmitText').hidden = true;
+    document.getElementById('diagSubmitSpinner').hidden = false;
+    btn.disabled = true;
+
+    try {
+      const resp = await fetch('/api/diagnostico', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const data = await resp.json();
+
+      if (data.diagnostico) {
+        document.getElementById('diagForm').hidden = true;
+        document.querySelector('.svc-diag-progress').hidden = true;
+        document.querySelector('.svc-diag-step-label').hidden = true;
+        const resultEl = document.getElementById('diagSuccess');
+        resultEl.hidden = false;
+        // Format with line breaks
+        document.getElementById('diagResultText').innerHTML = data.diagnostico
+          .split('\n\n')
+          .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+          .join('');
+      } else {
+        throw new Error('No diagnostico');
+      }
+    } catch (err) {
+      document.getElementById('diagError').hidden = false;
+      document.getElementById('diagSubmitText').hidden = false;
+      document.getElementById('diagSubmitSpinner').hidden = true;
+      btn.disabled = false;
+    }
+  });
+
+  // ── FAQ Accordion ──
+  document.querySelectorAll('.svc-faq-q').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const item = this.closest('.svc-faq-item');
+      const answer = item.querySelector('.svc-faq-a');
+      const isOpen = this.getAttribute('aria-expanded') === 'true';
+
+      // Close all
+      document.querySelectorAll('.svc-faq-item').forEach(i => {
+        i.querySelector('.svc-faq-q').setAttribute('aria-expanded', 'false');
+        i.querySelector('.svc-faq-a').style.maxHeight = null;
+        i.querySelector('.svc-faq-icon').textContent = '+';
+      });
+
+      if (!isOpen) {
+        this.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        this.querySelector('.svc-faq-icon').textContent = '×';
+      }
+    });
+  });
+})();
+</script>

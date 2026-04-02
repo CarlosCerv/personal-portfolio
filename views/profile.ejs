@@ -1,242 +1,241 @@
 <%- include('partials/header') %>
 
 <main class="page-shell">
-  <!-- HERO & BIO -->
-  <section class="section">
-    <div class="section-inner" style="display: flex; gap: 60px; align-items: center; max-width: 960px; margin: 0 auto; padding-top: 40px; flex-wrap: wrap;">
-      
-      <div class="profile-photo-wrap reveal" style="flex-shrink: 0; margin-bottom: 20px;">
-        <div style="width: 240px; height: 240px; border-radius: 50%; overflow: hidden; border: 0.5px solid var(--border-strong); box-shadow: var(--shadow);">
-          <img src="/images/profile.jpg" alt="Carlos Cervantes" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-      </div>
 
-      <div class="profile-content reveal d1" style="flex: 1; min-width: 320px;">
-        <h1 style="font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 12px; line-height: 1.1;">Carlos Cervantes</h1>
-        <div style="font-size: 20px; color: var(--muted); margin-bottom: 24px;">Performance Test Engineer & QA Consultant<br>Guadalajara, México</div>
-        
-        <p style="font-size: 18px; line-height: 1.6; color: var(--text-2); margin-bottom: 32px; max-width: 580px;">
-          Llevo más de 6 años especializándome en performance testing, ingeniería de calidad y automatización.
-          Mi enfoque es garantizar que el software escale correctamente bajo presión y mantener los más altos 
-          estándares de calidad. Ayudo a equipos multidisciplinarios a construir aplicaciones robustas desde 
-          el primer día.
-        </p>
+  <section class="pro-hero">
+    <div class="section-wrap">
+      <div class="pro-layout">
 
-        <a href="/Carlos_Cervantes_CV.pdf" class="button button-primary" target="_blank">
-          Descargar CV <i class="fa-solid fa-arrow-down" style="font-size: 12px;"></i>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ROLES Y ESTADISTICAS -->
-  <section class="section" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 80px 28px;">
-    <div class="section-inner" style="max-width: 960px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 60px;">
-      
-      <!-- Roles -->
-      <div class="reveal d1">
-        <span class="section-eyebrow" style="margin-bottom: 20px;">Roles Destacados</span>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div class="role-chip" style="background: var(--bg); border: 0.5px solid var(--border-strong); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-            <div class="role-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0;"></div>
-            <div style="font-weight: 600; font-size: 16px; letter-spacing: -0.01em;">Performance Engineer</div>
+        <!-- ══ SIDEBAR (sticky) ══ -->
+        <aside class="pro-sidebar">
+          <div class="pro-photo-wrap reveal">
+            <img src="/images/profile.jpg" alt="Carlos Cervantes" class="pro-photo">
           </div>
-          <div class="role-chip" style="background: var(--bg); border: 0.5px solid var(--border-strong); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-            <div class="role-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #7c3aed; flex-shrink: 0;"></div>
-            <div style="font-weight: 600; font-size: 16px; letter-spacing: -0.01em;">Mobile Automation</div>
+
+          <div class="pro-stats-grid reveal d1">
+            <div class="pro-stat-item">
+              <span class="pro-stat-num">50M+</span>
+              <span class="pro-stat-label">Usuarios impactados</span>
+            </div>
+            <div class="pro-stat-item">
+              <span class="pro-stat-num">100+</span>
+              <span class="pro-stat-label">Proyectos</span>
+            </div>
+            <div class="pro-stat-item">
+              <span class="pro-stat-num">5K+</span>
+              <span class="pro-stat-label">Bugs resueltos</span>
+            </div>
+            <div class="pro-stat-item">
+              <span class="pro-stat-num">10K+</span>
+              <span class="pro-stat-label">Tests diseñados</span>
+            </div>
           </div>
-          <div class="role-chip" style="background: var(--bg); border: 0.5px solid var(--border-strong); padding: 16px 20px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
-            <div class="role-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--green); flex-shrink: 0;"></div>
-            <div style="font-weight: 600; font-size: 16px; letter-spacing: -0.01em;">Quality Advocate</div>
+
+          <div class="pro-sidebar-actions reveal d2">
+            <a href="/Carlos_Cervantes_CV.pdf" target="_blank" rel="noopener" class="button button-primary pro-sidebar-btn">
+              Descargar CV <i class="fa-solid fa-arrow-down" style="font-size:11px;"></i>
+            </a>
+            <a href="mailto:carlos.cervart@icloud.com" class="button button-outline pro-sidebar-btn">Escribirme</a>
           </div>
-        </div>
-      </div>
-      
-      <!-- Stats -->
-      <div class="reveal d2">
-        <span class="section-eyebrow" style="margin-bottom: 20px;">Impacto a la fecha</span>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-          <div class="card" style="padding: 24px; max-width: none;">
-            <div style="font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -0.04em; line-height: 1;">50M+</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">Usuarios impactados</div>
+
+          <div class="pro-avail-badge reveal d3">
+            <span class="pro-avail-dot"></span>
+            Disponible · Remoto / Híbrido
           </div>
-          <div class="card" style="padding: 24px; max-width: none;">
-            <div style="font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -0.04em; line-height: 1;">100+</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">Proyectos apoyados</div>
+        </aside>
+
+        <!-- ══ MAIN CONTENT ══ -->
+        <div class="pro-main">
+
+          <!-- Bio -->
+          <div class="pro-bio reveal">
+            <h1 class="pro-h1">Hola, soy Carlos Cervantes.</h1>
+            <p class="pro-subtitle">Senior Software Engineer · Performance Test Engineer</p>
+
+            <p class="pro-bio-text">
+              Llevo más de 6 años construyendo calidad dentro de equipos de producto que no pueden permitirse fallar. Me especializo en performance testing, automatización E2E y estrategia QA para aplicaciones que escalan a millones de usuarios. Trabajo desde Guadalajara, México, con equipos de producto en toda LATAM y Norte América.
+            </p>
+            <p class="pro-bio-text">
+              Mi enfoque combina criterio técnico profundo con claridad de negocio: no solo encuentro bugs, sino que diseño sistemas que evitan que aparezcan. He liderado QA sign-off de features con IA, reducido tiempos de regresión hasta en 60% y validado plataformas que operan con 99.99% de uptime bajo tráfico extremo.
+            </p>
           </div>
-          <div class="card" style="padding: 24px; max-width: none;">
-            <div style="font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -0.04em; line-height: 1;">5K+</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">Bugs prevenidos</div>
+
+          <!-- Role chips -->
+          <div class="pro-roles reveal d1">
+            <span class="pro-role-chip" style="--dot:#0071e3;">Performance Engineer</span>
+            <span class="pro-role-chip" style="--dot:#7c3aed;">Mobile Automation</span>
+            <span class="pro-role-chip" style="--dot:#1d8348;">Quality Advocate</span>
           </div>
-          <div class="card" style="padding: 24px; max-width: none;">
-            <div style="font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--text); letter-spacing: -0.04em; line-height: 1;">10K+</div>
-            <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">Test cases diseñados</div>
+
+          <hr class="divider pro-divider">
+
+          <!-- Skills -->
+          <div class="pro-skills reveal d1">
+            <h2 class="pro-section-title">Stack técnico</h2>
+
+            <div class="pro-skills-category">
+              <span class="pro-skills-cat-label">Mobile</span>
+              <div class="pro-chips">
+                <span class="pro-chip">Appium</span>
+                <span class="pro-chip">XCUITest</span>
+                <span class="pro-chip">Espresso</span>
+              </div>
+            </div>
+
+            <div class="pro-skills-category">
+              <span class="pro-skills-cat-label">Web</span>
+              <div class="pro-chips">
+                <span class="pro-chip">Playwright</span>
+                <span class="pro-chip">Cypress</span>
+                <span class="pro-chip">Selenium</span>
+                <span class="pro-chip">Nightwatch</span>
+              </div>
+            </div>
+
+            <div class="pro-skills-category">
+              <span class="pro-skills-cat-label">Performance</span>
+              <div class="pro-chips">
+                <span class="pro-chip">JMeter</span>
+                <span class="pro-chip">k6</span>
+                <span class="pro-chip">GitHub Actions</span>
+                <span class="pro-chip">Jenkins</span>
+                <span class="pro-chip">Grafana</span>
+              </div>
+            </div>
+
+            <div class="pro-skills-category">
+              <span class="pro-skills-cat-label">Cloud</span>
+              <div class="pro-chips">
+                <span class="pro-chip">SauceLabs</span>
+                <span class="pro-chip">BrowserStack</span>
+                <span class="pro-chip">Firebase</span>
+                <span class="pro-chip">AWS</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SKILLS AND CERTIFICATIONS -->
-  <section class="section" style="padding: 100px 28px;">
-    <div class="section-inner" style="max-width: 960px;">
-      
-      <div style="text-align: center; margin-bottom: 60px;">
-        <span class="section-eyebrow reveal">Stack Técnico</span>
-        <h2 class="s-title reveal d1" style="font-size: clamp(32px, 4vw, 48px);">Herramientas y Conocimiento.</h2>
-      </div>
+          <hr class="divider pro-divider">
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 60px;">
-        
-        <div class="card reveal d1" style="padding: 32px; max-width: none;">
-          <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; letter-spacing: -0.02em;">Testing Mobile</h3>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">Appium</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">XCUITest</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">Espresso</span>
+          <!-- Timeline -->
+          <div class="pro-timeline-section">
+            <h2 class="pro-section-title reveal">Trayectoria profesional</h2>
+
+            <div class="pro-timeline">
+
+              <div class="pro-tl-item reveal">
+                <div class="pro-tl-dot pro-tl-dot-active"></div>
+                <div class="pro-tl-content">
+                  <span class="pro-tl-date">2025 – Actualidad</span>
+                  <h3 class="pro-tl-title">Senior Software Engineer — Performance Test Engineer</h3>
+                  <span class="pro-tl-company">Wizeline</span>
+                  <p class="pro-tl-desc">Diseño y ejecución de estrategias de performance testing para garantizar escalabilidad y confiabilidad. Load, stress y endurance tests con análisis de cuellos de botella e integración continua en pipelines CI/CD.</p>
+                </div>
+              </div>
+
+              <div class="pro-tl-item reveal d1">
+                <div class="pro-tl-dot"></div>
+                <div class="pro-tl-content">
+                  <span class="pro-tl-date">2024 – 2025</span>
+                  <h3 class="pro-tl-title">QA Engineer III — Mobile Automation</h3>
+                  <span class="pro-tl-company">Wizeline</span>
+                  <p class="pro-tl-desc">Lideré el control de calidad para aplicaciones móviles nativas del sector real estate en iOS y Android con +10M usuarios activos. QA sign-off de features con IA, Feature Flags, 60% de reducción en tiempo de regresión.</p>
+                </div>
+              </div>
+
+              <div class="pro-tl-item reveal d2">
+                <div class="pro-tl-dot"></div>
+                <div class="pro-tl-content">
+                  <span class="pro-tl-date">2021 – 2024</span>
+                  <h3 class="pro-tl-title">QA Engineer — Automation Engineer</h3>
+                  <span class="pro-tl-company">Wizeline</span>
+                  <p class="pro-tl-desc">Automatización para SDK de streaming, plataformas e-commerce y apps móviles. Infraestructura de calidad con GitHub Actions y flujos de Firebase Data Validation.</p>
+                </div>
+              </div>
+
+              <div class="pro-tl-item reveal d3">
+                <div class="pro-tl-dot"></div>
+                <div class="pro-tl-content">
+                  <span class="pro-tl-date">2020 – 2021</span>
+                  <h3 class="pro-tl-title">Software Test Specialist</h3>
+                  <span class="pro-tl-company">IBM</span>
+                  <p class="pro-tl-desc">Test plans completos y frameworks de automatización propios para grandes ecosistemas cloud y Angular.</p>
+                </div>
+              </div>
+
+              <div class="pro-tl-item reveal d4">
+                <div class="pro-tl-dot"></div>
+                <div class="pro-tl-content">
+                  <span class="pro-tl-date">2019 – 2020</span>
+                  <h3 class="pro-tl-title">Test Automation Engineer — Intern</h3>
+                  <span class="pro-tl-company">IBM</span>
+                  <p class="pro-tl-desc">UI testing con Nightwatch, performance con k6 y API endpoint testing en entornos ágiles.</p>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
 
-        <div class="card reveal d2" style="padding: 32px; max-width: none;">
-          <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; letter-spacing: -0.02em;">Web y Automatización</h3>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">Playwright</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">Cypress</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">Selenium</span>
+          <hr class="divider pro-divider">
+
+          <!-- Notable Projects -->
+          <div class="pro-notable-section">
+            <h2 class="pro-section-title reveal">Proyectos destacados</h2>
+            <div class="pro-notable-grid">
+              <div class="pro-notable-card reveal">
+                <span class="pro-notable-badge">10M Usuarios</span>
+                <h3 class="pro-notable-title">Real Estate Platform</h3>
+                <p class="pro-notable-desc">QA para iOS/Android en sector inmobiliario. Feature Flags, reducción 60% en regresión.</p>
+              </div>
+              <div class="pro-notable-card reveal d1">
+                <span class="pro-notable-badge">5M transacciones</span>
+                <h3 class="pro-notable-title">E-Commerce Core</h3>
+                <p class="pro-notable-desc">Pruebas de carga con JMeter en flujos de pago. Black Friday, Cyber Monday sin downtime.</p>
+              </div>
+              <div class="pro-notable-card reveal d2">
+                <span class="pro-notable-badge">500K Pacientes</span>
+                <h3 class="pro-notable-title">Healthcare Cloud</h3>
+                <p class="pro-notable-desc">APIs médicas en compliance con Postman y k6. 99.99% uptime y manejo seguro de datos.</p>
+              </div>
+              <div class="pro-notable-card reveal d3">
+                <span class="pro-notable-badge">2M Usuarios</span>
+                <h3 class="pro-notable-title">FinTech App</h3>
+                <p class="pro-notable-desc">Suite automatizada con Cypress y seguridad de datos Firebase para prevenir vulnerabilidades.</p>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="card reveal d3" style="padding: 32px; max-width: none;">
-          <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; letter-spacing: -0.02em;">Performance y CI/CD</h3>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">JMeter</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">k6</span>
-            <span class="badge" style="background: var(--bg-2); color: var(--text); padding: 8px 12px; font-size: 12px; border: 1px solid var(--border); border-radius: 980px;">GitHub Actions</span>
+          <hr class="divider pro-divider">
+
+          <!-- Certifications -->
+          <div class="pro-certs-section reveal">
+            <h2 class="pro-section-title">Certificaciones</h2>
+            <div class="pro-certs-list">
+              <div class="pro-cert-item">
+                <i class="fa-solid fa-certificate" style="color:var(--green);"></i>
+                <div>
+                  <strong>ISTQB Certified Tester</strong>
+                  <span>2021</span>
+                </div>
+              </div>
+              <div class="pro-cert-item">
+                <i class="fa-solid fa-certificate" style="color:var(--green);"></i>
+                <div>
+                  <strong>Test Automation University</strong>
+                  <span>2022</span>
+                </div>
+              </div>
+              <div class="pro-cert-item">
+                <i class="fa-solid fa-certificate" style="color:var(--green);"></i>
+                <div>
+                  <strong>ICAgile — Agile Testing</strong>
+                  <span>2022</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="reveal d4" style="background: var(--green-soft); padding: 32px; border-radius: 20px; border: 0.5px solid rgba(29,131,72,0.15);">
-        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 24px; letter-spacing: -0.02em; text-align: center; color: var(--green);">Certificaciones Oficiales</h3>
-        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-          <div class="cert-row" style="background: #fff; padding: 12px 24px; border-radius: 980px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(29,131,72,0.06);">
-            <i class="fa-solid fa-certificate" style="color: var(--green);"></i>
-            <span style="font-size: 14px; font-weight: 600; color: var(--text);">ISTQB Certified Tester</span>
-          </div>
-          <div class="cert-row" style="background: #fff; padding: 12px 24px; border-radius: 980px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(29,131,72,0.06);">
-            <i class="fa-solid fa-certificate" style="color: var(--green);"></i>
-            <span style="font-size: 14px; font-weight: 600; color: var(--text);">Test Automation University</span>
-          </div>
-          <div class="cert-row" style="background: #fff; padding: 12px 24px; border-radius: 980px; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(29,131,72,0.06);">
-            <i class="fa-solid fa-certificate" style="color: var(--green);"></i>
-            <span style="font-size: 14px; font-weight: 600; color: var(--text);">ICAgile Agile Testing</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- NOTABLE PROJECTS -->
-  <section class="section" style="background: var(--bg-2); border-top: 1px solid var(--border); padding: 100px 28px;">
-    <div class="section-inner" style="max-width: 960px;">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <span class="section-eyebrow reveal">Impacto al negocio</span>
-        <h2 class="s-title reveal d1" style="font-size: clamp(32px, 4vw, 48px);">Proyectos Notables.</h2>
-        <p class="reveal d2" style="font-size: 18px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.5;">Arquitecturas y entornos donde la calidad y el rendimiento no son negociables.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
-        <div class="card reveal" style="padding: 32px; max-width: none;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-            <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text);">Real Estate Platform</h3>
-            <span style="background: var(--accent-soft); color: var(--accent); padding: 6px 12px; font-size: 11px; font-weight: 600; border-radius: 980px;">10M Usuarios</span>
-          </div>
-          <p style="color: var(--muted); line-height: 1.6; font-size: 15px; margin: 0;">Aseguramiento de calidad para aplicaciones de iOS y Android en el sector inmobiliario, implementando Feature Flags y reduciendo un 60% el tiempo de regresión.</p>
-        </div>
-
-        <div class="card reveal d1" style="padding: 32px; max-width: none;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-            <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text);">E-Commerce Core</h3>
-            <span style="background: var(--accent-soft); color: var(--accent); padding: 6px 12px; font-size: 11px; font-weight: 600; border-radius: 980px;">5M transacciones</span>
-          </div>
-          <p style="color: var(--muted); line-height: 1.6; font-size: 15px; margin: 0;">Pruebas de carga extremas sobre flujos críticos de pago con JMeter, validando escalabilidad en eventos de alto tráfico (Black Friday, Cyber Monday).</p>
-        </div>
-
-        <div class="card reveal d2" style="padding: 32px; max-width: none;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-            <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text);">FinTech App</h3>
-            <span style="background: var(--accent-soft); color: var(--accent); padding: 6px 12px; font-size: 11px; font-weight: 600; border-radius: 980px;">2M Usuarios</span>
-          </div>
-          <p style="color: var(--muted); line-height: 1.6; font-size: 15px; margin: 0;">Diseño de suite automatizada con Cypress y validación rigurosa de seguridad de datos con Firebase enfocada en prevenir vulnerabilidades financieras.</p>
-        </div>
-
-        <div class="card reveal d3" style="padding: 32px; max-width: none;">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-            <h3 style="font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text);">Healthcare Cloud</h3>
-            <span style="background: var(--accent-soft); color: var(--accent); padding: 6px 12px; font-size: 11px; font-weight: 600; border-radius: 980px;">500K Pacientes</span>
-          </div>
-          <p style="color: var(--muted); line-height: 1.6; font-size: 15px; margin: 0;">Validación de APIs médicas en compliance mediante Postman y k6 para certificar un uptime ininterrumpido de clase médica y manejo seguro de datos.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TIMELINE -->
-  <section class="section" style="padding: 100px 28px;">
-    <div class="section-inner" style="max-width: 800px;">
-      
-      <div style="margin-bottom: 60px;">
-        <span class="section-eyebrow reveal">Experiencia</span>
-        <h2 class="s-title reveal d1" style="font-size: clamp(32px, 4vw, 48px);">Trayectoria profesional.</h2>
-      </div>
-
-      <div style="position: relative; padding-left: 28px;">
-        <!-- Timeline line -->
-        <div style="position: absolute; top: 8px; bottom: 0; left: 0; width: 2px; background: var(--border); border-radius: 2px;"></div>
-
-        <!-- Present -->
-        <div class="reveal" style="position: relative; margin-bottom: 48px;">
-          <div style="position: absolute; left: -33px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--bg);"></div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 8px;">2025 – ACTUALIDAD</div>
-          <h3 style="font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em;">Senior Software Engineer — Performance Test Engineer</h3>
-          <div style="font-size: 15px; color: var(--text); margin-bottom: 16px; font-weight: 500;">Wizeline</div>
-          <p style="color: var(--text-2); line-height: 1.6; font-size: 16px; margin: 0;">Diseño y ejecución de estrategias de performance testing para garantizar escalabilidad y confiabilidad en diversas plataformas. Creación de Load, stress y endurance tests con análisis de cuellos de botella e integración continua en pipelines de CI/CD.</p>
-        </div>
-
-        <div class="reveal d1" style="position: relative; margin-bottom: 48px;">
-          <div style="position: absolute; left: -32px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--faint); box-shadow: 0 0 0 4px var(--bg);"></div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 8px;">2024 – 2025</div>
-          <h3 style="font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em;">Software QA Engineer III — Mobile Automation</h3>
-          <div style="font-size: 15px; color: var(--text); margin-bottom: 16px; font-weight: 500;">Wizeline</div>
-          <p style="color: var(--text-2); line-height: 1.6; font-size: 16px; margin: 0;">Lideré el control de calidad para aplicaciones móviles nativas del sector real estate tanto en iOS como en Android con +10M de usuarios activos. Fui responsable del QA sign-off para nuevas funciones impulsadas por IA, manejo de Feature Flags y logré reducir el tiempo de las pruebas de regresión en un 60%.</p>
-        </div>
-
-        <div class="reveal d2" style="position: relative; margin-bottom: 48px;">
-          <div style="position: absolute; left: -32px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--faint); box-shadow: 0 0 0 4px var(--bg);"></div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 8px;">2021 – 2024</div>
-          <h3 style="font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em;">Software QA Engineer — Automation Engineer</h3>
-          <div style="font-size: 15px; color: var(--text); margin-bottom: 16px; font-weight: 500;">Wizeline</div>
-          <p style="color: var(--text-2); line-height: 1.6; font-size: 16px; margin: 0;">Automatización especializada en web y mobile para SDK interactivos de streaming, plataformas de e-commerce y aplicaciones. Configuración de la infraestructura de calidad central con GitHub Actions y flujos complejos de Firebase Data Validation.</p>
-        </div>
-
-        <div class="reveal d3" style="position: relative; margin-bottom: 48px;">
-          <div style="position: absolute; left: -32px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--faint); box-shadow: 0 0 0 4px var(--bg);"></div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 8px;">2020 – 2021</div>
-          <h3 style="font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em;">Software Test Specialist</h3>
-          <div style="font-size: 15px; color: var(--text); margin-bottom: 16px; font-weight: 500;">IBM</div>
-          <p style="color: var(--text-2); line-height: 1.6; font-size: 16px; margin: 0;">Arquitecté test plans completos y frameworks propios de automatización con un enfoque metodológico sólido que garantizó entregas impecables para grandes ecosistemas basados en arquitecturas cloud y Angular.</p>
-        </div>
-
-        <div class="reveal d4" style="position: relative; margin-bottom: 0;">
-          <div style="position: absolute; left: -32px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--faint); box-shadow: 0 0 0 4px var(--bg);"></div>
-          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 8px;">2019 – 2020</div>
-          <h3 style="font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: -0.02em;">Test Automation Engineer / Intern</h3>
-          <div style="font-size: 15px; color: var(--text); margin-bottom: 16px; font-weight: 500;">IBM</div>
-          <p style="color: var(--text-2); line-height: 1.6; font-size: 16px; margin: 0;">Inicié construyendo bases firmes de UI testing utilizando Nightwatch, validaciones de performance transaccional con k6 y análisis riguroso de API endpoint testing a través de flujos en Postman dentro de entornos ágiles.</p>
-        </div>
-
-      </div>
+        </div> <!-- /pro-main -->
+      </div> <!-- /pro-layout -->
     </div>
   </section>
 
