@@ -227,35 +227,68 @@ document.addEventListener('DOMContentLoaded', () => {
       formData.empresa = document.getElementById('dwEmpresa').value;
       formData.rol = document.getElementById('dwRol').value;
 
-      // Transition to processing
+      // 1. Hide Form & Header
       form.hidden = true;
-      processingDiv.hidden = false;
-      document.getElementById('dwWizardHeader').hidden = true; // hide header and progress
-      
-      startProcessingAnimation();
+      document.getElementById('dwWizardHeader').hidden = true;
 
-      try {
-        const resp = await fetch('/api/diagnostico', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+      // 2. Show "Sent Success" Animation
+      const sentSuccessDiv = document.getElementById('dwSentSuccess');
+      sentSuccessDiv.hidden = false;
+      
+      let fetchDone = false;
+      let resultData = null;
+
+      // 3. Start API call in background
+      const apiCall = (async () => {
+        try {
+          const resp = await fetch('/api/diagnostico', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          if(!resp.ok) throw new Error('API Error');
+          resultData = await resp.json();
+          fetchDone = true;
+        } catch (err) {
+          console.error(err);
+          alert('Ocurrió un error al generar el diagnóstico. Por favor intenta de nuevo.');
+          sentSuccessDiv.hidden = true;
+          processingDiv.hidden = true;
+          form.hidden = false;
+          document.getElementById('dwWizardHeader').hidden = false;
+        }
+      })();
+
+      // 4. Wait for the "Sent" animation to feel sufficient (2.5 seconds)
+      setTimeout(() => {
+        // Fade out success message
+        sentSuccessDiv.style.opacity = '0';
+        sentSuccessDiv.style.transition = 'opacity 0.5s ease';
         
-        if(!resp.ok) throw new Error('API Error');
-        const resultData = await resp.json();
-        
-        // When API returns, render results
-        renderResults(resultData);
-        processingDiv.hidden = true;
-        resultsDiv.hidden = false;
-        
-      } catch (err) {
-        console.error(err);
-        alert('Ocurrió un error al generar el diagnóstico. Por favor intenta de nuevo.');
-        processingDiv.hidden = true;
-        form.hidden = false;
-        document.getElementById('dwWizardHeader').hidden = false;
-      }
+        setTimeout(() => {
+          sentSuccessDiv.hidden = true;
+          
+          if (fetchDone && resultData) {
+            // If already done, go straight to results
+            renderResults(resultData);
+            resultsDiv.hidden = false;
+          } else {
+            // Otherwise show processing timeline
+            processingDiv.hidden = false;
+            startProcessingAnimation();
+            
+            // Poll for completion
+            const checkDone = setInterval(() => {
+              if (fetchDone && resultData) {
+                clearInterval(checkDone);
+                renderResults(resultData);
+                processingDiv.hidden = true;
+                resultsDiv.hidden = false;
+              }
+            }, 500);
+          }
+        }, 500);
+      }, 2500);
     });
   }
 
