@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<link rel="stylesheet" href="/css/diagnostico-wizard.css">
 
 <main class="page-shell">
 
@@ -163,113 +164,341 @@
 
   <hr class="divider">
 
-  <!-- ══ FORMULARIO IA MULTI-STEP ══ -->
+  <!-- ══ DIAGNÓSTICO WIZARD ══ -->
   <section class="svc-diag-section" id="diagnostico">
     <div class="section-wrap">
-      <div class="section-header reveal">
-        <span class="s-eyebrow">Diagnóstico gratuito</span>
-        <h2 class="s-title">Cuéntame sobre<br>tu proyecto.</h2>
-        <p class="s-sub">La IA analiza tu caso y genera un diagnóstico inicial en segundos.</p>
-      </div>
-
-      <div class="svc-diag-card reveal d1">
-        <!-- Progress bar -->
-        <div class="svc-diag-progress">
-          <div class="svc-diag-progress-bar" id="diagProgressBar" style="width:25%"></div>
+      <div class="dw-wrapper">
+        
+        <!-- Header -->
+        <div class="dw-header" id="dwWizardHeader">
+          <div class="dw-header-top">
+            <div>
+              <h2 class="dw-title">Diagnóstico QA gratuito</h2>
+              <p class="dw-sub">5 preguntas &middot; resultado en 30 segundos</p>
+            </div>
+            <div class="dw-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Confidencial
+            </div>
+          </div>
+          <hr class="dw-divider">
+          
+          <!-- Progress -->
+          <div class="dw-progress-area">
+            <div class="dw-progress-track">
+              <div class="dw-progress-fill" id="dwProgressFill"></div>
+            </div>
+            <div class="dw-step-label" id="dwStepLabel">Paso 1 de 5 &middot; Tu aplicación</div>
+            <div class="dw-dots">
+              <div class="dw-dot active"></div><div class="dw-dot-line"></div>
+              <div class="dw-dot"></div><div class="dw-dot-line"></div>
+              <div class="dw-dot"></div><div class="dw-dot-line"></div>
+              <div class="dw-dot"></div><div class="dw-dot-line"></div>
+              <div class="dw-dot"></div>
+            </div>
+          </div>
         </div>
-        <div class="svc-diag-step-label" id="diagStepLabel">Paso 1 de 4</div>
 
-        <form id="diagForm">
-          <!-- STEP 0: Tipo de app -->
-          <div class="svc-diag-step active" data-step="0">
-            <h3 class="svc-diag-question">¿Qué tipo de aplicación tienes?</h3>
-            <div class="svc-type-grid" id="appTypeGrid">
-              <button type="button" class="svc-type-btn" data-value="Web">🌐 Web</button>
-              <button type="button" class="svc-type-btn" data-value="iOS">📱 iOS</button>
-              <button type="button" class="svc-type-btn" data-value="Android">🤖 Android</button>
-              <button type="button" class="svc-type-btn" data-value="API">⚡ API</button>
-              <button type="button" class="svc-type-btn" data-value="Microservicios">🔗 Microservicios</button>
-              <button type="button" class="svc-type-btn" data-value="Otra">✦ Otra</button>
+        <form id="dwForm">
+          <!-- PASO 1: Tu aplicación -->
+          <div class="dw-step active" id="dwStep0">
+            <h3 class="dw-question">¿Qué tipo de producto estás desarrollando?</h3>
+            <p class="dw-q-sub">Esto define qué pruebas son más relevantes para ti. Puedes seleccionar varios.</p>
+            
+            <div class="dw-grid" id="dwAppGrid">
+              <div class="dw-card" data-value="Web App">
+                <div class="dw-card-emoji">🌐</div>
+                <div class="dw-card-label">Web App</div>
+                <div class="dw-card-desc">Next.js, React, Vue, Angular</div>
+              </div>
+              <div class="dw-card" data-value="App iOS">
+                <div class="dw-card-emoji">📱</div>
+                <div class="dw-card-label">App iOS</div>
+                <div class="dw-card-desc">Swift, React Native, Flutter</div>
+              </div>
+              <div class="dw-card" data-value="App Android">
+                <div class="dw-card-emoji">🤖</div>
+                <div class="dw-card-label">App Android</div>
+                <div class="dw-card-desc">Kotlin, React Native, Flutter</div>
+              </div>
+              <div class="dw-card" data-value="API / Backend">
+                <div class="dw-card-emoji">⚡</div>
+                <div class="dw-card-label">API / Backend</div>
+                <div class="dw-card-desc">REST, GraphQL, Node, API</div>
+              </div>
+              <div class="dw-card" data-value="Microservicios">
+                <div class="dw-card-emoji">🔗</div>
+                <div class="dw-card-label">Microservicios</div>
+                <div class="dw-card-desc">Kubernetes, Docker, AWS</div>
+              </div>
+              <div class="dw-card" data-value="E-commerce">
+                <div class="dw-card-emoji">🏪</div>
+                <div class="dw-card-label">E-commerce</div>
+                <div class="dw-card-desc">Shopify, WooCommerce, custom</div>
+              </div>
+              <div class="dw-card" data-value="HealthTech">
+                <div class="dw-card-emoji">🏥</div>
+                <div class="dw-card-label">HealthTech</div>
+                <div class="dw-card-desc">Apps médicas, regulado</div>
+              </div>
+              <div class="dw-card" data-value="FinTech">
+                <div class="dw-card-emoji">💳</div>
+                <div class="dw-card-label">FinTech</div>
+                <div class="dw-card-desc">Pagos, banca, crypto</div>
+              </div>
             </div>
-            <input type="hidden" id="appType" name="appType">
-            <div class="svc-diag-nav">
-              <span></span>
-              <button type="button" class="button button-primary" id="step0Next" disabled>Siguiente →</button>
+            
+            <div class="dw-nav" style="justify-content: flex-end;">
+              <button type="button" class="dw-btn dw-btn-primary" id="step0Next" disabled>Continuar →</button>
             </div>
           </div>
 
-          <!-- STEP 1: Escala -->
-          <div class="svc-diag-step" data-step="1">
-            <h3 class="svc-diag-question">¿Cuántos usuarios tienes en pico?</h3>
-            <div class="svc-scale-grid" id="scaleGrid">
-              <button type="button" class="svc-type-btn" data-value="<100">menos de 100</button>
-              <button type="button" class="svc-type-btn" data-value="100-1K">100 – 1,000</button>
-              <button type="button" class="svc-type-btn" data-value="1K-10K">1K – 10K</button>
-              <button type="button" class="svc-type-btn" data-value="10K-100K">10K – 100K</button>
-              <button type="button" class="svc-type-btn" data-value="100K+">100K+</button>
+          <!-- PASO 2: Escala -->
+          <div class="dw-step" id="dwStep1" hidden>
+            <h3 class="dw-question">¿Cuántos usuarios activos tienes ahora?</h3>
+            <p class="dw-q-sub">Esto determina el nivel de performance testing necesario.</p>
+            
+            <div class="dw-pill-grid" id="dwScaleGrid">
+              <button type="button" class="dw-pill" data-value="Prototipo / MVP">Prototipo / MVP</button>
+              <button type="button" class="dw-pill" data-value="< 1,000">&lt; 1,000</button>
+              <button type="button" class="dw-pill" data-value="1K–10K">1K–10K</button>
+              <button type="button" class="dw-pill" data-value="10K–100K">10K–100K</button>
+              <button type="button" class="dw-pill" data-value="100K–1M">100K–1M</button>
+              <button type="button" class="dw-pill" data-value="+1M usuarios">+1M usuarios</button>
             </div>
-            <input type="hidden" id="appScale" name="appScale">
-            <div class="svc-diag-nav">
-              <button type="button" class="button button-outline" id="step1Back">← Atrás</button>
-              <button type="button" class="button button-primary" id="step1Next" disabled>Siguiente →</button>
+            
+            <div id="dwPicoSection" hidden style="opacity:0; transition: opacity .5s ease; margin-top:32px;">
+              <h3 class="dw-question" style="font-size:16px;">¿Cuántos usuarios esperas en tu próximo pico de tráfico?</h3>
+              <div class="dw-pill-grid" id="dwPicoGrid">
+                <button type="button" class="dw-pill" data-value="Mismo nivel">Mismo nivel</button>
+                <button type="button" class="dw-pill" data-value="2x actual">2x actual</button>
+                <button type="button" class="dw-pill" data-value="5x–10x">5x–10x</button>
+                <button type="button" class="dw-pill" data-value="Evento masivo (+100K)">Evento masivo (+100K)</button>
+                <button type="button" class="dw-pill" data-value="No lo sé">No lo sé</button>
+              </div>
+              
+              <div class="dw-alert" id="dwPicoAlert" hidden>
+                ⚠ Con picos así, las pruebas de carga son críticas. Lo analizaremos en el diagnóstico.
+              </div>
+            </div>
+
+            <div class="dw-nav">
+              <button type="button" class="dw-btn dw-btn-outline" id="step1Back">← Atrás</button>
+              <button type="button" class="dw-btn dw-btn-primary" id="step1Next" disabled>Continuar →</button>
             </div>
           </div>
 
-          <!-- STEP 2: Problema -->
-          <div class="svc-diag-step" data-step="2">
-            <h3 class="svc-diag-question">¿Cuál es tu principal problema de calidad?</h3>
-            <textarea
-              id="mainProblem"
-              name="mainProblem"
-              class="svc-diag-textarea"
-              placeholder="Ej: Cada release rompe funcionalidades existentes. Tenemos errores de memoria en producción. Los tests tardan demasiado…"
-              rows="5"
-            ></textarea>
-            <div class="svc-diag-nav">
-              <button type="button" class="button button-outline" id="step2Back">← Atrás</button>
-              <button type="button" class="button button-primary" id="step2Next">Siguiente →</button>
+          <!-- PASO 3: Stack Técnico -->
+          <div class="dw-step" id="dwStep2" hidden>
+            <h3 class="dw-question">¿Qué tecnologías y herramientas usa tu equipo?</h3>
+            <p class="dw-q-sub">No necesitas saberlo todo. Marca lo que reconoces.</p>
+
+            <div class="dw-category">
+              <div class="dw-cat-title">Frontend / Mobile</div>
+              <div class="dw-chip-grid">
+                <button type="button" class="dw-chip" data-category="frontend" data-value="React">React</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Vue">Vue</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Angular">Angular</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Next.js">Next.js</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Swift/iOS">Swift/iOS</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Kotlin/Android">Kotlin/Android</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="React Native">React Native</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="Flutter">Flutter</button>
+                <button type="button" class="dw-chip" data-category="frontend" data-value="No sé">No sé</button>
+              </div>
+            </div>
+            
+            <div class="dw-category">
+              <div class="dw-cat-title">Backend / APIs</div>
+              <div class="dw-chip-grid">
+                <button type="button" class="dw-chip" data-category="backend" data-value="Node.js">Node.js</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="Python">Python</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="Java">Java</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="Go">Go</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="PHP">PHP</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value=".NET">.NET</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="GraphQL">GraphQL</button>
+                <button type="button" class="dw-chip" data-category="backend" data-value="No sé">No sé</button>
+              </div>
+            </div>
+
+            <div class="dw-category">
+              <div class="dw-cat-title">CI/CD y Testing Actual</div>
+              <div class="dw-chip-grid">
+                <button type="button" class="dw-chip" data-category="cicd" data-value="GitHub Actions">GitHub Actions</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Jenkins">Jenkins</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Playwright">Playwright</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Cypress">Cypress</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Jest">Jest</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Sin CI/CD">Sin CI/CD</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="Sin pruebas">Sin pruebas automatizadas</button>
+                <button type="button" class="dw-chip" data-category="cicd" data-value="No sé">No sé</button>
+              </div>
+            </div>
+
+            <div class="dw-nav">
+              <button type="button" class="dw-btn dw-btn-outline" id="step2Back">← Atrás</button>
+              <button type="button" class="dw-btn dw-btn-primary" id="step2Next" disabled>Continuar →</button>
             </div>
           </div>
 
-          <!-- STEP 3: Contacto -->
-          <div class="svc-diag-step" data-step="3">
-            <h3 class="svc-diag-question">¿A dónde te envío el diagnóstico?</h3>
-            <div class="svc-contact-fields">
-              <input type="text" id="diagNombre" name="nombre" placeholder="Tu nombre" class="svc-diag-input" required>
-              <input type="email" id="diagEmail" name="email" placeholder="tu@email.com" class="svc-diag-input" required>
+          <!-- PASO 4: Problema -->
+          <div class="dw-step" id="dwStep3" hidden>
+            <h3 class="dw-question">¿Cuál es el mayor problema de calidad que enfrenta tu equipo?</h3>
+            <p class="dw-q-sub">Elige un máximo de 3 problemas principales.</p>
+
+            <div class="dw-sintoma-grid" id="dwSintomasGrid">
+              <div class="dw-sintoma-card" data-value="🐛 Bugs en producción frecuentes">🐛 Bugs en producción frecuentes</div>
+              <div class="dw-sintoma-card" data-value="🐢 Releases lentos por miedo a romper algo">🐢 Releases lentos por miedo a romper algo</div>
+              <div class="dw-sintoma-card" data-value="📋 QA manual que no escala">📋 QA manual que no escala</div>
+              <div class="dw-sintoma-card" data-value="💥 Caídas bajo alto tráfico">💥 Caídas bajo alto tráfico</div>
+              <div class="dw-sintoma-card" data-value="📱 App diferente en iOS vs Android">📱 App se comporta diferente en iOS vs Android</div>
+              <div class="dw-sintoma-card" data-value="🔗 APIs de terceros que fallan">🔗 APIs de terceros que fallan</div>
+              <div class="dw-sintoma-card" data-value="⏱ Sin tiempo para hacer pruebas">⏱ Sin tiempo para hacer pruebas</div>
+              <div class="dw-sintoma-card" data-value="👁 Sin visibilidad de la calidad">👁 Sin visibilidad de la calidad real</div>
             </div>
-            <label class="svc-diag-check-label">
-              <input type="checkbox" id="diagAccept" required>
-              <span>Acepto que Carlos Cervantes me contacte para dar seguimiento al diagnóstico.</span>
+
+            <div class="dw-textarea-group">
+              <label class="dw-label" for="dwContexto">¿Quieres agregar contexto específico? (opcional)</label>
+              <textarea id="dwContexto" class="dw-textarea" maxlength="300" placeholder="Ej: Cada deploy del viernes termina en rollback. El equipo tiene miedo de hacer cambios en el módulo de pagos..."></textarea>
+              <span class="dw-counter"><span id="dwContextoCounter">0</span> / 300</span>
+            </div>
+
+            <div class="dw-nav">
+              <button type="button" class="dw-btn dw-btn-outline" id="step3Back">← Atrás</button>
+              <button type="button" class="dw-btn dw-btn-primary" id="step3Next" disabled>Continuar →</button>
+            </div>
+          </div>
+
+          <!-- PASO 5: Final / Contacto -->
+          <div class="dw-step" id="dwStep4" hidden>
+            <h3 class="dw-question" style="font-size:28px; text-align:center;">Casi listo. ¿Dónde enviamos tu diagnóstico?</h3>
+            <p class="dw-q-sub" style="text-align:center;">Recibirás un PDF profesional con el análisis detallado de IA y mi recomendación.</p>
+
+            <div class="dw-input-grid" style="margin-top:40px;">
+              <div class="dw-input-wrap">
+                <input type="text" id="dwNombre" class="dw-input" placeholder="Nombre" required>
+                <label class="dw-input-label">Nombre *</label>
+              </div>
+              <div class="dw-input-wrap">
+                <input type="email" id="dwEmail" class="dw-input" placeholder="Email profesional" required>
+                <label class="dw-input-label">Email profesional *</label>
+              </div>
+              <div class="dw-input-wrap">
+                <input type="text" id="dwEmpresa" class="dw-input" placeholder="Empresa (opcional)">
+                <label class="dw-input-label">Empresa (opcional)</label>
+              </div>
+              <div class="dw-input-wrap">
+                <select id="dwRol" class="dw-select">
+                  <option value="CTO">CTO / VP Eng</option>
+                  <option value="Tech Lead">Tech Lead / QA Lead</option>
+                  <option value="Founder">Founder / CEO</option>
+                  <option value="Dev">Developer / QA</option>
+                  <option value="Otro">Otro</option>
+                </select>
+                <label class="dw-input-label" style="top:4px; font-size:11px;">Rol</label>
+              </div>
+            </div>
+
+            <div class="dw-privacy">
+              <strong>🔒 Confidencialidad</strong><br>
+              Tus datos van directo a Carlos. No los compartimos con terceros. El diagnóstico es generado por IA de Antrophic (Claude 3.5 Sonnet) a partir de tus respuestas. No guardamos código ni información confidencial.
+            </div>
+
+            <label class="dw-checkbox-wrap">
+              <input type="checkbox" id="dwAccept" required>
+              <span>Acepto recibir el diagnóstico y que Carlos me contacte para seguimiento e información de servicios relevantes.</span>
             </label>
-            <div class="svc-diag-nav">
-              <button type="button" class="button button-outline" id="step3Back">← Atrás</button>
-              <button type="submit" class="button button-primary" id="diagSubmit">
-                <span id="diagSubmitText">Obtener diagnóstico IA ✦</span>
-                <span id="diagSubmitSpinner" class="svc-spinner" hidden></span>
-              </button>
-            </div>
+
+            <button type="submit" class="dw-btn dw-btn-primary dw-btn-full" id="dwSubmitBtn" disabled>
+              Generar diagnóstico gratuito →
+            </button>
+            <button type="button" class="dw-btn dw-btn-outline" id="step4Back" style="width:100%; border:none; margin-top:8px;">← Volver</button>
           </div>
         </form>
 
-        <!-- Success state -->
-        <div id="diagSuccess" class="svc-diag-result" hidden>
-          <div class="svc-diag-result-header">
-            <div class="svc-diag-result-icon">✦</div>
-            <h3>Tu diagnóstico inicial</h3>
-            <p class="svc-diag-result-meta">Generado por IA · Revisado por Carlos Cervantes</p>
+        <!-- PANTALLA DE PROCESAMIENTO (LA MAGIA VISIBLE) -->
+        <div id="dwProcessing" class="dw-processing" hidden>
+          <div class="dw-ring-wrap">
+            <svg class="dw-ring-svg" width="76" height="76" viewBox="0 0 76 76">
+              <circle class="dw-ring-bg" cx="38" cy="38" r="34"></circle>
+              <circle class="dw-ring-fill" cx="38" cy="38" r="34"></circle>
+            </svg>
           </div>
-          <div id="diagResultText" class="svc-diag-result-body"></div>
-          <div class="svc-diag-result-footer">
-            <a href="mailto:carlos.cervart@icloud.com?subject=Seguimiento%20diagnóstico%20QA" class="button button-primary">Hablar con Carlos →</a>
-            <a href="/servicios" class="button button-outline">Ver paquetes</a>
+          
+          <div class="dw-timeline" id="dwTimeline">
+            <div class="dw-timeline-item">
+              <div class="dw-ti-icon"></div><div class="dw-ti-text">Analizando tipo de aplicación...</div>
+            </div>
+            <div class="dw-timeline-item">
+              <div class="dw-ti-icon"></div><div class="dw-ti-text">Evaluando escala y riesgos de tráfico...</div>
+            </div>
+            <div class="dw-timeline-item">
+              <div class="dw-ti-icon"></div><div class="dw-ti-text">Revisando stack tecnológico...</div>
+            </div>
+            <div class="dw-timeline-item">
+              <div class="dw-ti-icon"></div><div class="dw-ti-text">Identificando patrones de riesgo...</div>
+            </div>
+            <div class="dw-timeline-item">
+              <div class="dw-ti-icon"><div class="dw-spinner"></div></div><div class="dw-ti-text">Generando recomendaciones y reporte PDF...</div>
+            </div>
+          </div>
+          
+          <div class="dw-rotator">
+            <div class="dw-rotator-text">Revisando tus síntomas contra 100+ proyectos similares...</div>
+            <div class="dw-rotator-text">Calculando nivel de riesgo para tu industria...</div>
+            <div class="dw-rotator-text">Priorizando recomendaciones por impacto...</div>
+            <div class="dw-rotator-text">Construyendo tu plan de acción...</div>
           </div>
         </div>
 
-        <!-- Error state -->
-        <div id="diagError" class="svc-diag-error" hidden>
-          <p>No fue posible generar el diagnóstico. <a href="mailto:carlos.cervart@icloud.com">Escríbeme directo →</a></p>
+        <!-- PANTALLA DE RESULTADOS -->
+        <div id="dwResults" class="dw-results" hidden>
+          <div class="dw-results-header">
+            <div class="dw-res-badge">✓ Diagnóstico completado</div>
+            <h2 class="dw-res-title">Tu diagnóstico QA, <span id="dwResNombre"></span></h2>
+            <p class="dw-res-sub">Generado por IA &middot; Revisado por Carlos Cervantes &middot; <span id="dwResDate"></span></p>
+          </div>
+
+          <div class="dw-score-area">
+            <div class="dw-score-circle color-blue">
+              <div class="dw-score-pct"><span id="dwScoreNum">0</span>%</div>
+            </div>
+            <h3 id="dwScoreLabel">Base sólida</h3>
+            <span class="dw-score-bench">vs. estándar de la industria: <span id="dwIndustryAvg"></span>%</span>
+          </div>
+
+          <!-- Riesgos Identificados -->
+          <div class="dw-section">
+            <div class="dw-sec-header">🎯 Riesgos identificados</div>
+            <div class="dw-sec-body" id="dwRiesgosList">
+              <!-- rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Recomendaciones -->
+          <div class="dw-section">
+            <div class="dw-sec-header">⚡ Recomendaciones prioritarias</div>
+            <div class="dw-sec-body" id="dwRecsList">
+              <!-- rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Plan de Acción -->
+          <div class="dw-section">
+            <div class="dw-sec-header">📋 Plan de acción sugerido</div>
+            <div class="dw-sec-body" id="dwPlanList">
+              <!-- rendered via JS -->
+            </div>
+          </div>
+
+          <div class="dw-actions">
+            <a href="#" id="dwDownloadPdfBtn" class="dw-btn dw-btn-primary dw-btn-full" style="text-decoration:none;">⬇ Descargar reporte PDF</a>
+            <a href="mailto:?subject=Nuestro%20Diagnóstico%20QA&body=Revisa%20nuestro%20diagnóstico%20QA." class="dw-btn dw-btn-outline dw-btn-full" style="text-decoration:none;">📧 Compartir con mi equipo</a>
+          </div>
+          <p class="dw-actions-sub">Carlos acaba de recibir una copia y te contactará en breve.</p>
         </div>
+
       </div>
     </div>
   </section>
@@ -337,100 +566,10 @@
 
 <%- include('partials/footer') %>
 
+<script src="/js/diagnostico.js"></script>
+
 <script>
 (function() {
-  // ── Form multi-step ──
-  let currentStep = 0;
-  const steps = document.querySelectorAll('.svc-diag-step');
-  const progressBar = document.getElementById('diagProgressBar');
-  const stepLabel = document.getElementById('diagStepLabel');
-  const formData = { appType: '', appScale: '', mainProblem: '', nombre: '', email: '' };
-
-  function goToStep(n) {
-    steps[currentStep].classList.remove('active');
-    currentStep = n;
-    steps[currentStep].classList.add('active');
-    const pct = ((n + 1) / 4) * 100;
-    progressBar.style.width = pct + '%';
-    stepLabel.textContent = `Paso ${n + 1} de 4`;
-  }
-
-  // Step 0: app type
-  document.querySelectorAll('#appTypeGrid .svc-type-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#appTypeGrid .svc-type-btn').forEach(b => b.classList.remove('selected'));
-      this.classList.add('selected');
-      document.getElementById('appType').value = this.dataset.value;
-      formData.appType = this.dataset.value;
-      document.getElementById('step0Next').disabled = false;
-    });
-  });
-  document.getElementById('step0Next').addEventListener('click', () => goToStep(1));
-
-  // Step 1: scale
-  document.querySelectorAll('#scaleGrid .svc-type-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#scaleGrid .svc-type-btn').forEach(b => b.classList.remove('selected'));
-      this.classList.add('selected');
-      document.getElementById('appScale').value = this.dataset.value;
-      formData.appScale = this.dataset.value;
-      document.getElementById('step1Next').disabled = false;
-    });
-  });
-  document.getElementById('step1Back').addEventListener('click', () => goToStep(0));
-  document.getElementById('step1Next').addEventListener('click', () => goToStep(2));
-
-  // Step 2: problem
-  document.getElementById('step2Back').addEventListener('click', () => goToStep(1));
-  document.getElementById('step2Next').addEventListener('click', () => {
-    formData.mainProblem = document.getElementById('mainProblem').value;
-    goToStep(3);
-  });
-
-  // Step 3: contact
-  document.getElementById('step3Back').addEventListener('click', () => goToStep(2));
-
-  // Submit
-  document.getElementById('diagForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    formData.nombre = document.getElementById('diagNombre').value;
-    formData.email = document.getElementById('diagEmail').value;
-
-    const btn = document.getElementById('diagSubmit');
-    document.getElementById('diagSubmitText').hidden = true;
-    document.getElementById('diagSubmitSpinner').hidden = false;
-    btn.disabled = true;
-
-    try {
-      const resp = await fetch('/api/diagnostico', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      const data = await resp.json();
-
-      if (data.diagnostico) {
-        document.getElementById('diagForm').hidden = true;
-        document.querySelector('.svc-diag-progress').hidden = true;
-        document.querySelector('.svc-diag-step-label').hidden = true;
-        const resultEl = document.getElementById('diagSuccess');
-        resultEl.hidden = false;
-        // Format with line breaks
-        document.getElementById('diagResultText').innerHTML = data.diagnostico
-          .split('\n\n')
-          .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
-          .join('');
-      } else {
-        throw new Error('No diagnostico');
-      }
-    } catch (err) {
-      document.getElementById('diagError').hidden = false;
-      document.getElementById('diagSubmitText').hidden = false;
-      document.getElementById('diagSubmitSpinner').hidden = true;
-      btn.disabled = false;
-    }
-  });
-
   // ── FAQ Accordion ──
   document.querySelectorAll('.svc-faq-q').forEach(btn => {
     btn.addEventListener('click', function() {

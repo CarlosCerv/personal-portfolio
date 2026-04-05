@@ -11,7 +11,12 @@ const Comment = require('./models/Comment');
 const Hobby = require('./models/Hobby');
 const bcrypt = require('bcrypt');
 const { getHobbyData, getAllHobbies } = require('./data/hobbies');
+const { generateDiagnostic } = require('./lib/diagnostico-prompt');
+const { generateDiagnosticPDF } = require('./lib/pdf-generator');
+const { Resend } = require('resend');
+const crypto = require('crypto');
 
+const resend = new Resend(process.env.RESEND_API_KEY || 'dummy');
 const helmet = require('helmet');
 const cors = require('cors');
 const compression = require('compression');
@@ -773,6 +778,84 @@ app.get('/account', requireUser, async (req, res) => {
       formData: { email: '' },
       ...buildAuthMeta('/login', 'Iniciar sesión', 'Accede para comentar, interactuar con el blog y seguir el contenido de Carlos Cervantes.')
     });
+  }
+});
+
+// ==================== API ROUTES ====================
+
+app.post('/api/diagnostico', async (req, res) => {
+  try {
+    const data = req.body;
+    // 1. Get Anthropic JSON
+    const diagnostic = await generateDiagnostic(data);
+    
+    // 2. Generate PDF Session ID
+    const pdfId = crypto.randomBytes(16).toString('hex');
+    
+    // Cache the data for PDF generation (expires in 1 hour)
+    cache.set(`pdf_${pdfId}`, { qaData: diagnostic, userData: data }, 60 * 60 * 1000);
+    
+    // 3. Render Email Template
+    const pdfUrl = `${BASE_URL}/api/diagnostico/pdf/${pdfId}`;
+    req.app.render('emails/diagnostico', { 
+      nombre: data.nombre, 
+      qaData: diagnostic, 
+      pdfUrl 
+    }, async (err, html) => {
+      if (err) {
+        console.error('Error rendering email:', err);
+      } else if (process.env.RESEND_API_KEY) {
+        // 4. Send Email via Resend
+        try {
+          await resend.emails.send({
+            from: process.env.FROM_EMAIL || 'Carlos Cervantes <hello@carloscervantes.com>',
+            to: data.email,
+            subject: `Tu diagnóstico QA está listo, ${data.nombre}`,
+            html: html
+          });
+          
+          // Send notification to Carlos
+          await resend.emails.send({
+            from: process.env.FROM_EMAIL || 'Carlos Cervantes <hello@carloscervantes.com>',
+            to: 'carlos.cervart@icloud.com', // Replace with real email if needed
+            subject: `Nuevo lead: ${data.nombre} · ${data.empresa || 'N/A'} · Score ${diagnostic.score}`,
+            html: `<p>Nuevo diagnóstico generado.</p><p>Score: ${diagnostic.score}</p><p>Paquete: ${diagnostic.paqueteRecomendado}</p><p>Responsable: ${data.nombre} (${data.email})</p>`
+          });
+        } catch (e) {
+          console.error("Resend error:", e);
+        }
+      }
+    });
+    
+    // 5. Return JSON to Client
+    diagnostic.pdfId = pdfId; // Send ID so client can download
+    res.json(diagnostic);
+    
+  } catch (error) {
+    console.error('API /diagnostico Error:', error);
+    res.status(500).json({ error: 'Failed to generate diagnostic' });
+  }
+});
+
+app.get('/api/diagnostico/pdf/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sessionData = cache.get(`pdf_${id}`);
+    
+    if (!sessionData) {
+      return res.status(404).send('Pdf url expirada o inválida');
+    }
+    
+    const { qaData, userData } = sessionData;
+    const pdfBuffer = await generateDiagnosticPDF(qaData, userData);
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=Diagnostico_QA_${userData.nombre.replace(/\s+/g, '_')}.pdf`);
+    res.send(pdfBuffer);
+    
+  } catch (error) {
+    console.error('PDF Generation Error:', error);
+    res.status(500).send('Error generando el PDF');
   }
 });
 
