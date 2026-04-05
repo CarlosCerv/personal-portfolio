@@ -182,11 +182,13 @@ app.use(async (req, res, next) => {
   res.locals.user = null;
   res.locals.isAdminAuthenticated = !!(req.session && req.session.isAuthenticated);
   res.locals.BASE_URL = BASE_URL;
+
   const defaultMeta = buildMeta({
     title: SITE_TITLE,
     description: DEFAULT_SITE_DESCRIPTION,
     path: req.path
   });
+  
   res.locals.metaTitle = defaultMeta.metaTitle;
   res.locals.metaDescription = defaultMeta.metaDescription;
   res.locals.metaImage = defaultMeta.metaImage;
@@ -194,12 +196,23 @@ app.use(async (req, res, next) => {
   res.locals.metaUrl = defaultMeta.metaUrl;
   res.locals.metaType = defaultMeta.metaType;
   
-  if (req.session.userId) {
+  if (req.session && req.session.userId) {
     try {
-      const user = await User.findById(req.session.userId);
-      res.locals.user = user;
+      // OPTIMIZATION: Check if user data is already in session to avoid redundant DB hits
+      if (req.session.userData && req.session.userData._id === req.session.userId) {
+        res.locals.user = req.session.userData;
+      } else {
+        const user = await User.findById(req.session.userId).lean();
+        if (user) {
+          // Remove sensitive data before storing in session
+          const { password, ...safeUser } = user;
+          req.session.userData = safeUser;
+          res.locals.user = safeUser;
+        }
+      }
     } catch (err) {
       console.error('Session user lookup error:', err);
+      // Don't crash for session errors, just proceed without user
     }
   }
   next();
@@ -370,13 +383,40 @@ async function getManagedHobby(slug) {
 
 /**
  * Helper function to read and parse all blog posts from database
- * Returns an array of post objects sorted by date (newest first)
+ * Returns an array of post objects sorted by date (newest first).
+ * Uses Stale-While-Revalidate pattern for maximum performance.
  */
 async function getBlogPosts() {
-  const cached = cache.get('blogPosts');
-  if (cached) return cached;
+  const CACHE_KEY = 'blogPosts';
+  const STALE_TTL = 2 * 60 * 1000; // 2 minutes (it's stale but we return it)
+  const EXPIRE_TTL = 15 * 60 * 1000; // 15 minutes (hard expiry)
 
+  const cached = cache._store[CACHE_KEY];
+  
+  // 1. Return from cache immediately if available
+  if (cached && Date.now() < cached.expiresAt) {
+    // 2. If it's stale (older than STALE_TTL), trigger background revalidation
+    if (Date.now() > cached.createdAt + STALE_TTL) {
+       // Trigger revalidation in background, don't await
+       revalidateBlogPosts().catch(err => console.error('Background revalidation error:', err));
+    }
+    return cached.value;
+  }
+
+  // 3. Fallback to fresh fetch if no cache or strictly expired
+  return await revalidateBlogPosts();
+}
+
+/**
+ * Internal helper to fetch and cache blog posts
+ */
+async function revalidateBlogPosts() {
+  const CACHE_KEY = 'blogPosts';
+  // Use a lock-like flag if we want to avoid multiple simultaneous revalidations
+  if (cache._revalidating) return cache.get(CACHE_KEY) || [];
+  
   try {
+    cache._revalidating = true;
     const posts = await Post.find({ published: true })
       .sort({ date: -1 })
       .lean();
@@ -386,11 +426,19 @@ async function getBlogPosts() {
       excerpt: post.content.trim().substring(0, 150).replace(/\n/g, ' ') + '...'
     }));
 
-    cache.set('blogPosts', result, 5 * 60 * 1000); // 5 min TTL
+    // Store with creation time and expiry time
+    cache._store[CACHE_KEY] = { 
+      value: result, 
+      createdAt: Date.now(),
+      expiresAt: Date.now() + (15 * 60 * 1000) 
+    };
+    
     return result;
   } catch (error) {
     console.error('Error fetching blog posts:', error);
-    return [];
+    return cache.get(CACHE_KEY) || []; // Return stale if possible
+  } finally {
+    cache._revalidating = false;
   }
 }
 
@@ -926,8 +974,15 @@ app.get('/admin/posts', requireAdmin, noCache, async (req, res) => {
       currentAdminSection: 'posts'
     });
   } catch (error) {
-    console.error('Error in /admin/posts:', error);
-    res.status(500).send('Internal Server Error');
+    console.error('❌ CRITICAL: Error in /admin/posts:', error);
+    // Be more descriptive for debugging
+    if (mongoose.connection.readyState !== 1) {
+       return res.status(500).send('Error de conexión a la base de datos. Por favor verifica MONGODB_URI.');
+    }
+    res.status(500).render('error', { 
+       message: 'Internal Server Error al cargar posts.',
+       error: error
+    });
   }
 });
 
