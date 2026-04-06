@@ -1,6 +1,4 @@
-// lib/pdf-generator.js
-const PDFDocument = require('pdfkit');
-const path = require('path');
+import PDFDocument from 'pdfkit';
 
 /**
  * Genera un PDF profesional de 3 páginas basado en el diagnóstico de la IA.
@@ -8,7 +6,7 @@ const path = require('path');
  * @param {Object} userData Datos del usuario (nombre, empresa)
  * @returns {Promise<Buffer>}
  */
-function generateDiagnosticPDF(qaData, userData) {
+export async function generateDiagnosticPDF(qaData: any, userData: any): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({
@@ -17,21 +15,20 @@ function generateDiagnosticPDF(qaData, userData) {
         bufferPages: true
       });
 
-      const buffers = [];
-      doc.on('data', buffers.push.bind(buffers));
+      const buffers: Buffer[] = [];
+      doc.on('data', (chunk) => buffers.push(chunk));
       doc.on('end', () => resolve(Buffer.concat(buffers)));
 
       // Colors
       const primaryColor = '#0071e3';
       const secondaryColor = '#1d1d1f';
       const mutedColor = '#86868b';
-      const bgColor = '#fbfbfd';
       
       const scoreColor = qaData.score <= 40 ? '#ff453a' : 
                          qaData.score <= 65 ? '#ff9f0a' : 
                          qaData.score <= 80 ? '#0071e3' : '#34c759';
 
-      const today = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+      const today = new Date().toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 
       // ================================= PAGE 1: PORTADA =================================
       // Header
@@ -47,19 +44,19 @@ function generateDiagnosticPDF(qaData, userData) {
       
       // Score Circle
       const scoreX = 297;
-      const scoreY = doc.y + 70;
+      const scoreY = (doc as any).y + 70;
       doc.circle(scoreX, scoreY, 65).lineWidth(10).stroke(scoreColor);
       doc.fontSize(54).fillColor(secondaryColor).text(qaData.score.toString(), scoreX - 50, scoreY - 25, { width: 100, align: 'center' });
       
       doc.moveDown(7);
       doc.fontSize(24).fillColor(scoreColor).text(qaData.scoreLabel, { align: 'center' });
       doc.moveDown(1);
-      doc.fontSize(13).fillColor(secondaryColor).text(qaData.resumenEjecutivo, { align: 'center', width: 400, lineGap: 4 });
+      doc.fontSize(13).fillColor(secondaryColor).text(qaData.resumen || qaData.resumenEjecutivo || '', { align: 'center', width: 400, lineGap: 4 });
       
       // Bottom Badge
       doc.moveDown(4);
-      doc.rect(150, doc.y, 290, 30).fill('#f2f2f7');
-      doc.fontSize(10).fillColor(mutedColor).text('Confidencial · Generado por IA · Revisado por Carlos Cervantes', 150, doc.y + 10, { align: 'center', width: 290 });
+      doc.rect(150, (doc as any).y, 290, 30).fill('#f2f2f7');
+      doc.fontSize(10).fillColor(mutedColor).text('Confidencial · Generado por IA · Revisado por Carlos Cervantes', 150, (doc as any).y + 10, { align: 'center', width: 290 });
 
       // ================================= PAGE 2: ANÁLISIS =================================
       doc.addPage();
@@ -67,12 +64,12 @@ function generateDiagnosticPDF(qaData, userData) {
       doc.fontSize(28).fillColor(secondaryColor).text('Riesgos Identificados', 60, 60);
       doc.moveDown(1.5);
       
-      qaData.riesgos.forEach(riesgo => {
-          const startY = doc.y;
+      (qaData.riesgos || []).forEach((riesgo: any) => {
+          const startY = (doc as any).y;
           
           // Severity Badge
-          const badgeColor = riesgo.severidad === 'CRÍTICO' ? '#ff453a' : 
-                            riesgo.severidad === 'ALTO' ? '#ff9f0a' : '#0071e3';
+          const badgeColor = riesgo.severidad === 'CRÍTICO' || riesgo.severidad === 'Critica' ? '#ff453a' : 
+                            riesgo.severidad === 'ALTO' || riesgo.severidad === 'Alta' ? '#ff9f0a' : '#0071e3';
           
           doc.rect(60, startY, 70, 20).fill(badgeColor);
           doc.fontSize(9).fillColor('#ffffff').text(riesgo.severidad, 60, startY + 6, { width: 70, align: 'center' });
@@ -88,7 +85,7 @@ function generateDiagnosticPDF(qaData, userData) {
       doc.fontSize(28).fillColor(secondaryColor).text('Recomendaciones Pro');
       doc.moveDown(1);
       
-      qaData.recomendaciones.forEach((rec, idx) => {
+      (qaData.recomendaciones || []).forEach((rec: any, idx: number) => {
           doc.fontSize(16).fillColor(primaryColor).text(`${idx + 1}. ${rec.titulo}`);
           doc.fontSize(10).fillColor(mutedColor).text(`Impacto: ${rec.impacto} | Tiempo: ${rec.tiempo}`);
           doc.moveDown(0.2);
@@ -102,36 +99,36 @@ function generateDiagnosticPDF(qaData, userData) {
       doc.fontSize(28).fillColor(secondaryColor).text('Plan de Acción Sugerido', 60, 60);
       doc.moveDown(2);
 
-      qaData.planDeAccion.forEach((plan, idx) => {
-          const posY = doc.y;
+      (qaData.planDeAccion || []).forEach((plan: any, idx: number) => {
+          const posY = (doc as any).y;
           // Timeline dot and line
           doc.circle(80, posY + 10, 5).fill(primaryColor);
-          if (idx < qaData.planDeAccion.length - 1) {
+          if (idx < (qaData.planDeAccion.length - 1)) {
               doc.moveTo(80, posY + 15).lineTo(80, posY + 80).lineWidth(1).stroke(primaryColor);
           }
           
           doc.fontSize(14).fillColor(primaryColor).text(plan.periodo, 110, posY);
           doc.fontSize(15).fillColor(secondaryColor).text(plan.hito, 210, posY);
-          doc.fontSize(11).fillColor(secondaryColor).text(plan.descripcion, 210, doc.y + 4, { width: 320, lineGap: 2 });
+          doc.fontSize(11).fillColor(secondaryColor).text(plan.descripcion, 210, (doc as any).y + 4, { width: 320, lineGap: 2 });
           
           doc.moveDown(3);
       });
 
       doc.moveDown(2);
-      doc.rect(60, doc.y, 475, 120).fill('#f2f2f7');
+      doc.rect(60, (doc as any).y, 475, 120).fill('#f2f2f7');
       
-      let nextStepY = doc.y + 20;
+      let nextStepY = (doc as any).y + 20;
       doc.fontSize(18).fillColor(secondaryColor).text('Siguiente paso recomendado', 80, nextStepY);
       doc.moveDown(0.5);
       doc.fontSize(14).fillColor(primaryColor).text(`Paquete: ${qaData.paqueteRecomendado.toUpperCase()}`, 80);
       doc.moveDown(0.5);
-      doc.fontSize(11).fillColor(secondaryColor).text('Podemos iniciar con este análisis detallado la próxima semana.', 80, doc.y, { width: 430 });
+      doc.fontSize(11).fillColor(secondaryColor).text('Podemos iniciar con este análisis detallado la próxima semana.', 80, (doc as any).y, { width: 430 });
       doc.moveDown(0.5);
       doc.fontSize(11).fillColor(primaryColor).text('Escríbeme: carlos.cervart@icloud.com', { link: 'mailto:carlos.cervart@icloud.com' });
 
       // Footer numbering and branding
-      const pages = doc.bufferedPageRange();
-      for (let i = 0; i < pages.count; i++) {
+      const range = doc.bufferedPageRange();
+      for (let i = 0; i < range.count; i++) {
         doc.switchToPage(i);
         doc.fontSize(8).fillColor(mutedColor).text(
           '© 2026 Carlos Cervantes · Servicios de Calidad y Performance Engineering · Reporte confidencial para uso interno.',
@@ -139,7 +136,7 @@ function generateDiagnosticPDF(qaData, userData) {
           doc.page.height - 40, 
           { align: 'center' }
         );
-        doc.text(`Página ${i + 1} de ${pages.count}`, 60, doc.page.height - 50, { align: 'right', width: 475 });
+        doc.text(`Página ${i + 1} de ${range.count}`, 60, doc.page.height - 50, { align: 'right', width: 475 });
       }
 
       doc.end();
@@ -148,5 +145,3 @@ function generateDiagnosticPDF(qaData, userData) {
     }
   });
 }
-
-module.exports = { generateDiagnosticPDF };

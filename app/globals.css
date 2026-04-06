@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --background-alt: #f5f5f7;
+  --foreground: #1d1d1f;
+  --primary: #0071e3;
+  --secondary: #1d1d1f;
+  --muted: #86868b;
+  --border: #d2d2d7;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* SF Pro Text rendering optimization */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .admin-card {
+    @apply bg-white border border-border rounded-xl shadow-sm overflow-hidden;
+  }
+
+  .admin-btn-primary {
+    @apply bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50;
+  }
+
+  .admin-btn-outline {
+    @apply border border-border hover:bg-background-alt text-foreground px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+}

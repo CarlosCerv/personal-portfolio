@@ -831,21 +831,30 @@ app.get('/account', requireUser, async (req, res) => {
 
 // ==================== API ROUTES ====================
 
-app.post('/api/diagnostico', async (req, res) => {
+/**
+ * API: Diagnóstico QA IA (Professional Maestro Version)
+ * POST /api/diagnostico
+ */
+app.post('/api/diagnostico', express.json(), async (req, res) => {
   try {
     const data = req.body;
-    // 1. Get Anthropic JSON
+    
+    // 1. Validaciones básicas
+    if (!data.email || !data.nombre || !data.tipo) {
+      return res.status(400).json({ error: 'Faltan datos obligatorios para el diagnóstico.' });
+    }
+
+    // 2. Generar diagnóstico estructurado vía Anthropic
     const diagnostic = await generateDiagnostic(data);
     
-    // 2. Generate PDF Session ID
+    // 3. Crear sesión para descarga de PDF
     const pdfId = crypto.randomBytes(16).toString('hex');
-    
-    // Cache the data for PDF generation (expires in 1 hour)
+    // Cache for 1 hour to allow download
     cache.set(`pdf_${pdfId}`, { qaData: diagnostic, userData: data }, 60 * 60 * 1000);
     
-    // 3. Render Email Template
+    // 4. Preparar y enviar Email (Background)
     const pdfUrl = `${BASE_URL}/api/diagnostico/pdf/${pdfId}`;
-    req.app.render('emails/diagnostico', { 
+    res.render('emails/diagnostico', { 
       nombre: data.nombre, 
       qaData: diagnostic, 
       pdfUrl 
@@ -853,7 +862,6 @@ app.post('/api/diagnostico', async (req, res) => {
       if (err) {
         console.error('Error rendering email:', err);
       } else if (process.env.RESEND_API_KEY) {
-        // 4. Send Email via Resend
         try {
           await resend.emails.send({
             from: process.env.FROM_EMAIL || 'Carlos Cervantes <hello@carloscervantes.com>',
@@ -862,28 +870,36 @@ app.post('/api/diagnostico', async (req, res) => {
             html: html
           });
           
-          // Send notification to Carlos
+          // Notificación a Carlos
           await resend.emails.send({
             from: process.env.FROM_EMAIL || 'Carlos Cervantes <hello@carloscervantes.com>',
-            to: 'carlos.cervart@icloud.com', // Replace with real email if needed
-            subject: `Nuevo lead: ${data.nombre} · ${data.empresa || 'N/A'} · Score ${diagnostic.score}`,
-            html: `<p>Nuevo diagnóstico generado.</p><p>Score: ${diagnostic.score}</p><p>Paquete: ${diagnostic.paqueteRecomendado}</p><p>Responsable: ${data.nombre} (${data.email})</p>`
+            to: 'carlos.cervart@icloud.com',
+            subject: `[Lead] Diagnóstico QA: ${data.nombre} (${data.empresa || 'N/A'}) - Score ${diagnostic.score}`,
+            html: `
+              <h3>Nuevo diagnóstico generado</h3>
+              <p><strong>Lead:</strong> ${data.nombre} (${data.email})</p>
+              <p><strong>Empresa:</strong> ${data.empresa || 'No provista'}</p>
+              <p><strong>Score:</strong> ${diagnostic.score} - ${diagnostic.scoreLabel}</p>
+              <p><strong>Paquete:</strong> ${diagnostic.paqueteRecomendado}</p>
+              <p><a href="${pdfUrl}">Ver PDF generado</a></p>
+            `
           });
         } catch (e) {
-          console.error("Resend error:", e);
+          console.error("Resend delivery error:", e);
         }
       }
     });
     
-    // 5. Return JSON to Client
-    diagnostic.pdfId = pdfId; // Send ID so client can download
+    // 5. Retornar resultado JSON al wizard (con ID de PDF)
+    diagnostic.pdfId = pdfId;
     res.json(diagnostic);
     
   } catch (error) {
     console.error('API /diagnostico Error:', error);
-    res.status(500).json({ error: 'Failed to generate diagnostic' });
+    res.status(500).json({ error: 'No fue posible generar el diagnóstico. Verifica ANTHROPIC_API_KEY.' });
   }
 });
+
 
 app.get('/api/diagnostico/pdf/:id', async (req, res) => {
   try {
@@ -1482,90 +1498,8 @@ app.post('/posts/:slug/comment', async (req, res) => {
   }
 });
 
-// ==================== API ROUTES ====================
+// Legacy diagnostic route removed (consolidated above)
 
-/**
- * API: Diagnóstico IA (Anthropic)
- * POST /api/diagnostico
- */
-app.post('/api/diagnostico', express.json(), async (req, res) => {
-  const { appType, appScale, mainProblem, nombre, email } = req.body;
-
-  if (!appType || !mainProblem || !email) {
-    return res.status(400).json({ error: 'Datos incompletos' });
-  }
-
-  const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-  if (!ANTHROPIC_API_KEY) {
-    return res.status(503).json({ error: 'Servicio de IA no disponible temporalmente' });
-  }
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 600,
-        system: `Eres Carlos Cervantes, QA consultant con 6+ años de experiencia en performance testing, automatización y calidad de software. 
-Genera un diagnóstico inicial en exactamente 3 párrafos en español:
-1) Riesgo principal según el tipo de app (${appType}) y escala de usuarios (${appScale})
-2) Top 3 recomendaciones concretas y accionables
-3) El paquete de servicio más adecuado (Diagnóstico QA $500 / Automatización $2,500 / Performance Engineering $1,800) con justificación.
-Tono: experto, directo, accesible. Sin bullet points, párrafos corridos.`,
-        messages: [
-          {
-            role: 'user',
-            content: `App: ${appType} | Escala: ${appScale} usuarios en pico\nProblema: ${mainProblem}`
-          }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Anthropic error:', errText);
-      return res.status(502).json({ error: 'Error al generar diagnóstico' });
-    }
-
-    const data = await response.json();
-    const diagnostico = data.content?.[0]?.text || '';
-
-    // Also send notification email if Resend is configured
-    const RESEND_API_KEY = process.env.RESEND_API_KEY;
-    if (RESEND_API_KEY && email) {
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${RESEND_API_KEY}`
-        },
-        body: JSON.stringify({
-          from: 'Carlos Cervantes QA <noreply@carloscervantes-qa.vercel.app>',
-          to: ['carlos.cervart@icloud.com'],
-          subject: `[Diagnóstico QA] ${nombre || 'Visitante'} — ${appType}`,
-          html: `<h2>Nuevo diagnóstico solicitado</h2>
-            <p><strong>Nombre:</strong> ${nombre}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>App:</strong> ${appType} | <strong>Escala:</strong> ${appScale}</p>
-            <p><strong>Problema:</strong> ${mainProblem}</p>
-            <hr>
-            <h3>Diagnóstico generado:</h3>
-            <p>${diagnostico.replace(/\n\n/g, '</p><p>')}</p>`
-        })
-      }).catch(err => console.error('Resend notification error:', err));
-    }
-
-    res.json({ diagnostico });
-  } catch (err) {
-    console.error('Diagnostico API error:', err);
-    res.status(500).json({ error: 'Error interno' });
-  }
-});
 
 /**
  * API: Formulario de contacto (Resend)

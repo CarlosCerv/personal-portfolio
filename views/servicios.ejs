@@ -164,7 +164,7 @@
 
   <hr class="divider">
 
-  <!-- ══ DIAGNÓSTICO WIZARD ══ -->
+  <!-- ══ DIAGNÓSTICO WIZARD (MAESTRO VERSION) ══ -->
   <section class="svc-diag-section" id="diagnostico">
     <div class="section-wrap">
       <div class="dw-wrapper">
@@ -178,7 +178,7 @@
             </div>
             <div class="dw-badge">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Confidencial
+              🔒 Confidencial
             </div>
           </div>
           <hr class="dw-divider">
@@ -188,8 +188,10 @@
             <div class="dw-progress-track">
               <div class="dw-progress-fill" id="dwProgressFill"></div>
             </div>
-            <div class="dw-step-label" id="dwStepLabel">Paso 1 de 5 &middot; Tu aplicación</div>
-            <div class="dw-dots">
+            <div class="dw-step-info">
+              <span class="dw-step-label" id="dwStepLabel">Paso 1 de 5 &middot; Tu aplicación</span>
+            </div>
+            <div class="dw-dots" id="dwDots">
               <div class="dw-dot active"></div><div class="dw-dot-line"></div>
               <div class="dw-dot"></div><div class="dw-dot-line"></div>
               <div class="dw-dot"></div><div class="dw-dot-line"></div>
@@ -203,7 +205,7 @@
           <!-- PASO 1: Tu aplicación -->
           <div class="dw-step active" id="dwStep0">
             <h3 class="dw-question">¿Qué tipo de producto estás desarrollando?</h3>
-            <p class="dw-q-sub">Esto define qué pruebas son más relevantes para ti. Puedes seleccionar varios.</p>
+            <p class="dw-q-sub">Esto define qué pruebas son más relevantes para ti.</p>
             
             <div class="dw-grid" id="dwAppGrid">
               <div class="dw-card" data-value="Web App">
@@ -248,7 +250,7 @@
               </div>
             </div>
             
-            <div class="dw-nav" style="justify-content: flex-end;">
+            <div class="dw-nav">
               <button type="button" class="dw-btn dw-btn-primary" id="step0Next" disabled>Continuar →</button>
             </div>
           </div>
@@ -267,8 +269,8 @@
               <button type="button" class="dw-pill" data-value="+1M usuarios">+1M usuarios</button>
             </div>
             
-            <div id="dwPicoSection" hidden style="opacity:0; transition: opacity .5s ease; margin-top:32px;">
-              <h3 class="dw-question" style="font-size:16px;">¿Cuántos usuarios esperas en tu próximo pico de tráfico?</h3>
+            <div id="dwPicoSection" class="dw-fade-in" hidden>
+              <h3 class="dw-question" style="font-size:16px; margin-top:32px;">¿Cuántos usuarios esperas en tu próximo pico de tráfico?</h3>
               <div class="dw-pill-grid" id="dwPicoGrid">
                 <button type="button" class="dw-pill" data-value="Mismo nivel">Mismo nivel</button>
                 <button type="button" class="dw-pill" data-value="2x actual">2x actual</button>
@@ -278,7 +280,7 @@
               </div>
               
               <div class="dw-alert" id="dwPicoAlert" hidden>
-                ⚠ Con picos así, las pruebas de carga son críticas. Lo analizaremos en el diagnóstico.
+                ⚠ Con picos así, las pruebas de carga son críticas. Lo analizaremos.
               </div>
             </div>
 
@@ -342,10 +344,10 @@
             </div>
           </div>
 
-          <!-- PASO 4: Problema -->
+          <!-- PASO 4: Tu mayor dolor -->
           <div class="dw-step" id="dwStep3" hidden>
             <h3 class="dw-question">¿Cuál es el mayor problema de calidad que enfrenta tu equipo?</h3>
-            <p class="dw-q-sub">Elige un máximo de 3 problemas principales.</p>
+            <p class="dw-q-sub">Sé específico — más detalle = diagnóstico más útil.</p>
 
             <div class="dw-sintoma-grid" id="dwSintomasGrid">
               <div class="dw-sintoma-card" data-value="🐛 Bugs en producción frecuentes">🐛 Bugs en producción frecuentes</div>
@@ -370,145 +372,129 @@
             </div>
           </div>
 
-          <!-- PASO 5: Final / Contacto -->
+          <!-- PASO 5: Recibir diagnóstico -->
           <div class="dw-step" id="dwStep4" hidden>
             <h3 class="dw-question" style="font-size:28px; text-align:center;">Casi listo. ¿Dónde enviamos tu diagnóstico?</h3>
-            <p class="dw-q-sub" style="text-align:center;">Recibirás un PDF profesional con el análisis detallado de IA y mi recomendación.</p>
+            <p class="dw-q-sub" style="text-align:center;">Recibirás un PDF profesional con el análisis detallado vía email.</p>
 
             <div class="dw-input-grid" style="margin-top:40px;">
-              <div class="dw-input-wrap">
-                <input type="text" id="dwNombre" class="dw-input" placeholder="Nombre" required>
-                <label class="dw-input-label">Nombre *</label>
+              <div class="dw-field">
+                <input type="text" id="dwNombre" class="dw-input" placeholder=" " required>
+                <label class="dw-input-label">Nombre completo</label>
               </div>
-              <div class="dw-input-wrap">
-                <input type="email" id="dwEmail" class="dw-input" placeholder="Email profesional" required>
-                <label class="dw-input-label">Email profesional *</label>
+              <div class="dw-field">
+                <input type="email" id="dwEmail" class="dw-input" placeholder=" " required>
+                <label class="dw-input-label">Email profesional</label>
               </div>
-              <div class="dw-input-wrap">
-                <input type="text" id="dwEmpresa" class="dw-input" placeholder="Empresa (opcional)">
+              <div class="dw-field">
+                <input type="text" id="dwEmpresa" class="dw-input" placeholder=" ">
                 <label class="dw-input-label">Empresa (opcional)</label>
               </div>
-              <div class="dw-input-wrap">
+              <div class="dw-field">
                 <select id="dwRol" class="dw-select">
+                  <option value="" disabled selected>Selecciona tu rol</option>
                   <option value="CTO">CTO / VP Eng</option>
                   <option value="Tech Lead">Tech Lead / QA Lead</option>
                   <option value="Founder">Founder / CEO</option>
                   <option value="Dev">Developer / QA</option>
                   <option value="Otro">Otro</option>
                 </select>
-                <label class="dw-input-label" style="top:4px; font-size:11px;">Rol</label>
+                <label class="dw-input-label" style="top: -6px; font-size: 11px;">Rol</label>
               </div>
             </div>
 
-            <div class="dw-privacy">
-              <strong>🔒 Confidencialidad</strong><br>
-              Tus datos van directo a Carlos. No los compartimos con terceros. El diagnóstico es generado por IA de Antrophic (Claude 3.5 Sonnet) a partir de tus respuestas. No guardamos código ni información confidencial.
+            <div class="dw-privacy-box">
+              <p>🔒 <strong>Confidencialidad Garantizada</strong><br>
+              Tus datos van directo a Carlos. No los compartimos. El diagnóstico es generado por IA (Claude 3.5 Sonnet) basado en tus respuestas. No guardamos información sensible.</p>
             </div>
 
-            <label class="dw-checkbox-wrap">
+            <label class="dw-check-wrap">
               <input type="checkbox" id="dwAccept" required>
-              <span>Acepto recibir el diagnóstico y que Carlos me contacte para seguimiento e información de servicios relevantes.</span>
+              <span>Acepto recibir el diagnóstico y que Carlos me contacte para seguimiento.</span>
             </label>
 
             <button type="submit" class="dw-btn dw-btn-primary dw-btn-full" id="dwSubmitBtn" disabled>
               Generar diagnóstico gratuito →
             </button>
-            <button type="button" class="dw-btn dw-btn-outline" id="step4Back" style="width:100%; border:none; margin-top:8px;">← Volver</button>
+            <button type="button" class="dw-btn dw-btn-link" id="step4Back">← Modificar respuestas</button>
           </div>
         </form>
 
-        <!-- PANTALLA DE ÉXITO (DATOS ENVIADOS) -->
-        <div id="dwSentSuccess" class="dw-sent-success" hidden>
-          <div class="dw-success-icon">
-            <svg viewBox="0 0 52 52" class="dw-checkmark-svg">
-              <circle class="dw-checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-              <path class="dw-checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-            </svg>
-          </div>
-          <h3 class="dw-success-title">¡Datos enviados con éxito!</h3>
-          <p class="dw-success-sub">Carlos ya recibió tu información. La IA está analizando tu caso ahora mismo...</p>
+        <!-- PANTALAS DE ESTADO (Success / Processing / Results) -->
+        
+        <div id="dwSentSuccess" class="dw-state-screen" hidden>
+            <!-- Animation here -->
         </div>
 
-        <!-- PANTALLA DE PROCESAMIENTO (LA MAGIA VISIBLE) -->
-        <div id="dwProcessing" class="dw-processing" hidden>
-          <div class="dw-ring-wrap">
-            <svg class="dw-ring-svg" width="76" height="76" viewBox="0 0 76 76">
-              <circle class="dw-ring-bg" cx="38" cy="38" r="34"></circle>
-              <circle class="dw-ring-fill" cx="38" cy="38" r="34"></circle>
+        <div id="dwProcessing" class="dw-state-screen" hidden>
+          <div class="dw-processing-loader">
+            <svg class="dw-ring" viewBox="0 0 80 80">
+              <circle class="dw-ring-track" cx="40" cy="40" r="36"></circle>
+              <circle class="dw-ring-fill" cx="40" cy="40" r="36"></circle>
             </svg>
+            <div class="dw-ring-content">IA</div>
           </div>
           
           <div class="dw-timeline" id="dwTimeline">
-            <div class="dw-timeline-item">
-              <div class="dw-ti-icon"></div><div class="dw-ti-text">Analizando tipo de aplicación...</div>
-            </div>
-            <div class="dw-timeline-item">
-              <div class="dw-ti-icon"></div><div class="dw-ti-text">Evaluando escala y riesgos de tráfico...</div>
-            </div>
-            <div class="dw-timeline-item">
-              <div class="dw-ti-icon"></div><div class="dw-ti-text">Revisando stack tecnológico...</div>
-            </div>
-            <div class="dw-timeline-item">
-              <div class="dw-ti-icon"></div><div class="dw-ti-text">Identificando patrones de riesgo...</div>
-            </div>
-            <div class="dw-timeline-item">
-              <div class="dw-ti-icon"><div class="dw-spinner"></div></div><div class="dw-ti-text">Generando recomendaciones y reporte PDF...</div>
-            </div>
+            <div class="dw-ti-item"><span class="dw-ti-dot"></span> Analizando tipo de aplicación...</div>
+            <div class="dw-ti-item"><span class="dw-ti-dot"></span> Evaluando escala y riesgos...</div>
+            <div class="dw-ti-item"><span class="dw-ti-dot"></span> Revisando stack tecnológico...</div>
+            <div class="dw-ti-item"><span class="dw-ti-dot"></span> Identificando patrones de riesgo...</div>
+            <div class="dw-ti-item"><span class="dw-ti-dot"></span> Generando reporte PDF...</div>
           </div>
           
-          <div class="dw-rotator">
-            <div class="dw-rotator-text">Revisando tus síntomas contra 100+ proyectos similares...</div>
-            <div class="dw-rotator-text">Calculando nivel de riesgo para tu industria...</div>
-            <div class="dw-rotator-text">Priorizando recomendaciones por impacto...</div>
-            <div class="dw-rotator-text">Construyendo tu plan de acción...</div>
+          <div class="dw-rotator" id="dwRotator">
+            <p class="active">Revisando tus síntomas contra 100+ proyectos...</p>
+            <p>Calculando nivel de riesgo para tu industria...</p>
+            <p>Priorizando recomendaciones por impacto...</p>
           </div>
         </div>
 
-        <!-- PANTALLA DE RESULTADOS -->
         <div id="dwResults" class="dw-results" hidden>
           <div class="dw-results-header">
-            <div class="dw-res-badge">✓ Diagnóstico completado</div>
+            <span class="dw-badge-green">✓ Diagnóstico completado</span>
             <h2 class="dw-res-title">Tu diagnóstico QA, <span id="dwResNombre"></span></h2>
-            <p class="dw-res-sub">Generado por IA &middot; Revisado por Carlos Cervantes &middot; <span id="dwResDate"></span></p>
+            <p class="dw-res-meta">Generado por IA &middot; Revisado por Carlos Cervantes &middot; <span id="dwResDate"></span></p>
           </div>
 
-          <div class="dw-score-area">
-            <div class="dw-score-circle color-blue">
-              <div class="dw-score-pct"><span id="dwScoreNum">0</span>%</div>
+          <div class="dw-score-card">
+            <div class="dw-score-visual">
+                <svg class="dw-score-ring" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="54" class="dw-ring-bg"></circle>
+                    <circle cx="60" cy="60" r="54" class="dw-ring-progress" id="dwScoreRing"></circle>
+                </svg>
+                <div class="dw-score-number"><span id="dwScoreNum">0</span>%</div>
             </div>
-            <h3 id="dwScoreLabel">Base sólida</h3>
-            <span class="dw-score-bench">vs. estándar de la industria: <span id="dwIndustryAvg"></span>%</span>
-          </div>
-
-          <!-- Riesgos Identificados -->
-          <div class="dw-section">
-            <div class="dw-sec-header">🎯 Riesgos identificados</div>
-            <div class="dw-sec-body" id="dwRiesgosList">
-              <!-- rendered via JS -->
+            <div class="dw-score-text">
+                <h3 id="dwScoreLabel">Calculando...</h3>
+                <p>vs. estándar de la industria: <span id="dwIndustryAvg">--</span>%</p>
             </div>
           </div>
 
-          <!-- Recomendaciones -->
-          <div class="dw-section">
-            <div class="dw-sec-header">⚡ Recomendaciones prioritarias</div>
-            <div class="dw-sec-body" id="dwRecsList">
-              <!-- rendered via JS -->
-            </div>
+          <div class="dw-accordion">
+            <details open>
+                <summary>🎯 Riesgos identificados</summary>
+                <div id="dwRiesgosList" class="dw-accordion-content"></div>
+            </details>
+            <details open>
+                <summary>⚡ Recomendaciones prioritarias</summary>
+                <div id="dwRecsList" class="dw-accordion-content"></div>
+            </details>
+            <details open>
+                <summary>📋 Plan de acción sugerido</summary>
+                <div id="dwPlanList" class="dw-accordion-content"></div>
+            </details>
           </div>
 
-          <!-- Plan de Acción -->
-          <div class="dw-section">
-            <div class="dw-sec-header">📋 Plan de acción sugerido</div>
-            <div class="dw-sec-body" id="dwPlanList">
-              <!-- rendered via JS -->
-            </div>
+          <div class="dw-package-rec" id="dwPackageRec">
+              <!-- Rendered via JS -->
           </div>
 
-          <div class="dw-actions">
-            <a href="#" id="dwDownloadPdfBtn" class="dw-btn dw-btn-primary dw-btn-full" style="text-decoration:none;">⬇ Descargar reporte PDF</a>
-            <a href="mailto:?subject=Nuestro%20Diagnóstico%20QA&body=Revisa%20nuestro%20diagnóstico%20QA." class="dw-btn dw-btn-outline dw-btn-full" style="text-decoration:none;">📧 Compartir con mi equipo</a>
+          <div class="dw-results-actions">
+            <a href="#" id="dwDownloadPdfBtn" class="dw-btn dw-btn-primary">⬇ Descargar PDF</a>
+            <button class="dw-btn dw-btn-outline" onclick="window.print()">📧 Compartir reporte</button>
           </div>
-          <p class="dw-actions-sub">Carlos acaba de recibir una copia y te contactará en breve.</p>
+          <p class="dw-res-footer">Carlos revisará tu diagnóstico y te contactará en menos de 24 horas.</p>
         </div>
 
       </div>
