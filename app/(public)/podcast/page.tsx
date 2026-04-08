@@ -13,16 +13,19 @@ import {
 } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import { cn } from '@/lib/utils'
 
 export const revalidate = 3600 // every hour
 
 export default async function PublicPodcast() {
   const supabase = await createClient()
-  const { data: episodes } = await supabase
-    .from('podcast_episodes')
-    .select('*')
-    .eq('estado', 'publicado')
-    .order('published_at', { ascending: false })
+  const episodes = supabase
+    ? (await supabase
+        .from('podcast_episodes')
+        .select('*')
+        .eq('estado', 'publicado')
+        .order('published_at', { ascending: false })).data
+    : []
 
   return (
     <main className="min-h-screen bg-background-alt pt-40 pb-20">

@@ -10,6 +10,7 @@ export default function NotFound() {
     // Log 404 error to Supabase
     const logError = async () => {
       const supabase = createClient()
+      if (!supabase) return
       const url = window.location.pathname
       const { data, error } = await supabase.rpc('increment_error_count', { error_url: url, etype: '404' })
       

@@ -3,18 +3,14 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { 
-  LayoutDashboard, 
-  User, 
-  PenSquare, 
-  Mic, 
-  Star, 
-  Radio, 
-  Settings, 
-  ExternalLink, 
+import {
+  ExternalLink,
+  LayoutDashboard,
   LogOut,
   Menu,
-  X
+  PenSquare,
+  User,
+  X,
 } from 'lucide-react'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -30,11 +26,6 @@ const NAV_ITEMS = [
   { label: 'Perfil', href: '/admin/perfil', icon: User },
   { label: 'CONTENIDO', type: 'header' },
   { label: 'Blog', href: '/admin/blog', icon: PenSquare },
-  { label: 'Podcast', href: '/admin/podcast', icon: Mic },
-  { label: 'Intereses', href: '/admin/intereses', icon: Star },
-  { label: 'SISTEMA', type: 'header' },
-  { label: 'Distribución', href: '/admin/podcast/distribucion', icon: Radio },
-  { label: 'Configuración', href: '/admin/configuracion', icon: Settings },
 ]
 
 export function Sidebar() {
@@ -45,113 +36,125 @@ export function Sidebar() {
   if (pathname === '/admin/login') return null
 
   const handleSignOut = async () => {
+    if (!supabase) {
+      window.location.href = '/admin/login'
+      return
+    }
+
     await supabase.auth.signOut()
     window.location.href = '/admin/login'
   }
 
+  const content = (
+    <>
+      <div className="rounded-[26px] border border-border bg-white p-5 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-background-alt text-xl font-semibold text-foreground">
+            <span>C</span>
+          </div>
+          <div>
+            <h1 className="text-base font-semibold tracking-[-0.03em] text-foreground">Admin Console</h1>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-secondary-muted">Carlos Cervantes</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3 rounded-[26px] border border-border bg-background p-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 font-semibold text-primary">
+            CC
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold tracking-[-0.02em] text-foreground">Carlos Cervantes</p>
+            <div className="mt-0.5 flex items-center gap-1.5">
+              <div className="h-2 w-2 rounded-full bg-emerald-500" />
+              <span className="text-[10px] uppercase tracking-[0.18em] text-secondary-muted">Sesión activa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav className="mt-4 flex-1 space-y-1 overflow-y-auto pr-1">
+        {NAV_ITEMS.map((item, idx) => {
+          if (item.type === 'header') {
+            return (
+              <div key={idx} className="px-3 pb-2 pt-5 text-[10px] font-bold uppercase tracking-[0.2em] text-secondary-muted">
+                {item.label}
+              </div>
+            )
+          }
+
+          const Icon = item.icon!
+          const isActive = pathname === item.href
+
+          return (
+            <Link
+              key={idx}
+              href={item.href!}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                'flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition-all',
+                isActive
+                  ? 'bg-background-alt text-foreground shadow-sm'
+                  : 'text-muted hover:bg-background hover:text-foreground'
+              )}
+            >
+              <Icon className={cn('h-5 w-5', isActive ? 'text-primary' : 'text-secondary-muted')} />
+              {item.label}
+            </Link>
+          )
+        })}
+      </nav>
+
+      <div className="mt-4 space-y-2 border-t border-border pt-4">
+        <Link
+          href="/"
+          target="_blank"
+          className="flex items-center gap-3 rounded-2xl border border-border bg-background px-3 py-3 text-sm font-medium text-muted transition-all hover:text-foreground"
+        >
+          <ExternalLink className="h-5 w-5" />
+          Ver sitio público
+        </Link>
+
+        <button
+          onClick={handleSignOut}
+          className="flex w-full items-center gap-3 rounded-2xl border border-red-100 bg-red-50 px-3 py-3 text-sm font-medium text-red-600 transition-all hover:bg-red-100"
+        >
+          <LogOut className="h-5 w-5" />
+          Cerrar sesión
+        </button>
+      </div>
+    </>
+  )
+
   return (
     <>
-      {/* Mobile Toggle */}
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-4 right-4 z-50 p-3 bg-secondary text-white rounded-full lg:hidden shadow-lg"
+        className="fixed left-4 top-5 z-50 flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-white text-foreground shadow-[0_12px_24px_rgba(15,23,42,0.08)] lg:hidden"
+        aria-label={isOpen ? 'Cerrar navegación admin' : 'Abrir navegación admin'}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
-      {/* Backdrop */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        <div
+          className="fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-[2px] lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar Container */}
-      <aside className={cn(
-        "fixed inset-y-0 left-0 z-40 w-[240px] bg-secondary text-white flex flex-col transition-transform duration-300 lg:relative lg:translate-x-0",
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      )}>
-        {/* Header */}
-        <div className="p-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-              <span className="text-secondary font-bold text-xl">C</span>
-            </div>
-            <div>
-              <h1 className="font-bold tracking-tight">Admin</h1>
-              <p className="text-[10px] text-secondary-muted uppercase tracking-widest">Carlos Cervantes</p>
-            </div>
-          </div>
-        </div>
+      <aside
+        className={cn(
+          'fixed inset-y-3 left-3 z-40 flex w-[280px] flex-col rounded-[30px] border border-border bg-white p-3 text-foreground shadow-[0_20px_60px_rgba(15,23,42,0.12)] transition-transform duration-300 lg:hidden',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        {content}
+      </aside>
 
-        {/* User Info Card */}
-        <div className="mx-4 mb-6 p-4 bg-white/5 rounded-xl border border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
-              CC
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">Carlos Cervantes</p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                <span className="text-[10px] text-secondary-muted">● En línea</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-4 space-y-1">
-          {NAV_ITEMS.map((item, idx) => {
-            if (item.type === 'header') {
-              return (
-                <div key={idx} className="pt-6 pb-2 px-3 text-[10px] font-bold text-secondary-muted uppercase tracking-widest">
-                  {item.label}
-                </div>
-              )
-            }
-
-            const Icon = item.icon!
-            const isActive = pathname === item.href
-
-            return (
-              <Link
-                key={idx}
-                href={item.href!}
-                onClick={() => setIsOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all",
-                  isActive 
-                    ? "bg-primary text-white shadow-md shadow-primary/20" 
-                    : "text-secondary-muted hover:text-white hover:bg-white/5"
-                )}
-              >
-                <Icon className={cn("w-5 h-5", isActive ? "text-white" : "text-secondary-muted")} />
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-
-        {/* Footer */}
-        <div className="p-4 border-t border-white/10 space-y-1">
-          <Link
-            href="/"
-            target="_blank"
-            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-secondary-muted hover:text-white hover:bg-white/5 transition-all"
-          >
-            <ExternalLink className="w-5 h-5" />
-            Ver sitio público
-          </Link>
-          <button
-            onClick={handleSignOut}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all"
-          >
-            <LogOut className="w-5 h-5" />
-            Cerrar sesión
-          </button>
-        </div>
+      <aside className="sticky top-4 hidden h-[calc(100vh-2rem)] w-[280px] shrink-0 flex-col rounded-[30px] border border-border bg-white p-3 text-foreground shadow-[0_20px_60px_rgba(15,23,42,0.1)] lg:flex">
+        {content}
       </aside>
     </>
   )

@@ -14,7 +14,8 @@ import {
   Briefcase, 
   GraduationCap, 
   Award, 
-  Globe 
+  Globe,
+  UserPlus 
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -31,6 +32,25 @@ export default function ProfileAdmin() {
   }, [])
 
   const fetchProfile = async () => {
+    if (!supabase) {
+      setProfile({
+        nombre: 'Carlos Cervantes',
+        titulo: 'Senior QA Automation Engineer',
+        empresa: 'Wizeline',
+        ubicacion: 'Guadalajara, México',
+        bio_1: '',
+        bio_2: '',
+        foto_url: '',
+        roles: [{ label: 'QA Automation', color: '#0071e3' }],
+        skills: { Mobile: [], Web: [], Cloud: [], Tools: [] },
+        experiencia: [],
+        certificaciones: [],
+        disponible: true
+      })
+      setLoading(false)
+      return
+    }
+
     const { data, error } = await supabase.from('site_profile').select('*').single()
     if (!error && data) {
       setProfile(data)
@@ -56,6 +76,10 @@ export default function ProfileAdmin() {
 
   const handleSave = async () => {
     setSaving(true)
+    if (!supabase) {
+      setSaving(false)
+      return
+    }
     const { error } = await supabase.from('site_profile').upsert(profile)
     if (!error) {
       setSuccess(true)

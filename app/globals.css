@@ -1,38 +1,188 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
 
 :root {
   --background: #ffffff;
   --background-alt: #f5f5f7;
   --foreground: #1d1d1f;
   --primary: #0071e3;
+  --primary-hover: #0077ed;
   --secondary: #1d1d1f;
   --muted: #86868b;
   --border: #d2d2d7;
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: rgba(255, 255, 255, 0.96);
+  --shadow-soft: 0 12px 40px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 24px 60px rgba(15, 23, 42, 0.06);
 }
 
-@layer base {
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-  }
-
-  /* SF Pro Text rendering optimization */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-  }
+@theme inline {
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
+  --color-background: var(--background);
+  --color-background-alt: var(--background-alt);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-muted: var(--muted);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted);
+  --color-border: var(--border);
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
 }
 
-@layer components {
-  .admin-card {
-    @apply bg-white border border-border rounded-xl shadow-sm overflow-hidden;
-  }
+html {
+  background: var(--background);
+  scroll-behavior: smooth;
+}
 
-  .admin-btn-primary {
-    @apply bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50;
-  }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top center, rgba(0, 113, 227, 0.07), transparent 32%),
+    linear-gradient(180deg, #fbfbfd 0%, #ffffff 18%, #f5f5f7 100%);
+  color: var(--foreground);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Myriad Set Pro",
+    "SF Pro Icons",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
-  .admin-btn-outline {
-    @apply border border-border hover:bg-background-alt text-foreground px-4 py-2 rounded-lg font-medium transition-colors;
-  }
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(0, 113, 227, 0.18);
+  color: var(--foreground);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.admin-card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.admin-btn-primary,
+.admin-btn-outline,
+.admin-input {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.admin-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(0, 113, 227, 0.18);
+}
+
+.admin-btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 14px 28px rgba(0, 113, 227, 0.2);
+}
+
+.admin-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--foreground);
+  font-weight: 600;
+  backdrop-filter: blur(18px);
+}
+
+.admin-btn-outline:hover {
+  background: var(--background-alt);
+}
+
+.admin-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--foreground);
+  padding-left: 1rem;
+  padding-right: 1rem;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.admin-input::placeholder {
+  color: var(--muted);
+}
+
+.admin-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+}
+
+.apple-shell {
+  border: 1px solid rgba(210, 210, 215, 0.8);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(22px);
+}
+
+.apple-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(210, 210, 215, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }

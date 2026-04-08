@@ -15,7 +15,8 @@ import {
   CheckCircle,
   AlertCircle,
   Globe,
-  Settings
+  Settings,
+  Plus
 } from 'lucide-react'
 import { Editor } from '@/components/admin/ui/editor'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -50,6 +51,11 @@ export default function NewBlogPost() {
   const handleSave = async (published: boolean = false) => {
     setLoading(true)
     const supabase = createClient()
+    if (!supabase) {
+      alert('Supabase no está configurado en este entorno.')
+      setLoading(false)
+      return
+    }
     
     const finalPost = {
       ...post,

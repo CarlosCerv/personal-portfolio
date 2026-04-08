@@ -17,6 +17,12 @@ export default function LoginPage() {
     setMessage(null)
 
     const supabase = createClient()
+    if (!supabase) {
+      setError('Supabase no está configurado en este entorno.')
+      setLoading(false)
+      return
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {

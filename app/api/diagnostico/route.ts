@@ -3,8 +3,12 @@ import { generateDiagnostic } from '@/lib/ai/diagnostico'
 import { createClient } from '@/lib/supabase/server'
 import { Resend } from 'resend'
 import crypto from 'crypto'
+import { createAdminNotification } from '@/lib/admin/notifications'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResendClient() {
+  if (!process.env.RESEND_API_KEY) return null
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function POST(req: Request) {
   try {
@@ -20,24 +24,35 @@ export async function POST(req: Request) {
     
     // 3. Save to Supabase (Leads table)
     const supabase = await createClient()
-    const { data: dbLead, error: dbError } = await supabase.from('diagnostico_leads').insert({
-      nombre: data.nombre,
-      email: data.email,
-      empresa: data.empresa,
-      rol: data.rol,
-      tipo: data.tipo,
-      sintomas: data.sintomas,
-      score: diagnostic.score,
-      score_label: diagnostic.scoreLabel,
-      paquete_recomendado: diagnostic.paqueteRecomendado,
-      resultado: diagnostic
-    }).select().single()
+    const dbLead = supabase
+      ? (await supabase.from('diagnostico_leads').insert({
+          nombre: data.nombre,
+          email: data.email,
+          empresa: data.empresa,
+          rol: data.rol,
+          tipo: data.tipo,
+          sintomas: data.sintomas,
+          score: diagnostic.score,
+          score_label: diagnostic.scoreLabel,
+          paquete_recomendado: diagnostic.paqueteRecomendado,
+          resultado: diagnostic
+        }).select().single()).data
+      : null
 
     const pdfId = dbLead?.id || crypto.randomBytes(16).toString('hex')
     const pdfUrl = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://carloscervantes-qa.vercel.app'}/api/diagnostico/pdf/${pdfId}`
 
+    await createAdminNotification({
+      title: `Lead nuevo: ${data.nombre}`,
+      message: `${data.empresa || 'Proyecto sin empresa'} · ${diagnostic.paqueteRecomendado} · score ${diagnostic.score}%`,
+      severity: diagnostic.score >= 80 ? 'success' : 'info',
+      href: '/admin',
+    })
+
     // 4. Send Emails (Non-blocking)
-    if (process.env.RESEND_API_KEY) {
+    const resend = getResendClient()
+
+    if (resend) {
       // To Client
       resend.emails.send({
         from: 'Carlos Cervantes <hello@carloscervantes.com>',

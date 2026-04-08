@@ -1,6 +1,6 @@
 'use client'
 
-import { useEditor, EditorContent, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -197,21 +197,6 @@ export function Editor({ content, onChange, placeholder = 'Empieza a escribir...
           </MenuButton>
         </div>
       </div>
-
-      {/* Bubble Menu for quick actions */}
-      <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-        <div className="flex items-center gap-1 bg-secondary p-1 rounded-lg border border-white/10 shadow-xl">
-          <MenuButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')}>
-            <Bold className="w-4 h-4 text-white" />
-          </MenuButton>
-          <MenuButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')}>
-            <Italic className="w-4 h-4 text-white" />
-          </MenuButton>
-          <MenuButton onClick={setLink} active={editor.isActive('link')}>
-            <LinkIcon className="w-4 h-4 text-white" />
-          </MenuButton>
-        </div>
-      </BubbleMenu>
 
       {/* Editor Content Area */}
       <div className="flex-1 overflow-y-auto px-10">

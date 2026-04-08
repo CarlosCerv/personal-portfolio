@@ -1,82 +1,91 @@
 import React from 'react'
 import { createClient } from '@/lib/supabase/server'
-import { 
-  MapPin, 
-  Briefcase, 
-  GraduationCap, 
-  Award, 
-  Globe,
-  ExternalLink,
-  Mail
-} from 'lucide-react'
+import { DEFAULT_PUBLIC_PROFILE } from '@/lib/content/public-content'
+import { MapPin, Briefcase, Award, Mail } from 'lucide-react'
 import { GithubIcon as Github, LinkedinIcon as Linkedin, XIcon as X } from '@/components/public/icons'
 
-// This page corresponds to the public /profile
 export default async function PublicProfile() {
   const supabase = await createClient()
-  const { data: profile } = await supabase.from('site_profile').select('*').single()
+  const dbProfile = supabase
+    ? (await supabase.from('site_profile').select('*').single()).data
+    : null
 
-  if (!profile) return <div className="p-20 text-center">Perfil no encontrado</div>
+  const profile = dbProfile
+    ? {
+        ...DEFAULT_PUBLIC_PROFILE,
+        ...dbProfile,
+        roles: dbProfile.roles?.length ? dbProfile.roles : DEFAULT_PUBLIC_PROFILE.roles,
+        skills: Object.keys(dbProfile.skills || {}).length ? dbProfile.skills : DEFAULT_PUBLIC_PROFILE.skills,
+        experiencia: dbProfile.experiencia?.length ? dbProfile.experiencia : DEFAULT_PUBLIC_PROFILE.experiencia,
+        certificaciones: dbProfile.certificaciones?.length
+          ? dbProfile.certificaciones
+          : DEFAULT_PUBLIC_PROFILE.certificaciones,
+        bio_1: dbProfile.bio_1 || DEFAULT_PUBLIC_PROFILE.bio_1,
+        bio_2: dbProfile.bio_2 || DEFAULT_PUBLIC_PROFILE.bio_2,
+        foto_url: dbProfile.foto_url || DEFAULT_PUBLIC_PROFILE.foto_url,
+      }
+    : DEFAULT_PUBLIC_PROFILE
 
   return (
     <main className="min-h-screen bg-background-alt pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-6 space-y-20">
-        
-        {/* Hero Section */}
-        <section className="flex flex-col md:flex-row gap-12 items-center md:items-start text-center md:text-left">
-          <div className="w-48 h-48 rounded-full bg-border overflow-hidden shadow-2xl shrink-0 border-4 border-white">
+      <div className="mx-auto max-w-4xl space-y-20 px-6">
+        <section className="flex flex-col items-center gap-12 text-center md:flex-row md:items-start md:text-left">
+          <div className="h-48 w-48 shrink-0 overflow-hidden rounded-full border-4 border-white bg-border shadow-2xl">
             {profile.foto_url ? (
-              <img src={profile.foto_url} alt={profile.nombre} className="w-full h-full object-cover" />
+              <img src={profile.foto_url} alt={profile.nombre} className="h-full w-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary font-bold text-4xl">
+              <div className="flex h-full w-full items-center justify-center bg-primary/10 text-4xl font-bold text-primary">
                 CC
               </div>
             )}
           </div>
-          
+
           <div className="flex-1 space-y-6">
             <div>
               <h1 className="text-5xl font-black tracking-tighter text-foreground">{profile.nombre}</h1>
-              <p className="text-xl font-medium text-secondary-muted mt-2">{profile.titulo} en <span className="text-primary">{profile.empresa}</span></p>
+              <p className="mt-2 text-xl font-medium text-secondary-muted">
+                {profile.titulo} en <span className="text-primary">{profile.empresa}</span>
+              </p>
             </div>
-            
-            <div className="flex flex-wrap gap-4 justify-center md:justify-start text-sm font-semibold text-secondary-muted">
+
+            <div className="flex flex-wrap justify-center gap-4 text-sm font-semibold text-secondary-muted md:justify-start">
               <div className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4" /> {profile.ubicacion}
+                <MapPin className="h-4 w-4" /> {profile.ubicacion}
               </div>
               <div className="flex items-center gap-1.5">
-                <Briefcase className="w-4 h-4" /> {profile.disponible ? 'Disponible para proyectos' : 'Enfocado en proyectos actuales'}
+                <Briefcase className="h-4 w-4" />{' '}
+                {profile.disponible ? 'Disponible para proyectos' : 'Enfocado en proyectos actuales'}
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {(profile.roles || []).map((role: any, i: number) => (
-                <span 
-                  key={i} 
-                  className="px-3 py-1 rounded-full text-xs font-bold border"
-                  style={{ borderColor: role.color + '40', color: role.color, backgroundColor: role.color + '10' }}
+            <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+              {(profile.roles || []).map((role: { label: string; color: string }, i: number) => (
+                <span
+                  key={i}
+                  className="rounded-full border px-3 py-1 text-xs font-bold"
+                  style={{ borderColor: `${role.color}40`, color: role.color, backgroundColor: `${role.color}10` }}
                 >
                   {role.label}
                 </span>
               ))}
             </div>
 
-            <p className="text-lg leading-relaxed text-secondary-muted max-w-2xl">
-              {profile.bio_1}
-            </p>
+            <p className="max-w-2xl text-lg leading-relaxed text-secondary-muted">{profile.bio_1}</p>
+            {profile.bio_2 ? (
+              <p className="max-w-2xl text-base leading-relaxed text-secondary-muted">{profile.bio_2}</p>
+            ) : null}
           </div>
         </section>
 
-        {/* Engineering Skills */}
         <section className="space-y-8">
-          <h2 className="text-3xl font-black tracking-tight">Engineering Skills</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {Object.entries(profile.skills || {}).map(([category, skills]: [string, any]) => (
+          <h2 className="text-3xl font-black tracking-tight">Stack técnico</h2>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {Object.entries(profile.skills || {}).map(([category, skills]) => (
               <div key={category} className="space-y-4">
-                <h3 className="text-xs font-bold text-muted uppercase tracking-widest">{category}</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-muted">{category}</h3>
                 <div className="flex flex-wrap gap-2">
-                  {skills.map((skill: string, idx: number) => (
-                    <span key={idx} className="bg-white px-3 py-1 border border-border rounded-lg text-sm font-medium shadow-sm">
+                  {(skills as string[]).map((skill, idx) => (
+                    <span key={idx} className="rounded-lg border border-border bg-white px-3 py-1 text-sm font-medium shadow-sm">
                       {skill}
                     </span>
                   ))}
@@ -86,28 +95,38 @@ export default async function PublicProfile() {
           </div>
         </section>
 
-        {/* Experience Timeline */}
         <section className="space-y-12">
-          <h2 className="text-3xl font-black tracking-tight">Experiencia Profesional</h2>
-          <div className="relative border-l-2 border-border pl-8 ml-4 space-y-16">
-            {(profile.experiencia || []).map((ex: any, idx: number) => (
-              <div key={idx} className="relative group">
-                <div className="absolute -left-[41px] top-1.5 w-6 h-6 bg-background-alt border-2 border-primary rounded-full z-10 flex items-center justify-center">
-                  <div className="w-2 h-2 bg-primary rounded-full" />
+          <h2 className="text-3xl font-black tracking-tight">Experiencia profesional</h2>
+          <div className="relative ml-4 space-y-16 border-l-2 border-border pl-8">
+            {(profile.experiencia || []).map(
+              (
+                ex: {
+                  periodo: string
+                  rol: string
+                  empresa: string
+                  descripcion: string
+                  tags: string[]
+                },
+                idx: number
+              ) => (
+              <div key={idx} className="group relative">
+                <div className="absolute -left-[41px] top-1.5 z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 border-primary bg-background-alt">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
                 </div>
-                
+
                 <div className="space-y-3">
                   <span className="text-xs font-black uppercase tracking-widest text-primary">{ex.periodo}</span>
                   <div>
                     <h3 className="text-xl font-bold text-foreground">{ex.rol}</h3>
                     <p className="text-base font-semibold text-secondary-muted">{ex.empresa}</p>
                   </div>
-                  <p className="text-secondary-muted leading-relaxed max-w-2xl">
-                    {ex.descripcion}
-                  </p>
+                  <p className="max-w-2xl leading-relaxed text-secondary-muted">{ex.descripcion}</p>
                   <div className="flex flex-wrap gap-2 pt-2">
                     {(ex.tags || []).map((tag: string, i: number) => (
-                      <span key={i} className="text-[10px] font-black uppercase tracking-widest text-muted border border-border px-2 py-0.5 rounded">
+                      <span
+                        key={i}
+                        className="rounded border border-border px-2 py-0.5 text-[10px] font-black uppercase tracking-widest text-muted"
+                      >
                         {tag}
                       </span>
                     ))}
@@ -118,42 +137,42 @@ export default async function PublicProfile() {
           </div>
         </section>
 
-        {/* Certifications (Simulated for Now) */}
-        <section className="bg-white border border-border rounded-3xl p-10 space-y-8">
-          <div className="text-center space-y-2">
-            <Award className="w-10 h-10 text-primary mx-auto" />
+        <section className="space-y-8 rounded-3xl border border-border bg-white p-10">
+          <div className="space-y-2 text-center">
+            <Award className="mx-auto h-10 w-10 text-primary" />
             <h2 className="text-3xl font-black tracking-tight">Certificaciones & Logros</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(profile.certificaciones || []).map((cert: any, i: number) => (
-              <div key={i} className="p-6 border border-border rounded-2xl hover:shadow-xl transition-all text-center space-y-3">
-                <div className="w-12 h-12 bg-background-alt rounded-full mx-auto flex items-center justify-center">
-                   <Award className="w-6 h-6 text-primary" />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {(profile.certificaciones || []).map(
+              (cert: { nombre: string; institucion: string }, i: number) => (
+              <div key={i} className="space-y-3 rounded-2xl border border-border p-6 text-center transition-all hover:shadow-xl">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-background-alt">
+                  <Award className="h-6 w-6 text-primary" />
                 </div>
-                <h4 className="font-bold text-sm">{cert.nombre}</h4>
-                <p className="text-xs text-muted font-bold uppercase">{cert.institucion}</p>
+                <h4 className="text-sm font-bold">{cert.nombre}</h4>
+                <p className="text-xs font-bold uppercase text-muted">{cert.institucion}</p>
               </div>
             ))}
-            {/* Fallback if empty */}
-            {(!profile.certificaciones || profile.certificaciones.length === 0) && (
-              <div className="col-span-full py-10 text-center text-muted font-bold uppercase tracking-widest text-xs">
-                Gestionando certificaciones en el panel...
-              </div>
-            )}
           </div>
         </section>
 
-        {/* Footer Contact */}
-        <section className="text-center space-y-10 pt-20">
+        <section className="space-y-10 pt-20 text-center">
           <p className="text-xl font-medium text-secondary-muted">¿Tienes un proyecto en mente? Hablemos.</p>
           <div className="flex justify-center gap-8">
-            <a href="mailto:carlos.cervart@icloud.com" className="text-secondary hover:text-primary transition-colors"><Mail className="w-6 h-6" /></a>
-            <a href="#" className="text-secondary hover:text-primary transition-colors"><Linkedin className="w-6 h-6" /></a>
-            <a href="#" className="text-secondary hover:text-primary transition-colors"><X className="w-6 h-6" /></a>
-            <a href="#" className="text-secondary hover:text-primary transition-colors"><Github className="w-6 h-6" /></a>
+            <a href="mailto:carlos.cervart@icloud.com" className="text-secondary transition-colors hover:text-primary">
+              <Mail className="h-6 w-6" />
+            </a>
+            <a href="https://www.linkedin.com/in/carlos-eduardo-cervantes-arteaga" target="_blank" rel="noreferrer" className="text-secondary transition-colors hover:text-primary">
+              <Linkedin className="h-6 w-6" />
+            </a>
+            <a href="https://x.com/CarlosCerv" target="_blank" rel="noreferrer" className="text-secondary transition-colors hover:text-primary">
+              <X className="h-6 w-6" />
+            </a>
+            <a href="https://github.com/CarlosCerv" target="_blank" rel="noreferrer" className="text-secondary transition-colors hover:text-primary">
+              <Github className="h-6 w-6" />
+            </a>
           </div>
         </section>
-
       </div>
     </main>
   )

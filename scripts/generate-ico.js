@@ -6,14 +6,14 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'public', 'favicon.ico');
 const PNG_SOURCES = [
   { path: path.join(ICON_DIR, 'favicon_16.png'), width: 16, height: 16 },
   { path: path.join(ICON_DIR, 'favicon_32.png'), width: 32, height: 32 }
-];
+].filter((source) => fs.existsSync(source.path));
 
 function createIco() {
-  const images = PNG_SOURCES.map((source) => {
-    if (!fs.existsSync(source.path)) {
-      throw new Error(`Missing PNG source: ${source.path}`);
-    }
+  if (PNG_SOURCES.length === 0) {
+    throw new Error('Missing PNG source files for favicon generation.');
+  }
 
+  const images = PNG_SOURCES.map((source) => {
     const data = fs.readFileSync(source.path);
     return { ...source, data };
   });

@@ -1,158 +1,253 @@
 import React from 'react'
-import { 
-  Users, 
-  Eye, 
-  UserPlus, 
-  Clock, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  LogOut
+import Link from 'next/link'
+import { formatDistanceToNow } from 'date-fns'
+import { es } from 'date-fns/locale'
+import {
+  Activity,
+  AlertTriangle,
+  ArrowUpRight,
+  BellRing,
+  CheckCircle2,
+  Eye,
+  FileEdit,
+  LayoutList,
+  UserPlus,
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { getDashboardData } from '@/lib/admin/dashboard'
+import { getAdminNotifications, NOTIFICATION_RULES } from '@/lib/admin/notifications'
 
-const STATS = [
-  { 
-    label: 'Visitantes hoy', 
-    value: '1,284', 
-    change: '+12%', 
-    trend: 'up', 
-    icon: Users 
-  },
-  { 
-    label: 'Páginas vistas / semana', 
-    value: '45.2K', 
-    change: '+5%', 
-    trend: 'up', 
-    icon: Eye 
-  },
-  { 
-    label: 'Leads del diagnóstico', 
-    value: '24', 
-    change: '-2%', 
-    trend: 'down', 
-    icon: UserPlus 
-  },
-  { 
-    label: 'Tiempo promedio', 
-    value: '3m 42s', 
-    change: '+18%', 
-    trend: 'up', 
-    icon: Clock 
-  },
-]
+const METRIC_ICONS = [LayoutList, FileEdit, UserPlus, Activity]
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const [dashboard, notifications] = await Promise.all([
+    getDashboardData(),
+    getAdminNotifications(),
+  ])
+
   return (
     <div className="space-y-8 pb-10">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Bienvenido de nuevo, Carlos.</h1>
-        <p className="text-secondary-muted mt-1 text-base">Esto es lo que ha pasado en tu portafolio en las últimas 24 horas.</p>
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-[-0.04em]">Dashboard operativo</h1>
+          <p className="mt-1 text-base text-secondary-muted">
+            Resumen real del contenido, leads y estado actual de la plataforma.
+          </p>
+        </div>
+        <div className="rounded-[22px] border border-border bg-white px-4 py-3 text-sm text-secondary-muted shadow-sm">
+          Fuente de analytics web: <span className="font-semibold text-foreground">{dashboard.analytics.source}</span>
+        </div>
       </div>
 
-      {/* ROW 1: Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {STATS.map((stat, idx) => {
-          const Icon = stat.icon
-          const isUp = stat.trend === 'up'
-          
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {dashboard.metrics.map((metric, idx) => {
+          const Icon = METRIC_ICONS[idx] || Activity
           return (
-            <div key={idx} className="admin-card p-6 flex flex-col justify-between group hover:border-primary transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <div className="p-2 bg-background-alt rounded-lg text-secondary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                  <Icon className="w-5 h-5" />
+            <div key={metric.label} className="admin-card p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div
+                  className={cn(
+                    'flex h-11 w-11 items-center justify-center rounded-2xl bg-background-alt',
+                    metric.tone === 'success' && 'text-emerald-600',
+                    metric.tone === 'warning' && 'text-amber-600',
+                    metric.tone === 'neutral' && 'text-primary'
+                  )}
+                >
+                  <Icon className="h-5 w-5" />
                 </div>
-                <div className={`flex items-center gap-1 text-xs font-bold ${isUp ? 'text-green-600' : 'text-red-500'}`}>
-                  {isUp ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                  {stat.change}
-                </div>
+                <ArrowUpRight className="h-4 w-4 text-muted" />
               </div>
-              <div className="mt-4">
-                <h3 className="text-sm font-medium text-secondary-muted uppercase tracking-wider">{stat.label}</h3>
-                <p className="text-3xl font-bold mt-1 tracking-tight">{stat.value}</p>
+              <div className="mt-5 space-y-1">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  {metric.label}
+                </p>
+                <p className="text-3xl font-semibold tracking-[-0.04em] text-foreground">
+                  {metric.value}
+                </p>
+                <p className="text-sm leading-relaxed text-secondary-muted">{metric.helper}</p>
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* ROW 2: Graph Placeholder */}
-      <div className="grid grid-cols-1 gap-6">
-        <div className="admin-card p-8 min-h-[400px] flex flex-col">
-          <div className="flex items-center justify-between mb-8">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+        <section className="admin-card p-6">
+          <div className="flex items-center justify-between gap-4">
             <div>
-              <h3 className="text-lg font-bold">Actividad del sitio</h3>
-              <p className="text-sm text-secondary-muted mt-0.5">Visitantes únicos vs. Páginas vistas</p>
+              <h2 className="text-xl font-semibold tracking-[-0.03em]">Páginas y contenidos con más movimiento</h2>
+              <p className="mt-1 text-sm text-secondary-muted">
+                Ordenado por datos reales disponibles desde Vercel Analytics o vistas del blog.
+              </p>
             </div>
-            <div className="flex items-center gap-2 bg-background-alt p-1 rounded-lg">
-              <button className="px-3 py-1.5 text-xs font-semibold bg-white shadow-sm rounded-md border border-border">Últimos 30 días</button>
-              <button className="px-3 py-1.5 text-xs font-semibold hover:bg-white rounded-md transition-all">Últimos 7 días</button>
-            </div>
+            <Eye className="h-5 w-5 text-muted" />
           </div>
-          
-          {/* Main Chart Area */}
-          <div className="flex-1 bg-background-alt rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-border/50 text-secondary-muted space-y-4">
-            <div className="p-4 bg-white rounded-full shadow-sm">
-              <LogOut className="w-8 h-8 opacity-20 -rotate-90" />
-            </div>
-            <div className="text-center">
-              <p className="font-semibold">Gráficas disponibles próximamente</p>
-              <p className="text-xs max-w-[240px] mt-1 line-clamp-2">Conectando con la API de Vercel Analytics para traer datos de tráfico real en tiempo real.</p>
-            </div>
+
+          <div className="mt-6 space-y-3">
+            {dashboard.topPages.length === 0 ? (
+              <div className="rounded-[22px] border border-dashed border-border bg-background-alt px-5 py-6 text-sm text-muted">
+                Aún no hay páginas con datos suficientes para mostrar ranking real.
+              </div>
+            ) : (
+              dashboard.topPages.map((page) => (
+                <div
+                  key={page.path}
+                  className="flex items-center justify-between gap-4 rounded-[22px] border border-border bg-background px-4 py-4"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate font-mono text-sm font-semibold text-primary">{page.path}</p>
+                    <p className="mt-1 text-xs text-secondary-muted">{page.note}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-semibold tracking-[-0.03em] text-foreground">
+                      {page.views !== null ? page.views.toLocaleString() : 'N/D'}
+                    </p>
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-muted">visitas</p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        </div>
+        </section>
+
+        <section className="admin-card p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold tracking-[-0.03em]">Leads recientes</h2>
+              <p className="mt-1 text-sm text-secondary-muted">
+                Leads tomados directamente de la tabla `diagnostico_leads`.
+              </p>
+            </div>
+            <UserPlus className="h-5 w-5 text-muted" />
+          </div>
+
+          <div className="mt-6 space-y-3">
+            {dashboard.recentLeads.length === 0 ? (
+              <div className="rounded-[22px] border border-dashed border-border bg-background-alt px-5 py-6 text-sm text-muted">
+                Todavía no hay leads registrados en el diagnóstico.
+              </div>
+            ) : (
+              dashboard.recentLeads.map((lead) => (
+                <div
+                  key={lead.id}
+                  className="rounded-[22px] border border-border bg-background px-4 py-4"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-foreground">{lead.name}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.16em] text-muted">{lead.company}</p>
+                    </div>
+                    <div className="rounded-full bg-primary/8 px-3 py-1 text-xs font-semibold text-primary">
+                      {lead.score !== null ? `${lead.score}%` : 'Sin score'}
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-4 text-xs text-secondary-muted">
+                    <span>{lead.package}</span>
+                    <span>
+                      {formatDistanceToNow(new Date(lead.createdAt), {
+                        addSuffix: true,
+                        locale: es,
+                      })}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
       </div>
 
-      {/* ROW 3: Two-Column Info Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="admin-card p-6">
-          <h3 className="font-bold mb-4">Páginas más visitadas</h3>
-          <div className="space-y-4">
-            {[
-              { path: '/', views: '1,240', bounce: '12%' },
-              { path: '/blog/optimizing-qa-workflows', views: '840', bounce: '24%' },
-              { path: '/servicios', views: '620', bounce: '8%' },
-              { path: '/profile', views: '410', bounce: '15%' },
-            ].map((page, i) => (
-              <div key={i} className="flex items-center justify-between p-3 hover:bg-background-alt rounded-lg transition-colors border border-transparent hover:border-border">
-                <span className="text-sm font-medium font-mono text-primary truncate">{page.path}</span>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <p className="text-xs font-bold">{page.views}</p>
-                    <p className="text-[10px] text-secondary-muted">visitas</p>
-                  </div>
-                  <div className="w-px h-4 bg-border" />
-                  <div className="text-right">
-                    <p className="text-xs font-bold text-green-600">{page.bounce}</p>
-                    <p className="text-[10px] text-secondary-muted">bounce</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_1fr]">
+        <section id="panel-notifications" className="admin-card p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold tracking-[-0.03em]">Notificaciones del panel</h2>
+              <p className="mt-1 text-sm text-secondary-muted">
+                Eventos visibles dentro del admin, listos para seguimiento.
+              </p>
+            </div>
+            <BellRing className="h-5 w-5 text-muted" />
           </div>
-        </div>
 
-        <div className="admin-card p-6">
-          <h3 className="font-bold mb-4">Leads por calificar</h3>
-          <div className="space-y-4">
-            {[
-              { name: 'Marcos R.', score: 85, pkg: 'Automatización', ago: '2h' },
-              { name: 'Diana G.', score: 92, pkg: 'Performance', ago: '5h' },
-              { name: 'Software Inc.', score: 78, pkg: 'Diagnóstico QA', ago: '1d' },
-            ].map((lead, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 border border-border rounded-xl hover:shadow-md transition-all cursor-pointer">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
-                  {lead.score}%
+          <div className="mt-6 space-y-3">
+            {notifications.length === 0 ? (
+              <div className="rounded-[22px] border border-dashed border-border bg-background-alt px-5 py-6 text-sm text-muted">
+                No hay notificaciones recientes.
+              </div>
+            ) : (
+              notifications.map((notification) => (
+                <div key={notification.id} className="rounded-[22px] border border-border bg-background px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={cn(
+                        'mt-1 h-2.5 w-2.5 rounded-full',
+                        notification.severity === 'success' && 'bg-emerald-500',
+                        notification.severity === 'warning' && 'bg-amber-500',
+                        notification.severity === 'critical' && 'bg-red-500',
+                        notification.severity === 'info' && 'bg-primary'
+                      )}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-4">
+                        <p className="text-sm font-semibold text-foreground">{notification.title}</p>
+                        <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.14em] text-muted">
+                          {notification.relativeTime}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm leading-relaxed text-secondary-muted">
+                        {notification.message}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm font-bold">{lead.name}</p>
-                  <p className="text-[10px] text-secondary-muted uppercase tracking-wider">{lead.pkg}</p>
+              ))
+            )}
+          </div>
+        </section>
+
+        <section className="admin-card p-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-xl font-semibold tracking-[-0.03em]">Reglas activas de notificación</h2>
+              <p className="mt-1 text-sm text-secondary-muted">
+                Reglas básicas para panel y correo, ya contempladas en el flujo.
+              </p>
+            </div>
+            <AlertTriangle className="h-5 w-5 text-muted" />
+          </div>
+
+          <div className="mt-6 space-y-3">
+            {NOTIFICATION_RULES.map((rule) => (
+              <div key={rule.id} className="rounded-[22px] border border-border bg-background px-4 py-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground">{rule.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-secondary-muted">{rule.description}</p>
+                  </div>
+                  <span className="rounded-full bg-background-alt px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                    {rule.channel}
+                  </span>
                 </div>
-                <span className="text-xs text-muted font-medium">{lead.ago}</span>
               </div>
             ))}
           </div>
-          <button className="w-full mt-6 py-2 text-sm font-semibold text-primary hover:bg-primary/5 rounded-lg transition-all">Ver todos los leads →</button>
-        </div>
+
+          <div className="mt-6 rounded-[24px] border border-emerald-100 bg-emerald-50 px-4 py-4 text-sm text-emerald-800">
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="mt-0.5 h-4 w-4" />
+              <p>
+                Los eventos de <strong>contacto</strong> y <strong>diagnóstico QA</strong> ya pueden disparar correo a
+                <strong> carlos.cervart@icloud.com</strong>. El panel además los agrupa visualmente para seguimiento.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div className="flex justify-end">
+        <Link href="/admin/blog" className="admin-btn-outline px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em]">
+          Ir a gestionar contenido
+        </Link>
       </div>
     </div>
   )

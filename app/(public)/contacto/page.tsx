@@ -7,9 +7,6 @@ import {
   Check, 
   Loader2, 
   Send,
-  MessageSquare,
-  MapPin,
-  Briefcase
 } from 'lucide-react'
 import { GithubIcon as Github, LinkedinIcon as Linkedin, XIcon as X } from '@/components/public/icons'
 import Link from 'next/link'
@@ -17,7 +14,7 @@ import Link from 'next/link'
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.8, ease: "easeOut" }
+  transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const }
 }
 
 export default function ContactoPage() {
@@ -74,13 +71,15 @@ export default function ContactoPage() {
               <div className="space-y-6">
                  {[
                    { icon: Mail, label: 'Email', val: 'carlos.cervart@icloud.com', href: 'mailto:carlos.cervart@icloud.com' },
-                   { icon: Linkedin, label: 'LinkedIn', val: 'carlos-eduardo-cervantes-arteaga', href: '#' },
-                   { icon: Github, label: 'GitHub', val: 'CarlosCerv', href: '#' },
-                   { icon: X, label: 'X / Twitter', val: '@CarlosCerv', href: '#' },
+                   { icon: Linkedin, label: 'LinkedIn', val: 'carlos-eduardo-cervantes-arteaga', href: 'https://www.linkedin.com/in/carlos-eduardo-cervantes-arteaga' },
+                   { icon: Github, label: 'GitHub', val: 'CarlosCerv', href: 'https://github.com/CarlosCerv' },
+                   { icon: X, label: 'X / Twitter', val: '@CarlosCerv', href: 'https://x.com/CarlosCerv' },
                  ].map((c) => (
                    <a 
                      key={c.label} 
                      href={c.href}
+                     target={c.href.startsWith('http') ? '_blank' : undefined}
+                     rel={c.href.startsWith('http') ? 'noreferrer' : undefined}
                      className="flex items-center gap-6 p-6 bg-white border border-border rounded-3xl group hover:shadow-xl hover:-translate-y-1 transition-all"
                    >
                      <div className="w-12 h-12 bg-background-alt rounded-2xl flex items-center justify-center text-muted group-hover:text-primary transition-colors">

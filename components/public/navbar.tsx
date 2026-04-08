@@ -33,39 +33,45 @@ export function Navbar() {
 
   return (
     <nav className={cn(
-      "fixed top-0 inset-x-0 z-50 transition-all duration-500 py-4",
-      isScrolled ? "bg-white/80 backdrop-blur-md border-b border-border shadow-sm py-2" : "bg-transparent"
+      "fixed top-0 inset-x-0 z-50 transition-all duration-500 px-4 pt-4 md:px-6",
+      isScrolled ? "pt-3" : "pt-4"
     )}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between font-sans">
+      <div className={cn(
+        "apple-shell mx-auto flex max-w-7xl items-center justify-between rounded-[28px] px-4 py-3 font-sans md:px-6",
+        isScrolled ? "border-border/90 bg-white/88 shadow-[0_18px_40px_rgba(15,23,42,0.08)]" : "bg-white/72"
+      )}>
         
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-3">
-          <div className="w-10 h-10 bg-foreground group-hover:bg-primary rounded-xl flex items-center justify-center transition-all duration-500 shadow-lg group-hover:shadow-primary/20">
-            <span className="text-white font-black text-2xl leading-none">C</span>
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-white text-lg font-semibold text-foreground transition-all duration-300 group-hover:border-primary/40 group-hover:text-primary">
+            <span className="leading-none">C</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-base font-black tracking-tighter leading-none group-hover:text-primary transition-colors">Carlos Cervantes</span>
-            <span className="text-[10px] font-black uppercase tracking-widest text-muted group-hover:text-primary/70 leading-none mt-1 transition-colors">QA Consultant</span>
+            <span className="text-[15px] font-semibold tracking-[-0.03em] leading-none group-hover:text-primary transition-colors">Carlos Cervantes</span>
+            <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted group-hover:text-primary/70 leading-none transition-colors">QA Consultant</span>
           </div>
         </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-2 rounded-full border border-border bg-background-alt/80 px-2 py-1 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link 
               key={link.href} 
               href={link.href}
               className={cn(
-                "text-sm font-bold transition-all hover:text-primary",
-                pathname === link.href ? "text-primary ring-offset-4 ring-2 ring-primary/20 rounded-sm" : "text-muted"
+                "rounded-full px-4 py-2 text-sm font-medium transition-all",
+                pathname === link.href ? "bg-white text-foreground shadow-sm" : "text-muted hover:text-foreground"
               )}
             >
               {link.label}
             </Link>
           ))}
+        </div>
+
+        <div className="hidden items-center gap-3 md:flex">
           <Link 
             href="/servicios#diagnostico" 
-            className="bg-foreground text-white px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-primary transition-all shadow-lg shadow-black/10 hover:shadow-primary/20"
+            className="admin-btn-primary px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em]"
           >
             Diagnóstico QA
           </Link>
@@ -74,7 +80,7 @@ export function Navbar() {
         {/* Mobile Toggle */}
         <button 
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 text-foreground"
+          className="rounded-2xl border border-border bg-white p-2 text-foreground md:hidden"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -88,7 +94,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 top-[70px] bg-white z-40 p-8 flex flex-col gap-8 md:hidden overflow-y-auto"
+            className="fixed inset-x-4 top-[96px] z-40 flex max-h-[calc(100vh-112px)] flex-col gap-4 overflow-y-auto rounded-[30px] border border-border bg-white/96 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.12)] backdrop-blur-xl md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.div
@@ -100,12 +106,12 @@ export function Navbar() {
                 <Link 
                   href={link.href}
                   className={cn(
-                    "text-4xl font-black tracking-tighter flex items-center justify-between",
+                    "flex items-center justify-between rounded-[22px] border border-transparent px-2 py-3 text-2xl font-semibold tracking-[-0.04em]",
                     pathname === link.href ? "text-primary" : "text-foreground"
                   )}
                 >
                   {link.label}
-                  <ChevronRight className="w-10 h-10 text-border" />
+                  <ChevronRight className="h-7 w-7 text-border" />
                 </Link>
               </motion.div>
             ))}
@@ -116,7 +122,7 @@ export function Navbar() {
             >
               <Link 
                 href="/servicios#diagnostico" 
-                className="mt-4 bg-primary text-white w-full py-6 rounded-3xl text-xl font-black uppercase tracking-widest text-center shadow-2xl shadow-primary/30 block"
+                className="admin-btn-primary mt-2 block w-full py-4 text-center text-sm font-semibold uppercase tracking-[0.18em]"
               >
                 Comenzar Diagnóstico
               </Link>

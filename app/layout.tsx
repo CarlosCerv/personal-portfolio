@@ -1,9 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-// Using Inter as a fallback if SF Pro is not available
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Carlos Cervantes | QA & Performance Consultant',
@@ -17,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   )
 }

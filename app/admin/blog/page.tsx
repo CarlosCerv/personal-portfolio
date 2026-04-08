@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { cn } from '@/lib/utils'
 import { 
   Plus, 
   Search, 
@@ -37,6 +38,12 @@ export default function BlogList() {
 
   const fetchPosts = async () => {
     setLoading(true)
+    if (!supabase) {
+      setPosts([])
+      setLoading(false)
+      return
+    }
+
     const { data, error } = await supabase
       .from('blog_posts')
       .select('*')
@@ -47,6 +54,7 @@ export default function BlogList() {
   }
 
   const handleDelete = async (id: string) => {
+    if (!supabase) return
     if (!confirm('¿Estás seguro de eliminar este artículo?')) return
     const { error } = await supabase.from('blog_posts').delete().eq('id', id)
     if (!error) fetchPosts()
@@ -224,8 +232,4 @@ export default function BlogList() {
       </div>
     </div>
   )
-}
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
 }

@@ -3,12 +3,16 @@ import { createClient } from '@/lib/supabase/server'
 import { generateDiagnosticPDF } from '@/lib/pdf/generator'
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  _req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createClient()
-    const { id } = params
+    if (!supabase) {
+      return new Response('Supabase no configurado', { status: 503 })
+    }
+
+    const { id } = await params
 
     // Fetch the lead result from Supabase
     const { data: lead, error } = await supabase
@@ -28,7 +32,7 @@ export async function GET(
 
     const pdfBuffer = await generateDiagnosticPDF(lead.resultado, userData)
 
-    return new Response(pdfBuffer, {
+    return new Response(new Uint8Array(pdfBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="Diagnostico_QA_${lead.nombre.replace(/\s+/g, '_')}.pdf"`

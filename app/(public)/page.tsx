@@ -33,16 +33,16 @@ const stagger = {
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen text-foreground">
       
       {/* 1. HERO SECTION */}
-      <section className="relative pt-48 pb-32 overflow-hidden bg-background">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+      <section className="relative overflow-hidden bg-transparent pb-28 pt-44 md:pb-32 md:pt-48">
+        <div className="absolute left-1/2 top-0 h-[520px] w-[960px] -translate-x-1/2 rounded-full bg-primary/8 blur-[140px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 text-center space-y-8 relative z-10">
           <motion.div 
             {...fadeInUp}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-background-alt border border-border rounded-full text-[10px] font-black uppercase tracking-widest text-muted"
+            className="apple-badge px-4 py-2"
           >
             <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
             Ingeniero de Performance Testing · Wizeline · Guadalajara
@@ -51,16 +51,16 @@ export default function HomePage() {
           <motion.h1 
             {...fadeInUp}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] text-foreground"
+            className="text-6xl font-semibold tracking-[-0.06em] leading-[0.92] text-foreground md:text-8xl"
           >
             Calidad de software<br />
-            lista para <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400">escalar.</span>
+            lista para <span className="text-primary">escalar.</span>
           </motion.h1>
 
           <motion.p 
             {...fadeInUp}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-secondary-muted max-w-2xl mx-auto leading-relaxed"
+            className="mx-auto max-w-2xl text-xl leading-relaxed text-secondary-muted"
           >
             Especialista en garantizar que el software que usas cada día funcione sin importar cuántos usuarios lo estén usando al mismo tiempo.
           </motion.p>
@@ -70,10 +70,10 @@ export default function HomePage() {
             transition={{ delay: 0.4, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
           >
-            <Link href="/servicios#diagnostico" className="bg-foreground text-white px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest hover:bg-primary transition-all shadow-2xl shadow-black/10 hover:shadow-primary/20 flex items-center gap-2">
+            <Link href="/servicios#diagnostico" className="admin-btn-primary px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] flex items-center gap-2">
               Ver cómo funciona <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/profile" className="px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest text-muted hover:text-foreground transition-all">
+            <Link href="/profile" className="admin-btn-outline px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] text-muted hover:text-foreground">
               Ver perfil completo
             </Link>
           </motion.div>
@@ -81,21 +81,21 @@ export default function HomePage() {
       </section>
 
       {/* 2. THE JOURNEY (PROCESS) */}
-      <section className="py-32 space-y-32">
+      <section className="space-y-28 py-28 md:space-y-32 md:py-32">
         <div className="max-w-7xl mx-auto px-6 text-center space-y-4">
-          <motion.span {...fadeInUp} className="text-xs font-black uppercase tracking-widest text-primary">El proceso</motion.span>
-          <motion.h2 {...fadeInUp} className="text-4xl md:text-5xl font-black tracking-tight max-w-2xl mx-auto">Así se construye software que no falla.</motion.h2>
-          <motion.p {...fadeInUp} className="text-lg text-secondary-muted max-w-xl mx-auto">La diferencia entre una gran experiencia y un crash está en estas cuatro fases.</motion.p>
+          <motion.span {...fadeInUp} className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">El proceso</motion.span>
+          <motion.h2 {...fadeInUp} className="mx-auto max-w-2xl text-4xl font-semibold tracking-[-0.05em] md:text-5xl">Así se construye software que no falla.</motion.h2>
+          <motion.p {...fadeInUp} className="mx-auto max-w-xl text-lg text-secondary-muted">La diferencia entre una gran experiencia y un crash está en estas cuatro fases.</motion.p>
         </div>
 
         {/* Step 01: Strategy */}
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <motion.div {...fadeInUp} className="space-y-8">
-            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">01 / 04</span>
-            <div className="flex items-center gap-2 px-3 py-1 border border-border rounded-lg w-fit text-[10px] font-black uppercase tracking-widest">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.18em]">01 / 04</span>
+            <div className="apple-badge w-fit px-3 py-1.5">
               <div className="w-2 h-2 bg-primary rounded-full" /> Estrategia QA
             </div>
-            <h3 className="text-4xl font-black tracking-tight leading-tight">Antes de escribir<br />una línea de código.</h3>
+            <h3 className="text-4xl font-semibold tracking-[-0.05em] leading-tight">Antes de escribir<br />una línea de código.</h3>
             <p className="text-lg text-secondary-muted leading-relaxed">
               Un bug en producción cuesta 100× más que uno detectado en diseño. La estrategia de calidad define qué probar, cómo y cuándo.
             </p>
@@ -105,21 +105,21 @@ export default function HomePage() {
                 'IA analiza requerimientos y genera escenarios automáticamente',
                 'Cada release tiene un plan claro de verificación'
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm font-semibold">
+                <li key={i} className="flex items-center gap-3 text-sm font-medium">
                   <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[10px]"><Check className="w-3 h-3" /></div>
                   {item}
                 </li>
               ))}
             </ul>
           </motion.div>
-          <motion.div {...fadeInUp} className="admin-card p-6 shadow-2xl rotate-1 group hover:rotate-0 transition-transform duration-500">
+          <motion.div {...fadeInUp} className="admin-card p-6 transition-transform duration-500">
             <div className="flex items-center justify-between mb-6 border-b border-border pb-4">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-red-400" />
                 <div className="w-3 h-3 rounded-full bg-amber-400" />
                 <div className="w-3 h-3 rounded-full bg-green-400" />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted">SMARTS QA MATRIX · OPTIMIZADA CON IA</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted">SMARTS QA MATRIX · OPTIMIZADA CON IA</span>
             </div>
             <div className="space-y-3">
               {[
@@ -127,10 +127,10 @@ export default function HomePage() {
                 { label: 'Validación dinámica', p: 'P1 CRÍTICO', ai: true },
                 { label: 'Edge case de latencia', p: 'P2 ALTA', ai: true },
               ].map((row, i) => (
-                <div key={i} className="flex items-center justify-between p-3 bg-background-alt rounded-lg">
-                  <span className="text-xs font-bold">{row.label}</span>
+                <div key={i} className="flex items-center justify-between rounded-2xl bg-background-alt px-4 py-3">
+                  <span className="text-xs font-semibold">{row.label}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-[9px] font-black text-red-500 bg-red-50 px-2 py-0.5 rounded">{row.p}</span>
+                    <span className="rounded-full bg-red-50 px-2 py-0.5 text-[9px] font-semibold text-red-500">{row.p}</span>
                     <span className="text-[9px] font-bold text-primary italic">✦ Auto</span>
                   </div>
                 </div>
@@ -142,11 +142,11 @@ export default function HomePage() {
         {/* Step 02: Automation */}
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <motion.div {...fadeInUp} className="lg:order-2 space-y-8">
-            <span className="text-xs font-black text-muted-foreground uppercase tracking-widest">02 / 04</span>
-            <div className="flex items-center gap-2 px-3 py-1 border border-border rounded-lg w-fit text-[10px] font-black uppercase tracking-widest text-muted">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.18em]">02 / 04</span>
+            <div className="apple-badge w-fit px-3 py-1.5 text-muted">
               <div className="w-2 h-2 bg-muted rounded-full" /> Automatización
             </div>
-            <h3 className="text-4xl font-black tracking-tight leading-tight">Las pruebas que corren<br />mientras tú duermes.</h3>
+            <h3 className="text-4xl font-semibold tracking-[-0.05em] leading-tight">Las pruebas que corren<br />mientras tú duermes.</h3>
             <p className="text-lg text-secondary-muted leading-relaxed">
               Hacer pruebas a mano funciona. Hacerlas automáticas escala. Con Playwright y Appium, cada cambio activa cientos de verificaciones.
             </p>
@@ -156,14 +156,14 @@ export default function HomePage() {
                 'Integrado en CI/CD con GitHub Actions y Jenkins',
                 'Web, iOS y Android con una sola estrategia de calidad'
               ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm font-semibold">
+                <li key={i} className="flex items-center gap-3 text-sm font-medium">
                   <div className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-[10px]"><Check className="w-3 h-3" /></div>
                   {item}
                 </li>
               ))}
             </ul>
           </motion.div>
-          <motion.div {...fadeInUp} className="bg-[#1d1d1f] rounded-2xl p-6 shadow-2xl -rotate-1 group hover:rotate-0 transition-transform duration-500 text-[#a1a1a6]">
+          <motion.div {...fadeInUp} className="rounded-[28px] border border-[#2d2d30] bg-[#1f1f22] p-6 text-[#c7c7cc] shadow-[0_22px_50px_rgba(15,23,42,0.18)] transition-transform duration-500">
             <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-white/20" />

@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { createClient } from '@/lib/supabase/server'
+import { createAdminNotification } from '@/lib/admin/notifications'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+function getResendClient() {
+  if (!process.env.RESEND_API_KEY) return null
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function POST(req: Request) {
   try {
@@ -11,7 +16,27 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Faltan campos obligatorios' }, { status: 400 })
     }
 
-    if (process.env.RESEND_API_KEY) {
+    const supabase = await createClient()
+    if (supabase) {
+      await supabase.from('contact_messages').insert({
+        nombre: data.nombre,
+        email: data.email,
+        empresa: data.empresa || null,
+        servicio: data.servicio || null,
+        descripcion: data.descripcion,
+      })
+    }
+
+    await createAdminNotification({
+      title: `Nuevo mensaje de ${data.nombre}`,
+      message: `${data.servicio || 'Consulta general'}${data.empresa ? ` · ${data.empresa}` : ''}`,
+      severity: 'info',
+      href: '/admin',
+    })
+
+    const resend = getResendClient()
+
+    if (resend) {
       // 1. Email to Carlos (Admin Notification)
       await resend.emails.send({
         from: 'Contact Form <hello@carloscervantes.com>',

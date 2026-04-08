@@ -31,6 +31,12 @@ export default function EditBlogPost() {
   }, [id])
 
   const fetchPost = async () => {
+    if (!supabase) {
+      router.push('/admin/blog')
+      setLoading(false)
+      return
+    }
+
     const { data, error } = await supabase
       .from('blog_posts')
       .select('*')
@@ -47,6 +53,11 @@ export default function EditBlogPost() {
 
   const handleSave = async (published: boolean = false) => {
     setSaving(true)
+    if (!supabase) {
+      alert('Supabase no está configurado en este entorno.')
+      setSaving(false)
+      return
+    }
     
     const finalPost = {
       ...post,

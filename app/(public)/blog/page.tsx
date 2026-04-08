@@ -1,25 +1,38 @@
 import React from 'react'
 import { createClient } from '@/lib/supabase/server'
+import {
+  getFallbackPosts,
+  getMongoPosts,
+  mergePublicPosts,
+  normalizeSupabasePost,
+} from '@/lib/content/public-content'
 import Link from 'next/link'
 import { Calendar, Clock, ArrowRight, FileText } from 'lucide-react'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 
-export const revalidate = 3600 // every hour
+export const dynamic = 'force-dynamic'
 
 export default async function PublicBlog() {
+  const mongoPosts = await getMongoPosts()
   const supabase = await createClient()
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('estado', 'publicado')
-    .order('published_at', { ascending: false })
+  const rawSupabasePosts = supabase
+    ? (await supabase
+        .from('blog_posts')
+        .select('*')
+        .eq('estado', 'publicado')
+        .order('published_at', { ascending: false })).data
+    : []
+  const supabasePosts = (rawSupabasePosts || []).map(normalizeSupabasePost)
+  const fallbackPosts = await getFallbackPosts()
+  const realPosts = mergePublicPosts(mongoPosts, supabasePosts)
+  const posts = realPosts.length > 0 ? realPosts : fallbackPosts
 
   if (!posts || posts.length === 0) {
     return (
       <main className="min-h-screen bg-background-alt pt-40 pb-20 text-center">
         <h1 className="text-4xl font-bold tracking-tight">Blog QA & Tech</h1>
-        <p className="text-muted-foreground mt-4">Próximamente más contenido de valor...</p>
+        <p className="mt-4 text-muted-foreground">Próximamente más contenido de valor...</p>
       </main>
     )
   }
