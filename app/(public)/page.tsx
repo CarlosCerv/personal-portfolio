@@ -2,242 +2,182 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { 
-  ArrowRight, 
-  Check, 
-  Terminal as TerminalIcon, 
-  Globe, 
-  Search,
-  Cpu,
-  BarChart3,
-  Layout
-} from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { useShouldReduceAnimations } from '@/lib/hooks/use-reduce-motion'
-
-// Animation Variants using CSS Variables
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.6 }
-}
-
-const fadeInUpStagger = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5 }
-}
-
-const stagger = {
-  whileInView: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } }
-}
-
-const fadeInUpReduced = {
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
-  viewport: { once: true },
-  transition: { duration: 0.3 }
-}
+import { animations } from '@/lib/animations'
+import { HeroSection, ProcessStep, FeatureCard, SectionHeader } from '@/components/sections'
 
 export default function HomePage() {
-  const shouldReduceAnimations = useShouldReduceAnimations()
-  const animationVariants = shouldReduceAnimations ? fadeInUpReduced : fadeInUp
   
   return (
     <main className="min-h-screen bg-white text-gray-dark">
       {/* 1. HERO SECTION */}
-      <section className="relative w-full bg-white overflow-hidden pt-32 md:pt-48 pb-20 md:pb-32">
-        <div className="container max-w-4xl space-y-12 md:space-y-16 text-center">
-          
-          {/* Status Badge */}
-          <motion.div 
-            {...fadeInUpStagger}
-            className="w-fit mx-auto"
-          >
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-light bg-white hover:bg-white-secondary transition-colors">
-              <div className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-gray-dark">
-                Disponible para nuevos proyectos
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Hero Title */}
-          <motion.div 
-            {...fadeInUpStagger}
-            transition={{ delay: shouldReduceAnimations ? 0 : 0.08, duration: 0.6 }}
-            className="space-y-6"
-          >
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight text-gray-dark">
-              <span className="block">Software que</span>
-              <span className="block">escala sin</span>
-              <span className="block text-blue">romperse</span>
-            </h1>
-          </motion.div>
-
-          {/* Description */}
-          <motion.p
-            {...fadeInUpStagger}
-            transition={{ delay: shouldReduceAnimations ? 0 : 0.16, duration: 0.6 }}
-            className="text-lg md:text-xl text-gray-secondary max-w-2xl mx-auto leading-relaxed font-normal"
-          >
-            Especialista en <span className="font-semibold text-gray-dark">Performance Testing</span> y <span className="font-semibold text-gray-dark">Calidad Automática</span>. Garantizo que tu software funcione bajo cualquier escenario.
-          </motion.p>
-
-          {/* Stats Grid */}
-          <motion.div
-            {...fadeInUpStagger}
-            transition={{ delay: shouldReduceAnimations ? 0 : 0.24, duration: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto pt-8"
-          >
-            {[
-              { number: "99%", label: "Quality Score" },
-              { number: "1,847", label: "Bugs Prevenidos" },
-              { number: "∞", label: "Zero Downtime" }
-            ].map((stat, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="p-6 rounded-lg border border-gray-light bg-white hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-              >
-                <div className="text-3xl md:text-4xl font-bold text-blue mb-2">{stat.number}</div>
-                <div className="text-xs font-semibold text-gray-secondary uppercase tracking-widest">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Value Props */}
-          <motion.div
-            {...fadeInUpStagger}
-            transition={{ delay: shouldReduceAnimations ? 0 : 0.32, duration: 0.6 }}
-            className="space-y-3 pt-8 max-w-2xl mx-auto"
-          >
-            {["Zero downtime en producción", "Validado con 10M+ usuarios simultáneos", "99.99% uptime en sistemas críticos"].map((prop, i) => (
-              <div key={i} className="flex items-center justify-center gap-3">
-                <div className="w-1 h-1 rounded-full bg-blue" />
-                <span className="text-base text-gray-secondary">{prop}</span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* CTAs */}
-          <motion.div 
-            {...fadeInUpStagger}
-            transition={{ delay: shouldReduceAnimations ? 0 : 0.40, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-12"
-          >
-            <Link 
-              href="/servicios#diagnostico"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue text-white font-semibold text-base rounded-lg transition-all duration-200 hover:bg-blue hover:shadow-md active:scale-95"
-            >
-              Diagnóstico gratis
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-            </Link>
-
-            <Link 
-              href="/profile"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 border border-gray-light text-gray-dark font-semibold text-base rounded-lg transition-all duration-200 hover:bg-white-secondary hover:border-gray-secondary"
-            >
-              Ver mi perfil
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <HeroSection
+        badge="Disponible para nuevos proyectos"
+        title="Software que escala sin"
+        titleHighlight="romperse"
+        description="Especialista en Performance Testing y Calidad Automática. Garantizo que tu software funcione bajo cualquier escenario."
+        stats={[
+          { number: "99%", label: "Quality Score" },
+          { number: "1,847", label: "Bugs Prevenidos" },
+          { number: "∞", label: "Zero Downtime" }
+        ]}
+        bulletPoints={[
+          "Zero downtime en producción",
+          "Validado con 10M+ usuarios simultáneos",
+          "99.99% uptime en sistemas críticos"
+        ]}
+        primaryButtonText="Diagnóstico gratis"
+        primaryButtonHref="/servicios#diagnostico"
+        secondaryButtonText="Ver mi perfil"
+        secondaryButtonHref="/profile"
+      />
 
       {/* 2. PROCESS SECTION */}
       <section className="space-y-20 bg-white-secondary py-32 md:py-40">
-        {/* Header */}
-        <div className="container max-w-4xl text-center space-y-6">
-          <motion.span {...fadeInUp} className="text-xs font-semibold uppercase tracking-wider text-gray-secondary">Proceso</motion.span>
-          <motion.h2 {...fadeInUp} className="text-5xl md:text-6xl font-bold tracking-tight text-gray-dark leading-tight">Así se construye software que no falla.</motion.h2>
-          <motion.p {...fadeInUp} className="text-lg text-gray-secondary leading-relaxed">La diferencia entre una gran experiencia y un crash está en estas cuatro fases.</motion.p>
-        </div>
+        <SectionHeader
+          badge="Proceso"
+          title="Así se construye software que no falla."
+          description="La diferencia entre una gran experiencia y un crash está en estas cuatro fases."
+        />
 
         {/* Process Steps */}
         <div className="container max-w-6xl space-y-32">
           {[
-            { 
-              n: "01", 
-              tag: "Estrategia QA", 
-              title: "Antes de escribir una línea de código.", 
-              desc: "Un bug en producción cuesta 100× más que uno detectado en diseño.",
-              points: ["Riesgos críticos identificados antes de convertirse en crisis", "IA analiza requerimientos y genera escenarios automáticamente", "Cada release tiene un plan claro de verificación"]
+            {
+              number: "01 / 04",
+              tag: "Estrategia QA",
+              title: "Antes de escribir una línea de código.",
+              description: "Un bug en producción cuesta 100× más que uno detectado en diseño.",
+              points: [
+                "Riesgos críticos identificados antes de convertirse en crisis",
+                "IA analiza requerimientos y genera escenarios automáticamente",
+                "Cada release tiene un plan claro de verificación"
+              ],
+              image: (
+                <div className="p-6 bg-white rounded-lg border border-gray-light shadow-sm">
+                  <div className="flex items-center justify-between mb-4 border-b border-gray-light pb-4">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-secondary">Sistema 01</span>
+                  </div>
+                  <div className="space-y-3 text-sm text-gray-secondary">
+                    <p>Configuración de pruebas: estrategia qa</p>
+                    <div className="p-3 bg-white-secondary rounded border border-gray-light">
+                      <p className="text-xs font-mono text-gray-dark">Sistema listo para estrategia qa</p>
+                    </div>
+                    <p className="text-xs text-green-600 font-semibold">✓ Validado</p>
+                  </div>
+                </div>
+              )
             },
-            { 
-              n: "02", 
-              tag: "Automatización", 
+            {
+              number: "02 / 04",
+              tag: "Automatización",
               title: "Las pruebas que corren mientras tú duermes.",
-              desc: "Hacer pruebas a mano funciona. Hacerlas automáticas escala.",
-              points: ["Regresión automática: ningún bug regresa sin ser detectado", "Integrado en CI/CD con GitHub Actions y Jenkins", "Web, iOS y Android con una sola estrategia de calidad"]
+              description: "Hacer pruebas a mano funciona. Hacerlas automáticas escala.",
+              points: [
+                "Regresión automática: ningún bug regresa sin ser detectado",
+                "Integrado en CI/CD con GitHub Actions y Jenkins",
+                "Web, iOS y Android con una sola estrategia de calidad"
+              ],
+              image: (
+                <div className="p-6 bg-white rounded-lg border border-gray-light shadow-sm">
+                  <div className="flex items-center justify-between mb-4 border-b border-gray-light pb-4">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-secondary">Sistema 02</span>
+                  </div>
+                  <div className="space-y-3 text-sm text-gray-secondary">
+                    <p>Configuración de pruebas: automatización</p>
+                    <div className="p-3 bg-white-secondary rounded border border-gray-light">
+                      <p className="text-xs font-mono text-gray-dark">Sistema listo para automatización</p>
+                    </div>
+                    <p className="text-xs text-green-600 font-semibold">✓ Validado</p>
+                  </div>
+                </div>
+              ),
+              reverse: true
             },
-            { 
-              n: "03", 
-              tag: "Pruebas End-to-End", 
+            {
+              number: "03 / 04",
+              tag: "Pruebas End-to-End",
               title: "Cada flujo de usuario, verificado al 100%.",
-              desc: "No basta con que las piezas funcionen por separado.",
-              points: ["Flujos críticos como pago, login y onboarding nunca fallan", "Cobertura visible para detectar zonas sin pruebas", "Self-healing selectors para UI dinámica"]
+              description: "No basta con que las piezas funcionen por separado.",
+              points: [
+                "Flujos críticos como pago, login y onboarding nunca fallan",
+                "Cobertura visible para detectar zonas sin pruebas",
+                "Self-healing selectors para UI dinámica"
+              ],
+              image: (
+                <div className="p-6 bg-white rounded-lg border border-gray-light shadow-sm">
+                  <div className="flex items-center justify-between mb-4 border-b border-gray-light pb-4">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-secondary">Sistema 03</span>
+                  </div>
+                  <div className="space-y-3 text-sm text-gray-secondary">
+                    <p>Configuración de pruebas: pruebas end-to-end</p>
+                    <div className="p-3 bg-white-secondary rounded border border-gray-light">
+                      <p className="text-xs font-mono text-gray-dark">Sistema listo para pruebas end-to-end</p>
+                    </div>
+                    <p className="text-xs text-green-600 font-semibold">✓ Validado</p>
+                  </div>
+                </div>
+              )
             },
-            { 
-              n: "04", 
-              tag: "Performance Engineering", 
+            {
+              number: "04 / 04",
+              tag: "Performance Engineering",
               title: "100,000 usuarios. Cero downtime.",
-              desc: "Black Friday y lanzamientos masivos exigen resiliencia.",
-              points: ["JMeter simula el peor escenario antes de producción", "Detección exacta de cuellos de botella: API, DB o Infra", "Diseño de resiliencia para eventos de alto tráfico"]
+              description: "Black Friday y lanzamientos masivos exigen resiliencia.",
+              points: [
+                "JMeter simula el peor escenario antes de producción",
+                "Detección exacta de cuellos de botella: API, DB o Infra",
+                "Diseño de resiliencia para eventos de alto tráfico"
+              ],
+              image: (
+                <div className="p-6 bg-white rounded-lg border border-gray-light shadow-sm">
+                  <div className="flex items-center justify-between mb-4 border-b border-gray-light pb-4">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-400" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                      <div className="w-3 h-3 rounded-full bg-green-400" />
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-secondary">Sistema 04</span>
+                  </div>
+                  <div className="space-y-3 text-sm text-gray-secondary">
+                    <p>Configuración de pruebas: performance engineering</p>
+                    <div className="p-3 bg-white-secondary rounded border border-gray-light">
+                      <p className="text-xs font-mono text-gray-dark">Sistema listo para performance engineering</p>
+                    </div>
+                    <p className="text-xs text-green-600 font-semibold">✓ Validado</p>
+                  </div>
+                </div>
+              ),
+              reverse: true
             }
           ].map((step, i) => (
-            <motion.div 
-              key={i} 
-              {...fadeInUp}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            >
-              <div className={cn("space-y-8", i % 2 === 1 && "lg:order-2")}>
-                <div className="space-y-4">
-                  <span className="text-xs font-semibold text-gray-secondary uppercase tracking-wide">{step.n} / 04</span>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue/10 border border-blue/20">
-                    <div className="w-2 h-2 bg-blue rounded-full" /> 
-                    <span className="text-sm font-semibold text-blue">{step.tag}</span>
-                  </div>
-                  <h3 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-dark leading-tight">{step.title}</h3>
-                  <p className="text-lg text-gray-secondary leading-relaxed">{step.desc}</p>
-                </div>
-                <ul className="space-y-4">
-                  {step.points.map((point, pi) => (
-                    <li key={pi} className="flex items-center gap-3 text-sm font-medium text-gray-dark">
-                      <div className="w-5 h-5 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center flex-shrink-0">
-                        <Check className="w-3 h-3" />
-                      </div>
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <motion.div 
-                {...fadeInUp}
-                className={cn("p-6 bg-white rounded-lg border border-gray-light shadow-sm", i % 2 === 1 && "lg:order-1")}
-              >
-                <div className="flex items-center justify-between mb-4 border-b border-gray-light pb-4">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-400" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-400" />
-                    <div className="w-3 h-3 rounded-full bg-green-400" />
-                  </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-secondary">Sistema {step.n}</span>
-                </div>
-                <div className="space-y-3 text-sm text-gray-secondary">
-                  <p>Configuración de pruebas: {step.tag.toLowerCase()}</p>
-                  <div className="p-3 bg-white-secondary rounded border border-gray-light">
-                    <p className="text-xs font-mono text-gray-dark">Sistema listo para {step.tag.toLowerCase()}</p>
-                  </div>
-                  <p className="text-xs text-green-600 font-semibold">✓ Validado</p>
-                </div>
-              </motion.div>
-            </motion.div>
+            <ProcessStep
+              key={i}
+              number={step.number}
+              tag={step.tag}
+              title={step.title}
+              description={step.description}
+              points={step.points}
+              image={step.image}
+              reverse={step.reverse}
+            />
           ))}
         </div>
       </section>
@@ -245,64 +185,48 @@ export default function HomePage() {
       {/* 3. AI-POWERED START */}
       <section className="py-32 bg-white">
         <div className="container max-w-6xl">
-          <div className="text-center mb-20 space-y-4">
-            <motion.span {...fadeInUp} className="text-xs font-semibold uppercase tracking-widest text-blue">Inicio de proyecto</motion.span>
-            <motion.h2 {...fadeInUp} className="text-5xl md:text-6xl font-bold tracking-tight text-gray-dark">Cómo arrancar con IA asistida.</motion.h2>
-            <motion.p {...fadeInUp} className="text-lg text-gray-secondary max-w-2xl mx-auto">Un buen inicio reduce retrabajo y convierte la IA en una ventaja desde la semana 1.</motion.p>
-          </div>
+          <SectionHeader
+            badge="Inicio de proyecto"
+            title="Cómo arrancar con IA asistida."
+            description="Un buen inicio reduce retrabajo y convierte la IA en una ventaja desde la semana 1."
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
             {[
-              { 
-                tag: '01 · Discovery', 
-                title: 'De requerimientos a riesgos', 
-                desc: 'La IA analiza historias de usuario para detectar vacíos funcionales.', 
-                points: ['Mapeo de flujos críticos', 'Escenarios edge automáticos']
+              {
+                title: "De requerimientos a riesgos",
+                description: "La IA analiza historias de usuario para detectar vacíos funcionales.",
+                points: ["Mapeo de flujos críticos", "Escenarios edge automáticos"],
+                tag: "01 · Discovery"
               },
-              { 
-                tag: '02 · Planning', 
-                title: 'Estrategia multi-capa', 
-                desc: 'Definimos qué automatizar, qué probar manual y qué merece carga.', 
-                points: ['Procesos Smoke & Regresión', 'Matriz de automatización'],
+              {
+                title: "Estrategia multi-capa",
+                description: "Definimos qué automatizar, qué probar manual y qué merece carga.",
+                points: ["Procesos Smoke & Regresión", "Matriz de automatización"],
+                tag: "02 · Planning",
                 highlight: true
               },
-              { 
-                tag: '03 · Build', 
-                title: 'Automatización ágil', 
-                desc: 'Aceleramos la creación de tests con prompts y revisiones humanas.', 
-                points: ['CI integrado en cada commit', 'Suites autorreparables']
+              {
+                title: "Automatización ágil",
+                description: "Aceleramos la creación de tests con prompts y revisiones humanas.",
+                points: ["CI integrado en cada commit", "Suites autorreparables"],
+                tag: "03 · Build"
               },
-              { 
-                tag: '04 · Launch', 
-                title: 'Lanzamiento con datos', 
-                desc: 'El release deja de ser una apuesta y se vuelve decisión basada en evidencia.', 
-                points: ['Monitoreo post-despliegue', 'Mejora continua asistida']
-              },
+              {
+                title: "Lanzamiento con datos",
+                description: "El release deja de ser una apuesta y se vuelve decisión basada en evidencia.",
+                points: ["Monitoreo post-despliegue", "Mejora continua asistida"],
+                tag: "04 · Launch"
+              }
             ].map((card, i) => (
-              <motion.article 
-                key={i} 
-                {...fadeInUpStagger}
-                transition={{ delay: i * 0.12 }}
-                className={cn(
-                  "p-6 md:p-8 rounded-lg border transition-all h-full flex flex-col justify-between",
-                  card.highlight ? "bg-blue text-white border-blue shadow-md" : "bg-white border-gray-light hover:shadow-md hover:border-blue/20"
-                )}
-              >
-                <div className="space-y-6">
-                  <span className={cn("text-xs font-semibold uppercase tracking-widest", card.highlight ? "text-white/70" : "text-gray-secondary")}>{card.tag}</span>
-                  <div className="space-y-2">
-                    <h3 className={cn("text-lg font-semibold tracking-tight", card.highlight ? "text-white" : "text-gray-dark")}>{card.title}</h3>
-                    <p className={cn("text-sm leading-relaxed", card.highlight ? "text-white/80" : "text-gray-secondary")}>{card.desc}</p>
-                  </div>
-                </div>
-                <div className="mt-6 space-y-2">
-                  {card.points.map((p, pi) => (
-                    <div key={pi} className={cn("flex items-center gap-2 text-xs font-semibold", card.highlight ? "text-white" : "text-gray-dark")}>
-                      <Check className="w-3 h-3" /> {p}
-                    </div>
-                  ))}
-                </div>
-              </motion.article>
+              <FeatureCard
+                key={i}
+                tag={card.tag}
+                title={card.title}
+                description={card.description}
+                points={card.points}
+                highlighted={card.highlight}
+              />
             ))}
           </div>
         </div>
@@ -338,7 +262,7 @@ export default function HomePage() {
            </div>
 
            <motion.div 
-            {...fadeInUp}
+            {...animations.fadeInUp}
             className="p-1 bg-white rounded-lg border border-gray-light shadow-sm"
            >
               <div className="bg-white rounded-lg p-8 space-y-8 border border-gray-light">
@@ -388,9 +312,9 @@ export default function HomePage() {
         <div className="container max-w-6xl">
           {/* Header */}
           <div className="space-y-4 mb-12 md:mb-16 text-center">
-            <motion.span {...fadeInUp} className="text-xs font-semibold uppercase tracking-widest text-blue">Contenido en profundidad</motion.span>
-            <motion.h2 {...fadeInUp} className="text-5xl md:text-6xl font-bold tracking-tight text-gray-dark">Podcast: Calidad Real</motion.h2>
-            <motion.p {...fadeInUp} className="text-lg text-gray-secondary max-w-2xl mx-auto">Episodios cortos, prácticos y sin relleno para QA Engineers, SDETs y líderes técnicos.</motion.p>
+            <motion.span {...animations.fadeInUp} className="text-xs font-semibold uppercase tracking-widest text-blue">Contenido en profundidad</motion.span>
+            <motion.h2 {...animations.fadeInUp} className="text-5xl md:text-6xl font-bold tracking-tight text-gray-dark">Podcast: Calidad Real</motion.h2>
+            <motion.p {...animations.fadeInUp} className="text-lg text-gray-secondary max-w-2xl mx-auto">Episodios cortos, prácticos y sin relleno para QA Engineers, SDETs y líderes técnicos.</motion.p>
           </div>
 
           {/* Cards */}
@@ -401,7 +325,7 @@ export default function HomePage() {
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                {...fadeInUpStagger}
+                {...animations.fadeInUpStagger}
                 transition={{ delay: i * 0.12 }}
                 className="p-6 md:p-8 bg-white-secondary border border-gray-light hover:border-blue/30 rounded-lg transition-all"
               >
@@ -418,7 +342,7 @@ export default function HomePage() {
 
           {/* CTAs */}
           <motion.div 
-            {...fadeInUp}
+            {...animations.fadeInUp}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Link 

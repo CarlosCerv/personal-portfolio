@@ -5,6 +5,7 @@ import { animations } from '@/lib/animations'
 import { cn } from '@/lib/utils'
 
 type FeatureCardProps = {
+  tag?: string
   icon?: React.ReactNode
   title: string
   description: string
@@ -14,6 +15,7 @@ type FeatureCardProps = {
 }
 
 export function FeatureCard({
+  tag,
   icon,
   title,
   description,
@@ -39,6 +41,14 @@ export function FeatureCard({
           )}>
             {icon}
           </div>
+        )}
+        {tag && (
+          <span className={cn(
+            'text-xs font-semibold uppercase tracking-widest',
+            highlighted ? 'text-white/70' : 'text-gray-secondary'
+          )}>
+            {tag}
+          </span>
         )}
         <div className="space-y-2">
           <h3 className={cn(
