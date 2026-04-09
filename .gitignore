@@ -21,6 +21,17 @@ next-env.d.ts
 *.env.local
 .admin-password.txt
 
+# Database & Credentials
+*.db
+*.sqlite
+*.sqlite3
+.env*.local
+private_key.json
+*.key
+*.pem
+secrets/
+.secrets/
+
 # Logs
 logs
 *.log
@@ -28,6 +39,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
 # OS files
 .DS_Store
@@ -44,10 +56,81 @@ Thumbs.db
 *-temp.*
 temp-*
 tmp/
+*.tmp
+.cache/
 
-# IDE
+# IDE & Editor
 .vscode/
 !.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vs/
+.vscode-test
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+junit.xml
+
+# Admin files
+.admin-password.txt
+admin-session.json
+
+# Generated files
+.env.generated
+generated/
+*.generated.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.venv
+venv/
+env/
+
+# Docker
+.docker/
+.dockerignore
+
+# System
+*.pid
+*.seed
+*.pid.lock
+
+# IDE temporary files
+.AppleDouble
+.LSOverride
+*.rej
+*.orig
+
+# Performance & profiling
+*.prof
+*.trace
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
 .idea/
 *.swp
 *.swo

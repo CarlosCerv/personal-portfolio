@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { Logo } from '@/components/logo'
 
 const NAV_LINKS = [
   { label: 'Servicios', href: '/servicios' },
@@ -14,14 +15,31 @@ const NAV_LINKS = [
   { label: 'Contacto', href: '/contacto' },
 ]
 
-export function Navbar() {
+// Memoized nav link to prevent unnecessary re-renders
+const NavLink = memo(({ link, isActive }: { link: typeof NAV_LINKS[0]; isActive: boolean }) => (
+  <Link
+    href={link.href}
+    className={cn(
+      'rounded-[10px] px-3.5 py-2 text-[13px] font-medium transition-all duration-200',
+      isActive
+        ? 'bg-primary/10 text-primary'
+        : 'text-text-secondary hover:text-primary hover:bg-primary/5'
+    )}
+  >
+    {link.label}
+  </Link>
+))
+NavLink.displayName = 'NavLink'
+
+function NavbarComponent() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  // Use passive event listener for better scroll performance
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -29,6 +47,11 @@ export function Navbar() {
   useEffect(() => {
     setIsMobileMenuOpen(false)
   }, [pathname])
+
+  // Memoized callback to prevent re-creating function on every render
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev)
+  }, [])
 
   return (
     <nav className="fixed top-0 inset-x-0 z-50 transition-all duration-300 px-4 pt-3 md:px-6 md:pt-4">
@@ -44,16 +67,22 @@ export function Navbar() {
         )}
       >
         {/* Logo - Minimal */}
-        <Link href="/" className="group flex items-center gap-2.5 no-underline">
-          <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary text-white font-semibold text-sm leading-none transition-transform duration-300 group-hover:scale-110">
-            CC
-          </div>
-          <div className="hidden flex-col sm:flex">
-            <span className="text-[13px] font-semibold text-text-primary leading-tight">
+        <Link href="/" className="group flex items-center gap-2.5 no-underline flex-shrink-0 hover:opacity-80 transition-opacity">
+          <Logo className="w-10 h-10 transition-transform duration-300 group-hover:scale-110" />
+          <div className="hidden md:flex flex-col">
+            <span className="text-[13px] font-semibold text-text-primary leading-tight whitespace-nowrap">
               Carlos Cervantes
             </span>
-            <span className="text-[10px] font-medium text-text-tertiary uppercase tracking-[0.05em] leading-tight">
+            <span className="text-[10px] font-medium text-text-tertiary uppercase tracking-[0.05em] leading-tight whitespace-nowrap">
               QA Engineer
+            </span>
+          </div>
+          <div className="flex md:hidden flex-col flex-shrink-0">
+            <span className="text-[11px] font-semibold text-text-primary leading-none">
+              Carlos
+            </span>
+            <span className="text-[9px] font-bold text-primary uppercase tracking-[0.05em] leading-none">
+              QA
             </span>
           </div>
         </Link>
@@ -61,23 +90,16 @@ export function Navbar() {
         {/* Desktop Navigation - Clean center */}
         <div className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                'rounded-[10px] px-3.5 py-2 text-[13px] font-medium transition-all duration-200',
-                pathname === link.href
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-text-secondary hover:text-primary hover:bg-primary/5'
-              )}
-            >
-              {link.label}
-            </Link>
+            <NavLink 
+              key={link.href} 
+              link={link} 
+              isActive={pathname === link.href} 
+            />
           ))}
         </div>
 
         {/* CTA Button - Right side */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 md:flex flex-shrink-0">
           <Link
             href="/servicios"
             className="rounded-[10px] bg-primary px-4 py-2 text-white text-[13px] font-semibold transition-all duration-200 hover:bg-primary-hover hover:shadow-lg active:scale-95"
@@ -88,9 +110,10 @@ export function Navbar() {
 
         {/* Mobile menu toggle */}
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="rounded-[10px] border border-border bg-white/50 p-2 text-text-primary hover:bg-white transition-colors md:hidden"
+          onClick={toggleMobileMenu}
+          className="rounded-[10px] border border-border bg-white/50 p-2 text-text-primary hover:bg-white transition-colors md:hidden flex-shrink-0"
           aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={isMobileMenuOpen}
         >
           {isMobileMenuOpen ? (
             <X className="h-5 w-5" />
@@ -149,3 +172,6 @@ export function Navbar() {
     </nav>
   )
 }
+
+// Export memoized component to prevent re-renders when parent updates
+export const Navbar = memo(NavbarComponent)

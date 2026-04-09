@@ -1,0 +1,88 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Metadata for OG image -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  
+  <!-- Decorative blurred circles for depth -->
+  <circle cx="1150" cy="50" r="200" fill="url(#accentGradient)" opacity="0.08" filter="url(#glow)"/>
+  <circle cx="50" cy="580" r="180" fill="url(#accentGradient)" opacity="0.05" filter="url(#glow)"/>
+  <circle cx="600" cy="630" r="150" fill="url(#accentGradient)" opacity="0.03"/>
+  
+  <!-- Logo group -->
+  <g transform="translate(100, 80)">
+    <!-- Modern C design -->
+    <path d="M 50 15 Q 75 15 85 30 Q 92 45 92 70 Q 92 95 85 110 Q 75 125 50 125 Q 30 125 18 110 L 30 95 Q 38 105 50 105 Q 70 105 72 70 Q 70 35 50 35 Q 32 35 25 55 L 10 55 Q 18 15 50 15 Z" 
+          fill="none" stroke="#3b82f6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    
+    <!-- Accent lines for sophistication -->
+    <line x1="35" y1="8" x2="65" y2="8" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="35" y1="132" x2="65" y2="132" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
+    <line x1="8" y1="55" x2="8" y2="85" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  
+  <!-- Main heading -->
+  <text x="280" y="140" font-family="Arial, Helvetica, sans-serif" font-size="80" font-weight="900" fill="#ffffff" letter-spacing="-2">
+    Carlos
+  </text>
+  <text x="280" y="200" font-family="Arial, Helvetica, sans-serif" font-size="80" font-weight="900" fill="#ffffff" letter-spacing="-2">
+    Cervantes
+  </text>
+  
+  <!-- Subtitle with accent -->
+  <rect x="280" y="220" width="600" height="3" fill="url(#accentGradient)" rx="2"/>
+  
+  <text x="280" y="280" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#3b82f6">
+    QA Engineer & Performance Specialist
+  </text>
+  
+  <text x="280" y="340" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#cbd5e1" font-weight="400">
+    Automation • Testing • Performance Engineering
+  </text>
+  
+  <!-- Description -->
+  <text x="280" y="390" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#94a3b8">
+    Construir software escalable con calidad y confianza
+  </text>
+  
+  <!-- Skills/Services chips -->
+  <g font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600">
+    <!-- Chip 1 -->
+    <rect x="280" y="430" width="160" height="56" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2"/>
+    <text x="360" y="465" fill="#3b82f6" text-anchor="middle">QA Automation</text>
+    
+    <!-- Chip 2 -->
+    <rect x="460" y="430" width="160" height="56" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2"/>
+    <text x="540" y="465" fill="#3b82f6" text-anchor="middle">Performance</text>
+    
+    <!-- Chip 3 -->
+    <rect x="640" y="430" width="160" height="56" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2"/>
+    <text x="720" y="465" fill="#3b82f6" text-anchor="middle">Testing</text>
+  </g>
+  
+  <!-- Bottom accent line -->
+  <line x1="280" y1="530" x2="820" y2="530" stroke="url(#accentGradient)" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Website URL -->
+  <text x="1080" y="600" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#94a3b8" text-anchor="end" font-weight="500">
+    carloscer.dev
+  </text>
+</svg>

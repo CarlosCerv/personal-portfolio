@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { useShouldReduceAnimations } from '@/lib/hooks/use-reduce-motion'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -31,17 +32,31 @@ const stagger = {
   whileInView: { transition: { staggerChildren: 0.1 } }
 }
 
+// Reduced motion variants for mobile/accessibility
+const fadeInUpReduced = {
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1 },
+  viewport: { once: true },
+  transition: { duration: 0.3 }
+}
+
 export default function HomePage() {
+  const shouldReduceAnimations = useShouldReduceAnimations()
+  const animationVariants = shouldReduceAnimations ? fadeInUpReduced : fadeInUp
+  
   return (
     <main className="min-h-screen text-foreground">
       
       {/* 1. HERO SECTION */}
       <section className="relative overflow-hidden bg-transparent pb-28 pt-44 md:pb-32 md:pt-48">
-        <div className="absolute left-1/2 top-0 h-[520px] w-[960px] -translate-x-1/2 rounded-full bg-primary/8 blur-[140px] pointer-events-none" />
+        {/* Disable blur effect on mobile for performance */}
+        {!shouldReduceAnimations && (
+          <div className="hidden md:block absolute left-1/2 top-0 h-[520px] w-[960px] -translate-x-1/2 rounded-full bg-primary/8 blur-[140px] pointer-events-none" />
+        )}
         
         <div className="max-w-7xl mx-auto px-6 text-center space-y-8 relative z-10">
           <motion.div 
-            {...fadeInUp}
+            {...animationVariants}
             className="apple-badge px-4 py-2"
           >
             <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
@@ -49,8 +64,8 @@ export default function HomePage() {
           </motion.div>
 
           <motion.h1 
-            {...fadeInUp}
-            transition={{ delay: 0.2, duration: 0.8 }}
+            {...animationVariants}
+            transition={{ delay: shouldReduceAnimations ? 0 : 0.2, duration: shouldReduceAnimations ? 0.3 : 0.8 }}
             className="text-6xl font-semibold tracking-[-0.06em] leading-[0.92] text-foreground md:text-8xl"
           >
             Calidad de software<br />
@@ -58,16 +73,16 @@ export default function HomePage() {
           </motion.h1>
 
           <motion.p 
-            {...fadeInUp}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            {...animationVariants}
+            transition={{ delay: shouldReduceAnimations ? 0 : 0.3, duration: shouldReduceAnimations ? 0.3 : 0.8 }}
             className="mx-auto max-w-2xl text-xl leading-relaxed text-secondary-muted"
           >
             Especialista en garantizar que el software que usas cada día funcione sin importar cuántos usuarios lo estén usando al mismo tiempo.
           </motion.p>
 
           <motion.div 
-            {...fadeInUp}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            {...animationVariants}
+            transition={{ delay: shouldReduceAnimations ? 0 : 0.4, duration: shouldReduceAnimations ? 0.3 : 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
           >
             <Link href="/servicios#diagnostico" className="admin-btn-primary px-8 py-4 text-sm font-semibold uppercase tracking-[0.16em] flex items-center gap-2">

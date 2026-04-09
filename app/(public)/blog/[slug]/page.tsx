@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import {
   getFallbackPostBySlug,
@@ -7,6 +8,7 @@ import {
   mergePublicPosts,
   normalizeSupabasePost,
 } from '@/lib/content/public-content'
+import { generateBlogPostMetadata } from '@/lib/metadata-utils'
 import { ArrowLeft, Award, Calendar, Clock, Share2 } from 'lucide-react'
 import { LinkedinIcon as Linkedin, XIcon as X } from '@/components/public/icons'
 import { format } from 'date-fns'
@@ -18,9 +20,8 @@ type BlogPostPageProps = {
   params: Promise<{ slug: string }>
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { slug } = await params
-
+// Helper function to fetch post data
+async function getPostData(slug: string) {
   const mongoPost = await getMongoPostBySlug(slug)
   const supabase = await createClient()
   const rawSupabasePost = supabase
@@ -38,7 +39,34 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     mongoPost ? [mongoPost] : [],
     supabasePost ? [supabasePost] : []
   )
-  const post = mergedPosts[0] || (await getFallbackPostBySlug(slug))
+  return mergedPosts[0] || (await getFallbackPostBySlug(slug))
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params
+  const post = await getPostData(slug)
+
+  if (!post) {
+    return {
+      title: 'Post no encontrado',
+      description: 'El artículo que buscas no está disponible',
+    }
+  }
+
+  return generateBlogPostMetadata({
+    title: post.titulo,
+    description: post.excerpt || 'Artículo del blog de QA y testing',
+    slug: post.slug,
+    image: post.imagen_portada || '/og-image.svg',
+    tags: post.tags || [],
+    publishedAt: post.published_at ? new Date(post.published_at) : new Date(),
+    author: post.autor || 'Carlos Cervantes',
+  })
+}
+
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const { slug } = await params
+  const post = await getPostData(slug)
 
   if (!post) {
     return (
@@ -189,16 +217,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="rounded-[28px] border border-border/70 bg-white p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
               <span className="text-[10px] font-black uppercase tracking-[0.22em] text-primary">Autor</span>
               <div className="mt-4 flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-sm font-black uppercase text-primary">
-                  CC
+                <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border-2 border-primary/20 shadow-md">
+                  <img
+                    src="/images/profile.jpg"
+                    alt="Carlos Cervantes"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-foreground">Carlos Cervantes</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted">QA & Performance Consultant</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted">QA & Performance Specialist</p>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-relaxed text-secondary-muted">
-                Comparto aprendizajes sobre automatización, performance, estrategia QA y sistemas más confiables para producto.
+                Especialista en QA Automation y Performance Engineering. Comparto aprendizajes sobre automatización, testing, performance y sistemas más confiables.
               </p>
             </div>
 

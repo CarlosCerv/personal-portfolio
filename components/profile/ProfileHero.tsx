@@ -25,15 +25,15 @@ export function ProfileHero({ profile }: { profile: PublicProfile }) {
       <div className="relative px-6 pb-8 md:px-10">
         <div className="-mt-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-6 md:flex-row md:items-end">
-            <div className="h-[120px] w-[120px] overflow-hidden rounded-full border-[3px] border-white bg-background shadow-[0_18px_40px_rgba(15,23,42,0.12)]">
+            <div className="relative h-[140px] w-[140px] md:h-[160px] md:w-[160px] overflow-hidden rounded-full border-[4px] border-white bg-background shadow-[0_24px_60px_rgba(15,23,42,0.18)] ring-4 ring-primary/10">
               {profile.foto_url ? (
                 <img
                   src={profile.foto_url}
                   alt={profile.nombre_mostrado}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-primary/8 text-4xl font-semibold text-primary">
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5 text-5xl font-black text-primary">
                   CC
                 </div>
               )}
