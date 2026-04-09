@@ -23,9 +23,9 @@ export function ProfileHero({ profile }: { profile: PublicProfile }) {
       </div>
 
       <div className="relative px-6 pb-8 md:px-10">
-        <div className="-mt-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end">
-            <div className="relative h-[140px] w-[140px] md:h-[160px] md:w-[160px] overflow-hidden rounded-full border-[4px] border-white bg-background shadow-[0_24px_60px_rgba(15,23,42,0.18)] ring-4 ring-primary/10">
+        <div className="-mt-20 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-8 md:flex-row md:items-start md:gap-10">
+            <div className="relative h-[180px] w-[180px] md:h-[240px] md:w-[240px] lg:h-[260px] lg:w-[260px] flex-shrink-0 overflow-hidden rounded-2xl border-[5px] border-white bg-background shadow-[0_24px_60px_rgba(15,23,42,0.25)] ring-4 ring-primary/10 hover:ring-primary/20 transition-all duration-300">
               {profile.foto_url ? (
                 <img
                   src={profile.foto_url}
@@ -39,13 +39,13 @@ export function ProfileHero({ profile }: { profile: PublicProfile }) {
               )}
             </div>
 
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-semibold tracking-[-0.05em] text-foreground md:text-[28px]">
+            <div className="space-y-5 flex-1">
+              <div className="space-y-3">
+                <h1 className="text-4xl font-bold tracking-[-0.05em] text-foreground md:text-5xl lg:text-[48px]">
                   {profile.nombre_mostrado}
                 </h1>
-                <p className="text-sm text-secondary-muted">{profile.nombre_completo}</p>
-                <p className="max-w-3xl text-lg font-medium leading-relaxed text-foreground">
+                <p className="text-base font-semibold text-secondary-muted">{profile.nombre_completo}</p>
+                <p className="max-w-3xl text-xl md:text-2xl font-bold leading-snug text-foreground/90">
                   {profile.headline}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 text-sm text-secondary-muted">

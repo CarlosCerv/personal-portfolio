@@ -13,9 +13,9 @@ export default function AdminLayout({
         <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(0, 113, 227, 0.08), transparent 50%)" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[1600px] gap-4 px-3 pb-6 pt-4 md:gap-6 md:px-5 md:pb-8 md:pt-5 xl:px-6">
+      <div className="relative flex min-h-screen w-full flex-col lg:flex-row">
         {/* Sidebar */}
-        <div className="flex-shrink-0 w-64">
+        <div className="flex-shrink-0 lg:w-72">
           <Sidebar />
         </div>
 
@@ -23,8 +23,8 @@ export default function AdminLayout({
         <div className="flex min-w-0 flex-1 flex-col">
           <Topbar />
 
-          <main className="flex-1 px-1 pb-2 pt-4 md:px-0 md:pt-6">
-            <div className="mx-auto max-w-7xl space-y-6">
+          <main className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 md:px-6 md:py-6">
+            <div className="mx-auto w-full max-w-7xl space-y-6 pb-8">
               {children}
             </div>
           </main>

@@ -67,17 +67,17 @@ export default async function PublicPodcast() {
               </ul>
            </article>
 
-           <article className="bg-[#1d1d1f] p-10 rounded-[32px] text-white space-y-6 shadow-2xl">
-              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-white">
+           <article className="bg-background-alt p-10 rounded-[32px] space-y-6 shadow-md border border-border-primary">
+              <div className="w-12 h-12 bg-accent-indigo/10 rounded-2xl flex items-center justify-center text-accent-indigo">
                  <Users className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-black tracking-tight">Pensado para líderes e ingenieros</h3>
-              <p className="text-white/60 font-medium leading-relaxed">
+              <h3 className="text-2xl font-black tracking-tight text-text-primary">Pensado para líderes e ingenieros</h3>
+              <p className="text-text-secondary font-medium leading-relaxed">
                 La intención es hablarle tanto a quien automatiza como a quien prioriza riesgos o coordina releases de alta presión.
               </p>
               <div className="flex flex-wrap gap-2 pt-4">
                  {['QA Engineers', 'SDETs', 'Tech Leads', 'Product Teams'].map(chip => (
-                   <span key={chip} className="px-3 py-1 bg-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest">{chip}</span>
+                   <span key={chip} className="px-3 py-1 bg-accent-indigo/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-accent-indigo">{chip}</span>
                  ))}
               </div>
            </article>

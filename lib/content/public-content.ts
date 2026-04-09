@@ -50,6 +50,42 @@ function normalizeCategory(tags: string[]) {
   return tags[0] || 'QA'
 }
 
+function generateImageUrlFromTitle(title: string, slug: string): string {
+  // Palabras clave relacionadas con cada categoría
+  const categoryKeywords: Record<string, string[]> = {
+    ci: ['CI/CD', 'pipeline', 'automation', 'github actions', 'jenkins'],
+    mobile: ['mobile testing', 'appium', 'automation', 'testing'],
+    microservices: ['microservices', 'architecture', 'scalable', 'backend'],
+    nodejs: ['nodejs', 'express', 'javascript', 'backend', 'web development'],
+    bootcamp: ['coding', 'learning', 'development', 'career', 'programming'],
+    testing: ['software testing', 'qa', 'quality assurance', 'automation', 'testing'],
+    default: ['technology', 'software development', 'coding', 'programming']
+  }
+
+  // Detectar categoría por palabras clave en el título
+  let keywords: string[] = categoryKeywords.default
+  const titleLower = title.toLowerCase()
+
+  if (titleLower.includes('ci') || titleLower.includes('cd') || titleLower.includes('github')) {
+    keywords = categoryKeywords.ci
+  } else if (titleLower.includes('mobile') || titleLower.includes('appium') || titleLower.includes('espresso')) {
+    keywords = categoryKeywords.mobile
+  } else if (titleLower.includes('microservice')) {
+    keywords = categoryKeywords.microservices
+  } else if (titleLower.includes('nodejs') || titleLower.includes('express') || titleLower.includes('node')) {
+    keywords = categoryKeywords.nodejs
+  } else if (titleLower.includes('bootcamp') || titleLower.includes('journey')) {
+    keywords = categoryKeywords.bootcamp
+  } else if (titleLower.includes('testing') || titleLower.includes('test')) {
+    keywords = categoryKeywords.testing
+  }
+
+  // Generar URL usando Unsplash Source API
+  // Formato: https://source.unsplash.com/1200x630/?keyword1,keyword2,keyword3
+  const query = keywords.slice(0, 3).join(',')
+  return `https://source.unsplash.com/1200x630/?${encodeURIComponent(query)}`
+}
+
 export async function getFallbackPosts(): Promise<PublicPost[]> {
   try {
     const files = await fs.readdir(POSTS_DIR)
@@ -73,7 +109,7 @@ export async function getFallbackPosts(): Promise<PublicPost[]> {
           tags,
           contenido: html,
           published_at: String(data.date || new Date().toISOString()),
-          imagen_portada: null,
+          imagen_portada: data.imagen_portada || generateImageUrlFromTitle(String(data.title || 'Artículo'), String(data.slug || file.replace(/\.md$/, ''))),
           estado: 'publicado',
           autor: author,
         } satisfies PublicPost
@@ -134,7 +170,7 @@ function mapMongoPost(post: any): PublicPost {
     tags: Array.isArray(post.tags) ? post.tags.map(String) : [],
     contenido: html,
     published_at: post.date ? new Date(post.date).toISOString() : new Date().toISOString(),
-    imagen_portada: post.coverImage || null,
+    imagen_portada: post.coverImage || generateImageUrlFromTitle(String(post.title), String(post.slug)),
     estado: post.published === false ? 'borrador' : 'publicado',
     autor: post.author || 'Carlos Cervantes',
   }
@@ -165,10 +201,13 @@ export async function getMongoPostBySlug(slug: string): Promise<PublicPost | nul
 }
 
 export function normalizeSupabasePost(post: SourcePost): PublicPost {
+  const slug = String(post.slug ?? '')
+  const titulo = String(post.titulo ?? post.title ?? 'Artículo')
+  
   return {
     id: String(post.id ?? post.slug ?? crypto.randomUUID()),
-    slug: String(post.slug ?? ''),
-    titulo: String(post.titulo ?? post.title ?? 'Artículo'),
+    slug: slug,
+    titulo: titulo,
     excerpt: String(post.excerpt ?? post.og_description ?? ''),
     categoria: String(post.categoria ?? 'QA'),
     tags: Array.isArray(post.tags) ? post.tags.map(String) : [],
@@ -176,7 +215,7 @@ export function normalizeSupabasePost(post: SourcePost): PublicPost {
     published_at: String(
       post.published_at ?? post.date ?? post.created_at ?? new Date().toISOString()
     ),
-    imagen_portada: post.imagen_portada ?? post.coverImage ?? null,
+    imagen_portada: post.imagen_portada ?? post.coverImage ?? generateImageUrlFromTitle(titulo, slug),
     estado: String(post.estado ?? (post.published === false ? 'borrador' : 'publicado')),
     autor: String(post.autor ?? post.author ?? 'Carlos Cervantes'),
   }

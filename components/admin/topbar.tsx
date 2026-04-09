@@ -59,25 +59,25 @@ export function Topbar() {
   const unreadCount = notifications.length
 
   return (
-    <header className="sticky top-6 z-30">
-      <div className="flex min-h-16 items-center justify-between gap-4 rounded-[20px] border border-divider bg-white px-4 py-3 md:px-6 shadow-sm">
+    <header className="sticky top-0 z-30 mb-4 md:mb-6">
+      <div className="flex min-h-14 flex-col gap-2 md:min-h-16 md:flex-row md:items-center md:justify-between rounded-[16px] md:rounded-[20px] border border-divider bg-white px-3 py-2 md:px-6 md:py-3 shadow-sm">
         {/* Breadcrumb & Title */}
-        <div className="min-w-0 flex-1 space-y-1">
-          <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.1em] text-text-tertiary">
-            <span>Dashboard</span>
-            <ChevronRight className="h-3 w-3 text-divider" />
-            <span className="truncate text-primary font-semibold">{currentSection}</span>
+        <div className="min-w-0 flex-1 space-y-0.5 md:space-y-1">
+          <div className="flex items-center gap-1.5 md:gap-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.08em] md:tracking-[0.1em] text-text-tertiary overflow-x-auto">
+            <span className="whitespace-nowrap">Dashboard</span>
+            <ChevronRight className="h-2.5 w-2.5 md:h-3 md:w-3 text-divider flex-shrink-0" />
+            <span className="truncate text-primary font-semibold text-[9px] md:text-[10px]">{currentSection}</span>
           </div>
-          <p className="truncate text-sm font-medium text-text-secondary">
+          <p className="truncate text-xs md:text-sm font-medium text-text-secondary">
             Gestión editorial, perfil y operación del sitio.
           </p>
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3 flex-shrink-0">
           {/* Time Display */}
-          <div className="hidden rounded-[12px] border border-divider bg-background-alt px-3.5 py-2 md:block">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-text-tertiary">
+          <div className="hidden rounded-[12px] border border-divider bg-background-alt px-2.5 md:px-3.5 py-1.5 md:py-2 md:block">
+            <p className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.08em] text-text-tertiary">
               Hora actual
             </p>
             <p className="text-sm font-semibold tabular-nums text-text-primary">
