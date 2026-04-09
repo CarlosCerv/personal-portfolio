@@ -1,54 +1,148 @@
 @import "tailwindcss";
 
+/* Apple Light Premium Design Tokens */
 :root {
-  /* ============= BACKGROUNDS - Light Premium ============= */
+  /* ==================== COLORS ==================== */
+  /* Neutrals - 90% of design should use these */
+  --color-white: #ffffff;
+  --color-white-secondary: #f5f5f7;
+  --color-white-tertiary: #efefef;
+  --color-gray-light: #d2d2d7;
+  --color-gray-medium: #555555;
+  --color-gray-dark: #1d1d1f;
+  --color-black: #000000;
+
+  /* Accent Colors - Maximum 20% of design */
+  --color-blue: #0071e3;
+  --color-blue-hover: #0077f0;
+  --color-blue-active: #0051b3;
+  --color-green: #34c759;
+  --color-orange: #ff9500;
+  --color-red: #ff3b30;
+
+  /* Legacy vars - keeping for backward compatibility */
   --background: #FFFFFF;
   --background-alt: #F5F5F7;
   --background-tertiary: #F0F0F3;
-  
-  /* ============= TEXT - Light Premium ============= */
   --text-primary: #1D1D1F;
   --text-secondary: #6F6F77;
   --text-tertiary: #A1A1A6;
-  
-  /* ============= ACCENTS - Apple Blue & Cyan ============= */
   --accent-cyan: #06B6D4;
   --accent-indigo: #0071E3;
   --accent-light: #F5F5F7;
-  
-  /* ============= BORDERS ============= */
   --border: rgba(0, 0, 0, 0.08);
   --border-secondary: rgba(0, 0, 0, 0.04);
   --border-accent: rgba(0, 113, 227, 0.2);
   --divider: rgba(0, 0, 0, 0.08);
-  
-  /* ============= SURFACES ============= */
   --surface: rgba(0, 0, 0, 0.02);
   --surface-secondary: rgba(0, 0, 0, 0.01);
   --surface-tertiary: rgba(0, 0, 0, 0.005);
   --surface-overlay: rgba(0, 0, 0, 0.2);
   
-  /* ============= SHADOWS ============= */
+  /* ==================== TYPOGRAPHY ==================== */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  --font-size-h1: clamp(2.25rem, 6vw, 3.75rem);
+  --font-size-h2: clamp(1.875rem, 5vw, 2.625rem);
+  --font-size-h3: clamp(1.5rem, 3vw, 2rem);
+  --font-size-h4: clamp(1.25rem, 2.5vw, 1.75rem);
+  --font-size-body: 1rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-label: 0.75rem;
+  --font-size-caption: 0.6875rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.02em;
+
+  /* ==================== SPACING ==================== */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 5rem;
+  --space-5xl: 6rem;
+  --space-6xl: 7.5rem;
+  --padding-container-mobile: var(--space-md);
+  --padding-container-desktop: var(--space-2xl);
+  --margin-section-mobile: var(--space-4xl);
+  --margin-section-desktop: var(--space-6xl);
+  --gap-xs: var(--space-sm);
+  --gap-sm: var(--space-md);
+  --gap-md: var(--space-2xl);
+  --gap-lg: var(--space-3xl);
+
+  /* ==================== SIZING ==================== */
+  --max-width-full: 1200px;
+  --max-width-large: 1000px;
+  --max-width-medium: 800px;
+  --max-width-small: 600px;
+  --header-height: 60px;
+  --icon-size-sm: 20px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
+  --icon-size-xl: 48px;
+
+  /* ==================== BORDERS ==================== */
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 9999px;
+  --border-width: 1px;
+  --border-color: var(--color-gray-light);
+  --border-color-hover: var(--color-gray-medium);
+
+  /* ==================== SHADOWS ==================== */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --shadow-header: 0 1px 0 rgba(0, 0, 0, 0.1);
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.1);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 20px rgba(0, 113, 227, 0.2);
-  --shadow-glow-lg: 0 0 40px rgba(0, 113, 227, 0.3);
-  
-  /* ============= PRIMARY & SEMANTIC ============= */
-  --primary: #0071E3;
-  --foreground: #1D1D1F;
-  --secondary: #6F6F77;
-  --muted: #A1A1A6;
-  
-  /* ============= GRID PATTERN ============= */
-  --grid-size: 40px;
+
+  /* ==================== ANIMATIONS ==================== */
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ==================== Z-INDEX ==================== */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 50;
+  --z-modal: 1000;
+  --z-popover: 900;
+  --z-tooltip: 800;
 
   color-scheme: light;
 }
 
-/* Dark mode support - Not needed, always dark */
+/* Dark mode support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}
 
+/* Base Styles */
 html {
   background: var(--background);
   scroll-behavior: smooth;

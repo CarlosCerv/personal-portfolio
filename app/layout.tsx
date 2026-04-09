@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import Script from 'next/script'
+import { AppleHeader } from '@/components/Header'
+import { AppleFooter } from '@/components/Footer'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -120,7 +122,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <AppleHeader />
+        {children}
+        <AppleFooter />
+      </body>
     </html>
   )
 }

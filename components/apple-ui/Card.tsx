@@ -4,32 +4,44 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+interface AppleCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   interactive?: boolean
-  elevation?: 'sm' | 'md' | 'lg'
+  shadow?: 'sm' | 'md' | 'lg'
+  hover?: 'lift' | 'glow' | 'none'
 }
 
+/**
+ * AppleCard - Premium card component following Apple design system
+ * Minimal borders, subtle shadows, generous padding
+ */
 export function AppleCard({
   className,
   children,
   interactive = false,
-  elevation = 'sm',
+  shadow = 'sm',
+  hover = 'lift',
   ...props
-}: CardProps) {
-  const elevationClasses = {
+}: AppleCardProps) {
+  const shadowMap = {
     sm: 'shadow-sm',
     md: 'shadow-md',
     lg: 'shadow-lg',
   }
 
+  const hoverClasses = {
+    lift: 'hover:shadow-md hover:translate-y-[-2px]',
+    glow: 'hover:ring-2 hover:ring-blue hover:ring-opacity-20',
+    none: '',
+  }
+
   const cardContent = (
     <div
       className={cn(
-        'rounded-lg border border-border-primary bg-white',
+        'rounded-lg border border-gray-light bg-white',
         'p-6 md:p-8',
-        elevationClasses[elevation],
-        interactive && 'hover:shadow-card hover:-translate-y-1 transition-all duration-300 cursor-pointer',
+        shadowMap[shadow],
+        interactive && `cursor-pointer transition-all duration-150 ease-out ${hoverClasses[hover]}`,
         className
       )}
       {...props}
@@ -41,8 +53,9 @@ export function AppleCard({
   if (interactive) {
     return (
       <motion.div
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.2 }}
+        whileHover={{ y: -2 }}
+        transition={{ duration: 0.15 }}
+        className="w-full"
       >
         {cardContent}
       </motion.div>

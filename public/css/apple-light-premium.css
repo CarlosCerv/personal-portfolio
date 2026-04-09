@@ -1,0 +1,447 @@
+/**
+ * Apple Light Premium Design System
+ * Global design tokens for the entire portfolio redesign
+ * Inspired by apple.com, behance.net, stripe.com
+ */
+
+:root {
+  /* ==================== COLORS ==================== */
+  /* Neutrals - 90% of design should use these */
+  --color-white: #ffffff;
+  --color-white-secondary: #f5f5f7;
+  --color-white-tertiary: #efefef;
+  --color-gray-light: #d2d2d7;
+  --color-gray-medium: #555555;
+  --color-gray-dark: #1d1d1f;
+  --color-black: #000000;
+
+  /* Accent Colors - Maximum 20% of design */
+  --color-blue: #0071e3;
+  --color-blue-hover: #0077f0;
+  --color-blue-active: #0051b3;
+  --color-green: #34c759;
+  --color-orange: #ff9500;
+  --color-red: #ff3b30;
+
+  /* ==================== TYPOGRAPHY ==================== */
+  /* Font Stack - System fonts for optimal rendering */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+
+  /* Font Sizes - Responsive scaling with clamp */
+  --font-size-h1: clamp(2.25rem, 6vw, 3.75rem); /* 36px - 60px */
+  --font-size-h2: clamp(1.875rem, 5vw, 2.625rem); /* 30px - 42px */
+  --font-size-h3: clamp(1.5rem, 3vw, 2rem); /* 24px - 32px */
+  --font-size-h4: clamp(1.25rem, 2.5vw, 1.75rem); /* 20px - 28px */
+  --font-size-body: 1rem; /* 16px */
+  --font-size-body-sm: 0.875rem; /* 14px */
+  --font-size-label: 0.75rem; /* 12px */
+  --font-size-caption: 0.6875rem; /* 11px */
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.02em;
+
+  /* ==================== SPACING ==================== */
+  /* Base unit: 4px, follow 8px grid system */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+  --space-3xl: 4rem; /* 64px */
+  --space-4xl: 5rem; /* 80px */
+  --space-5xl: 6rem; /* 96px */
+  --space-6xl: 7.5rem; /* 120px */
+
+  /* Container Padding */
+  --padding-container-mobile: var(--space-md); /* 16px */
+  --padding-container-tablet: var(--space-2xl); /* 32px */
+  --padding-container-desktop: var(--space-2xl); /* 40px */
+
+  /* Section Margins (Vertical breathing room) */
+  --margin-section-mobile: var(--space-4xl); /* 60px */
+  --margin-section-tablet: var(--space-5xl); /* 96px */
+  --margin-section-desktop: var(--space-6xl); /* 120px */
+
+  /* Component Gaps */
+  --gap-xs: var(--space-sm); /* 8px */
+  --gap-sm: var(--space-md); /* 16px */
+  --gap-md: var(--space-2xl); /* 32px */
+  --gap-lg: var(--space-3xl); /* 48px */
+
+  /* ==================== SIZING ==================== */
+  /* Max-width for content */
+  --max-width-full: 1200px;
+  --max-width-large: 1000px;
+  --max-width-medium: 800px;
+  --max-width-small: 600px;
+
+  /* Header/Navigation */
+  --header-height: 60px;
+
+  /* Component Sizes */
+  --icon-size-sm: 20px;
+  --icon-size-md: 24px;
+  --icon-size-lg: 32px;
+  --icon-size-xl: 48px;
+
+  /* ==================== BORDERS ==================== */
+  --border-radius-sm: 6px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 9999px;
+
+  --border-width: 1px;
+  --border-color: var(--color-gray-light);
+  --border-color-hover: var(--color-gray-medium);
+
+  /* ==================== SHADOWS ==================== */
+  /* Minimal shadows - Apple style */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* For headers and sticky elements */
+  --shadow-header: 0 1px 0 rgba(0, 0, 0, 0.1);
+
+  /* ==================== ANIMATIONS ==================== */
+  /* Durations */
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+
+  /* Easing Functions */
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Z-Index Stack */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 50;
+  --z-modal: 1000;
+  --z-popover: 900;
+  --z-tooltip: 800;
+
+  /* ==================== BREAKPOINTS (for JS) ==================== */
+  /* Used as data attributes: data-breakpoint="mobile" */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1200px;
+}
+
+/* ==================== REDUCED MOTION ==================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}
+
+/* ==================== DARK MODE (if needed in future) ==================== */
+@media (prefers-color-scheme: dark) {
+  /* This is just a placeholder - the design is Light Only for now */
+  :root {
+    /* Dark mode would go here if needed */
+  }
+}
+
+/* ==================== BASE STYLES ==================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-gray-dark);
+  background-color: var(--color-white);
+  margin: 0;
+  padding: 0;
+}
+
+/* ==================== TYPOGRAPHY UTILITIES ==================== */
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  margin: 0;
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  margin: 0;
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-relaxed);
+}
+
+small,
+.text-sm {
+  font-size: var(--font-size-body-sm);
+}
+
+.text-label,
+.label {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* ==================== INTERACTIVE ELEMENTS ==================== */
+button,
+a {
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-out);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+a {
+  color: var(--color-blue);
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover {
+  color: var(--color-blue-hover);
+}
+
+a:active {
+  color: var(--color-blue-active);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 2px;
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.container {
+  max-width: var(--max-width-full);
+  margin: 0 auto;
+  padding: 0 var(--padding-container-desktop);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--padding-container-mobile);
+  }
+}
+
+.section-spacing {
+  margin-top: var(--margin-section-desktop);
+  margin-bottom: var(--margin-section-desktop);
+}
+
+@media (max-width: 768px) {
+  .section-spacing {
+    margin-top: var(--margin-section-mobile);
+    margin-bottom: var(--margin-section-mobile);
+  }
+}
+
+/* Flexbox utilities */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap-sm {
+  gap: var(--gap-sm);
+}
+
+.gap-md {
+  gap: var(--gap-md);
+}
+
+.gap-lg {
+  gap: var(--gap-lg);
+}
+
+/* Grid utilities */
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-md);
+}
+
+@media (max-width: 1024px) {
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--gap-md);
+}
+
+@media (max-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Text utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Color utilities */
+.text-primary {
+  color: var(--color-gray-dark);
+}
+
+.text-secondary {
+  color: var(--color-gray-medium);
+}
+
+.text-accent {
+  color: var(--color-blue);
+}
+
+.bg-white {
+  background-color: var(--color-white);
+}
+
+.bg-gray-light {
+  background-color: var(--color-white-secondary);
+}
+
+.bg-gray-lighter {
+  background-color: var(--color-white-tertiary);
+}
+
+/* Borders */
+.border {
+  border: var(--border-width) solid var(--border-color);
+}
+
+.rounded-sm {
+  border-radius: var(--border-radius-sm);
+}
+
+.rounded-md {
+  border-radius: var(--border-radius-md);
+}
+
+.rounded-lg {
+  border-radius: var(--border-radius-lg);
+}
+
+.rounded-full {
+  border-radius: var(--border-radius-full);
+}
+
+/* Shadows */
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Hover states */
+.hover\:bg-gray {
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+
+.hover\:bg-gray:hover {
+  background-color: var(--color-white-secondary);
+}
+
+/* Visibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

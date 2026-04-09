@@ -3,23 +3,27 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 
-interface SectionProps {
+interface AppleSectionProps {
   children: React.ReactNode
   className?: string
   background?: 'white' | 'gray' | 'gradient'
   id?: string
 }
 
+/**
+ * AppleSection - Premium section wrapper with proper spacing
+ * Uses CSS variables for responsive margins and padding
+ */
 export function AppleSection({
   children,
   className,
   background = 'white',
   id,
-}: SectionProps) {
+}: AppleSectionProps) {
   const backgrounds = {
     white: 'bg-white',
-    gray: 'bg-background-alt',
-    gradient: 'bg-gradient-to-b from-white to-background-alt',
+    gray: 'bg-white-secondary',
+    gradient: 'bg-gradient-to-b from-white to-white-secondary',
   }
 
   return (
@@ -27,18 +31,18 @@ export function AppleSection({
       id={id}
       className={cn(
         backgrounds[background],
-        'py-16 md:py-24 lg:py-32',
+        'section-spacing', // Uses CSS var: margin-top/bottom based on viewport
         className
       )}
     >
-      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+      <div className="container">
         {children}
       </div>
     </section>
   )
 }
 
-interface SectionHeaderProps {
+interface AppleSectionHeaderProps {
   badge?: string
   title: React.ReactNode
   description?: string
@@ -46,30 +50,45 @@ interface SectionHeaderProps {
   centered?: boolean
 }
 
+/**
+ * AppleSectionHeader - Premium section header with hierarchical typography
+ * Badge → Title → Description hierarchy following Apple design
+ */
 export function AppleSectionHeader({
   badge,
   title,
   description,
   subtitle,
   centered = false,
-}: SectionHeaderProps) {
+}: AppleSectionHeaderProps) {
   return (
-    <div className={cn('mb-12 md:mb-16 lg:mb-20', centered && 'text-center max-w-2xl mx-auto')}>
-      {badge && (
-        <p className="inline-block rounded-full bg-primary/10 px-3 py-1.5 text-xs font-semibold text-primary uppercase tracking-wider mb-4">
-          {badge}
-        </p>
+    <div
+      className={cn(
+        'mb-12 md:mb-16 lg:mb-20',
+        centered && 'text-center max-w-2xl mx-auto'
       )}
-      <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-4 tracking-tight">
+    >
+      {badge && (
+        <div className="inline-flex items-center gap-2 mb-6">
+          <p className="text-label text-blue uppercase font-medium tracking-wide">
+            {badge}
+          </p>
+          <div className="h-1 w-6 bg-blue rounded-full" />
+        </div>
+      )}
+
+      <h2 className="text-h2 font-bold text-gray-dark mb-6 tracking-tight leading-tight">
         {title}
       </h2>
+
       {description && (
-        <p className="text-lg md:text-xl text-text-secondary max-w-2xl leading-relaxed">
+        <p className="text-lg md:text-xl text-gray-medium max-w-3xl leading-relaxed">
           {description}
         </p>
       )}
+
       {subtitle && (
-        <p className="text-sm md:text-base text-text-tertiary mt-2">
+        <p className="text-sm md:text-base text-gray-light mt-4">
           {subtitle}
         </p>
       )}
