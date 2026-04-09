@@ -9,7 +9,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Light Premium Apple-style Palette
+        // Apple Light Premium Palette - ALL COLORS MAPPED
+        // Neutrals (90% of design)
+        white: "#FFFFFF",
+        "white-secondary": "#F5F5F7",
+        "white-tertiary": "#EFEFEF",
+        "gray-light": "#D2D2D7",
+        "gray-medium": "#555555",
+        "gray-dark": "#1D1D1F",
+        "gray-secondary": "#6F6F77",
+        black: "#000000",
+
+        // Accent Colors (max 20%)
+        blue: "#0071E3",
+        "blue-hover": "#0077F0",
+        "blue-active": "#0051B3",
+        green: "#34C759",
+        orange: "#FF9500",
+        red: "#FF3B30",
+
+        // Legacy color names for backward compatibility
         background: {
           DEFAULT: "#FFFFFF",
           alt: "#F5F5F7",
@@ -30,20 +49,6 @@ const config: Config = {
           secondary: "rgba(0, 0, 0, 0.04)",
           accent: "rgba(0, 113, 227, 0.2)",
         },
-        // CSS Variable-based colors for consistency
-        blue: "#0071E3",
-        "blue-hover": "#0077F0",
-        "blue-active": "#0051B3",
-        green: "#34C759",
-        orange: "#FF9500",
-        red: "#FF3B30",
-        white: "#FFFFFF",
-        "white-secondary": "#F5F5F7",
-        "white-tertiary": "#EFEFEF",
-        "gray-light": "#D2D2D7",
-        "gray-medium": "#555555",
-        "gray-dark": "#1D1D1F",
-        black: "#000000",
       },
       fontFamily: {
         sans: [
@@ -85,6 +90,8 @@ const config: Config = {
         xl: "0 20px 48px rgba(0, 0, 0, 0.7)",
         glow: "0 0 20px rgba(6, 182, 212, 0.3)",
         "glow-lg": "0 0 40px rgba(6, 182, 212, 0.4)",
+        header: "0 1px 0 rgba(0, 0, 0, 0.1)",
+        card: "0 4px 12px rgba(0, 0, 0, 0.08)",
       },
       backdropFilter: {
         none: "none",
@@ -103,6 +110,9 @@ const config: Config = {
       },
       spacing: {
         header: "60px",
+      },
+      maxWidth: {
+        container: "1200px",
       },
     },
   },
