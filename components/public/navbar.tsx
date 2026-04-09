@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronRight } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
@@ -11,7 +11,6 @@ const NAV_LINKS = [
   { label: 'Servicios', href: '/servicios' },
   { label: 'Perfil', href: '/profile' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Podcast', href: '/podcast' },
   { label: 'Contacto', href: '/contacto' },
 ]
 
@@ -21,7 +20,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
+    const handleScroll = () => setIsScrolled(window.scrollY > 20)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -32,35 +31,44 @@ export function Navbar() {
   }, [pathname])
 
   return (
-    <nav className={cn(
-      "fixed top-0 inset-x-0 z-50 transition-all duration-500 px-4 pt-4 md:px-6",
-      isScrolled ? "pt-3" : "pt-4"
-    )}>
-      <div className={cn(
-        "apple-shell mx-auto flex max-w-7xl items-center justify-between rounded-[28px] px-4 py-3 font-sans md:px-6",
-        isScrolled ? "border-border/90 bg-white/88 shadow-[0_18px_40px_rgba(15,23,42,0.08)]" : "bg-white/72"
-      )}>
-        
-        {/* Logo */}
-        <Link href="/" className="group flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-white text-lg font-semibold text-foreground transition-all duration-300 group-hover:border-primary/40 group-hover:text-primary">
-            <span className="leading-none">C</span>
+    <nav className="fixed top-0 inset-x-0 z-50 transition-all duration-300 px-4 pt-3 md:px-6 md:pt-4">
+      {/* Main navigation bar */}
+      <div
+        className={cn(
+          'mx-auto max-w-7xl transition-all duration-300',
+          'flex items-center justify-between rounded-[20px] px-4 py-3.5 md:px-6 md:py-4',
+          'border backdrop-blur-xl',
+          isScrolled
+            ? 'bg-white/80 border-border shadow-md'
+            : 'bg-white/40 border-border/40 shadow-none'
+        )}
+      >
+        {/* Logo - Minimal */}
+        <Link href="/" className="group flex items-center gap-2.5 no-underline">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary text-white font-semibold text-sm leading-none transition-transform duration-300 group-hover:scale-110">
+            CC
           </div>
-          <div className="flex flex-col">
-            <span className="text-[15px] font-semibold tracking-[-0.03em] leading-none group-hover:text-primary transition-colors">Carlos Cervantes</span>
-            <span className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted group-hover:text-primary/70 leading-none transition-colors">QA Consultant</span>
+          <div className="hidden flex-col sm:flex">
+            <span className="text-[13px] font-semibold text-text-primary leading-tight">
+              Carlos Cervantes
+            </span>
+            <span className="text-[10px] font-medium text-text-tertiary uppercase tracking-[0.05em] leading-tight">
+              QA Engineer
+            </span>
           </div>
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden items-center gap-2 rounded-full border border-border bg-background-alt/80 px-2 py-1 lg:flex">
+        {/* Desktop Navigation - Clean center */}
+        <div className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => (
-            <Link 
-              key={link.href} 
+            <Link
+              key={link.href}
               href={link.href}
               className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-all",
-                pathname === link.href ? "bg-white text-foreground shadow-sm" : "text-muted hover:text-foreground"
+                'rounded-[10px] px-3.5 py-2 text-[13px] font-medium transition-all duration-200',
+                pathname === link.href
+                  ? 'bg-primary/10 text-primary'
+                  : 'text-text-secondary hover:text-primary hover:bg-primary/5'
               )}
             >
               {link.label}
@@ -68,63 +76,71 @@ export function Navbar() {
           ))}
         </div>
 
+        {/* CTA Button - Right side */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link 
-            href="/servicios#diagnostico" 
-            className="admin-btn-primary px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em]"
+          <Link
+            href="/servicios"
+            className="rounded-[10px] bg-primary px-4 py-2 text-white text-[13px] font-semibold transition-all duration-200 hover:bg-primary-hover hover:shadow-lg active:scale-95"
           >
-            Diagnóstico QA
+            Servicios
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
-        <button 
+        {/* Mobile menu toggle */}
+        <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="rounded-2xl border border-border bg-white p-2 text-foreground md:hidden"
+          className="rounded-[10px] border border-border bg-white/50 p-2 text-text-primary hover:bg-white transition-colors md:hidden"
+          aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
         >
-          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isMobileMenuOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-4 top-[96px] z-40 flex max-h-[calc(100vh-112px)] flex-col gap-4 overflow-y-auto rounded-[30px] border border-border bg-white/96 p-5 shadow-[0_24px_60px_rgba(15,23,42,0.12)] backdrop-blur-xl md:hidden"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-x-4 top-[68px] flex flex-col gap-2 rounded-[20px] border border-border bg-white/90 p-4 shadow-lg backdrop-blur-xl md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.div
                 key={link.href}
-                initial={{ opacity: 0, x: -20 }}
+                initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
+                transition={{ delay: i * 0.05 }}
               >
-                <Link 
+                <Link
                   href={link.href}
                   className={cn(
-                    "flex items-center justify-between rounded-[22px] border border-transparent px-2 py-3 text-2xl font-semibold tracking-[-0.04em]",
-                    pathname === link.href ? "text-primary" : "text-foreground"
+                    'flex items-center rounded-[12px] px-3.5 py-3 text-[15px] font-semibold transition-all duration-200',
+                    pathname === link.href
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-text-primary hover:bg-background-alt'
                   )}
                 >
                   {link.label}
-                  <ChevronRight className="h-7 w-7 text-border" />
                 </Link>
               </motion.div>
             ))}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.2 }}
+              className="mt-2 pt-2 border-t border-divider"
             >
-              <Link 
-                href="/servicios#diagnostico" 
-                className="admin-btn-primary mt-2 block w-full py-4 text-center text-sm font-semibold uppercase tracking-[0.18em]"
+              <Link
+                href="/servicios"
+                className="block w-full rounded-[12px] bg-primary px-4 py-3.5 text-center text-[14px] font-semibold text-white transition-all duration-200 hover:bg-primary-hover active:scale-95"
               >
-                Comenzar Diagnóstico
+                Servicios
               </Link>
             </motion.div>
           </motion.div>

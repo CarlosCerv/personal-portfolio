@@ -65,4 +65,4 @@ const postSchema = new mongoose.Schema({
 // Index for date-based sorting (slug lookup uses the unique field index)
 postSchema.index({ date: -1 });
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.models.Post || mongoose.model('Post', postSchema);

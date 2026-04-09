@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -31,6 +31,42 @@ const STEPS = [
   "Stack técnico",
   "Tu mayor problema",
   "Recibir diagnóstico"
+]
+
+const SERVICE_PILLARS = [
+  {
+    title: 'Estrategia QA',
+    description: 'Definición de cobertura, riesgos, criterios de salida y plan de validación antes de que el producto falle en producción.',
+    icon: ShieldCheck,
+    points: ['Mapeo de riesgos críticos', 'Plan de calidad por release', 'Alineación técnica y de negocio'],
+  },
+  {
+    title: 'Automatización E2E',
+    description: 'Suites automatizadas para web y mobile con foco en flujos críticos, regresión y confianza continua de despliegue.',
+    icon: Layout,
+    points: ['Playwright, Cypress y Appium', 'CI/CD y ejecución continua', 'Cobertura visible por flujo'],
+  },
+  {
+    title: 'Performance Engineering',
+    description: 'Pruebas de carga, estrés y endurance para validar escalabilidad real antes de que el crecimiento exponga cuellos de botella.',
+    icon: Activity,
+    points: ['k6 y JMeter', 'Escenarios por concurrencia', 'Recomendaciones priorizadas'],
+  },
+]
+
+const DELIVERY_BLOCKS = [
+  {
+    title: 'Auditoría inicial',
+    description: 'Revisión técnica del estado actual de calidad, arquitectura, cobertura y principales riesgos del producto.',
+  },
+  {
+    title: 'Plan de acción',
+    description: 'Roadmap con quick wins, automatizaciones prioritarias, riesgos de performance y estructura de ejecución.',
+  },
+  {
+    title: 'Implementación guiada',
+    description: 'Acompañamiento para ejecutar el plan, integrar tooling, construir suites y dejar evidencia del avance.',
+  },
 ]
 
 export default function ServiciosPage() {
@@ -109,41 +145,182 @@ export default function ServiciosPage() {
   if (isProcessing) return <ProcessingState />
 
   return (
-    <main className="min-h-screen bg-background-alt pt-32 pb-20">
-      <div className="max-w-4xl mx-auto px-6">
-        
-        {/* Wizard Header */}
-        <div className="text-center space-y-4 mb-20">
-          <span className="text-xs font-black uppercase tracking-widest text-primary">QA Diagnostic Wizard</span>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground">Diagnóstico de Calidad Asistido por IA.</h1>
-          
-          <div className="pt-10 space-y-6">
-             <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest text-muted mb-2">
-                <span>{STEPS[currentStep]}</span>
-                <span>Paso {currentStep + 1} de 5</span>
-             </div>
-             <div className="h-1.5 bg-border rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
-                  className="h-full bg-primary" 
-                />
-             </div>
-             <div className="flex justify-between items-center gap-2">
-                {STEPS.map((_, i) => (
-                  <div key={i} className={cn(
-                    "w-4 h-4 rounded-full border-2 transition-all flex items-center justify-center text-[10px] font-bold",
-                    i < currentStep ? "bg-primary border-primary text-white" : i === currentStep ? "border-primary text-primary" : "border-border text-muted"
-                  )}>
-                    {i < currentStep ? <Check className="w-2.5 h-2.5" /> : null}
-                  </div>
-                ))}
-             </div>
+    <main className="min-h-screen bg-white pt-32 pb-20">
+      {/* Hero Section */}
+      <section className="pb-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Content */}
+            <div className="space-y-8">
+              <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary uppercase tracking-[0.1em]">
+                QA & Performance
+              </span>
+              <div className="space-y-4">
+                <h1 className="text-5xl md:text-6xl font-semibold text-text-primary tracking-[-0.03em] leading-tight">
+                  Calidad técnica documentada y escalable.
+                </h1>
+                <p className="text-lg text-text-secondary leading-relaxed max-w-xl">
+                  Ayudo a equipos a implementar QA como capacidad real: diagnóstico de riesgos, automatización E2E y performance testing con entregables claros.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="#diagnostico"
+                  className="inline-flex justify-center rounded-[10px] bg-primary px-6 py-3.5 text-sm font-semibold text-white uppercase tracking-[0.12em] hover:bg-primary-hover hover:shadow-lg transition-all active:scale-95"
+                >
+                  Iniciar diagnóstico
+                </Link>
+                <Link
+                  href="/contacto"
+                  className="inline-flex justify-center rounded-[10px] border border-divider bg-white px-6 py-3.5 text-sm font-semibold text-text-primary uppercase tracking-[0.12em] hover:border-primary hover:text-primary hover:bg-background-alt transition-all"
+                >
+                  Agendar consultoría
+                </Link>
+              </div>
+            </div>
+
+            {/* Cards */}
+            <div className="space-y-4">
+              <div className="rounded-[16px] border border-divider bg-white p-6 shadow-sm">
+                <div className="space-y-4">
+                  {[
+                    { title: 'Diagnóstico QA', desc: 'Análisis de riesgos prioritarios' },
+                    { title: 'Automatización E2E', desc: 'Cobertura de flujos críticos' },
+                    { title: 'Performance Testing', desc: 'Escalabilidad probada' },
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className={cn(
+                        'rounded-[12px] border border-divider bg-background-alt p-4 transition-all',
+                        'hover:bg-white hover:border-primary/30'
+                      )}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.1em] text-primary">
+                        {item.title}
+                      </p>
+                      <p className="mt-1.5 text-sm text-text-secondary">
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Wizard Content */}
-        <div className="admin-card p-8 md:p-12 shadow-2xl relative bg-white overflow-hidden">
+      {/* Services Section */}
+      <section className="pb-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-12 space-y-4">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.1em] text-primary">
+              Servicios principales
+            </span>
+            <h2 className="text-4xl md:text-5xl font-semibold text-text-primary tracking-[-0.03em] leading-tight max-w-3xl">
+              Cómo ayudo a mejorar la calidad del producto.
+            </h2>
+            <p className="text-lg text-text-secondary leading-relaxed max-w-2xl">
+              Cada servicio es independiente pero funciona mejor en conjunto. El diagnóstico es el punto de entrada.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            {SERVICE_PILLARS.map((service) => (
+              <div
+                key={service.title}
+                className="rounded-[16px] border border-divider bg-white p-8 hover:shadow-md hover:border-primary/30 transition-all duration-300"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-[10px] bg-primary/10 text-primary">
+                  <service.icon className="h-6 w-6" />
+                </div>
+                <div className="mt-6 space-y-4">
+                  <h3 className="text-xl font-semibold text-text-primary tracking-[-0.02em]">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    {service.description}
+                  </p>
+                  <ul className="space-y-2.5 pt-2">
+                    {service.points.map((point) => (
+                      <li key={point} className="flex items-center gap-2.5 text-sm font-medium text-text-primary">
+                        <div className="flex h-4 w-4 items-center justify-center rounded-full bg-primary/15">
+                          <Check className="h-3 w-3 text-primary" />
+                        </div>
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="space-y-4">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Cómo se trabaja</span>
+              <h2 className="text-4xl font-semibold tracking-[-0.05em] text-foreground">
+                Un proceso claro desde la auditoría hasta la implementación.
+              </h2>
+              <p className="text-lg leading-relaxed text-secondary-muted">
+                El objetivo es que el cliente entienda qué se revisa, qué se prioriza y qué recibe al final de cada etapa.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {DELIVERY_BLOCKS.map((block, index) => (
+                <div key={block.title} className="admin-card rounded-[28px] p-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">0{index + 1}</p>
+                  <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em] text-foreground">{block.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-secondary-muted">{block.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="diagnostico" className="scroll-mt-32">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center space-y-4 mb-20">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Diagnóstico inicial</span>
+            <h2 className="text-4xl md:text-5xl font-semibold tracking-[-0.05em] text-foreground">
+              Diagnóstico de Calidad Asistido por IA.
+            </h2>
+            <p className="max-w-2xl mx-auto text-lg leading-relaxed text-secondary-muted">
+              Si quieres aterrizar tu situación actual antes de contratar una intervención más profunda, este flujo genera
+              una primera lectura técnica y un plan inicial.
+            </p>
+            
+            <div className="pt-10 space-y-6">
+               <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.16em] text-muted mb-2">
+                  <span>{STEPS[currentStep]}</span>
+                  <span>Paso {currentStep + 1} de 5</span>
+               </div>
+               <div className="h-1.5 bg-border rounded-full overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
+                    className="h-full bg-primary" 
+                  />
+               </div>
+               <div className="flex justify-between items-center gap-2">
+                  {STEPS.map((_, i) => (
+                    <div key={i} className={cn(
+                      "w-4 h-4 rounded-full border-2 transition-all flex items-center justify-center text-[10px] font-bold",
+                      i < currentStep ? "bg-primary border-primary text-white" : i === currentStep ? "border-primary text-primary" : "border-border text-muted"
+                    )}>
+                      {i < currentStep ? <Check className="w-2.5 h-2.5" /> : null}
+                    </div>
+                  ))}
+               </div>
+            </div>
+          </div>
+
+          <div className="admin-card p-8 md:p-12 shadow-2xl relative bg-white overflow-hidden">
           
           <AnimatePresence mode="wait">
             <motion.div
@@ -403,7 +580,8 @@ export default function ServiciosPage() {
             </div>
           )}
         </div>
-      </div>
+        </div>
+      </section>
     </main>
   )
 }

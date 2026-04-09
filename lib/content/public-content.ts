@@ -5,31 +5,8 @@ import matter from 'gray-matter'
 import { marked } from 'marked'
 import mongoose from 'mongoose'
 import Post from '@/models/Post'
-
-export type PublicProfile = {
-  nombre: string
-  titulo: string
-  empresa: string
-  ubicacion: string
-  bio_1: string
-  bio_2: string
-  foto_url: string
-  disponible: boolean
-  roles: Array<{ label: string; color: string }>
-  skills: Record<string, string[]>
-  experiencia: Array<{
-    id: string
-    periodo: string
-    rol: string
-    empresa: string
-    descripcion: string
-    tags: string[]
-  }>
-  certificaciones: Array<{
-    nombre: string
-    institucion: string
-  }>
-}
+export * from '@/lib/content/profile-schema'
+import { normalizePublicProfile } from '@/lib/content/profile-schema'
 
 export type PublicPost = {
   id: string
@@ -49,73 +26,6 @@ type SourcePost = Partial<PublicPost> & Record<string, any>
 
 const POSTS_DIR = path.join(process.cwd(), 'posts')
 const MONGODB_URI = process.env.MONGODB_URI
-
-export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
-  nombre: 'Carlos Cervantes',
-  titulo: 'Senior Software Engineer · Performance Test Engineer',
-  empresa: 'Wizeline',
-  ubicacion: 'Guadalajara, México',
-  bio_1:
-    'Llevo más de 6 años construyendo calidad dentro de equipos de producto que no pueden permitirse fallar. Me especializo en performance testing, automatización E2E y estrategia QA para aplicaciones que escalan a millones de usuarios.',
-  bio_2:
-    'Mi enfoque combina criterio técnico profundo con claridad de negocio: no solo encuentro bugs, sino que diseño sistemas que evitan que aparezcan. Trabajo con equipos en LATAM y Norteamérica para lanzar software más confiable.',
-  foto_url: '/images/profile.jpg',
-  disponible: true,
-  roles: [
-    { label: 'Performance Engineer', color: '#0071e3' },
-    { label: 'Mobile Automation', color: '#0ea5e9' },
-    { label: 'Quality Advocate', color: '#111827' },
-  ],
-  skills: {
-    Mobile: ['Appium', 'XCUITest', 'Espresso'],
-    Web: ['Playwright', 'Cypress', 'Selenium', 'Nightwatch'],
-    Performance: ['JMeter', 'k6', 'GitHub Actions', 'Jenkins', 'Grafana'],
-    Cloud: ['SauceLabs', 'BrowserStack', 'Firebase', 'AWS'],
-  },
-  experiencia: [
-    {
-      id: 'wizeline-performance',
-      periodo: '2025 — Actualidad',
-      rol: 'Senior Software Engineer — Performance Test Engineer',
-      empresa: 'Wizeline',
-      descripcion:
-        'Diseño y ejecución de estrategias de performance testing para garantizar escalabilidad y confiabilidad, con pruebas de carga, estrés y endurance integradas en pipelines CI/CD.',
-      tags: ['Performance', 'k6', 'CI/CD'],
-    },
-    {
-      id: 'wizeline-mobile',
-      periodo: '2024 — 2025',
-      rol: 'QA Engineer III — Mobile Automation',
-      empresa: 'Wizeline',
-      descripcion:
-        'Lideré la calidad para aplicaciones móviles iOS y Android del sector real estate con más de 10M usuarios activos, reduciendo hasta 60% el tiempo de regresión.',
-      tags: ['Appium', 'iOS', 'Android'],
-    },
-    {
-      id: 'wizeline-automation',
-      periodo: '2021 — 2024',
-      rol: 'QA Engineer — Automation Engineer',
-      empresa: 'Wizeline',
-      descripcion:
-        'Construcción de suites automatizadas para SDKs de streaming, plataformas e-commerce y apps móviles, con fuerte integración de GitHub Actions y validaciones automatizadas.',
-      tags: ['Automation', 'E2E', 'GitHub Actions'],
-    },
-    {
-      id: 'ibm-specialist',
-      periodo: '2020 — 2021',
-      rol: 'Software Test Specialist',
-      empresa: 'IBM',
-      descripcion:
-        'Definí planes de prueba completos y frameworks de automatización para ecosistemas cloud empresariales y productos web basados en Angular.',
-      tags: ['Testing', 'Cloud', 'Angular'],
-    },
-  ],
-  certificaciones: [
-    { nombre: 'ISTQB Certified Tester', institucion: 'ISTQB' },
-    { nombre: 'Test Automation University', institucion: 'TAU' },
-    { nombre: 'ICAgile — Agile Testing', institucion: 'ICAgile' },
-  ],
-}
 
 function stripMarkdown(markdown: string) {
   return markdown
@@ -294,3 +204,5 @@ export function mergePublicPosts(...collections: Array<PublicPost[] | null | und
     (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
   )
 }
+
+export { normalizePublicProfile }

@@ -75,4 +75,4 @@ const hobbySchema = new mongoose.Schema({
 
 hobbySchema.index({ order: 1, title: 1 });
 
-module.exports = mongoose.model('Hobby', hobbySchema);
+module.exports = mongoose.models.Hobby || mongoose.model('Hobby', hobbySchema);
