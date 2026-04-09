@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { Navbar } from '@/components/public/navbar'
-import { Footer } from '@/components/public/footer'
+import { AppleHeader } from '@/components/Header'
+import { AppleFooter } from '@/components/Footer'
 
 export const metadata: Metadata = {
   robots: {
@@ -15,12 +15,12 @@ export default function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-transparent">
-      <Navbar />
-      <div className="flex-1">
+    <div className="flex min-h-screen flex-col bg-white">
+      <AppleHeader />
+      <div className="flex-1 pt-header">
         {children}
       </div>
-      <Footer />
+      <AppleFooter />
     </div>
   )
 }

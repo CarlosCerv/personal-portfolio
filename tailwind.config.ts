@@ -30,6 +30,20 @@ const config: Config = {
           secondary: "rgba(0, 0, 0, 0.04)",
           accent: "rgba(0, 113, 227, 0.2)",
         },
+        // CSS Variable-based colors for consistency
+        blue: "#0071E3",
+        "blue-hover": "#0077F0",
+        "blue-active": "#0051B3",
+        green: "#34C759",
+        orange: "#FF9500",
+        red: "#FF3B30",
+        white: "#FFFFFF",
+        "white-secondary": "#F5F5F7",
+        "white-tertiary": "#EFEFEF",
+        "gray-light": "#D2D2D7",
+        "gray-medium": "#555555",
+        "gray-dark": "#1D1D1F",
+        black: "#000000",
       },
       fontFamily: {
         sans: [
@@ -86,6 +100,9 @@ const config: Config = {
       ringOffsetColor: {
         background: "#FFFFFF",
         "background-alt": "#F5F5F7",
+      },
+      spacing: {
+        header: "60px",
       },
     },
   },
