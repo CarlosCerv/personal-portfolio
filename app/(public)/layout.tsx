@@ -17,9 +17,7 @@ export default function PublicLayout({
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <AppleHeader />
-      <div className="flex-1 pt-header">
-        {children}
-      </div>
+      <div className="flex-1">{children}</div>
       <AppleFooter />
     </div>
   )

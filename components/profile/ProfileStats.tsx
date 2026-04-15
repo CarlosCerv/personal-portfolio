@@ -59,25 +59,25 @@ function AnimatedMetric({ stat }: { stat: ProfileStat }) {
     finalNumeric === null ? stat.numero : stat.numero.replace(/\d[\d,.]*/, display.toLocaleString())
 
   return (
-    <div ref={ref} className="rounded-[24px] border border-border bg-white px-5 py-6">
-      <p className="text-3xl font-semibold tracking-[-0.05em] text-foreground md:text-4xl">{shownValue}</p>
-      <p className="mt-2 text-sm leading-relaxed text-secondary-muted">{stat.label}</p>
+    <div ref={ref} className="surface-card px-6 py-8 transition-all">
+      <p className="text-[30px] font-semibold tracking-[-0.06em] text-[#111113] md:text-[38px]">{shownValue}</p>
+      <p className="mt-2 text-[13px] leading-[1.7] text-[#6f6f77]">{stat.label}</p>
     </div>
   )
 }
 
 export function ProfileStats({ stats }: { stats: ProfileStat[] }) {
   return (
-    <section className="rounded-[32px] bg-background px-6 py-8 md:px-8">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-[-0.04em] text-foreground md:text-3xl">
+    <section className="surface-panel px-6 py-10 md:px-12">
+      <div className="mb-10">
+        <h2 className="section-title">
           Impacto comprobable
         </h2>
-        <p className="mt-2 text-base text-secondary-muted">
+        <p className="section-copy mt-3">
           Métricas que resumen el alcance real del trabajo de Carlos en calidad, automatización y performance.
         </p>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         {stats.map((stat) => (
           <AnimatedMetric key={`${stat.numero}-${stat.label}`} stat={stat} />
         ))}

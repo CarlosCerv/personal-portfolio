@@ -50,8 +50,8 @@ export default async function PublicProfile() {
   const publicBaseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://carloscervantes-qa.vercel.app'
 
   return (
-    <main className="min-h-screen bg-background-alt pt-32 pb-20">
-      <div className="mx-auto max-w-6xl space-y-10 px-6">
+    <main className="page-shell pt-10 pb-20 md:pt-12">
+      <div className="mx-auto max-w-6xl space-y-8 px-5 sm:px-6 lg:space-y-10 lg:px-8">
         <ProfileHero profile={profile} />
         <ProfileStats stats={profile.stats} />
         <ProfileAbout paragraphs={[profile.bio_1, profile.bio_2, profile.bio_3].filter(Boolean)} />

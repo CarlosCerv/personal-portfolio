@@ -1,7 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
-import { animations } from '@/lib/animations'
 import { cn } from '@/lib/utils'
 
 type ProcessStepProps = {
@@ -12,62 +11,61 @@ type ProcessStepProps = {
   points: string[]
   image?: React.ReactNode
   reverse?: boolean
-  className?: string
 }
 
-export function ProcessStep({
-  number,
-  tag,
-  title,
-  description,
-  points,
-  image,
-  reverse = false,
-  className
-}: ProcessStepProps) {
+export function ProcessStep({ number, tag, title, description, points, image, reverse }: ProcessStepProps) {
   return (
     <motion.div
-      {...animations.fadeInUp}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'grid grid-cols-1 lg:grid-cols-2 gap-12 items-center',
-        reverse && 'lg:grid-cols-2 [&>*:first-child]:lg:order-2 [&>*:last-child]:lg:order-1',
-        className
+        'grid grid-cols-1 items-center gap-10 rounded-[34px] border border-black/[0.06] bg-white/88 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.06)] lg:grid-cols-2 lg:gap-16 lg:p-10',
+        reverse && 'lg:[&>*:first-child]:order-2'
       )}
     >
-      {/* Left Content */}
       <div className="space-y-8">
-        <div className="space-y-4">
-          <span className="text-xs font-semibold text-gray-secondary uppercase tracking-wide">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="rounded-full bg-[#111113] px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white">
             {number}
           </span>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue/10 border border-blue/20">
-            <div className="w-2 h-2 bg-blue rounded-full" />
-            <span className="text-sm font-semibold text-blue">{tag}</span>
-          </div>
-          <h3 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-dark leading-tight">
+          <span className="section-badge">{tag}</span>
+        </div>
+
+        <div className="space-y-5">
+          <h3 className="max-w-2xl text-[#111113]" style={{ fontSize: 'clamp(2rem, 4vw, 3.4rem)' }}>
             {title}
           </h3>
-          <p className="text-lg text-gray-secondary leading-relaxed">{description}</p>
+          <p className="max-w-xl text-[1rem] leading-[1.8] text-[#5c5d63] md:text-[1.14rem]">{description}</p>
         </div>
-        <ul className="space-y-4">
+
+        <ul className="grid gap-3">
           {points.map((point, i) => (
-            <li key={i} className="flex items-center gap-3 text-sm font-medium text-gray-dark">
-              <div className="w-5 h-5 rounded-full bg-green/20 text-green flex items-center justify-center flex-shrink-0">
-                <Check className="w-3 h-3" />
+            <li
+              key={i}
+              className="flex items-start gap-3 rounded-[18px] border border-black/[0.05] bg-[#fafafa] px-4 py-4"
+            >
+              <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#111113]">
+                <Check className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
               </div>
-              {point}
+              <span className="text-[0.95rem] font-medium leading-relaxed text-[#111113]">{point}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Right Side Image/Content */}
       {image && (
         <motion.div
-          {...animations.fadeInUp}
-          className="p-6 bg-white rounded-lg border border-gray-light shadow-sm"
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="relative"
         >
-          {image}
+          <div className="relative overflow-hidden rounded-[28px] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,245,247,0.94))] p-3 shadow-[0_28px_70px_rgba(15,23,42,0.12)]">
+            {image}
+          </div>
         </motion.div>
       )}
     </motion.div>

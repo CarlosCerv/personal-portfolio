@@ -1,30 +1,24 @@
 # Carlos Cervantes | QA & Performance Portfolio
 
-[![Platform](https://img.shields.io/badge/Platform-Node.js-black?style=flat-square&logo=node.js)](https://nodejs.org/)
-[![Database](https://img.shields.io/badge/Database-MongoDB-black?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://vercel.com/)
-[![License](https://img.shields.io/badge/License-MIT-black?style=flat-square)](LICENSE)
-
-Portafolio profesional construido con Express y EJS para presentar servicios de QA, performance engineering, blog técnico, secciones editoriales y flujos de autenticación con sesiones.
+Portafolio profesional construido con Next.js App Router para presentar servicios de QA, performance engineering, perfil profesional, blog técnico y flujos de diagnóstico asistido por IA.
 
 Sitio en producción: [https://carloscervantes-qa.vercel.app](https://carloscervantes-qa.vercel.app)
 
+## Stack actual
+
+- Framework: Next.js 16 + React 19 + TypeScript
+- UI: Tailwind CSS 4 + Framer Motion
+- Datos: Supabase + Markdown + soporte Mongo para posts públicos existentes
+- Deploy: Vercel
+
 ## Qué incluye
 
-- Home comercial con journeys visuales y animaciones suaves.
-- Perfil, proyectos, podcast e intereses con diseño editorial unificado.
-- Blog con filtros, etiquetas y detalle de posts.
-- Registro, login y panel de usuario con sesiones.
-- Panel admin privado accesible solo por URL.
-- Metadatos SEO/Open Graph listos para compartir en WhatsApp y redes.
-
-## Stack
-
-- Backend: Node.js, Express, Mongoose
-- Frontend: EJS, CSS personalizado, JavaScript vanilla
-- Base de datos: MongoDB
-- Auth y sesión: `express-session` + `connect-mongo`
-- Deploy: Vercel
+- Home comercial con journeys visuales y composición editorial.
+- Página de servicios con diagnóstico asistido por IA.
+- Perfil profesional completo editable desde `/admin/perfil`.
+- Blog público conectado a Supabase con fallback a contenido existente.
+- Secciones públicas para contacto, podcast, intereses y política de privacidad.
+- Metadatos Open Graph y estructura optimizada para compartir.
 
 ## Arranque local
 
@@ -35,45 +29,43 @@ npm install
 npm run dev
 ```
 
-Variables recomendadas:
+## Variables de entorno
+
+Usa `.env.example` como base. Las variables más importantes son:
 
 ```env
-PORT=3000
-NODE_ENV=development
-MONGODB_URI=mongodb://localhost:27017/personal-portfolio
-SESSION_SECRET=replace-this-secret
-ADMIN_PASSWORD=replace-this-password
-SITE_URL=http://localhost:3000
-GITHUB_TOKEN=optional
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+MONGODB_URI=your_mongodb_connection
+ANTHROPIC_API_KEY=your_anthropic_api_key
+RESEND_API_KEY=your_resend_api_key
+FROM_EMAIL=verified_sender@example.com
 ```
 
 ## Scripts
 
 ```bash
 npm run dev
-npm test
+npm run build
+npm run start
+npm run test
 npm run build:favicon
 ```
 
-`npm run build:favicon` genera `public/favicon.ico` a partir de los PNGs del logo actual.
+## Estructura principal
 
-## Estructura importante
+- `app/`: rutas públicas y APIs App Router
+- `components/`: shell del sitio, secciones y bloques del perfil
+- `lib/`: contenido, metadata, IA, Supabase y utilidades
+- `models/Post.js`: modelo de posts para compatibilidad con contenido existente
+- `posts/`: artículos en Markdown
+- `public/`: assets del sitio
+- `docs/`: documentación vigente del rediseño y del sistema visual
 
-- `app.js`: servidor Express, sesiones, metadatos y rutas
-- `views/`: páginas y parciales EJS
-- `public/css/style-redesign.css`: sistema visual principal
-- `public/js/site.js`: interacciones y animaciones
-- `posts/`: contenido Markdown del blog
-- `docs/`: documentación de marca, contenido y despliegue
+## Estado del proyecto
 
-## Documentación
-
-- [Brand Guide](docs/BRAND_GUIDE.md)
-- [Content Update Guide](docs/CONTENT_UPDATE_GUIDE.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-
-## Notas
-
-- El botón del admin no se muestra en la UI pública; el acceso es por URL.
-- La aplicación usa un sistema híbrido de contenido: vistas estáticas + posts en MongoDB/Markdown.
-- El branding actual usa `brand-mark.svg`, `favicon.ico` y `apple-touch-icon.png`.
+- Solo se mantiene la arquitectura actual basada en Next.js.
+- La estructura del repositorio está alineada al frontend premium vigente.
+- El diseño actual responde al último rediseño visual aplicado al sitio público.

@@ -60,20 +60,20 @@ export async function POST(req: Request) {
         subject: `Tu diagnóstico QA está listo, ${data.nombre}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1d1d1f;">
-            <h1 style="font-size: 24px; color: #0071e3;">Hola ${data.nombre},</h1>
+            <h1 style="font-size: 24px; color: #1d1d1f;">Hola ${data.nombre},</h1>
             <p style="font-size: 16px; line-height: 1.5;">He generado tu diagnóstico QA personalizado basado en los datos de <strong>${data.empresa || 'tu proyecto'}</strong>.</p>
             
             <div style="background: #f5f5f7; padding: 30px; border-radius: 20px; text-align: center; margin: 30px 0;">
               <p style="text-transform: uppercase; font-size: 10px; font-weight: bold; margin-bottom: 5px;">Tu QA Maturity Score</p>
-              <div style="font-size: 48px; font-weight: 900; color: #0071e3;">${diagnostic.score}%</div>
+              <div style="font-size: 48px; font-weight: 900; color: #1d1d1f;">${diagnostic.score}%</div>
               <p style="font-weight: bold; margin-top: 5px;">ESTADO: ${diagnostic.scoreLabel.toUpperCase()}</p>
             </div>
 
             <p style="font-size: 16px;">Puedes descargar el reporte completo en PDF aquí:</p>
-            <a href="${pdfUrl}" style="display: inline-block; padding: 15px 30px; background: #0071e3; color: white; text-decoration: none; border-radius: 10px; font-weight: bold; margin: 10px 0;">Descargar Diagnóstico PDF</a>
+            <a href="${pdfUrl}" style="display: inline-block; padding: 15px 30px; background: #1d1d1f; color: white; text-decoration: none; border-radius: 10px; font-weight: bold; margin: 10px 0;">Descargar Diagnóstico PDF</a>
 
             <hr style="border: none; border-top: 1px solid #d2d2d7; margin: 40px 0;" />
-            <p style="font-size: 12px; color: #86868b;">&copy; ${new Date().getFullYear()} Carlos Cervantes &middot; QA Consultant</p>
+            <p style="font-size: 12px; color: #6f6f77;">&copy; ${new Date().getFullYear()} Carlos Cervantes &middot; QA Consultant</p>
           </div>
         `
       }).catch(e => console.error("Email error:", e))

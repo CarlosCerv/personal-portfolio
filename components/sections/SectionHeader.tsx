@@ -1,51 +1,34 @@
 import React from 'react'
-import { motion } from 'framer-motion'
-import { animations } from '@/lib/animations'
 import { cn } from '@/lib/utils'
 
 type SectionHeaderProps = {
   badge?: string
   title: string
   description?: string
-  align?: 'left' | 'center'
+  centered?: boolean
   className?: string
 }
 
-export function SectionHeader({
-  badge,
-  title,
-  description,
-  align = 'center',
-  className
-}: SectionHeaderProps) {
+export function SectionHeader({ badge, title, description, centered = true, className }: SectionHeaderProps) {
   return (
-    <div className={cn(
-      'space-y-4 mb-12 md:mb-16',
-      align === 'center' ? 'text-center' : 'text-left',
-      className
-    )}>
+    <div className={cn('space-y-5 px-5 sm:px-6 lg:px-8', centered && 'text-center', className)}>
       {badge && (
-        <motion.span
-          {...animations.fadeInUp}
-          className="text-xs font-semibold uppercase tracking-widest text-blue"
-        >
-          {badge}
-        </motion.span>
+        <div className={cn(centered && 'flex justify-center')}>
+          <span className="section-badge">{badge}</span>
+        </div>
       )}
-      <motion.h2
-        {...animations.fadeInUp}
-        className="text-5xl md:text-6xl font-bold tracking-tight text-gray-dark leading-tight"
-      >
+      <h2 className="max-w-4xl font-semibold tracking-[-0.05em] text-[#111113] leading-[1.05]">
         {title}
-      </motion.h2>
+      </h2>
       {description && (
-        <motion.p
-          {...animations.fadeInUp}
-          className="text-lg text-gray-secondary max-w-2xl leading-relaxed"
-          style={align === 'left' ? {} : { marginLeft: 'auto', marginRight: 'auto' }}
+        <p
+          className={cn(
+            'max-w-3xl text-[1.03rem] leading-[1.75] text-[#5c5d63] md:text-[1.16rem]',
+            centered && 'mx-auto'
+          )}
         >
           {description}
-        </motion.p>
+        </p>
       )}
     </div>
   )

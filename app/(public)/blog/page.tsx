@@ -33,9 +33,14 @@ export default async function PublicBlog() {
 
   if (!posts || posts.length === 0) {
     return (
-      <main className="min-h-screen bg-background pt-32 pb-20 text-center">
-        <h1 className="text-4xl font-semibold text-text-primary tracking-[-0.03em]">Blog</h1>
-        <p className="mt-3 text-base text-text-secondary">Próximamente más contenido de valor...</p>
+      <main className="page-shell pt-10 pb-20 md:pt-12">
+        <div className="page-band">
+          <div className="space-y-4">
+            <span className="eyebrow">Artículos técnicos</span>
+            <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
+            <p className="section-copy max-w-2xl">Próximamente más contenido de valor...</p>
+          </div>
+        </div>
       </main>
     )
   }
@@ -44,31 +49,27 @@ export default async function PublicBlog() {
   const others = posts.slice(1)
 
   return (
-    <main className="min-h-screen bg-background pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6 space-y-20">
-        
-        {/* Header - Light Premium */}
+    <main className="page-shell pt-10 pb-20 md:pt-12">
+      <div className="page-band">
         <div className="space-y-4">
-          <span className="inline-block rounded-full bg-gradient-to-r from-accent-indigo/10 to-accent-cyan/10 px-4 py-2 text-xs font-semibold text-accent-indigo uppercase tracking-[0.1em] border border-accent-indigo/30">
-            Artículos técnicos
-          </span>
-          <h1 className="text-5xl md:text-6xl font-bold text-text-primary tracking-[-0.04em] leading-tight">
-            Blog de QA y Automatización
-          </h1>
-          <p className="text-lg text-text-secondary leading-relaxed max-w-2xl font-light">
+          <span className="eyebrow">Artículos técnicos</span>
+          <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
+          <p className="section-copy max-w-2xl">
             Guías detalladas, mejores prácticas y reflexiones sobre calidad de software, automatización y performance engineering.
           </p>
         </div>
+      </div>
 
-        {/* Featured Post - Full Width with Light Premium Style */}
+      <div className="space-y-20 py-16 md:py-20">
+
         <section>
+          <h2 className="eyebrow mb-6">Artículo destacado</h2>
           <Link
             href={`/blog/${featured.slug}`}
             aria-label={`Leer artículo destacado: ${featured.titulo}`}
-            className="group flex flex-col lg:grid lg:grid-cols-2 gap-0 lg:gap-6 overflow-hidden rounded-lg border border-border-primary bg-surface hover:border-border-accent transition-all duration-300 hover:shadow-lg h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="group surface-panel grid h-full gap-0 overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.10)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111113] lg:grid-cols-[1.08fr_0.92fr]"
           >
-            {/* Image - Dark Overlay */}
-            <div className="aspect-video lg:aspect-auto lg:h-full bg-background-alt overflow-hidden relative flex-shrink-0">
+            <div className="relative aspect-video flex-shrink-0 overflow-hidden bg-[#f3f4f6] lg:h-full lg:aspect-auto">
               {featured.imagen_portada ? (
                 <div className="relative w-full h-full overflow-hidden">
                   <Image
@@ -76,73 +77,68 @@ export default async function PublicBlog() {
                     alt={featured.titulo}
                     width={600}
                     height={400}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 brightness-50 group-hover:brightness-75"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     priority={true}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
-                  {/* Subtle Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-background/30 to-transparent group-hover:from-background/20 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[rgba(17,17,19,0.18)] via-transparent to-transparent" />
                 </div>
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-text-tertiary bg-background-alt">
+                <div className="flex h-full w-full items-center justify-center bg-[#f3f4f6] text-[#8a8b92]">
                   <FileText className="w-16 h-16 opacity-20" aria-hidden="true" />
                 </div>
               )}
             </div>
 
-            {/* Content */}
-            <div className="p-6 md:p-10 flex flex-col justify-between">
+            <div className="flex flex-col justify-between p-6 md:p-10">
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-2">
-                  <span className="inline-block text-xs font-bold text-accent-indigo uppercase tracking-[0.1em] bg-gradient-to-r from-accent-indigo/10 to-accent-cyan/10 px-3 py-1.5 rounded-full border border-accent-indigo/30">
+                  <span className="eyebrow rounded-full border border-[#0071e3]/12 bg-[#0071e3]/6 px-3 py-1.5">
                     {featured.categoria || 'Artículo'}
                   </span>
-                  <span className="inline-block text-xs font-bold text-accent-cyan uppercase tracking-[0.1em] bg-gradient-to-r from-accent-cyan/10 to-accent-indigo/10 px-3 py-1.5 rounded-full border border-accent-cyan/30">
+                  <span className="eyebrow rounded-full border border-black/[0.06] bg-[#fafafa] px-3 py-1.5 text-[#5c5d63]">
                     Destacado
                   </span>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-bold text-text-primary tracking-[-0.03em] group-hover:text-accent-cyan transition-colors duration-200">
+                <h2 className="text-[30px] font-semibold leading-[1.04] tracking-[-0.05em] text-[#111113] transition-colors duration-200 md:text-[40px]">
                   {featured.titulo}
                 </h2>
-                <p className="text-base text-text-secondary line-clamp-3 leading-relaxed">
+                <p className="line-clamp-3 text-[15px] leading-[1.85] text-[#5c5d63]">
                   {featured.excerpt}
                 </p>
               </div>
 
-              <div className="mt-8 flex items-center justify-between text-xs font-semibold text-text-tertiary uppercase tracking-[0.1em] pt-6 border-t border-border-primary">
+              <div className="mt-8 flex items-center justify-between border-t border-black/[0.06] pt-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8a8b92]">
                 <div className="flex items-center gap-4 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4" aria-hidden="true" />
+                    <Calendar className="w-3.5 h-3.5" aria-hidden="true" />
                     {format(new Date(featured.published_at), 'dd MMM yyyy', { locale: es })}
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4" aria-hidden="true" />
+                    <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                     5 min
                   </div>
                 </div>
-                <div className="text-accent-cyan flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                  Leer <ArrowRight className="w-3 h-3" aria-hidden="true" />
+                <div className="flex items-center gap-1.5 font-bold text-[#111113] transition-transform group-hover:translate-x-1">
+                  Leer <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </div>
               </div>
             </div>
           </Link>
         </section>
 
-        {/* Posts Grid - Dark Tech Premium Grid */}
+        {/* Posts Grid */}
         <section>
-          <h2 className="text-3xl md:text-4xl font-bold text-text-primary mb-10 tracking-[-0.03em]">
-            Más artículos
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <h2 className="eyebrow mb-6">Más artículos</h2>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {others.map((post) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
                 aria-label={`Leer artículo: ${post.titulo}`}
-                className="group flex flex-col h-full bg-surface border border-border-primary rounded-lg overflow-hidden hover:border-border-accent hover:shadow-lg transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-indigo focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="group surface-card flex h-full flex-col overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111113]"
               >
-                {/* Image - Dark Overlay with Zoom */}
-                <div className="aspect-video bg-background-alt overflow-hidden relative flex-shrink-0">
+                <div className="relative aspect-video flex-shrink-0 overflow-hidden bg-[#f3f4f6]">
                   {post.imagen_portada ? (
                     <div className="relative w-full h-full overflow-hidden">
                       <Image
@@ -150,47 +146,45 @@ export default async function PublicBlog() {
                         alt={post.titulo}
                         width={400}
                         height={225}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 brightness-50 group-hover:brightness-75"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         loading="lazy"
                       />
-                      {/* Subtle Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-background/20 to-transparent group-hover:from-background/30 transition-all duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(17,17,19,0.14)] via-transparent to-transparent" />
                     </div>
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-text-tertiary bg-background-alt">
+                    <div className="flex h-full w-full items-center justify-center bg-[#f3f4f6] text-[#8a8b92]">
                       <FileText className="w-12 h-12 opacity-10" aria-hidden="true" />
                     </div>
                   )}
                 </div>
 
-                {/* Content */}
-                <div className="p-5 md:p-6 flex flex-col flex-1">
+                <div className="flex flex-1 flex-col p-6">
                   <div className="flex flex-wrap gap-2 mb-3">
-                    <span className="text-xs font-bold text-accent-indigo uppercase tracking-[0.1em] bg-gradient-to-r from-accent-indigo/10 to-accent-cyan/10 px-2.5 py-1.5 rounded border border-accent-indigo/30">
+                    <span className="eyebrow rounded-full border border-[#0071e3]/12 bg-[#0071e3]/6 px-3 py-1.5 text-[9px]">
                       {post.categoria || 'Artículo'}
                     </span>
                     {post.tags && post.tags.length > 0 && (
-                      <span className="inline-flex items-center gap-1 text-xs text-text-tertiary">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-black/[0.06] bg-[#fafafa] px-3 py-1.5 text-[10px] font-medium text-[#5c5d63]">
                         <Tag className="w-3 h-3" aria-hidden="true" />
                         {post.tags[0]}
                       </span>
                     )}
                   </div>
 
-                  <h3 className="text-lg font-bold text-text-primary tracking-[-0.02em] group-hover:text-accent-indigo transition-colors duration-200 line-clamp-2 mb-2 leading-tight">
+                  <h3 className="mb-3 line-clamp-2 text-[19px] font-semibold leading-snug tracking-[-0.035em] text-[#111113]">
                     {post.titulo}
                   </h3>
 
-                  <p className="text-sm text-text-secondary line-clamp-2 flex-1 mb-4 leading-relaxed font-light">
+                  <p className="mb-5 flex-1 line-clamp-2 text-[14px] leading-[1.8] text-[#5c5d63]">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs font-semibold text-text-tertiary uppercase tracking-[0.08em] pt-4 border-t border-border-primary">
+                  <div className="flex items-center justify-between border-t border-black/[0.06] pt-4 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8a8b92]">
                     <time dateTime={new Date(post.published_at).toISOString()}>
                       {format(new Date(post.published_at), 'dd MMM', { locale: es })}
                     </time>
-                    <span className="text-accent-indigo font-bold group-hover:translate-x-1 transition-transform duration-200">
+                    <span className="font-bold text-[#111113] transition-transform duration-200 group-hover:translate-x-1">
                       Leer →
                     </span>
                   </div>

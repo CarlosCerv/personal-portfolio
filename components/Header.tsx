@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
   { label: 'Inicio', href: '/' },
@@ -16,143 +17,150 @@ const navItems = [
 ]
 
 export function AppleHeader() {
+  const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const onScroll = () => setIsScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = ''
     }
   }, [isMobileMenuOpen])
 
   return (
     <>
-      {/* Main Header */}
-      <header
-        className={cn(
-          'fixed top-0 w-full z-50 transition-all duration-150',
-          'bg-white',
-          isScrolled && 'shadow-header'
-        )}
-      >
-        <nav className="container h-header flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 group"
-          >
-            <div className="w-8 h-8 rounded-md bg-blue flex items-center justify-center group-hover:bg-blue-hover transition-colors">
-              <span className="text-white font-bold text-sm">CC</span>
-            </div>
-            <span className="text-gray-dark font-medium hidden sm:inline">
-              Carlos Cervantes
-            </span>
-          </Link>
-
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-2 lg:gap-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-4 py-2 text-sm font-medium text-gray-medium hover:text-blue transition-colors duration-150"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Button - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="#contact"
-              className="px-6 py-2 rounded-md bg-blue text-white text-sm font-medium hover:bg-blue-hover active:bg-blue-active transition-colors duration-150"
-            >
-              Contacto
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-gray-dark hover:text-blue transition-colors"
-            aria-label="Menu"
-          >
-            {isMobileMenuOpen ? (
-              <X size={24} />
-            ) : (
-              <Menu size={24} />
+      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
+        <div className="mx-auto max-w-7xl">
+          <div
+            className={cn(
+              'apple-shell relative overflow-hidden rounded-[24px] border px-4 py-3 transition-all duration-300 sm:px-5',
+              isScrolled
+                ? 'border-black/[0.08] bg-white/82 shadow-[0_24px_60px_rgba(15,23,42,0.12)]'
+                : 'border-white/75 bg-white/70 shadow-[0_16px_40px_rgba(15,23,42,0.07)]'
             )}
-          </button>
-        </nav>
+          >
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,113,227,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(17,17,19,0.04),transparent_32%)]" />
+
+            <nav className="relative flex items-center justify-between gap-3">
+              <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Carlos Cervantes - Home">
+                <div className="flex h-11 w-11 items-center justify-center rounded-[15px] border border-black/[0.08] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.08)]">
+                  <span className="text-[13px] font-semibold tracking-[-0.03em] text-[#111113]">CC</span>
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-[0.98rem] font-semibold tracking-[-0.025em] text-[#111113]">
+                    Carlos Cervantes
+                  </p>
+                </div>
+              </Link>
+
+              <div className="hidden items-center gap-1.5 lg:flex">
+                {navItems.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        'relative rounded-full px-4 py-2.5 text-[0.86rem] font-medium tracking-[-0.015em] transition-all duration-200',
+                        isActive
+                          ? 'bg-[#111113] text-white shadow-[0_14px_26px_rgba(17,17,19,0.16)]'
+                          : 'text-[#5c5d63] hover:bg-white hover:text-[#111113]'
+                      )}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </div>
+
+              <div className="hidden items-center gap-3 lg:flex">
+                <Link
+                  href="/contacto"
+                  className="btn-base btn-primary min-w-[132px] px-5 py-2.5 text-[0.88rem]"
+                >
+                  Hablemos
+                </Link>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((open) => !open)}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-[14px] border border-black/[0.08] bg-white text-[#111113] shadow-[0_8px_20px_rgba(15,23,42,0.06)] transition-colors hover:bg-[#fafafa] lg:hidden"
+                aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                aria-expanded={isMobileMenuOpen}
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </nav>
+          </div>
+        </div>
       </header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
-        {isMobileMenuOpen && (
+        {isMobileMenuOpen ? (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-[rgba(17,17,19,0.16)] backdrop-blur-sm lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/20 z-40 md:hidden"
             />
-
-            {/* Menu Panel */}
             <motion.div
-              initial={{ x: 300, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 300, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 bottom-0 w-64 bg-white shadow-lg z-50 md:hidden overflow-y-auto"
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="fixed inset-x-3 top-[88px] z-50 lg:hidden"
             >
-              <div className="p-6 space-y-2">
-                <p className="text-xs font-medium text-gray-light uppercase tracking-wide mb-6">
-                  Navegación
-                </p>
-                {navItems.map((item) => (
+              <div className="apple-shell rounded-[28px] border border-white/80 bg-white/92 p-4 shadow-[0_28px_60px_rgba(15,23,42,0.16)]">
+                <div className="grid gap-1">
+                  {navItems.map((item) => {
+                    const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={cn(
+                          'flex items-center justify-between rounded-[18px] px-4 py-3 text-[0.98rem] font-medium tracking-[-0.02em] transition-all',
+                          isActive
+                            ? 'bg-[#111113] text-white'
+                            : 'text-[#5c5d63] hover:bg-[#fafafa] hover:text-[#111113]'
+                        )}
+                      >
+                        {item.label}
+                        <span className={cn('h-2 w-2 rounded-full', isActive ? 'bg-white' : 'bg-black/[0.08]')} />
+                      </Link>
+                    )
+                  })}
+                </div>
+
+                <div className="mt-4 border-t border-black/[0.06] pt-4">
                   <Link
-                    key={item.href}
-                    href={item.href}
+                    href="/contacto"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block px-4 py-3 rounded-md text-gray-dark hover:bg-white-secondary transition-colors text-sm"
+                    className="btn-base btn-primary w-full"
                   >
-                    {item.label}
+                    Hablemos
                   </Link>
-                ))}
-                <div className="border-t border-gray-light pt-6 mt-6">
-                  <a
-                    href="#contact"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="block w-full px-6 py-3 rounded-md bg-blue text-white text-sm font-medium text-center hover:bg-blue-hover transition-colors"
-                  >
-                    Contacto
-                  </a>
                 </div>
               </div>
             </motion.div>
           </>
-        )}
+        ) : null}
       </AnimatePresence>
 
-      {/* Spacer */}
-      <div className="h-header" />
+      <div className="h-[92px] sm:h-[108px]" />
     </>
   )
 }

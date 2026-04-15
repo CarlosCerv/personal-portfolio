@@ -48,7 +48,7 @@ export async function POST(req: Request) {
           <p><strong>Empresa:</strong> ${data.empresa || 'N/A'}</p>
           <p><strong>Servicio:</strong> ${data.servicio}</p>
           <p><strong>Mensaje:</strong></p>
-          <blockquote style="border-left: 4px solid #0071e3; padding-left: 20px; font-style: italic;">
+          <blockquote style="border-left: 4px solid #1d1d1f; padding-left: 20px; font-style: italic;">
             ${data.descripcion}
           </blockquote>
         `
@@ -61,12 +61,12 @@ export async function POST(req: Request) {
         subject: `Gracias por contactarme, ${data.nombre}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #1d1d1f;">
-            <h1 style="font-size: 24px; color: #0071e3;">Hola ${data.nombre},</h1>
+            <h1 style="font-size: 24px; color: #1d1d1f;">Hola ${data.nombre},</h1>
             <p style="font-size: 16px; line-height: 1.5;">He recibido tu mensaje sobre <strong>${data.servicio}</strong>. Me pondré en contacto contigo en menos de 24 horas.</p>
             <p style="font-size: 16px; line-height: 1.5;">Mientras tanto, puedes explorar mi blog o revisar mi perfil profesional.</p>
             
             <hr style="border: none; border-top: 1px solid #d2d2d7; margin: 40px 0;" />
-            <p style="font-size: 12px; color: #86868b;">&copy; ${new Date().getFullYear()} Carlos Cervantes &middot; QA Consultant</p>
+            <p style="font-size: 12px; color: #6f6f77;">&copy; ${new Date().getFullYear()} Carlos Cervantes &middot; QA Consultant</p>
           </div>
         `
       })

@@ -4,48 +4,48 @@ export function ProfileProyectos({ proyectos }: { proyectos: ProfileProject[] })
   const visibles = proyectos.filter((item) => item.visible)
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-10">
       <div>
-        <h2 className="text-2xl font-semibold tracking-[-0.04em] text-foreground md:text-3xl">
+        <h2 className="section-title">
           Proyectos notables
         </h2>
-        <p className="mt-2 text-base text-secondary-muted">
+        <p className="section-copy mt-3">
           Casos representativos donde QA y performance generaron mejoras medibles.
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-5 lg:grid-cols-2">
         {visibles.map((project) => (
           <article
             key={`${project.nombre}-${project.empresa_anonima}`}
-            className="admin-card rounded-[30px] p-7 transition-transform duration-200 hover:-translate-y-1"
+            className="surface-card flex flex-col p-6 md:p-8"
           >
-            <div className="space-y-4">
+            <div className="space-y-5 flex-1 flex flex-col">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                  <p className="eyebrow text-[#111113]">
                     {project.empresa_anonima}
                   </p>
-                  <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-foreground">
+                  <h3 className="mt-1 text-[20px] font-semibold tracking-[-0.03em] text-[#111113]">
                     {project.nombre}
                   </h3>
                 </div>
-                <span className="rounded-full bg-background-alt px-3 py-1 text-xs font-medium text-muted">
+                <span className="rounded-full bg-[#fafafa] border border-black/[0.06] px-3 py-1 text-[12px] font-semibold text-[#6f6f77]">
                   {project.periodo}
                 </span>
               </div>
 
-              <div className="rounded-[22px] bg-background px-4 py-4">
-                <p className="text-sm font-semibold text-foreground">{project.metricas}</p>
+              <div className="surface-card-soft px-5 py-4">
+                <p className="text-[14px] font-semibold leading-snug text-[#111113]">{project.metricas}</p>
               </div>
 
-              <p className="text-sm leading-[1.8] text-secondary-muted">{project.descripcion}</p>
+              <p className="flex-1 text-[15px] leading-[1.85] text-[#5c5d63]">{project.descripcion}</p>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 pt-2 border-t border-black/[0.06] mt-4">
                 {project.stack.map((item) => (
                   <span
                     key={item}
-                    className="rounded-full border border-border bg-white px-3 py-1 text-xs font-medium text-muted"
+                    className="rounded-full border border-black/[0.08] bg-white px-3 py-1 text-[12px] font-medium text-[#111113]"
                   >
                     {item}
                   </span>

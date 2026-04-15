@@ -145,76 +145,42 @@ export default function ServiciosPage() {
   if (isProcessing) return <ProcessingState />
 
   return (
-    <main className="min-h-screen bg-white pt-32 pb-20">
-      {/* Hero Section */}
-      <section className="pb-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
-            {/* Content */}
-            <div className="space-y-8">
-              <span className="inline-block rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-semibold text-primary uppercase tracking-[0.1em]">
-                QA & Performance
-              </span>
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-6xl font-semibold text-text-primary tracking-[-0.03em] leading-tight">
-                  Calidad técnica documentada y escalable.
-                </h1>
-                <p className="text-lg text-text-secondary leading-relaxed max-w-xl">
-                  Ayudo a equipos a implementar QA como capacidad real: diagnóstico de riesgos, automatización E2E y performance testing con entregables claros.
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="#diagnostico"
-                  className="inline-flex justify-center rounded-[10px] bg-primary px-6 py-3.5 text-sm font-semibold text-white uppercase tracking-[0.12em] hover:bg-primary-hover hover:shadow-lg transition-all active:scale-95"
-                >
-                  Iniciar diagnóstico
-                </Link>
-                <Link
-                  href="/contacto"
-                  className="inline-flex justify-center rounded-[10px] border border-divider bg-white px-6 py-3.5 text-sm font-semibold text-text-primary uppercase tracking-[0.12em] hover:border-primary hover:text-primary hover:bg-background-alt transition-all"
-                >
-                  Agendar consultoría
-                </Link>
-              </div>
-            </div>
-
-            {/* Cards */}
-            <div className="space-y-4">
-              <div className="rounded-[16px] border border-divider bg-white p-6 shadow-sm">
-                <div className="space-y-4">
-                  {[
-                    { title: 'Diagnóstico QA', desc: 'Análisis de riesgos prioritarios' },
-                    { title: 'Automatización E2E', desc: 'Cobertura de flujos críticos' },
-                    { title: 'Performance Testing', desc: 'Escalabilidad probada' },
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className={cn(
-                        'rounded-[12px] border border-divider bg-background-alt p-4 transition-all',
-                        'hover:bg-white hover:border-primary/30'
-                      )}
-                    >
-                      <p className="text-xs font-semibold uppercase tracking-[0.1em] text-primary">
-                        {item.title}
-                      </p>
-                      <p className="mt-1.5 text-sm text-text-secondary">
-                        {item.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+    <main className="min-h-screen bg-white pb-20">
+      {/* Hero strip */}
+      <div className="mb-20 overflow-hidden border-b border-black/[0.06] bg-[#fafafa] pt-16 pb-16">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 space-y-4">
+          <span className="section-badge">QA & Performance</span>
+          <h1
+            className="font-bold text-[#1d1d1f] leading-tight max-w-4xl"
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', letterSpacing: '-0.04em' }}
+          >
+            Calidad técnica documentada y escalable.
+          </h1>
+          <p className="text-[17px] text-[#6f6f77] leading-relaxed max-w-2xl">
+            Ayudo a equipos a implementar QA como capacidad real: diagnóstico de riesgos, automatización E2E y performance testing con entregables claros.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 pt-5">
+            <Link
+              href="#diagnostico"
+              className="group inline-flex justify-center items-center gap-2 px-8 py-3.5 bg-[#1d1d1f] text-white rounded-full font-semibold text-[15px] hover:bg-[#000000] hover:shadow-[0_6px_20px_rgba(0,0,0,0.35)] transition-all"
+            >
+              Iniciar diagnóstico <ArrowRight className="w-4 h-4 hidden sm:block group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/contacto"
+              className="inline-flex justify-center items-center gap-2 px-8 py-3.5 border border-black/[0.13] text-[#1d1d1f] rounded-full font-semibold text-[15px] hover:bg-[#f5f5f7] transition-all"
+            >
+              Agendar consultoría
+            </Link>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Services Section */}
       <section className="pb-20">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 space-y-4">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.1em] text-primary">
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.1em] tracking-[0.1em] text-primary">
               Servicios principales
             </span>
             <h2 className="text-4xl md:text-5xl font-semibold text-text-primary tracking-[-0.03em] leading-tight max-w-3xl">
@@ -225,33 +191,34 @@ export default function ServiciosPage() {
             </p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-5 lg:grid-cols-3">
             {SERVICE_PILLARS.map((service) => (
               <div
                 key={service.title}
-                className="rounded-[16px] border border-divider bg-white p-8 hover:shadow-md hover:border-primary/30 transition-all duration-300"
+                className="group relative flex flex-col overflow-hidden rounded-[28px] border border-black/[0.07] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(250,250,250,0.92))] p-8 shadow-[0_20px_48px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_68px_rgba(15,23,42,0.1)]"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-[10px] bg-primary/10 text-primary">
-                  <service.icon className="h-6 w-6" />
+                <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(17,17,19,0.14),transparent)]" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#fafafa] shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] flex-shrink-0">
+                  <service.icon className="w-6 h-6 text-[#1d1d1f]" strokeWidth={2} />
                 </div>
-                <div className="mt-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-text-primary tracking-[-0.02em]">
+                <div className="mt-6 space-y-3 flex-1">
+                  <h3 className="text-[18px] font-semibold text-[#1d1d1f] tracking-[-0.02em]">
                     {service.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-secondary">
+                  <p className="text-[14px] leading-relaxed text-[#6f6f77]">
                     {service.description}
                   </p>
-                  <ul className="space-y-2.5 pt-2">
-                    {service.points.map((point) => (
-                      <li key={point} className="flex items-center gap-2.5 text-sm font-medium text-text-primary">
-                        <div className="flex h-4 w-4 items-center justify-center rounded-full bg-primary/15">
-                          <Check className="h-3 w-3 text-primary" />
-                        </div>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
+                <ul className="mt-6 space-y-3 border-t border-black/[0.06] pt-5">
+                  {service.points.map((point) => (
+                    <li key={point} className="flex items-start gap-2.5 rounded-[16px] bg-white px-3 py-3">
+                      <div className="mt-0.5 w-5 h-5 flex items-center justify-center rounded-full bg-[#1d1d1f] flex-shrink-0">
+                        <Check className="w-3 h-3 text-white" strokeWidth={2.5} />
+                      </div>
+                      <span className="text-[13px] font-medium text-[#1d1d1f]">{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
@@ -262,7 +229,7 @@ export default function ServiciosPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-4">
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Cómo se trabaja</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] tracking-[0.18em] text-primary">Cómo se trabaja</span>
               <h2 className="text-4xl font-semibold tracking-[-0.05em] text-foreground">
                 Un proceso claro desde la auditoría hasta la implementación.
               </h2>
@@ -272,7 +239,7 @@ export default function ServiciosPage() {
             </div>
             <div className="grid gap-4 md:grid-cols-3">
               {DELIVERY_BLOCKS.map((block, index) => (
-                <div key={block.title} className="admin-card rounded-[28px] p-6">
+                <div key={block.title} className="admin-card rounded-[30px] p-6">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">0{index + 1}</p>
                   <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em] text-foreground">{block.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-secondary-muted">{block.description}</p>
@@ -286,7 +253,7 @@ export default function ServiciosPage() {
       <section id="diagnostico" className="scroll-mt-32">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-20">
-            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Diagnóstico inicial</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] tracking-[0.18em] text-primary">Diagnóstico inicial</span>
             <h2 className="text-4xl md:text-5xl font-semibold tracking-[-0.05em] text-foreground">
               Diagnóstico de Calidad Asistido por IA.
             </h2>
@@ -300,27 +267,31 @@ export default function ServiciosPage() {
                   <span>{STEPS[currentStep]}</span>
                   <span>Paso {currentStep + 1} de 5</span>
                </div>
-               <div className="h-1.5 bg-border rounded-full overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
-                    className="h-full bg-primary" 
-                  />
-               </div>
-               <div className="flex justify-between items-center gap-2">
-                  {STEPS.map((_, i) => (
-                    <div key={i} className={cn(
-                      "w-4 h-4 rounded-full border-2 transition-all flex items-center justify-center text-[10px] font-bold",
-                      i < currentStep ? "bg-primary border-primary text-white" : i === currentStep ? "border-primary text-primary" : "border-border text-muted"
-                    )}>
-                      {i < currentStep ? <Check className="w-2.5 h-2.5" /> : null}
-                    </div>
-                  ))}
+               <div className="relative pt-2">
+                 <div className="absolute top-1/2 -mt-[1px] left-0 right-0 h-[2px] bg-black/[0.06] rounded-full" />
+                 <motion.div 
+                   className="absolute top-1/2 -mt-[1px] left-0 h-[2px] bg-[#1d1d1f] rounded-full"
+                   initial={{ width: 0 }}
+                   animate={{ width: `${((currentStep) / (STEPS.length - 1)) * 100}%` }}
+                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                 />
+                 <div className="relative flex justify-between items-center w-full z-10">
+                    {STEPS.map((_, i) => (
+                      <div key={i} className={cn(
+                        "w-5 h-5 rounded-full transition-all duration-300 flex items-center justify-center shadow-sm",
+                        i < currentStep ? "bg-[#1d1d1f] text-white ring-2 ring-white" : 
+                        i === currentStep ? "bg-white border-2 border-[#1d1d1f] scale-110" : 
+                        "bg-white border-2 border-black/[0.1] text-transparent"
+                      )}>
+                        {i < currentStep ? <Check className="w-3 h-3" strokeWidth={3} /> : <div className={cn("w-2 h-2 rounded-full", i === currentStep ? "bg-[#1d1d1f]" : "bg-transparent")} />}
+                      </div>
+                    ))}
+                 </div>
                </div>
             </div>
           </div>
 
-          <div className="admin-card p-8 md:p-12 shadow-2xl relative bg-white overflow-hidden">
+          <div className="admin-card relative overflow-hidden bg-white p-8 shadow-[0_32px_84px_rgba(15,23,42,0.12)] md:p-12">
           
           <AnimatePresence mode="wait">
             <motion.div
@@ -335,7 +306,7 @@ export default function ServiciosPage() {
               {currentStep === 0 && (
                 <div className="space-y-10">
                   <div className="text-center space-y-2">
-                    <h2 className="text-2xl font-black">¿Qué tipo de aplicación estás construyendo?</h2>
+                    <h2 className="text-2xl font-semibold">¿Qué tipo de aplicación estás construyendo?</h2>
                     <p className="text-sm text-secondary-muted font-medium">Selecciona una o varias opciones.</p>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -357,7 +328,7 @@ export default function ServiciosPage() {
                         )}
                       >
                         <item.icon className="w-8 h-8" />
-                        <span className="text-xs font-black uppercase tracking-widest">{item.label}</span>
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.1em]">{item.label}</span>
                       </button>
                     ))}
                   </div>
@@ -368,7 +339,7 @@ export default function ServiciosPage() {
               {currentStep === 1 && (
                 <div className="space-y-12">
                    <div className="space-y-8">
-                      <h2 className="text-2xl font-black text-center">¿Cuál es tu escala actual de usuarios?</h2>
+                      <h2 className="text-2xl font-semibold text-center">¿Cuál es tu escala actual de usuarios?</h2>
                       <div className="flex flex-wrap justify-center gap-3">
                          {['MVP (0 - 1K)', 'Crecimiento (1K - 10K)', 'Escala (10K - 100K)', 'Nivel Enterprise (+100K)'].map(val => (
                            <button 
@@ -387,7 +358,7 @@ export default function ServiciosPage() {
 
                    {formData.usuariosActuales && (
                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8 pt-8 border-t border-border">
-                        <h2 className="text-2xl font-black text-center">¿Cuál es tu pico esperado de concurrencia?</h2>
+                        <h2 className="text-2xl font-semibold text-center">¿Cuál es tu pico esperado de concurrencia?</h2>
                         <div className="flex flex-wrap justify-center gap-3">
                            {['Uso constante', 'Pico moderado', 'Evento masivo (+100K)', 'Desconocido'].map(val => (
                              <button 
@@ -411,7 +382,7 @@ export default function ServiciosPage() {
               {currentStep === 2 && (
                 <div className="space-y-12">
                   <div className="text-center space-y-2">
-                    <h2 className="text-2xl font-black text-center">¿Cuál es tu stack tecnológico?</h2>
+                    <h2 className="text-2xl font-semibold text-center">¿Cuál es tu stack tecnológico?</h2>
                     <p className="text-sm text-secondary-muted font-medium">Ayuda a la IA a identificar riesgos específicos de tu arquitectura.</p>
                   </div>
                   
@@ -422,7 +393,7 @@ export default function ServiciosPage() {
                        { cat: 'cicd', label: 'CI/CD & Cloud', options: ['Azure', 'AWS', 'Vercel', 'Jenkins', 'GitHub Actions', 'Terraform', 'Kubernetes'] },
                      ].map((group) => (
                        <div key={group.cat} className="space-y-3">
-                          <p className="text-[10px] font-black uppercase text-muted tracking-widest">{group.label}</p>
+                          <p className="text-[10px] font-semibold uppercase text-muted tracking-widest">{group.label}</p>
                           <div className="flex flex-wrap gap-2">
                              {group.options.map(opt => (
                                <button 
@@ -451,7 +422,7 @@ export default function ServiciosPage() {
               {currentStep === 3 && (
                 <div className="space-y-10">
                   <div className="text-center space-y-2">
-                    <h2 className="text-2xl font-black">¿Cuál es tu "dolor" principal hoy?</h2>
+                    <h2 className="text-2xl font-semibold">¿Cuál es tu "dolor" principal hoy?</h2>
                     <p className="text-sm text-secondary-muted font-medium text-center">Selecciona hasta 3 síntomas críticos.</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -479,7 +450,7 @@ export default function ServiciosPage() {
                     ))}
                   </div>
                   <div className="pt-6 border-t border-border space-y-2">
-                     <p className="text-xs font-black uppercase tracking-widest text-muted">¿Algún otro contexto que deba saber?</p>
+                     <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted">¿Algún otro contexto que deba saber?</p>
                      <textarea 
                         rows={3}
                         value={formData.contexto}
@@ -495,7 +466,7 @@ export default function ServiciosPage() {
               {currentStep === 4 && (
                 <div className="space-y-10">
                    <div className="text-center space-y-2">
-                    <h2 className="text-2xl font-black">¡Todo listo! ¿A dónde envío tu diagnóstico?</h2>
+                    <h2 className="text-2xl font-semibold">¡Todo listo! ¿A dónde envío tu diagnóstico?</h2>
                     <p className="text-sm text-secondary-muted font-medium">Carlos generará un reporte detallado para tu proyecto.</p>
                   </div>
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -550,7 +521,7 @@ export default function ServiciosPage() {
                      <button 
                         type="submit"
                         disabled={!canGoNext()}
-                        className="w-full bg-primary text-white py-5 rounded-2xl text-lg font-black uppercase tracking-widest shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-30 flex items-center justify-center gap-3"
+                        className="w-full bg-primary text-white py-5 rounded-2xl text-lg font-semibold uppercase tracking-widest shadow-2xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-30 flex items-center justify-center gap-3"
                      >
                         Generar Diagnóstico Asistido <ChevronRight className="w-6 h-6" />
                      </button>
@@ -573,7 +544,7 @@ export default function ServiciosPage() {
               <button 
                 onClick={handleNext}
                 disabled={!canGoNext()}
-                className="bg-foreground text-white px-8 py-3 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-primary transition-all disabled:opacity-30 flex items-center gap-2"
+                className="bg-foreground text-white px-8 py-3 rounded-xl text-sm font-semibold uppercase tracking-widest hover:bg-primary transition-all disabled:opacity-30 flex items-center gap-2"
               >
                 Siguiente <ChevronRight className="w-4 h-4" />
               </button>
@@ -608,25 +579,27 @@ function ProcessingState() {
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
        <div className="max-w-md w-full space-y-12">
           <div className="text-center space-y-4">
-             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                <Loader2 className="w-10 h-10 text-primary animate-spin" />
+             <div className="w-20 h-20 bg-[#f5f5f7] border border-black/[0.06] rounded-[22px] shadow-[0_8px_32px_rgba(0,0,0,0.06)] flex items-center justify-center mx-auto mb-6">
+                <Loader2 className="w-8 h-8 text-[#1d1d1f] animate-spin" />
              </div>
-             <h2 className="text-2xl font-black">Claude 3.5 Sonnet está analizando tu proyecto...</h2>
-             <p className="text-sm text-secondary-muted font-medium">Esto tomará unos segundos.</p>
+             <h2 className="text-[24px] font-bold text-[#1d1d1f] tracking-[-0.02em]">Analizando tu proyecto...</h2>
+             <p className="text-[15px] text-[#6f6f77]">La IA está procesando tu arquitectura.</p>
           </div>
           
           <div className="space-y-4">
              {steps.map((s, i) => (
-               <div key={i} className="flex items-center gap-3">
+               <div key={i} className="flex items-center gap-4">
                   <div className={cn(
-                    "w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all",
-                    i < activeStep ? "bg-green-500 border-green-500 text-white" : i === activeStep ? "border-primary text-primary" : "border-border"
+                    "w-6 h-6 rounded-full transition-all duration-300 flex items-center justify-center flex-shrink-0 shadow-sm",
+                    i < activeStep ? "bg-[#34c759] text-white ring-2 ring-white" : 
+                    i === activeStep ? "bg-white border-2 border-[#1d1d1f]" : 
+                    "bg-white border-2 border-black/[0.1] text-transparent"
                   )}>
-                     {i < activeStep ? <Check className="w-3 h-3" /> : i === activeStep ? <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping" /> : null}
+                     {i < activeStep ? <Check className="w-3.5 h-3.5" strokeWidth={3} /> : i === activeStep ? <div className="w-2 h-2 bg-[#1d1d1f] rounded-full animate-pulse" /> : null}
                   </div>
                   <span className={cn(
-                    "text-sm font-bold",
-                    i <= activeStep ? "text-foreground" : "text-muted"
+                    "text-[14px] font-medium transition-colors",
+                    i <= activeStep ? "text-[#1d1d1f]" : "text-[#6f6f77]"
                   )}>{s}</span>
                </div>
              ))}
@@ -647,121 +620,125 @@ function ResultsState({ data, userData }: { data: any, userData: any }) {
   }, [data.score])
 
   return (
-    <main className="min-h-screen bg-background-alt pt-32 pb-20">
-       <div className="max-w-6xl mx-auto px-6 space-y-12">
+    <main className="min-h-screen bg-[#f5f5f7] pt-28 pb-20">
+       <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 space-y-10">
           
           {/* Header Action */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white p-8 rounded-[32px] border border-border shadow-xl">
-             <div className="flex items-center gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 bg-white p-8 rounded-[24px] border border-black/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.06)]">
+             <div className="flex items-center gap-8">
                 <div className="relative w-32 h-32 flex items-center justify-center">
                    <svg className="w-full h-full -rotate-90">
-                      <circle cx="64" cy="64" r="54" fill="none" stroke="#f5f5f7" strokeWidth="8" />
+                      <circle cx="64" cy="64" r="54" fill="none" stroke="#f5f5f7" strokeWidth="6" />
                       <circle 
-                        cx="64" cy="64" r="54" fill="none" stroke="#0071e3" strokeWidth="8" 
+                        cx="64" cy="64" r="54" fill="none" stroke="#1d1d1f" strokeWidth="6" 
                         strokeDasharray="339" 
+                        strokeLinecap="round"
                         style={{ strokeDashoffset: 339 - (score / 100) * 339 }}
-                        className="transition-all duration-500"
+                        className="transition-all duration-500 ease-out"
                       />
                    </svg>
-                   <span className="absolute text-3xl font-black">{score}%</span>
+                   <span className="absolute text-[32px] font-bold text-[#1d1d1f] tracking-tight">{score}%</span>
                 </div>
-                <div className="space-y-1">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-muted">Diagnóstico Final</p>
-                   <h2 className="text-3xl font-black text-foreground">{data.scoreLabel}</h2>
-                   <p className="text-sm font-bold text-muted italic">Industria: {data.industryAvg}</p>
+                <div className="space-y-1.5">
+                   <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6f6f77]">Diagnóstico Final</p>
+                   <h2 className="text-[28px] font-bold text-[#1d1d1f] tracking-tight">{data.scoreLabel}</h2>
+                   <p className="text-[13px] font-medium text-[#6f6f77]">Industria: {data.industryAvg}</p>
                 </div>
              </div>
              
-             <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                 <a 
                   href={`/api/diagnostico/pdf/${data.pdfId}`}
                   target="_blank"
-                  className="admin-btn-primary py-4 px-8 flex items-center justify-center gap-2"
+                  className="inline-flex justify-center items-center gap-2 px-6 py-3.5 bg-[#1d1d1f] text-white rounded-full font-semibold text-[14px] hover:bg-[#000000] hover:shadow-[0_6px_20px_rgba(0,0,0,0.35)] transition-all"
                 >
-                  <Download className="w-5 h-5" /> Descargar PDF
+                  <Download className="w-4 h-4" /> PDF Report
                 </a>
                 <Link 
                   href="/contacto"
-                  className="admin-btn-outline py-4 px-8 flex items-center justify-center gap-2"
+                  className="inline-flex justify-center items-center gap-2 px-6 py-3.5 border border-black/[0.13] text-[#1d1d1f] rounded-full font-semibold text-[14px] hover:bg-[#f5f5f7] transition-all"
                 >
-                  <Mail className="w-5 h-5" /> Agendar revisión
+                  <Mail className="w-4 h-4" /> Agendar revisión
                 </Link>
              </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
              
-             {/* Left: Summary & Risks */}
-             <div className="lg:col-span-2 space-y-12">
-                <section className="space-y-6">
-                   <h3 className="text-2xl font-black flex items-center gap-3">
-                      <ShieldCheck className="w-8 h-8 text-primary" /> Resumen Ejecutivo
+             {/* Left:                 <section className="space-y-5">
+                   <h3 className="text-[20px] font-bold flex items-center gap-3 text-[#1d1d1f] tracking-tight">
+                      <ShieldCheck className="w-6 h-6 text-[#1d1d1f]" /> Resumen Ejecutivo
                    </h3>
-                   <div className="bg-white p-8 rounded-[32px] border border-border text-lg leading-relaxed text-secondary-muted shadow-sm">
+                   <div className="bg-white p-8 rounded-[24px] border border-black/[0.06] text-[15px] leading-relaxed text-[#6f6f77] shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                       {data.resumen}
                    </div>
                 </section>
 
-                <section className="space-y-8">
-                   <h3 className="text-2xl font-black flex items-center gap-3">
-                      <Target className="w-8 h-8 text-red-500" /> Riesgos de Alta Prioridad
+                <section className="space-y-5">
+                   <h3 className="text-[20px] font-bold flex items-center gap-3 text-[#1d1d1f] tracking-tight">
+                      <Target className="w-6 h-6 text-[#ff3b30]" /> Riesgos Prioritarios
                    </h3>
-                   <div className="grid grid-cols-1 gap-6">
+                   <div className="space-y-4">
                       {data.riesgos.map((r: any, i: number) => (
-                        <div key={i} className="flex items-start gap-6 bg-white p-8 rounded-[32px] border border-border hover:shadow-lg transition-all group">
+                        <div key={i} className="flex items-start gap-5 bg-white p-6 rounded-[20px] border border-black/[0.06] hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all group">
                            <div className={cn(
-                             "w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 font-black text-xs",
-                             r.severidad === 'Crítica' || r.severidad === 'ALTA' ? "bg-red-50 text-red-500" : "bg-primary/5 text-primary"
+                             "w-10 h-10 rounded-[12px] flex items-center justify-center flex-shrink-0 font-bold text-[11px]",
+                             r.severidad === 'Crítica' || r.severidad === 'ALTA' ? "bg-[#ff3b30]/10 text-[#ff3b30]" : "bg-[#1d1d1f]/10 text-[#1d1d1f]"
                            )}>
                               {r.severidad.substring(0, 4)}
                            </div>
-                           <div className="space-y-2">
-                              <div className="flex items-center gap-3">
-                                 <h4 className="text-xl font-bold">{r.titulo}</h4>
-                                 <span className="text-[10px] font-black uppercase text-muted tracking-widest">{r.modulo}</span>
+                           <div className="space-y-1.5 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                 <h4 className="text-[17px] font-semibold text-[#1d1d1f]">{r.titulo}</h4>
+                                 <span className="text-[9px] font-bold uppercase text-[#6f6f77] tracking-[0.1em] border border-black/[0.1] px-2 py-0.5 rounded-full">{r.modulo}</span>
                               </div>
-                              <p className="text-secondary-muted leading-relaxed">{r.descripcion}</p>
+                              <p className="text-[14px] text-[#6f6f77] leading-relaxed">{r.descripcion}</p>
                            </div>
                         </div>
                       ))}
+                   </div>
+                </section>                      ))}
                    </div>
                 </section>
              </div>
 
              {/* Right: Plan & Recommendation */}
              <div className="space-y-12">
-                <section className="space-y-6">
-                   <h3 className="text-2xl font-black flex items-center gap-3">
-                      <PieChart className="w-8 h-8 text-primary" /> Plan de Acción
+                <section className="space-y-5">
+                   <h3 className="text-[20px] font-bold flex items-center gap-3 text-[#1d1d1f] tracking-tight">
+                      <PieChart className="w-6 h-6 text-[#1d1d1f]" /> Plan de Acción
                    </h3>
-                   <div className="admin-card p-8 space-y-8">
+                   <div className="bg-white p-8 rounded-[24px] border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.04)] space-y-7">
                       {data.planDeAccion.map((p: any, i: number) => (
-                        <div key={i} className="relative flex gap-6 group">
-                            <div className="absolute left-[3px] top-6 bottom-0 w-0.5 bg-border -ml-px group-last:hidden" />
-                            <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 relative z-10 flex-shrink-0" />
-                            <div className="space-y-1">
-                               <span className="text-[10px] font-black uppercase text-primary tracking-widest">{p.periodo}</span>
-                               <p className="font-bold text-sm tracking-tight">{p.hito}</p>
-                               <p className="text-xs text-secondary-muted leading-relaxed">{p.descripcion}</p>
+                        <div key={i} className="relative flex gap-5 group">
+                            <div className="absolute left-[3px] top-6 bottom-[-28px] w-[2px] bg-[#f5f5f7] rounded-full group-last:hidden" />
+                            <div className="w-2 h-2 bg-[#1d1d1f] rounded-full mt-2 relative z-10 flex-shrink-0 ring-4 ring-white" />
+                            <div className="space-y-1 mb-2">
+                               <span className="text-[10px] font-bold uppercase text-[#1d1d1f] tracking-[0.1em]">{p.periodo}</span>
+                               <p className="font-semibold text-[15px] text-[#1d1d1f] tracking-[-0.01em]">{p.hito}</p>
+                               <p className="text-[13px] text-[#6f6f77] leading-relaxed">{p.descripcion}</p>
                             </div>
                         </div>
                       ))}
                    </div>
                 </section>
 
-                <section className="p-1 bg-gradient-to-br from-primary to-blue-600 rounded-[32px] text-white overflow-hidden shadow-2xl">
-                   <div className="bg-primary/20 backdrop-blur-xl p-8 space-y-6">
-                      <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
-                         <Zap className="w-6 h-6 fill-white" />
+                <section className="bg-gradient-to-br from-[#1d1d1f] to-[#0051b3] rounded-[24px] text-white p-8 shadow-[0_12px_40px_rgba(0,0,0,0.25)] space-y-6 relative overflow-hidden">
+                   <div className="absolute inset-0 bg-white/5" />
+                   <div className="relative z-10 space-y-6">
+                      <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center">
+                         <Zap className="w-6 h-6 text-white" />
                       </div>
-                      <div className="space-y-2">
-                         <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Paquete Recomendado</p>
-                         <h4 className="text-3xl font-black tracking-tight leading-none">{data.paqueteRecomendado}</h4>
+                      <div className="space-y-1">
+                         <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/80">Paquete Recomendado</p>
+                         <h4 className="text-[28px] font-bold tracking-tight leading-tight">{data.paqueteRecomendado}</h4>
                       </div>
-                      <p className="text-sm font-semibold opacity-90 leading-relaxed">
+                      <p className="text-[14px] text-white/90 leading-relaxed font-medium">
                          Diseñado para reducir tu deuda técnica en un 60% en los primeros 3 meses.
                       </p>
-                      <button className="w-full bg-white text-primary py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-background-alt transition-all">Más detalles del servicio</button>
+                      <Link href="/contacto" className="block w-full bg-white text-[#1d1d1f] py-3.5 rounded-full font-semibold text-center text-[14px] hover:bg-[#f5f5f7] transition-all">
+                        Más detalles del servicio
+                      </Link>
                    </div>
                 </section>
              </div>

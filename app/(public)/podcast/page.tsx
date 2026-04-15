@@ -28,133 +28,135 @@ export default async function PublicPodcast() {
     : []
 
   return (
-    <main className="min-h-screen bg-background-alt pt-40 pb-20">
-      <div className="max-w-6xl mx-auto px-6 space-y-24">
+    <main className="page-shell pt-10 pb-20 md:pt-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 space-y-16 md:space-y-20">
         
         {/* Hero Section */}
-        <div className="text-center space-y-6 max-w-4xl mx-auto">
-          <span className="text-xs font-black uppercase tracking-widest text-primary flex items-center justify-center gap-2">
+        <div className="surface-panel max-w-5xl mx-auto px-8 py-12 text-center md:px-12 md:py-16">
+          <div className="space-y-6">
+          <span className="eyebrow inline-flex items-center justify-center gap-2 text-[#111113]">
             <Radio className="w-4 h-4 animate-pulse" /> Podcast Studio
           </span>
-          <h1 className="text-6xl md:text-7xl font-black tracking-tighter text-foreground leading-[0.9]">
-            Calidad, automatización y performance con criterio real.
+          <h1 className="text-[42px] md:text-[60px] font-semibold tracking-[-0.05em] text-[#111113] leading-[1.02]">
+            Calidad, automatización y performance <br className="hidden md:block"/> con criterio real.
           </h1>
-          <p className="text-xl text-secondary-muted leading-relaxed">
+          <p className="mx-auto max-w-2xl text-[17px] md:text-[19px] text-[#5c5d63] leading-[1.8]">
             Una propuesta editorial para compartir aprendizajes de QA, delivery y crecimiento profesional con un formato técnico y accesible.
           </p>
           <div className="flex flex-wrap justify-center gap-4 pt-6">
-             <a href="#latests" className="bg-foreground text-white px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest hover:bg-primary transition-all shadow-xl shadow-black/10">Escuchar Episodios</a>
-             <a href="/blog" className="px-8 py-4 rounded-full text-sm font-black uppercase tracking-widest text-muted hover:text-foreground">Explorar Artículos</a>
+             <a href="#latests" className="btn-base btn-primary px-8 py-3.5 text-[15px]">Escuchar Episodios</a>
+             <a href="/blog" className="btn-base btn-secondary px-8 py-3.5 text-[15px]">Explorar Artículos</a>
+          </div>
           </div>
         </div>
 
         {/* Concept Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <article className="bg-white p-10 rounded-[32px] border border-border shadow-sm space-y-6">
-              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <article className="surface-panel p-8 md:p-10 space-y-6">
+              <div className="w-12 h-12 bg-[#fafafa] rounded-2xl flex items-center justify-center text-[#1d1d1f]">
                  <Clock className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-black tracking-tight">Episodios cortos y accionables</h3>
-              <p className="text-secondary-muted font-medium leading-relaxed">
+              <h3 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111113]">Episodios cortos y accionables</h3>
+              <p className="text-[16px] text-[#5c5d63] font-medium leading-[1.8]">
                 Cada episodio está pensado para dejar una idea concreta que el equipo pueda aplicar en su stack, proceso o estrategia de calidad. 12 a 20 minutos de valor puro.
               </p>
-              <ul className="space-y-3">
+              <ul className="space-y-3 pt-2">
                  {['Duración ideal: 15min', 'Un problema real, una solución.', 'Sin relleno corporativo.'].map((li, i) => (
-                   <li key={i} className="flex items-center gap-2 text-xs font-bold text-muted">
-                      <Check className="w-3 h-3 text-primary" /> {li}
+                   <li key={i} className="surface-card-soft flex items-center gap-3 rounded-[16px] px-4 py-3 text-[14px] font-semibold text-[#111113]">
+                      <Check className="w-4 h-4 text-[#1d1d1f]" /> {li}
                    </li>
                  ))}
               </ul>
            </article>
 
-           <article className="bg-background-alt p-10 rounded-[32px] space-y-6 shadow-md border border-border-primary">
-              <div className="w-12 h-12 bg-accent-indigo/10 rounded-2xl flex items-center justify-center text-accent-indigo">
+           <article className="surface-panel p-8 md:p-10 space-y-6">
+              <div className="w-12 h-12 bg-[#fafafa] rounded-2xl flex items-center justify-center text-[#1d1d1f]">
                  <Users className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-black tracking-tight text-text-primary">Pensado para líderes e ingenieros</h3>
-              <p className="text-text-secondary font-medium leading-relaxed">
+              <h3 className="text-[24px] font-semibold tracking-[-0.03em] text-[#111113]">Pensado para líderes e ingenieros</h3>
+              <p className="text-[16px] text-[#5c5d63] font-medium leading-[1.8]">
                 La intención es hablarle tanto a quien automatiza como a quien prioriza riesgos o coordina releases de alta presión.
               </p>
-              <div className="flex flex-wrap gap-2 pt-4">
-                 {['QA Engineers', 'SDETs', 'Tech Leads', 'Product Teams'].map(chip => (
-                   <span key={chip} className="px-3 py-1 bg-accent-indigo/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-accent-indigo">{chip}</span>
+              <div className="flex flex-wrap gap-2 pt-2">
+                 {['QA Engineers', 'SDETs', 'Tech Leads', 'Product Teams'].map((chip) => (
+                   <span key={chip} className="px-3 py-1.5 bg-[#fafafa] border border-black/[0.08] rounded-full text-[12px] font-medium text-[#1d1d1f]">{chip}</span>
                  ))}
               </div>
            </article>
         </section>
 
         {/* Latest Episodes Section */}
-        <section id="latests" className="space-y-12">
+        <section id="latests" className="space-y-10">
            <div className="text-center md:text-left space-y-2">
-              <h2 className="text-3xl font-black tracking-tight">Últimos Episodios</h2>
-              <p className="text-secondary-muted font-medium">Actualizado semanalmente.</p>
+              <h2 className="text-[32px] font-bold tracking-tight text-[#1d1d1f]">Últimos Episodios</h2>
+              <p className="text-[16px] text-[#6f6f77] font-medium">Actualizado semanalmente.</p>
            </div>
 
            {episodes && episodes.length > 0 ? (
              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {episodes.map((ep: any) => (
-                  <article key={ep.id} className="group bg-white rounded-[32px] border border-border overflow-hidden hover:shadow-2xl transition-all h-full flex flex-col">
-                     <div className="aspect-video relative overflow-hidden bg-slate-100">
+                 {episodes.map((ep: any) => (
+                  <article key={ep.id} className="group surface-panel overflow-hidden h-full flex flex-col">
+                     <div className="aspect-video relative overflow-hidden bg-[#f5f5f7]">
                         {ep.imagen_portada ? (
-                          <img src={ep.imagen_portada} alt={ep.titulo} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                          <img src={ep.imagen_portada} alt={ep.titulo} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-300">
-                             <Mic2 className="w-20 h-20" />
+                          <div className="w-full h-full flex items-center justify-center text-[#6f6f77]">
+                             <Mic2 className="w-16 h-16 opacity-30" />
                           </div>
                         )}
-                        <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                           <div className="flex items-center gap-4 text-white text-[10px] font-black uppercase tracking-widest">
-                              <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {format(new Date(ep.published_at), 'dd MMM yyyy', { locale: es })}</span>
-                              <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {ep.duracion || '15 min'}</span>
+                        <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                           <div className="flex items-center gap-4 text-white/90 text-[11px] font-bold uppercase tracking-[0.1em]">
+                              <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {format(new Date(ep.published_at), 'dd MMM yyyy', { locale: es })}</span>
+                              <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {ep.duracion || '15 min'}</span>
                            </div>
                         </div>
                      </div>
-                     <div className="p-8 space-y-4 flex-1">
-                        <h3 className="text-xl font-black tracking-tight group-hover:text-primary transition-colors">{ep.titulo}</h3>
-                        <p className="text-sm text-secondary-muted line-clamp-2 leading-relaxed">{ep.descripcion}</p>
-                        <div className="pt-6 flex items-center justify-between">
-                           <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary">
-                              <Play className="w-4 h-4 fill-primary" /> Escuchar ahora
+                     <div className="p-8 space-y-4 flex-1 flex flex-col">
+                        <h3 className="text-[20px] font-bold tracking-tight text-[#1d1d1f] group-hover:text-[#1d1d1f] transition-colors line-clamp-2">{ep.titulo}</h3>
+                        <p className="text-[15px] text-[#6f6f77] line-clamp-3 leading-relaxed flex-1">{ep.descripcion}</p>
+                        <div className="pt-6 flex items-center justify-between border-t border-black/[0.06] mt-auto">
+                           <button className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[#1d1d1f] group-hover:text-[#000000]">
+                              <Play className="w-4 h-4 fill-current" /> Escuchar ahora
                            </button>
-                           <ChevronRight className="w-5 h-5 text-border group-hover:translate-x-1 transition-transform" />
+                           <ChevronRight className="w-5 h-5 text-[#6f6f77] group-hover:translate-x-1 group-hover:text-[#1d1d1f] transition-all" />
                         </div>
                      </div>
                   </article>
                 ))}
              </div>
            ) : (
-             <div className="bg-white border border-border border-dashed rounded-[32px] p-20 text-center space-y-6">
-                <div className="w-20 h-20 bg-background-alt rounded-full flex items-center justify-center mx-auto">
-                   <Headphones className="w-10 h-10 text-muted" />
+             <div className="surface-panel border-dashed p-16 md:p-24 text-center space-y-6">
+                <div className="w-20 h-20 bg-[#fafafa] rounded-full flex items-center justify-center mx-auto">
+                   <Headphones className="w-10 h-10 text-[#6f6f77]" />
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-black">Estudio en preparación...</h3>
-                  <p className="text-secondary-muted font-medium max-w-sm mx-auto">Estamos afinando los últimos detalles de la primera temporada. Regresa pronto para el episodio 01.</p>
+                <div className="space-y-3">
+                  <h3 className="text-[24px] font-bold text-[#1d1d1f]">Estudio en preparación...</h3>
+                  <p className="text-[16px] text-[#6f6f77] leading-relaxed max-w-sm mx-auto">Estamos afinando los últimos detalles de la primera temporada. Regresa pronto para el episodio 01.</p>
                 </div>
-                <div className="pt-4 flex justify-center gap-4">
-                   <div className="flex items-center gap-2 px-4 py-2 bg-[#1db954]/10 text-[#1db954] rounded-full text-[10px] font-black uppercase tracking-widest">Spotify</div>
-                   <div className="flex items-center gap-2 px-4 py-2 bg-[#fa243c]/10 text-[#fa243c] rounded-full text-[10px] font-black uppercase tracking-widest">Apple Podcasts</div>
+                <div className="pt-6 flex flex-wrap justify-center gap-3">
+                   <div className="flex items-center gap-2 px-5 py-2.5 bg-[#1db954]/10 text-[#1db954] rounded-full text-[11px] font-bold uppercase tracking-[0.1em]">Spotify</div>
+                   <div className="flex items-center gap-2 px-5 py-2.5 bg-[#fa243c]/10 text-[#fa243c] rounded-full text-[11px] font-bold uppercase tracking-[0.1em]">Apple Podcasts</div>
                 </div>
              </div>
            )}
         </section>
 
         {/* Editorial Topics */}
-        <section className="bg-white rounded-[40px] border border-border p-12 space-y-12">
+        <section className="surface-panel p-10 md:p-16 space-y-12">
             <div className="text-center space-y-2">
-               <h2 className="text-3xl font-black tracking-tight">Líneas Editoriales</h2>
-               <p className="text-secondary-muted font-medium">Temas que exploraremos a fondo.</p>
+               <h2 className="text-[32px] font-bold tracking-tight text-[#1d1d1f]">Líneas Editoriales</h2>
+               <p className="text-[16px] text-[#6f6f77] font-medium">Temas que exploraremos a fondo.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                {[
                  { t: 'Appium vs Nativo', d: 'Portabilidad vs velocidad de feedback en automatización móvil.', tag: 'Mobile' },
                  { t: 'Quality Gates reales', d: 'Cómo diseñar validaciones útiles para evitar ruido en CI/CD.', tag: 'CI/CD', s: true },
                  { t: 'Liderazgo Técnico', d: 'De testing manual a coordinar estrategias de calidad de élite.', tag: 'Carrera' },
                ].map((topic, i) => (
-                 <div key={i} className="p-8 border border-border bg-background-alt rounded-3xl space-y-4 hover:shadow-lg transition-all group">
-                    <span className={cn("text-[10px] font-black uppercase tracking-widest", topic.s ? "text-green-500" : "text-primary")}>{topic.tag}</span>
-                    <h4 className="text-xl font-black tracking-tight group-hover:text-primary transition-all">{topic.t}</h4>
-                    <p className="text-xs text-muted font-semibold leading-relaxed">{topic.d}</p>
+                 <div key={i} className="p-8 border border-black/[0.06] bg-[#f5f5f7] rounded-[24px] space-y-4 hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all group">
+                    <span className={cn("text-[10px] font-bold uppercase tracking-[0.1em]", topic.s ? "text-[#34c759]" : "text-[#1d1d1f]")}>{topic.tag}</span>
+                    <h4 className="text-[20px] font-bold tracking-tight text-[#1d1d1f]">{topic.t}</h4>
+                    <p className="text-[14px] text-[#6f6f77] leading-relaxed font-medium">{topic.d}</p>
                  </div>
                ))}
             </div>

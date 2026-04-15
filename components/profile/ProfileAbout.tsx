@@ -7,17 +7,17 @@ export function ProfileAbout({ paragraphs }: { paragraphs: string[] }) {
   const visibleParagraphs = expanded ? paragraphs : paragraphs.slice(0, 2)
 
   return (
-    <section className="admin-card rounded-[32px] p-8 md:p-10">
-      <div className="max-w-4xl space-y-5">
+    <section className="surface-panel p-8 md:p-12">
+      <div className="max-w-4xl space-y-6">
         <div>
-          <h2 className="text-2xl font-semibold tracking-[-0.04em] text-foreground md:text-3xl">Sobre mí</h2>
-          <p className="mt-2 text-base text-secondary-muted">
+          <h2 className="section-title">Sobre mí</h2>
+          <p className="section-copy mt-3">
             Un perfil completo de cómo Carlos piensa, ejecuta y convierte calidad en ventaja operativa.
           </p>
         </div>
 
         {visibleParagraphs.map((paragraph) => (
-          <p key={paragraph} className="text-base leading-[1.9] text-secondary-muted md:text-lg">
+          <p key={paragraph} className="text-[16px] leading-[1.9] text-[#5c5d63] md:text-[17px]">
             {paragraph}
           </p>
         ))}
@@ -25,7 +25,7 @@ export function ProfileAbout({ paragraphs }: { paragraphs: string[] }) {
         {paragraphs.length > 2 ? (
           <button
             onClick={() => setExpanded((prev) => !prev)}
-            className="text-sm font-semibold text-primary transition-colors hover:text-primary-hover"
+            className="text-[14px] font-semibold text-[#111113] transition-colors hover:text-[#0071e3]"
           >
             {expanded ? 'Ver menos' : 'Ver más'}
           </button>

@@ -15,9 +15,9 @@ const config: Config = {
         "white-secondary": "#F5F5F7",
         "white-tertiary": "#EFEFEF",
         "gray-light": "#D2D2D7",
-        "gray-medium": "#555555",
+        "gray-medium": "#86868B",
         "gray-dark": "#1D1D1F",
-        "gray-secondary": "#6F6F77",
+        "gray-secondary": "#86868B",
         black: "#000000",
 
         // Accent Colors (max 20%)
@@ -36,7 +36,7 @@ const config: Config = {
         },
         text: {
           primary: "#1D1D1F",
-          secondary: "#6F6F77",
+          secondary: "#86868B",
           tertiary: "#A1A1A6",
         },
         accent: {
@@ -45,18 +45,21 @@ const config: Config = {
           light: "#F5F5F7",
         },
         border: {
-          primary: "rgba(0, 0, 0, 0.08)",
+          primary: "#D2D2D7",
           secondary: "rgba(0, 0, 0, 0.04)",
           accent: "rgba(0, 113, 227, 0.2)",
         },
       },
       fontFamily: {
         sans: [
-          "Inter",
-          "Roboto Flex",
           "-apple-system",
           "BlinkMacSystemFont",
+          "SF Pro Display",
+          "SF Pro Text",
           "Segoe UI",
+          "Roboto",
+          "Helvetica",
+          "Arial",
           "sans-serif",
         ],
         mono: ["Fira Code", "ui-monospace", "monospace"],
