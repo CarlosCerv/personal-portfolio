@@ -14,7 +14,8 @@ export function FeatureCard({ tag, title, description, points, highlighted }: Fe
   return (
     <div
       className={cn(
-        'group relative flex h-full flex-col gap-6 rounded-[28px] border p-8 transition-all duration-300 md:p-9',
+        // `min-w-0` + word-breaking prevents long single words (e.g. "Automatización") from overflowing in 4-up grids.
+        'group relative flex h-full min-w-0 flex-col gap-6 rounded-[28px] border p-8 transition-all duration-300 md:p-9',
         highlighted
           ? 'border-transparent bg-[#111113] text-white shadow-[0_30px_70px_rgba(17,17,19,0.24)] hover:-translate-y-1.5'
           : 'border-black/[0.06] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(250,250,250,0.92))] shadow-[0_20px_48px_rgba(15,23,42,0.06)] hover:-translate-y-1.5 hover:shadow-[0_28px_70px_rgba(15,23,42,0.1)]'
@@ -32,16 +33,16 @@ export function FeatureCard({ tag, title, description, points, highlighted }: Fe
       <div className="flex-1 space-y-3">
         <h3
           className={cn(
-            'leading-[1.06] tracking-[-0.045em]',
+            'min-w-0 break-words [overflow-wrap:anywhere] hyphens-auto leading-[1.06] tracking-[-0.045em]',
             highlighted ? 'text-white' : 'text-[#111113]'
           )}
-          style={{ fontSize: 'clamp(1.7rem, 3vw, 2.7rem)' }}
+          style={{ fontSize: 'clamp(1.55rem, 2.6vw, 2.45rem)' }}
         >
           {title}
         </h3>
         <p
           className={cn(
-            'text-[0.98rem] leading-[1.8]',
+            'min-w-0 break-words [overflow-wrap:anywhere] hyphens-auto text-[0.98rem] leading-[1.8]',
             highlighted ? 'text-white/76' : 'text-[#5c5d63]'
           )}
         >
@@ -55,7 +56,7 @@ export function FeatureCard({ tag, title, description, points, highlighted }: Fe
             <li
               key={i}
               className={cn(
-                'flex items-center gap-3 rounded-[18px] px-3.5 py-3',
+                'flex min-w-0 items-center gap-3 rounded-[18px] px-3.5 py-3',
                 highlighted ? 'bg-white/6' : 'bg-[#fafafa]'
               )}
             >
@@ -72,7 +73,7 @@ export function FeatureCard({ tag, title, description, points, highlighted }: Fe
               </div>
               <span
                 className={cn(
-                  'text-[0.87rem] font-medium',
+                  'min-w-0 break-words [overflow-wrap:anywhere] hyphens-auto text-[0.87rem] font-medium',
                   highlighted ? 'text-white/88' : 'text-[#111113]'
                 )}
               >

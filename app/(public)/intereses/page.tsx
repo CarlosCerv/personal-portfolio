@@ -19,22 +19,24 @@ export default function HobbiesPage() {
   return (
     <main className="page-shell pt-10 pb-20 md:pt-12">
       <div className="page-band">
-        <div className="space-y-4">
-          <span className="eyebrow">Explorando pasiones</span>
-          <h1 className="section-title max-w-4xl">Mis Intereses</h1>
-          <p className="section-copy max-w-2xl">
-            Más allá del código: intereses y pasiones que me mantienen creativo, saludable y feliz.
-          </p>
+        <div className="page-container">
+          <div className="space-y-4">
+            <span className="eyebrow">Explorando pasiones</span>
+            <h1 className="section-title max-w-4xl">Mis Intereses</h1>
+            <p className="section-copy max-w-2xl">
+              Más allá del código: intereses y pasiones que me mantienen creativo, saludable y feliz.
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
           {hobbies.map((hobby) => (
             <Link key={hobby.slug} href={`/intereses/${hobby.slug}`}>
-              <div className="group cursor-pointer h-full">
-                <div className="surface-card relative h-full overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.08)] flex flex-col">
-                  <div className="relative h-48 overflow-hidden bg-[linear-gradient(180deg,#f8f9fb_0%,#eef2f6_100%)]">
+              <div className="group h-full cursor-pointer">
+                <div className="surface-card relative flex h-full min-w-0 flex-col overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,23,42,0.08)]">
+                  <div className="relative h-44 overflow-hidden bg-[linear-gradient(180deg,#f8f9fb_0%,#eef2f6_100%)] sm:h-48">
                     <div 
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-[1.03]"
                       style={{
@@ -47,12 +49,12 @@ export default function HobbiesPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col flex-1 p-6">
+                  <div className="flex flex-1 min-w-0 flex-col p-6">
                     <div className="mb-3">
-                      <h3 className="text-[21px] font-semibold tracking-[-0.035em] text-[#111113]">
+                      <h3 className="min-w-0 break-words [overflow-wrap:anywhere] hyphens-auto text-[21px] font-semibold tracking-[-0.035em] text-[#111113]">
                         {hobby.title}
                       </h3>
-                      <p className="mt-2 text-[14px] leading-[1.75] text-[#5c5d63]">
+                      <p className="mt-2 min-w-0 break-words [overflow-wrap:anywhere] hyphens-auto text-[14px] leading-[1.75] text-[#5c5d63]">
                         {hobby.subtitle}
                       </p>
                     </div>
