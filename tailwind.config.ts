@@ -57,7 +57,6 @@ const config: Config = {
           "SF Pro Display",
           "SF Pro Text",
           "Segoe UI",
-          "Roboto",
           "Helvetica",
           "Arial",
           "sans-serif",

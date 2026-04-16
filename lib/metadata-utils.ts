@@ -13,8 +13,11 @@ export interface GenerateMetadataProps {
   authorName?: string
 }
 
-const BASE_URL = 'https://carloscer.dev'
-const DEFAULT_OG_IMAGE = '/og-image.svg'
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  'https://carloscervantes-qa.vercel.app'
+const DEFAULT_OG_IMAGE = '/og-image.png'
 
 export function generatePageMetadata({
   title,
@@ -36,9 +39,9 @@ export function generatePageMetadata({
     description,
     keywords: [
       ...(Array.isArray(keywords) ? keywords : []),
-      'QA Engineer',
-      'Test Automation',
-      'Performance Testing',
+      'QA',
+      'Automatización de pruebas',
+      'Performance testing',
       'Carlos Cervantes',
     ],
     creator: 'Carlos Cervantes',
@@ -48,7 +51,7 @@ export function generatePageMetadata({
       url,
       title: fullTitle,
       description,
-      siteName: 'Carlos Cervantes - QA Engineer',
+      siteName: 'Carlos Cervantes - QA y performance',
       images: [
         {
           url: image.startsWith('http') ? image : `${BASE_URL}${image}`,
@@ -102,7 +105,7 @@ export function generateBlogPostMetadata({
     description,
     path: `/blog/${slug}`,
     image: image || DEFAULT_OG_IMAGE,
-    keywords: ['Blog', 'Article', ...(Array.isArray(tags) ? tags : [])],
+    keywords: ['Blog', 'Artículo', ...(Array.isArray(tags) ? tags : [])],
     type: 'article',
     publishedAt,
     updatedAt,

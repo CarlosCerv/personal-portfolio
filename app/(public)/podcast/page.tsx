@@ -78,7 +78,7 @@ export default async function PublicPodcast() {
                 La intención es hablarle tanto a quien automatiza como a quien prioriza riesgos o coordina releases de alta presión.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
-                 {['QA Engineers', 'SDETs', 'Tech Leads', 'Product Teams'].map((chip) => (
+                 {['Ingenieros QA', 'SDETs', 'Tech Leads', 'Equipos de producto'].map((chip) => (
                    <span key={chip} className="px-3 py-1.5 bg-[#fafafa] border border-black/[0.08] rounded-full text-[12px] font-medium text-[#1d1d1f]">{chip}</span>
                  ))}
               </div>

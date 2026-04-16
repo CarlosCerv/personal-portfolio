@@ -149,7 +149,7 @@ export default async function HobbyDetailPage({ params }: { params: Promise<{ sl
                         <div
                           key={i}
                           className={`w-2 h-2 rounded-full ${
-                            i < (hobby.level === 'Advanced' ? 3 : hobby.level === 'Intermediate' ? 2 : 1)
+                            i < (hobby.level === 'Avanzado' ? 3 : hobby.level === 'Intermedio' ? 2 : 1)
                               ? 'bg-[#0071e3]'
                               : 'bg-black/[0.08]'
                           }`}

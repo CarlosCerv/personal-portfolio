@@ -131,7 +131,7 @@ export async function generateDiagnosticPDF(qaData: any, userData: any): Promise
       for (let i = 0; i < range.count; i++) {
         doc.switchToPage(i);
         doc.fontSize(8).fillColor(mutedColor).text(
-          '© 2026 Carlos Cervantes · Servicios de Calidad y Performance Engineering · Reporte confidencial para uso interno.',
+          '© 2026 Carlos Cervantes · Servicios de calidad e ingeniería de performance · Reporte confidencial para uso interno.',
           60, 
           doc.page.height - 40, 
           { align: 'center' }

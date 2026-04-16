@@ -51,11 +51,11 @@
   <rect x="280" y="220" width="600" height="3" fill="url(#accentGradient)" rx="2"/>
   
   <text x="280" y="280" font-family="Arial, Helvetica, sans-serif" font-size="52" font-weight="700" fill="#3b82f6">
-    QA Engineer & Performance Specialist
+    QA y performance
   </text>
   
   <text x="280" y="340" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#cbd5e1" font-weight="400">
-    Automation • Testing • Performance Engineering
+    Automatización • Testing • Performance
   </text>
   
   <!-- Description -->
@@ -67,7 +67,7 @@
   <g font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600">
     <!-- Chip 1 -->
     <rect x="280" y="430" width="160" height="56" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2"/>
-    <text x="360" y="465" fill="#3b82f6" text-anchor="middle">QA Automation</text>
+    <text x="360" y="465" fill="#3b82f6" text-anchor="middle">Automatización</text>
     
     <!-- Chip 2 -->
     <rect x="460" y="430" width="160" height="56" rx="12" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2"/>

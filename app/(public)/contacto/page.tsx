@@ -241,7 +241,7 @@ export default function ContactoPage() {
                       <option value="" disabled>Selecciona una opción</option>
                       <option value="Diagnóstico QA">Diagnóstico QA</option>
                       <option value="Automatización">Automatización E2E</option>
-                      <option value="Performance">Performance Engineering</option>
+                      <option value="Performance">Ingeniería de performance</option>
                       <option value="Consultoría">Consultoría general</option>
                     </select>
                   </div>

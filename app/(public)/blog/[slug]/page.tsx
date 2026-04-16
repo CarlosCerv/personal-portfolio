@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     title: post.titulo,
     description: post.excerpt || 'Artículo del blog de QA y testing',
     slug: post.slug,
-    image: post.imagen_portada || '/og-image.svg',
+    image: post.imagen_portada || '/og-image.png',
     tags: post.tags || [],
     publishedAt: post.published_at ? new Date(post.published_at) : new Date(),
     author: post.autor || 'Carlos Cervantes',
@@ -220,11 +220,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-[#111113]">Carlos Cervantes</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8a8b92]">QA & Performance Specialist</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8a8b92]">QA y performance</p>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-relaxed text-[#5c5d63]">
-                Especialista en QA Automation y Performance Engineering. Comparto aprendizajes sobre automatización, testing, performance y sistemas más confiables.
+                Especialista en automatización QA e ingeniería de performance. Comparto aprendizajes sobre automatización, testing, performance y sistemas más confiables.
               </p>
             </div>
 

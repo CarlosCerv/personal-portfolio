@@ -35,10 +35,12 @@ export default async function PublicBlog() {
     return (
       <main className="page-shell pt-10 pb-20 md:pt-12">
         <div className="page-band">
-          <div className="space-y-4">
-            <span className="eyebrow">Artículos técnicos</span>
-            <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
-            <p className="section-copy max-w-2xl">Próximamente más contenido de valor...</p>
+          <div className="page-container">
+            <div className="space-y-4">
+              <span className="eyebrow">Artículos técnicos</span>
+              <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
+              <p className="section-copy max-w-2xl">Próximamente más contenido de valor...</p>
+            </div>
           </div>
         </div>
       </main>
@@ -51,16 +53,18 @@ export default async function PublicBlog() {
   return (
     <main className="page-shell pt-10 pb-20 md:pt-12">
       <div className="page-band">
-        <div className="space-y-4">
-          <span className="eyebrow">Artículos técnicos</span>
-          <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
-          <p className="section-copy max-w-2xl">
-            Guías detalladas, mejores prácticas y reflexiones sobre calidad de software, automatización y performance engineering.
-          </p>
+        <div className="page-container">
+          <div className="space-y-4">
+            <span className="eyebrow">Artículos técnicos</span>
+            <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
+            <p className="section-copy max-w-2xl">
+              Guías detalladas, mejores prácticas y reflexiones sobre calidad de software, automatización y performance engineering.
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-20 py-16 md:py-20">
+      <div className="page-container space-y-20 py-16 md:py-20">
 
         <section>
           <h2 className="eyebrow mb-6">Artículo destacado</h2>

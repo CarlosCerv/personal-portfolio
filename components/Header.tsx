@@ -12,6 +12,7 @@ const navItems = [
   { label: 'Servicios', href: '/servicios' },
   { label: 'Perfil', href: '/profile' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Podcast', href: '/podcast' },
   { label: 'Intereses', href: '/intereses' },
   { label: 'Contacto', href: '/contacto' },
 ]
@@ -51,8 +52,13 @@ export function AppleHeader() {
 
             <nav className="relative flex items-center justify-between gap-3">
               <Link href="/" className="flex min-w-0 items-center gap-3" aria-label="Carlos Cervantes - Home">
-                <div className="flex h-11 w-11 items-center justify-center rounded-[15px] border border-black/[0.08] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.08)]">
-                  <span className="text-[13px] font-semibold tracking-[-0.03em] text-[#111113]">CC</span>
+                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[16px] border border-black/[0.08] bg-white shadow-[0_12px_28px_rgba(15,23,42,0.10)] sm:h-14 sm:w-14 sm:rounded-[18px]">
+                  <img
+                    src="/images/brand-mark.png"
+                    alt="Carlos Cervantes"
+                    className="h-8 w-8 object-contain sm:h-9 sm:w-9"
+                    loading="eager"
+                  />
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-[0.98rem] font-semibold tracking-[-0.025em] text-[#111113]">
@@ -71,7 +77,7 @@ export function AppleHeader() {
                       className={cn(
                         'relative rounded-full px-4 py-2.5 text-[0.86rem] font-medium tracking-[-0.015em] transition-all duration-200',
                         isActive
-                          ? 'bg-[#111113] text-white shadow-[0_14px_26px_rgba(17,17,19,0.16)]'
+                          ? 'on-dark bg-[#111113] text-white shadow-[0_14px_26px_rgba(17,17,19,0.16)]'
                           : 'text-[#5c5d63] hover:bg-white hover:text-[#111113]'
                       )}
                     >
@@ -134,7 +140,7 @@ export function AppleHeader() {
                         className={cn(
                           'flex items-center justify-between rounded-[18px] px-4 py-3 text-[0.98rem] font-medium tracking-[-0.02em] transition-all',
                           isActive
-                            ? 'bg-[#111113] text-white'
+                            ? 'on-dark bg-[#111113] text-white'
                             : 'text-[#5c5d63] hover:bg-[#fafafa] hover:text-[#111113]'
                         )}
                       >

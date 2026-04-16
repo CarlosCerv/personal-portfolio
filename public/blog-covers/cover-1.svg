@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f5f5f7"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="25%" cy="30%" r="60%">
+      <stop offset="0" stop-color="#0071e3" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#0071e3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="85%" cy="70%" r="55%">
+      <stop offset="0" stop-color="#111113" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#111113" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <g opacity="0.95">
+    <g filter="url(#soft)">
+      <path d="M180 470c120-140 280-210 480-210s360 70 480 210" fill="none" stroke="#0071e3" stroke-opacity="0.22" stroke-width="34" stroke-linecap="round"/>
+      <path d="M140 520c170-190 360-285 570-285s400 95 570 285" fill="none" stroke="#111113" stroke-opacity="0.12" stroke-width="26" stroke-linecap="round"/>
+    </g>
+    <g opacity="0.9">
+      <circle cx="250" cy="180" r="72" fill="#0071e3" fill-opacity="0.08"/>
+      <circle cx="250" cy="180" r="40" fill="#0071e3" fill-opacity="0.12"/>
+      <circle cx="930" cy="420" r="90" fill="#111113" fill-opacity="0.06"/>
+      <circle cx="930" cy="420" r="48" fill="#111113" fill-opacity="0.08"/>
+    </g>
+  </g>
+</svg>

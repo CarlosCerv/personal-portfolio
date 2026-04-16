@@ -1,7 +1,7 @@
 {
-  "name": "Carlos Cervantes - QA Engineer & Performance Specialist",
+  "name": "Carlos Cervantes - QA y performance",
   "short_name": "Carlos Cervantes",
-  "description": "Specializing in Performance Testing, Test Automation, and Quality Assurance Engineering. Helping companies build scalable software with confidence.",
+  "description": "Automatización de pruebas, performance testing y estrategia QA. Ayudo a equipos a construir software que escala con confianza.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -12,14 +12,14 @@
   "categories": ["business", "productivity", "developer"],
   "screenshots": [
     {
-      "src": "/og-images/og-image-default.png",
+      "src": "/og-image.png",
       "sizes": "1200x630",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "/og-images/og-image-mobile.png",
-      "sizes": "800x418",
+      "src": "/og-image.png",
+      "sizes": "1200x630",
       "type": "image/png",
       "form_factor": "narrow"
     }
@@ -60,9 +60,9 @@
   ],
   "shortcuts": [
     {
-      "name": "Portfolio & Services",
-      "short_name": "Services",
-      "description": "View QA Engineering services and portfolio",
+      "name": "Portafolio y servicios",
+      "short_name": "Servicios",
+      "description": "Ver servicios de QA y portafolio",
       "url": "/servicios",
       "icons": [
         {
@@ -72,9 +72,9 @@
       ]
     },
     {
-      "name": "Professional Profile",
-      "short_name": "Profile",
-      "description": "View professional experience and expertise",
+      "name": "Perfil profesional",
+      "short_name": "Perfil",
+      "description": "Ver experiencia y especialidades",
       "url": "/profile",
       "icons": [
         {
@@ -84,9 +84,9 @@
       ]
     },
     {
-      "name": "Blog Articles",
+      "name": "Artículos del blog",
       "short_name": "Blog",
-      "description": "Read QA and performance engineering articles",
+      "description": "Leer artículos de QA y performance",
       "url": "/blog",
       "icons": [
         {

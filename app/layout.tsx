@@ -3,21 +3,22 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://carloscer.dev'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://carloscervantes-qa.vercel.app'),
   title: {
-    default: 'Carlos Cervantes | QA Engineer & Performance Specialist',
+    default: 'Carlos Cervantes | QA y performance',
     template: '%s | Carlos Cervantes',
   },
-  description: 'QA Automation Engineer specializing in performance testing, test automation, and quality assurance. Helping companies build scalable software with confidence.',
+  description:
+    'Ingeniero de QA y performance. Automatización E2E, performance testing y estrategia de calidad para software que escala con confianza.',
   keywords: [
-    'QA Engineer',
-    'Test Automation',
-    'Performance Testing',
-    'Software Quality',
-    'QA Consultant',
-    'Automation Testing',
-    'Testing Strategy',
-    'Performance Engineering',
+    'QA',
+    'Automatización de pruebas',
+    'Performance testing',
+    'Calidad de software',
+    'Consultoría QA',
+    'E2E',
+    'Estrategia de testing',
+    'Ingeniería de performance',
   ],
   authors: [
     {
@@ -34,10 +35,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.png', type: 'image/png' },
     ],
-    apple: '/images/apple-touch-icon.png',
+    apple: '/apple-touch-icon.png',
   },
   robots: {
     index: true,
@@ -54,17 +56,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://carloscer.dev',
-    siteName: 'Carlos Cervantes - QA Engineer',
-    title: 'Carlos Cervantes | QA Engineer & Performance Specialist',
-    description: 'Transforming quality assurance through automation and performance engineering. Expertise in scaling software with precision and confidence.',
+    url: '/',
+    siteName: 'Carlos Cervantes - QA y performance',
+    title: 'Carlos Cervantes | QA y performance',
+    description:
+      'Calidad de software con automatización y performance testing. Estrategia y ejecución para lanzar con confianza.',
     images: [
       {
-        url: '/og-image.svg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Carlos Cervantes - QA Engineer & Performance Specialist',
-        type: 'image/svg+xml',
+        alt: 'Carlos Cervantes - QA y performance',
+        type: 'image/png',
       },
     ],
   },
@@ -72,17 +75,18 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@carloscer_dev',
     creator: '@carloscer_dev',
-    title: 'Carlos Cervantes | QA Engineer & Performance Specialist',
-    description: 'QA Automation & Performance Engineering. Helping companies build scalable software with confidence.',
-    images: ['/og-image.svg'],
+    title: 'Carlos Cervantes | QA y performance',
+    description:
+      'QA, automatización y performance testing para software que escala con confianza.',
+    images: ['/og-image.png'],
   },
   verification: {
     google: 'YOUR_GOOGLE_VERIFICATION_CODE',
   },
   alternates: {
-    canonical: 'https://carloscer.dev',
+    canonical: '/',
     languages: {
-      'es-ES': 'https://carloscer.dev',
+      'es-ES': '/',
     },
   },
 }

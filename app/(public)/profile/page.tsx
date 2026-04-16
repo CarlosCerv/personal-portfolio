@@ -55,12 +55,12 @@ export default async function PublicProfile() {
         <ProfileHero profile={profile} />
         <ProfileStats stats={profile.stats} />
         <ProfileAbout paragraphs={[profile.bio_1, profile.bio_2, profile.bio_3].filter(Boolean)} />
+        <ProfileSkills skills={profile.skills} />
         <ProfileIdiomas idiomas={profile.idiomas} />
         <ProfileExperiencia experiencia={profile.experiencia} />
         <ProfileProyectos proyectos={profile.proyectos} />
         <ProfileEducacion educacion={profile.educacion} />
         <ProfileCertificaciones certificaciones={profile.certificaciones} />
-        <ProfileSkills skills={profile.skills} />
         {profile.mostrar_publicaciones ? <ProfilePublicaciones posts={mergedPosts} /> : null}
         <ProfileRecomendaciones recomendaciones={profile.recomendaciones} profileLink={`${publicBaseUrl}/profile`} />
         <ProfileCTA />

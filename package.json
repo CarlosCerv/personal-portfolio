@@ -7,7 +7,9 @@
     "build": "PATH=\"/usr/local/bin:$PATH\" next build",
     "start": "next start",
     "test": "jest --testEnvironment node --forceExit",
-    "build:favicon": "node scripts/generate-ico.js"
+    "build:favicon": "node scripts/generate-ico.js",
+    "deploy": "bash scripts/deploy-vercel.sh prod",
+    "deploy:preview": "bash scripts/deploy-vercel.sh preview"
   },
   "jest": {
     "testMatch": [

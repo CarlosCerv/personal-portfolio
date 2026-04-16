@@ -69,19 +69,19 @@ export function AppleFooter() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-black/[0.06] bg-[#f5f5f7]">
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <div className="overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,250,250,0.92))] shadow-[0_28px_80px_rgba(15,23,42,0.08)]">
-          <div className="grid gap-10 px-6 py-8 sm:px-8 lg:grid-cols-[1.25fr_1fr] lg:gap-14 lg:px-12 lg:py-12">
-            <div className="space-y-7">
+    <footer className="border-t border-black/[0.06] bg-[linear-gradient(180deg,#ffffff_0%,#f5f5f7_100%)]">
+      <div className="page-container py-12 lg:py-16">
+        <div className="surface-panel overflow-hidden p-0">
+          <div className="grid gap-10 px-6 py-10 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14 lg:px-12 lg:py-12">
+            <div className="space-y-8">
               <Link href="/" className="inline-flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-[16px] border border-black/[0.08] bg-white shadow-[0_14px_26px_rgba(15,23,42,0.08)]">
-                  <span className="text-[13px] font-semibold tracking-[-0.03em] text-[#111113]">CC</span>
+                <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-[18px] border border-black/[0.08] bg-white shadow-[0_16px_34px_rgba(15,23,42,0.10)]">
+                  <img src="/images/brand-mark.png" alt="Carlos Cervantes" className="h-10 w-10 object-contain" loading="lazy" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <p className="text-[1rem] font-semibold tracking-[-0.03em] text-[#111113]">Carlos Cervantes</p>
-                  <p className="text-[0.8rem] leading-relaxed text-[#5c5d63]">
-                    QA Engineer & Performance Specialist. Ayudo a empresas a construir software que escala con confianza.
+                  <p className="mt-1 text-[0.86rem] leading-relaxed text-[#5c5d63]">
+                    Ingeniero QA y especialista en performance. Ayudo a empresas a construir software que escala con confianza.
                   </p>
                 </div>
               </Link>
@@ -90,7 +90,7 @@ export function AppleFooter() {
                 {stackBadges.map((badge) => (
                   <span
                     key={badge}
-                    className="inline-flex items-center rounded-full border border-black/[0.07] bg-white px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#5c5d63]"
+                    className="inline-flex items-center rounded-full border border-black/[0.06] bg-[#fafafa] px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#5c5d63]"
                   >
                     {badge}
                   </span>
@@ -107,7 +107,7 @@ export function AppleFooter() {
                       target={social.href.startsWith('http') ? '_blank' : undefined}
                       rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                       aria-label={social.label}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-[14px] border border-black/[0.07] bg-white text-[#5c5d63] transition-all duration-200 hover:-translate-y-0.5 hover:text-[#111113] hover:shadow-[0_12px_24px_rgba(15,23,42,0.08)]"
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-[14px] border border-black/[0.06] bg-white text-[#5c5d63] transition-all duration-200 hover:-translate-y-0.5 hover:text-[#111113] hover:shadow-[0_12px_24px_rgba(15,23,42,0.08)]"
                     >
                       <Icon className="h-4 w-4" />
                     </a>
@@ -116,7 +116,7 @@ export function AppleFooter() {
               </div>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-3">
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {footerSections.map((section) => (
                 <div key={section.title} className="space-y-4">
                   <h3 className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#8a8b92]">
@@ -141,11 +141,6 @@ export function AppleFooter() {
 
           <div className="flex flex-col gap-3 border-t border-black/[0.06] px-6 py-5 text-[0.82rem] text-[#5c5d63] sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12">
             <p>© {currentYear} Carlos Cervantes. Todos los derechos reservados.</p>
-            <div className="flex items-center gap-1">
-              <span>Diseñado y desarrollado con</span>
-              <span className="text-[#ef4444]">♥</span>
-              <span>en México 🇲🇽</span>
-            </div>
           </div>
         </div>
       </div>

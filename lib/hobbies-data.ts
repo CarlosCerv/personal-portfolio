@@ -23,35 +23,35 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Capturando momentos y contando historias a través del lente',
     icon: '📸',
     backgroundImage: 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=1600&h=400&fit=crop',
-    description: 'Photography has been a creative passion of mine for several years. I started with basic smartphone photography and gradually evolved to using professional cameras. What began as a simple interest has transformed into a serious hobby where I constantly explore new techniques, compositions, and styles.',
-    why: 'Photography allows me to see the world differently. It trains my eye to notice details, patterns, and beauty in everyday moments that others might overlook. Each photograph tells a story, preserves a memory, and captures emotions that words sometimes cannot express.',
-    experience: 'I primarily focus on landscape and street photography, though I enjoy experimenting with different genres. I\'ve participated in local photography meetups in Guadalajara and have had some of my work featured in community exhibitions.',
+    description: 'La fotografía ha sido una pasión creativa por varios años. Empecé con fotos básicas desde el celular y poco a poco evolucioné a usar cámaras más completas. Lo que comenzó como un interés casual se convirtió en un hobby serio donde exploro técnicas, composición y estilos con intención.',
+    why: 'La fotografía me obliga a ver el mundo con otros ojos. Entrena mi atención al detalle, patrones y belleza en momentos cotidianos. Cada foto cuenta una historia, preserva una memoria y captura emociones que a veces son difíciles de explicar con palabras.',
+    experience: 'Me enfoco principalmente en fotografía de paisaje y calle, aunque disfruto experimentar con otros géneros. He participado en meetups locales en Guadalajara y algunas de mis fotos han sido compartidas en exhibiciones de comunidad.',
     highlights: [
       'Landscape photography in Jalisco\'s natural areas',
       'Street photography in Guadalajara\'s historic center',
       'Golden hour and blue hour photography',
       'Long exposure techniques',
-      'Photo editing with Lightroom and Photoshop'
+      'Edición y revelado con Lightroom y Photoshop'
     ],
     goals: [
       'Build a cohesive portfolio of Jalisco landscapes',
       'Master advanced editing techniques',
       'Participate in photography competitions',
-      'Create a photo blog to share my work'
+      'Crear un blog para compartir mi trabajo'
     ],
     started: '2018',
-    frequency: 'Weekly',
-    level: 'Intermediate',
+    frequency: 'Semanal',
+    level: 'Intermedio',
     equipment: [
-      'Mirrorless camera',
-      'Wide-angle lens',
-      'Tripod for long exposures',
+      'Cámara mirrorless',
+      'Lente gran angular',
+      'Tripié para largas exposiciones',
       'Adobe Lightroom'
     ],
     resources: [
-      'r/photography community',
-      'YouTube photography channels',
-      'Local photography workshops'
+      'Comunidad r/photography',
+      'Canales de fotografía en YouTube',
+      'Talleres locales de fotografía'
     ]
   },
   gym: {
@@ -60,35 +60,35 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Construyendo fuerza, disciplina y un estilo de vida saludable',
     icon: '💪',
     backgroundImage: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&h=400&fit=crop',
-    description: 'Fitness has become an integral part of my daily routine. I\'ve been committed to gym training for the past few years, focusing on both strength training and cardiovascular health.',
-    why: 'Regular exercise is essential for maintaining energy levels and mental clarity. The gym provides structure, discipline, and measurable progress. It\'s my time to disconnect from screens and maintain the physical stamina needed for long work hours.',
-    experience: 'My fitness journey includes a mix of compound weightlifting movements, functional training, and cardio work. I follow structured workout programs and track my progress consistently.',
+    description: 'El fitness se volvió parte esencial de mi rutina. Llevo varios años entrenando en el gym, con enfoque en fuerza, condición y salud cardiovascular.',
+    why: 'Entrenar de forma constante me ayuda a mantener energía y claridad mental. El gym me da estructura, disciplina y progreso medible. Es mi espacio para desconectarme de la pantalla y sostener el ritmo físico que exige el trabajo diario.',
+    experience: 'Mi entrenamiento combina movimientos compuestos, trabajo funcional y cardio. Sigo programas estructurados y registro avances para mantener constancia y progresión.',
     highlights: [
-      'Consistent 5-day per week training schedule',
-      'Progressive overload strength training',
-      'HIIT cardio sessions',
-      'Nutrition and meal planning',
-      'Recovery and mobility work'
+      'Rutina consistente 5 días por semana',
+      'Fuerza con sobrecarga progresiva',
+      'Sesiones de cardio tipo HIIT',
+      'Nutrición y planeación de comidas',
+      'Recuperación y movilidad'
     ],
     goals: [
-      'Achieve specific strength milestones',
-      'Maintain consistent year-round training',
-      'Improve flexibility and mobility',
-      'Help others start their fitness journey'
+      'Lograr metas específicas de fuerza',
+      'Mantener constancia todo el año',
+      'Mejorar flexibilidad y movilidad',
+      'Ayudar a otros a iniciar su camino fitness'
     ],
     started: '2020',
-    frequency: '5 times per week',
-    level: 'Intermediate',
+    frequency: '5 veces por semana',
+    level: 'Intermedio',
     equipment: [
-      'Gym membership',
-      'Resistance bands',
-      'Jump rope',
+      'Membresía de gimnasio',
+      'Bandas de resistencia',
+      'Cuerda para saltar',
       'Foam roller'
     ],
     resources: [
-      'Fitness YouTube channels',
+      'Canales de fitness en YouTube',
       'MyFitnessPal',
-      'Personal training sessions'
+      'Sesiones de entrenamiento personal'
     ]
   },
   cooking: {
@@ -97,9 +97,9 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Experimentando con sabores y creando experiencias memorables',
     icon: '🍳',
     backgroundImage: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=1600&h=400&fit=crop',
-    description: 'Cooking is my creative outlet beyond the digital world. I enjoy the entire process—from selecting fresh ingredients to experimenting with different cuisines and techniques.',
+    description: 'Cocinar es mi salida creativa fuera del mundo digital. Disfruto el proceso completo: desde elegir ingredientes frescos hasta experimentar con distintas cocinas y técnicas.',
     why: 'Cooking is therapeutic and rewarding. There\'s something deeply satisfying about taking raw ingredients and transforming them into a delicious meal. It\'s a practical skill that allows me to maintain a healthy diet and explore cultures through their traditional dishes.',
-    experience: 'I\'ve experimented with various cuisines including Italian, Asian, Mexican traditional dishes, and Mediterranean fare. I enjoy both following traditional recipes and improvising with available ingredients.',
+    experience: 'He experimentado con distintas cocinas: italiana, asiática, platillos tradicionales mexicanos y mediterránea. Disfruto tanto seguir recetas como improvisar con lo que hay disponible.',
     highlights: [
       'Homemade pasta and Italian sauces',
       'Traditional Mexican dishes from Jalisco',
@@ -114,8 +114,8 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
       'Host dinner parties for friends and family'
     ],
     started: '2019',
-    frequency: '4-5 times per week',
-    level: 'Intermediate',
+    frequency: '4 a 5 veces por semana',
+    level: 'Intermedio',
     equipment: [
       'Chef\'s knife set',
       'Cast iron skillet',
@@ -124,9 +124,9 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
       'Food processor'
     ],
     resources: [
-      'YouTube cooking channels',
-      'Recipe websites',
-      'Local cooking classes'
+      'Canales de cocina en YouTube',
+      'Sitios de recetas',
+      'Clases locales de cocina'
     ]
   },
   reading: {
@@ -135,36 +135,36 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Explorando nuevos mundos y expandiendo conocimiento a través de los libros',
     icon: '📚',
     backgroundImage: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&h=400&fit=crop',
-    description: 'Reading has been a lifelong passion that continues to shape my thinking and worldview. I maintain a diverse reading list that includes science fiction, biographies, technical books, and non-fiction.',
-    why: 'Reading expands my mind beyond my immediate experiences and profession. Science fiction stimulates creativity, biographies provide lessons from remarkable lives, and technical books keep me learning. Reading is a more enriching use of time compared to other activities.',
-    experience: 'I try to read at least one book per month. I take notes on interesting concepts and maintain a reading journal. Some books have profoundly influenced my thinking about technology and society.',
+    description: 'La lectura es una pasión de toda la vida que sigue moldeando mi forma de pensar. Mantengo una lista diversa que incluye ciencia ficción, biografías, libros técnicos y no ficción.',
+    why: 'Leer expande mi mente más allá de mi experiencia inmediata y del trabajo. La ciencia ficción estimula creatividad, las biografías dejan lecciones y los libros técnicos me mantienen aprendiendo. Es una forma de invertir tiempo con retorno real.',
+    experience: 'Procuro leer al menos un libro al mes. Tomo notas de ideas interesantes y mantengo un registro de lecturas. Algunos libros han influido mucho en cómo pienso sobre tecnología y sociedad.',
     highlights: [
       'Science fiction classics and contemporary works',
       'Biographies of tech pioneers',
       'Technical books on software testing and QA',
       'Philosophy and psychology',
-      'Mexican and Latin American literature'
+      'Literatura mexicana y latinoamericana'
     ],
     goals: [
       'Read 20+ books per year',
       'Build a personal library',
       'Write book reviews and summaries',
-      'Join a book club'
+      'Unirme a un club de lectura'
     ],
-    started: 'Childhood',
-    frequency: 'Daily',
-    level: 'Advanced',
+    started: 'Desde niño',
+    frequency: 'Diaria',
+    level: 'Avanzado',
     equipment: [
       'Kindle e-reader',
-      'Physical book collection',
-      'Reading journal',
-      'Goodreads account'
+      'Colección de libros físicos',
+      'Bitácora de lectura',
+      'Cuenta de Goodreads'
     ],
     resources: [
       'Goodreads',
-      'r/books community',
-      'Local bookstores in Guadalajara',
-      'Book podcasts'
+      'Comunidad r/books',
+      'Librerías locales en Guadalajara',
+      'Podcasts de libros'
     ]
   },
   music: {
@@ -173,36 +173,36 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Encontrando ritmo, inspiración y alegría a través del sonido',
     icon: '🎸',
     backgroundImage: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1600&h=400&fit=crop',
-    description: 'Music has been a constant companion throughout my life. Whether I\'m playing guitar, discovering new artists, or attending live concerts, music provides a soundtrack to my experiences and a way to express emotions.',
-    why: 'Music has the unique power to change moods and evoke memories. Playing guitar is meditative and rewarding—it requires focus and practice. Listening to music helps me concentrate during work and connect with cultures and emotions across the world.',
-    experience: 'I\'ve been playing guitar for several years, focusing mainly on acoustic fingerstyle and some electric guitar. My music taste is eclectic, ranging from rock and indie to electronic and Latin music.',
+    description: 'La música ha sido una constante en mi vida. Ya sea tocando guitarra, descubriendo artistas o asistiendo a conciertos, la música acompaña mis experiencias y es una forma de expresar emociones.',
+    why: 'La música tiene el poder de cambiar el ánimo y activar recuerdos. Tocar guitarra es meditativo y gratificante: exige enfoque y práctica. Escuchar música también me ayuda a concentrarme y conectar con distintas culturas.',
+    experience: 'Toco guitarra desde hace varios años, principalmente acústica fingerstyle y algo de eléctrica. Mi gusto es ecléctico: rock, indie, electrónica y música latina.',
     highlights: [
       'Acoustic guitar fingerstyle playing',
       'Attending live concerts and music festivals',
       'Discovering indie and underground artists',
-      'Creating Spotify playlists',
-      'Learning music theory'
+      'Crear playlists en Spotify',
+      'Aprender teoría musical'
     ],
     goals: [
-      'Write and record original songs',
-      'Perform at an open mic night',
-      'Master advanced guitar techniques',
-      'Build a collection of quality instruments'
+      'Escribir y grabar canciones propias',
+      'Tocar en un open mic',
+      'Dominar técnicas avanzadas de guitarra',
+      'Formar una colección de instrumentos de calidad'
     ],
     started: '2017',
-    frequency: '3-4 times per week',
-    level: 'Intermediate',
+    frequency: '3 a 4 veces por semana',
+    level: 'Intermedio',
     equipment: [
-      'Acoustic guitar',
-      'Electric guitar',
-      'Guitar amplifier',
-      'Audio interface'
+      'Guitarra acústica',
+      'Guitarra eléctrica',
+      'Amplificador',
+      'Interfaz de audio'
     ],
     resources: [
-      'YouTube guitar tutorials',
-      'Ultimate Guitar tabs',
-      'Music theory courses',
-      'Local music venues in Guadalajara'
+      'Tutoriales de guitarra en YouTube',
+      'Tabs de Ultimate Guitar',
+      'Cursos de teoría musical',
+      'Foros y venues locales en Guadalajara'
     ]
   },
   travel: {
@@ -211,36 +211,36 @@ export const HOBBIES_DATA: Record<string, Hobby> = {
     subtitle: 'Explorando nuevos lugares y viviendo culturas diversas',
     icon: '✈️',
     backgroundImage: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1600&h=400&fit=crop',
-    description: 'Travel is my window to the world. Exploring new places, experiencing different cultures, and meeting people from diverse backgrounds has profoundly shaped who I am.',
-    why: 'Travel pushes me out of my comfort zone and challenges my assumptions about the world. It\'s humbling to experience how people live in different parts of the world. Travel also provides a break from routine, sparking creativity and giving me stories to share.',
-    experience: 'I\'ve traveled to various cities across Mexico and a few international destinations. I prefer a mix of planned activities and spontaneous exploration, often seeking local experiences rather than typical tourist attractions.',
+    description: 'Viajar es mi ventana al mundo. Explorar nuevos lugares, vivir culturas distintas y conocer personas de diferentes contextos me ha marcado profundamente.',
+    why: 'Viajar me saca de mi zona de confort y reta mis ideas. Es una experiencia humilde ver cómo vive la gente en distintos lugares. También rompe la rutina, enciende creatividad y deja historias que valen la pena.',
+    experience: 'He viajado por varias ciudades de México y algunos destinos internacionales. Me gusta combinar planeación con exploración espontánea, buscando experiencias locales más que lo típico de turista.',
     highlights: [
       'Exploring Mexico\'s colonial cities and beaches',
       'Experiencing local food markets',
       'Visiting archaeological sites',
       'Meeting locals and learning their culture',
-      'Weekend trips from Guadalajara'
+      'Escapadas de fin de semana desde Guadalajara'
     ],
     goals: [
-      'Visit all states of Mexico',
-      'International trips to South America and Europe',
-      'Learn basic phrases in multiple languages',
-      'Create a travel blog',
-      'Take extended trips'
+      'Visitar todos los estados de México',
+      'Hacer viajes internacionales a Sudamérica y Europa',
+      'Aprender frases básicas en varios idiomas',
+      'Crear un blog de viajes',
+      'Realizar viajes más largos'
     ],
     started: '2016',
-    frequency: 'Monthly (local), Quarterly (extended)',
-    level: 'Intermediate',
+    frequency: 'Mensual (local) · Trimestral (extendido)',
+    level: 'Intermedio',
     equipment: [
-      'Travel backpack',
-      'Camera',
-      'Travel journal',
-      'Maps and travel apps'
+      'Mochila de viaje',
+      'Cámara',
+      'Bitácora de viaje',
+      'Mapas y apps de viaje'
     ],
     resources: [
-      'Travel blogs and vlogs',
-      'TripAdvisor and Google Maps',
-      'Local tourism websites'
+      'Blogs y vlogs de viajes',
+      'TripAdvisor y Google Maps',
+      'Sitios locales de turismo'
     ]
   }
 };

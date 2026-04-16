@@ -105,8 +105,8 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
   nombre: 'Carlos Cervantes',
   nombre_mostrado: 'Carlos Cervantes',
   nombre_completo: 'Carlos Eduardo Cervantes Arteaga',
-  titulo: 'Senior Software Engineer · Performance Test Engineer',
-  headline: 'Senior Software Engineer · Performance Test Engineer en Wizeline',
+  titulo: 'Senior Software Engineer · Ingeniero de Performance Testing',
+  headline: 'Senior Software Engineer · Ingeniero de Performance Testing en Wizeline',
   empresa: 'Wizeline',
   empresa_actual: 'Wizeline',
   ubicacion: 'Guadalajara, Jalisco, México',
@@ -123,22 +123,22 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
   banner_color_fin: '#e8f0fd',
   disponible: true,
   disponibilidad_texto: 'Disponible para consultoría · Remoto / Híbrido',
-  modalidades_trabajo: ['Freelance', 'Consulting', 'Open to full-time'],
+  modalidades_trabajo: ['Freelance', 'Consultoría', 'Abierto a tiempo completo'],
   email_contacto: 'carlos.cervart@icloud.com',
   linkedin_url: 'https://linkedin.com/in/carlos-eduardo-cervantes-arteaga',
   github_url: 'https://github.com/CarlosCerv',
   twitter_url: 'https://x.com/CarlosCerv',
   cv_url: '/Carlos_Cervantes_CV.pdf',
   roles: [
-    { label: 'Performance Engineer', color: '#0071e3' },
-    { label: 'Mobile Automation', color: '#7c3aed' },
-    { label: 'Quality Advocate', color: '#1d8348' },
+    { label: 'Ingeniería de performance', color: '#0071e3' },
+    { label: 'Automatización mobile', color: '#7c3aed' },
+    { label: 'Defensor de calidad', color: '#1d8348' },
   ],
   stats: [
-    { numero: '50M+', label: 'Usuarios impactados en producción' },
-    { numero: '100+', label: 'Proyectos entregados' },
-    { numero: '5,000+', label: 'Bugs encontrados y resueltos' },
-    { numero: '10,000+', label: 'Test cases creados' },
+    { numero: '10M+', label: 'Usuarios impactados en producción' },
+    { numero: '10+', label: 'Productos y proyectos entregados' },
+    { numero: '200+', label: 'Casos E2E automatizados (web/iOS/Android)' },
+    { numero: '3', label: 'Pipelines CI/CD con performance integrado' },
     { numero: '6+', label: 'Años de experiencia' },
     { numero: '60%', label: 'Reducción promedio en tiempo de regresión' },
   ],
@@ -174,7 +174,7 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
   experiencia: [
     {
       id: 'wizeline-performance',
-      cargo: 'Senior Software Engineer — Performance Test Engineer',
+      cargo: 'Senior Software Engineer — Ingeniero de Performance Testing',
       empresa: 'Wizeline',
       logo_url: '',
       periodo_inicio: 'Enero 2025',
@@ -192,7 +192,7 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
     },
     {
       id: 'wizeline-mobile',
-      cargo: 'Software QA Engineer III — Mobile Automation',
+      cargo: 'Ingeniero de QA III — Automatización Mobile',
       empresa: 'Wizeline',
       logo_url: '',
       periodo_inicio: 'Marzo 2024',
@@ -210,7 +210,7 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
     },
     {
       id: 'wizeline-automation',
-      cargo: 'Software QA Engineer — Automation Engineer',
+      cargo: 'Ingeniero de QA — Automatización',
       empresa: 'Wizeline',
       logo_url: '',
       periodo_inicio: 'Agosto 2021',
@@ -228,7 +228,7 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
     },
     {
       id: 'ibm-specialist',
-      cargo: 'Software Test Specialist',
+      cargo: 'Especialista en pruebas de software',
       empresa: 'IBM',
       logo_url: '',
       periodo_inicio: 'Julio 2020',
@@ -246,7 +246,7 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
     },
     {
       id: 'ibm-intern',
-      cargo: 'Test Automation Engineer — Intern',
+      cargo: 'Ingeniero de automatización de pruebas — Prácticas',
       empresa: 'IBM',
       logo_url: '',
       periodo_inicio: 'Agosto 2019',
@@ -264,8 +264,8 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
   ],
   proyectos: [
     {
-      nombre: 'Real Estate Mobile Platform',
-      empresa_anonima: 'Major Real Estate Company',
+      nombre: 'Plataforma móvil de Real Estate',
+      empresa_anonima: 'Empresa de Real Estate (anónima)',
       periodo: '2+ años',
       metricas: '10M+ usuarios · 4.8★ en App Store · −60% tiempo regresión',
       descripcion:
@@ -274,8 +274,8 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
       visible: true,
     },
     {
-      nombre: 'E-Commerce Platform',
-      empresa_anonima: 'Retail Technology Company',
+      nombre: 'Plataforma de e-commerce',
+      empresa_anonima: 'Empresa retail (anónima)',
       periodo: '1.5 años',
       metricas: '5M+ usuarios · 99.9% uptime · pipeline CI/CD completo',
       descripcion:
@@ -284,8 +284,8 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
       visible: true,
     },
     {
-      nombre: 'Healthcare Mobile App',
-      empresa_anonima: 'Health Technology Startup',
+      nombre: 'App móvil de salud',
+      empresa_anonima: 'Startup de salud (anónima)',
       periodo: '1 año',
       metricas: '500K+ usuarios · HIPAA compliant · accesibilidad validada',
       descripcion:
@@ -294,8 +294,8 @@ export const DEFAULT_PUBLIC_PROFILE: PublicProfile = {
       visible: true,
     },
     {
-      nombre: 'FinTech Mobile Banking',
-      empresa_anonima: 'Financial Services Company',
+      nombre: 'Banca móvil FinTech',
+      empresa_anonima: 'Servicios financieros (anónima)',
       periodo: '6 meses',
       metricas: '2M+ usuarios · Alta seguridad · Transacciones validadas',
       descripcion:
@@ -342,10 +342,20 @@ function normalizeObjectArray<T>(value: unknown, fallback: T[]) {
   return Array.isArray(value) ? (value as T[]) : fallback
 }
 
+function isLegacyInflatedStats(stats: ProfileStat[]) {
+  const numbers = new Set(stats.map((s) => String(s.numero).trim()))
+  return (
+    numbers.has('50M+') ||
+    numbers.has('5,000+') ||
+    numbers.has('10,000+') ||
+    stats.some((s) => String(s.label).toLowerCase().includes('bugs encontrados'))
+  )
+}
+
 export function normalizePublicProfile(dbProfile?: Record<string, any> | null): PublicProfile {
   if (!dbProfile) return DEFAULT_PUBLIC_PROFILE
 
-  return {
+  const next: PublicProfile = {
     ...DEFAULT_PUBLIC_PROFILE,
     ...dbProfile,
     nombre: dbProfile.nombre || dbProfile.nombre_mostrado || DEFAULT_PUBLIC_PROFILE.nombre,
@@ -414,4 +424,13 @@ export function normalizePublicProfile(dbProfile?: Record<string, any> | null): 
         ? dbProfile.mostrar_publicaciones
         : DEFAULT_PUBLIC_PROFILE.mostrar_publicaciones,
   }
+
+  // If the database still contains the legacy inflated metrics, override them
+  // with the updated, more realistic defaults. The admin panel can always edit
+  // these values explicitly.
+  if (Array.isArray(next.stats) && isLegacyInflatedStats(next.stats)) {
+    next.stats = DEFAULT_PUBLIC_PROFILE.stats
+  }
+
+  return next
 }

@@ -51,39 +51,19 @@ function normalizeCategory(tags: string[]) {
 }
 
 function generateImageUrlFromTitle(title: string, slug: string): string {
-  // Palabras clave relacionadas con cada categoría
-  const categoryKeywords: Record<string, string[]> = {
-    ci: ['CI/CD', 'pipeline', 'automation', 'github actions', 'jenkins'],
-    mobile: ['mobile testing', 'appium', 'automation', 'testing'],
-    microservices: ['microservices', 'architecture', 'scalable', 'backend'],
-    nodejs: ['nodejs', 'express', 'javascript', 'backend', 'web development'],
-    bootcamp: ['coding', 'learning', 'development', 'career', 'programming'],
-    testing: ['software testing', 'qa', 'quality assurance', 'automation', 'testing'],
-    default: ['technology', 'software development', 'coding', 'programming']
-  }
+  // Local covers (no external dependencies, consistent Apple-like look)
+  const covers = [
+    '/blog-covers/cover-1.svg',
+    '/blog-covers/cover-2.svg',
+    '/blog-covers/cover-3.svg',
+    '/blog-covers/cover-4.svg',
+    '/blog-covers/cover-5.svg',
+  ]
 
-  // Detectar categoría por palabras clave en el título
-  let keywords: string[] = categoryKeywords.default
-  const titleLower = title.toLowerCase()
-
-  if (titleLower.includes('ci') || titleLower.includes('cd') || titleLower.includes('github')) {
-    keywords = categoryKeywords.ci
-  } else if (titleLower.includes('mobile') || titleLower.includes('appium') || titleLower.includes('espresso')) {
-    keywords = categoryKeywords.mobile
-  } else if (titleLower.includes('microservice')) {
-    keywords = categoryKeywords.microservices
-  } else if (titleLower.includes('nodejs') || titleLower.includes('express') || titleLower.includes('node')) {
-    keywords = categoryKeywords.nodejs
-  } else if (titleLower.includes('bootcamp') || titleLower.includes('journey')) {
-    keywords = categoryKeywords.bootcamp
-  } else if (titleLower.includes('testing') || titleLower.includes('test')) {
-    keywords = categoryKeywords.testing
-  }
-
-  // Generar URL usando Unsplash Source API
-  // Formato: https://source.unsplash.com/1200x630/?keyword1,keyword2,keyword3
-  const query = keywords.slice(0, 3).join(',')
-  return `https://source.unsplash.com/1200x630/?${encodeURIComponent(query)}`
+  const basis = `${slug || ''}:${title || ''}`
+  const hash = crypto.createHash('sha1').update(basis).digest()
+  const index = hash[0] % covers.length
+  return covers[index]
 }
 
 export async function getFallbackPosts(): Promise<PublicPost[]> {

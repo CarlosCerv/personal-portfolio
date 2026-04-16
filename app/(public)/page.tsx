@@ -9,8 +9,13 @@ import { HeroSection, ProcessStep, FeatureCard, SectionHeader } from '@/componen
 
 const processStepImages = [
   /* 01 — QA Strategy */
-  <div key="01" className="rounded-[20px] border border-black/[0.08] bg-white p-6 shadow-[0_4px_20px_rgba(0,0,0,0.07)]">
-    <div className="flex items-center gap-2 mb-5 pb-4 border-b border-black/[0.06]">
+  <div
+    key="01"
+    className="relative overflow-hidden rounded-[26px] border border-black/[0.08] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,245,247,0.9))] p-6 shadow-[0_28px_70px_rgba(15,23,42,0.12)]"
+  >
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(0,113,227,0.08),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(17,17,19,0.04),transparent_55%)]" />
+
+    <div className="relative flex items-center gap-2 mb-5 pb-4 border-b border-black/[0.06]">
       <div className="flex gap-1.5">
         <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
@@ -18,20 +23,39 @@ const processStepImages = [
       </div>
       <span className="ml-auto text-[10px] font-mono font-semibold uppercase tracking-widest text-[#6f6f77]">qa-strategy.md</span>
     </div>
-    <div className="space-y-3">
+    <div className="relative space-y-4">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8b92]">Estrategia QA</p>
+          <p className="mt-2 text-[14px] font-semibold tracking-[-0.02em] text-[#111113]">
+            Mapa de riesgos y cobertura por flujo
+          </p>
+        </div>
+        <div className="rounded-full border border-black/[0.08] bg-white/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#111113] shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
+          Auditoría
+        </div>
+      </div>
       {[
         { label: 'Riesgos críticos', value: '5 identificados', color: '#ff3b30' },
         { label: 'Cobertura objetivo', value: '87% flujos core', color: '#1d1d1f' },
         { label: 'Plan de release', value: 'Semana 3', color: '#34c759' },
       ].map((item) => (
-        <div key={item.label} className="flex items-center justify-between p-3 rounded-xl bg-[#f5f5f7]">
+        <div
+          key={item.label}
+          className="flex items-center justify-between rounded-[16px] border border-black/[0.06] bg-white px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]"
+        >
           <span className="text-[12px] text-[#6f6f77] font-medium">{item.label}</span>
           <span className="text-[12px] font-bold" style={{ color: item.color }}>{item.value}</span>
         </div>
       ))}
-      <div className="flex items-center gap-2 pt-2">
-        <Shield className="w-4 h-4 text-[#1d1d1f]" />
-        <span className="text-[11px] font-semibold text-[#34c759]">✓ Plan validado y listo</span>
+      <div className="flex items-center justify-between gap-4 pt-2">
+        <div className="flex items-center gap-2">
+          <Shield className="w-4 h-4 text-[#1d1d1f]" />
+          <span className="text-[11px] font-semibold text-[#34c759]">✓ Plan validado y listo</span>
+        </div>
+        <div className="h-7 w-24 overflow-hidden rounded-full border border-black/[0.06] bg-white">
+          <div className="h-full w-[72%] rounded-full bg-[linear-gradient(90deg,#111113,#0071e3)]" />
+        </div>
       </div>
     </div>
   </div>,
@@ -141,9 +165,9 @@ export default function HomePage() {
         titleHighlight="romperse"
         description="Especialista en Performance Testing y Calidad Automática. Garantizo que tu software funcione bajo cualquier escenario."
         stats={[
-          { number: "99%", label: "Quality Score" },
+          { number: "99%", label: "Score de calidad" },
           { number: "1,847", label: "Bugs Prevenidos" },
-          { number: "∞", label: "Zero Downtime" }
+          { number: "∞", label: "Cero downtime" }
         ]}
         primaryButtonText="Diagnóstico gratis"
         primaryButtonHref="/servicios#diagnostico"
@@ -201,7 +225,7 @@ export default function HomePage() {
             },
             {
               number: "04 / 04",
-              tag: "Performance Engineering",
+              tag: "Ingeniería de performance",
               title: "100,000 usuarios. Cero downtime.",
               description: "Black Friday y lanzamientos masivos exigen resiliencia.",
               points: [
@@ -380,14 +404,14 @@ export default function HomePage() {
           <SectionHeader
             badge="Contenido en profundidad"
             title="Podcast: Calidad Real"
-            description="Episodios cortos, prácticos y sin relleno para QA Engineers, SDETs y líderes técnicos."
+            description="Episodios cortos, prácticos y sin relleno para ingenieros QA, SDETs y líderes técnicos."
             className="mb-12 md:mb-14"
           />
 
           <div className="mb-12 grid grid-cols-1 gap-5 md:grid-cols-2">
             {[
               { icon: '⏱️', title: 'Episodios accionables', description: '12-20 min enfocados en resolver problemas reales sin relleno innecesario.' },
-              { icon: '👥', title: 'Para líderes técnicos', description: 'Pensado para QA Engineers, SDETs, Tech Leads y Product Managers.' }
+              { icon: '👥', title: 'Para líderes técnicos', description: 'Pensado para ingenieros QA, SDETs, Tech Leads y Product Managers.' }
             ].map((item, i) => (
               <motion.div
                 key={i}
