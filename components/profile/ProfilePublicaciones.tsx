@@ -9,10 +9,10 @@ export function ProfilePublicaciones({ posts }: { posts: PublicPost[] }) {
     <section className="space-y-10">
       <div>
         <h2 className="section-title">
-          Publicaciones destacadas
+          Featured publications
         </h2>
         <p className="section-copy mt-3">
-          Artículos recientes donde Carlos comparte experiencia práctica en automatización, IA y QA.
+          Recent articles where Carlos shares practical experience in automation, AI, and QA.
         </p>
       </div>
 
@@ -36,7 +36,7 @@ export function ProfilePublicaciones({ posts }: { posts: PublicPost[] }) {
               <p className="mt-3 text-[15px] leading-[1.85] text-[#5c5d63]">{post.excerpt}</p>
             </div>
             <div className="flex items-center text-[14px] font-semibold text-[#111113] transition-colors group-hover:text-[#0071e3]">
-              Leer artículo
+              Read article
               <ArrowUpRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
           </Link>

@@ -5,20 +5,20 @@ import './globals.css'
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_BASE_URL || 'https://carloscervantes-qa.vercel.app'),
   title: {
-    default: 'Carlos Cervantes | QA y performance',
+    default: 'Carlos Cervantes | QA & Performance',
     template: '%s | Carlos Cervantes',
   },
   description:
-    'Ingeniero de QA y performance. Automatización E2E, performance testing y estrategia de calidad para software que escala con confianza.',
+    'QA and performance engineer. E2E automation, performance testing and quality strategy for software that scales with confidence.',
   keywords: [
     'QA',
-    'Automatización de pruebas',
+    'Test Automation',
     'Performance testing',
-    'Calidad de software',
-    'Consultoría QA',
+    'Software Quality',
+    'QA Consulting',
     'E2E',
-    'Estrategia de testing',
-    'Ingeniería de performance',
+    'Testing Strategy',
+    'Performance Engineering',
   ],
   authors: [
     {
@@ -55,18 +55,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    locale: 'es_ES',
+    locale: 'en_US',
     url: '/',
-    siteName: 'Carlos Cervantes - QA y performance',
-    title: 'Carlos Cervantes | QA y performance',
+    siteName: 'Carlos Cervantes - QA & Performance',
+    title: 'Carlos Cervantes | QA & Performance',
     description:
-      'Calidad de software con automatización y performance testing. Estrategia y ejecución para lanzar con confianza.',
+      'Software quality with automation and performance testing. Strategy and execution to launch with confidence.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Carlos Cervantes - QA y performance',
+        alt: 'Carlos Cervantes - QA & Performance',
         type: 'image/png',
       },
     ],
@@ -75,9 +75,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@carloscer_dev',
     creator: '@carloscer_dev',
-    title: 'Carlos Cervantes | QA y performance',
+    title: 'Carlos Cervantes | QA & Performance',
     description:
-      'QA, automatización y performance testing para software que escala con confianza.',
+      'QA, automation and performance testing for software that scales with confidence.',
     images: ['/og-image.png'],
   },
   verification: {
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
     languages: {
-      'es-ES': '/',
+      'en-US': '/',
     },
   },
 }
@@ -104,7 +104,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

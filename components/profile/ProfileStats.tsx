@@ -71,10 +71,10 @@ export function ProfileStats({ stats }: { stats: ProfileStat[] }) {
     <section className="surface-panel px-6 py-10 md:px-12">
       <div className="mb-10">
         <h2 className="section-title">
-          Impacto comprobable
+          Verifiable impact
         </h2>
         <p className="section-copy mt-3">
-          Métricas que resumen el alcance real del trabajo de Carlos en calidad, automatización y performance.
+          Metrics summarizing the real reach of Carlos's work in quality, automation, and performance.
         </p>
       </div>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">

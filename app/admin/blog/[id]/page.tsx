@@ -86,21 +86,21 @@ export default function AdminBlogEditPage() {
       <header className="surface-panel p-8 md:p-10">
         <span className="eyebrow">Blog</span>
         <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.05em] text-[#111113] md:text-[42px]">
-          Editar post
+          Edit post
         </h1>
         <p className="mt-3 max-w-3xl text-[15px] leading-[1.85] text-[#5c5d63]">
-          Ajusta el contenido y actualiza el estado cuando esté listo.
+          Adjust the content and update the status when it's ready.
         </p>
       </header>
 
       <section className="surface-panel p-7 md:p-8">
         {loading ? (
-          <p className="text-[14px] text-[#5c5d63]">Cargando…</p>
+          <p className="text-[14px] text-[#5c5d63]">Loading…</p>
         ) : (
           <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="space-y-5">
               <div>
-                <label className="eyebrow block">Título</label>
+                <label className="eyebrow block">Title</label>
                 <input value={titulo} onChange={(e) => setTitulo(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" required />
               </div>
               <div>
@@ -112,24 +112,24 @@ export default function AdminBlogEditPage() {
                 <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="admin-input mt-2 min-h-[110px] rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
               </div>
               <div>
-                <label className="eyebrow block">Contenido (HTML)</label>
+                <label className="eyebrow block">Content (HTML)</label>
                 <textarea value={contenido} onChange={(e) => setContenido(e.target.value)} className="admin-input mt-2 min-h-[280px] rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
               </div>
             </div>
 
             <aside className="space-y-5">
               <div className="surface-card p-6">
-                <p className="eyebrow">Publicación</p>
+                <p className="eyebrow">Publication</p>
                 <div className="mt-4 space-y-4">
                   <div>
-                    <label className="eyebrow block">Estado</label>
+                    <label className="eyebrow block">Status</label>
                     <select value={estado} onChange={(e) => setEstado(e.target.value as any)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]">
-                      <option value="borrador">borrador</option>
-                      <option value="publicado">publicado</option>
+                      <option value="borrador">draft</option>
+                      <option value="publicado">published</option>
                     </select>
                   </div>
                   <div>
-                    <label className="eyebrow block">Categoría</label>
+                    <label className="eyebrow block">Category</label>
                     <input value={categoria} onChange={(e) => setCategoria(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div>
@@ -137,7 +137,7 @@ export default function AdminBlogEditPage() {
                     <input value={tags} onChange={(e) => setTags(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div>
-                    <label className="eyebrow block">Imagen portada (URL)</label>
+                    <label className="eyebrow block">Cover image (URL)</label>
                     <input value={imagen_portada} onChange={(e) => setImagenPortada(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" placeholder="https://..." />
                   </div>
                 </div>
@@ -150,10 +150,10 @@ export default function AdminBlogEditPage() {
               ) : null}
 
               <button type="submit" className="btn-base btn-primary w-full justify-center" disabled={saving}>
-                {saving ? 'Guardando…' : 'Guardar cambios'}
+                {saving ? 'Saving…' : 'Save changes'}
               </button>
               <button type="button" className="btn-base btn-secondary w-full justify-center" onClick={() => router.push('/admin/blog')}>
-                Volver
+                Back
               </button>
             </aside>
           </form>

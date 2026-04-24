@@ -17,10 +17,10 @@ export default async function AdminDashboardPage() {
       <header className="surface-panel p-8 md:p-10">
         <span className="eyebrow">Dashboard</span>
         <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.05em] text-[#111113] md:text-[42px]">
-          Resumen operativo
+          Operations overview
         </h1>
         <p className="mt-3 max-w-3xl text-[15px] leading-[1.85] text-[#5c5d63]">
-          Métricas reales de contenido, leads y estado de analítica. Todo en un solo lugar.
+          Real content, leads and analytics metrics. All in one place.
         </p>
       </header>
 
@@ -43,17 +43,17 @@ export default async function AdminDashboardPage() {
         <div className="surface-panel p-7 md:p-8">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="eyebrow">Top páginas</p>
-              <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Interés del sitio</h2>
+              <p className="eyebrow">Top pages</p>
+              <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Site interest</h2>
             </div>
             <Link href="/blog" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
-              Ver blog
+              View blog
             </Link>
           </div>
 
           <div className="mt-6 divide-y divide-black/[0.06]">
             {dashboard.topPages.length === 0 ? (
-              <p className="py-4 text-[14px] text-[#5c5d63]">Sin datos aún.</p>
+              <p className="py-4 text-[14px] text-[#5c5d63]">No data yet.</p>
             ) : (
               dashboard.topPages.map((row) => (
                 <div key={row.path} className="flex items-center justify-between gap-4 py-4">
@@ -72,11 +72,11 @@ export default async function AdminDashboardPage() {
 
         <div className="space-y-6">
           <div className="surface-panel p-7 md:p-8">
-            <p className="eyebrow">Leads recientes</p>
-            <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Diagnóstico</h2>
+            <p className="eyebrow">Recent leads</p>
+            <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Diagnostic</h2>
             <div className="mt-6 space-y-3">
               {dashboard.recentLeads.length === 0 ? (
-                <p className="text-[14px] text-[#5c5d63]">Sin leads por ahora.</p>
+                <p className="text-[14px] text-[#5c5d63]">No leads yet.</p>
               ) : (
                 dashboard.recentLeads.map((lead) => (
                   <div key={lead.id} className="surface-card-soft flex items-center justify-between gap-3 rounded-[18px] px-4 py-3">
@@ -97,11 +97,11 @@ export default async function AdminDashboardPage() {
           <div className="surface-panel p-7 md:p-8">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="eyebrow">Notificaciones</p>
-                <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Actividad</h2>
+                <p className="eyebrow">Notifications</p>
+                <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Activity</h2>
               </div>
               <Link href="/admin/notificaciones" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
-                Ver todo
+                View all
               </Link>
             </div>
 
@@ -123,7 +123,7 @@ export default async function AdminDashboardPage() {
             </div>
 
             <div className="mt-8 rounded-[20px] border border-black/[0.06] bg-[#fafafa] p-5">
-              <p className="eyebrow">Reglas básicas</p>
+              <p className="eyebrow">Basic rules</p>
               <div className="mt-3 space-y-2">
                 {NOTIFICATION_RULES.map((r) => (
                   <div key={r.id} className="flex items-start justify-between gap-3">

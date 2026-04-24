@@ -48,14 +48,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   if (!post) {
     return {
-      title: 'Post no encontrado',
-      description: 'El artículo que buscas no está disponible',
+      title: 'Post not found',
+      description: 'The article you are looking for is not available',
     }
   }
 
   return generateBlogPostMetadata({
     title: post.titulo,
-    description: post.excerpt || 'Artículo del blog de QA y testing',
+    description: post.excerpt || 'QA and testing blog article',
     slug: post.slug,
     image: post.imagen_portada || '/og-image.png',
     tags: post.tags || [],
@@ -75,17 +75,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="surface-panel p-10 text-center md:p-14">
             <span className="eyebrow">Blog</span>
             <h1 className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-[#111113] md:text-5xl">
-              Artículo no encontrado
+              Article not found
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[#5c5d63]">
-              No pudimos encontrar esta publicación. Puede que el enlace haya cambiado o que el artículo ya no esté disponible.
+              We couldn't find this publication. The link might have changed or the article is no longer available.
             </p>
             <div className="mt-10 flex flex-wrap justify-center gap-4">
               <Link href="/blog" className="btn-base btn-primary">
-                Volver al blog
+                Back to blog
               </Link>
               <Link href="/contacto" className="btn-base btn-secondary">
-                Contacto
+                Contact
               </Link>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8a8b92] transition-colors hover:text-[#0071e3]"
           >
             <ArrowLeft className="h-4 w-4" />
-            Volver al blog
+            Back to blog
           </Link>
 
           <div className="mt-10 max-w-4xl space-y-8">
@@ -144,7 +144,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </span>
                 <span className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-primary" />
-                  8 min lectura
+                  8 min read
                 </span>
                 <span className="flex items-center gap-2">
                   <Award className="h-4 w-4 text-primary" />
@@ -155,7 +155,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="flex flex-wrap items-center gap-3">
                 <span className="inline-flex items-center gap-2 rounded-full border border-black/[0.06] bg-[#fafafa] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#5c5d63]">
                   <Share2 className="h-3.5 w-3.5" />
-                  Compartir
+                  Share
                 </span>
                 <a
                   href={xShareUrl}
@@ -191,9 +191,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ) : (
               <div className="flex aspect-[21/8] items-end border-b border-black/[0.06] bg-[linear-gradient(180deg,#f8f9fb_0%,#eef2f6_100%)] p-8 md:p-10">
                 <div className="space-y-3">
-                  <span className="eyebrow">Artículo técnico</span>
+                  <span className="eyebrow">Technical article</span>
                   <p className="max-w-xl text-sm leading-relaxed text-[#5c5d63]">
-                    Ideas prácticas sobre calidad de software, automatización y performance engineering para equipos que necesitan escalar con confianza.
+                    Practical ideas on software quality, automation, and performance engineering for teams that need to scale with confidence.
                   </p>
                 </div>
               </div>
@@ -209,7 +209,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           <aside className="space-y-5 lg:sticky lg:top-28">
             <div className="surface-card p-6">
-              <span className="eyebrow">Autor</span>
+              <span className="eyebrow">Author</span>
               <div className="mt-4 flex items-center gap-4">
                 <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-full border-2 border-primary/20 shadow-md">
                   <img
@@ -220,25 +220,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-[#111113]">Carlos Cervantes</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8a8b92]">QA y performance</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-[#8a8b92]">QA & Performance</p>
                 </div>
               </div>
               <p className="mt-5 text-sm leading-relaxed text-[#5c5d63]">
-                Especialista en automatización QA e ingeniería de performance. Comparto aprendizajes sobre automatización, testing, performance y sistemas más confiables.
+                QA automation and performance engineering specialist. I share learnings about automation, testing, performance, and more reliable systems.
               </p>
             </div>
 
             <div className="surface-card p-6">
-              <span className="eyebrow">Siguiente paso</span>
+              <span className="eyebrow">Next step</span>
               <p className="mt-4 text-sm leading-relaxed text-[#5c5d63]">
-                Si este artículo conecta con tu reto actual, podemos revisar tu flujo de calidad y detectar dónde mejorar cobertura, velocidad y confianza de release.
+                If this article connects with your current challenge, we can review your quality flow and detect where to improve coverage, speed, and release confidence.
               </p>
               <div className="mt-6 flex flex-col gap-3">
                 <Link href="/servicios" className="btn-base btn-primary justify-center">
-                  Ver servicios
+                  View services
                 </Link>
                 <Link href="/contacto" className="btn-base btn-secondary justify-center">
-                  Hablemos
+                  Let's talk
                 </Link>
               </div>
             </div>

@@ -100,30 +100,30 @@ export default function AdminPerfilPage() {
   return (
     <div className="space-y-8">
       <header className="surface-panel p-8 md:p-10">
-        <span className="eyebrow">Perfil</span>
+        <span className="eyebrow">Profile</span>
         <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.05em] text-[#111113] md:text-[42px]">
-          Información pública
+          Public information
         </h1>
         <p className="mt-3 max-w-3xl text-[15px] leading-[1.85] text-[#5c5d63]">
-          Edita los datos del perfil. Al guardar, el sitio revalida la ruta `/profile`.
+          Edit profile data. On save, the site revalidates the `/profile` route.
         </p>
       </header>
 
       <section className="surface-panel p-7 md:p-8">
         {loading ? (
-          <p className="text-[14px] text-[#5c5d63]">Cargando…</p>
+          <p className="text-[14px] text-[#5c5d63]">Loading…</p>
         ) : (
           <form onSubmit={onSave} className="grid gap-6 lg:grid-cols-[1fr_1fr]">
             <div className="space-y-5">
               <div className="surface-card p-6">
-                <p className="eyebrow">Identidad</p>
+                <p className="eyebrow">Identity</p>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <div>
-                    <label className="eyebrow block">Nombre mostrado</label>
+                    <label className="eyebrow block">Display name</label>
                     <input value={identity.nombre_mostrado} onChange={(e) => setIdentity('nombre_mostrado', e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div>
-                    <label className="eyebrow block">Nombre completo</label>
+                    <label className="eyebrow block">Full name</label>
                     <input value={identity.nombre_completo} onChange={(e) => setIdentity('nombre_completo', e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div className="md:col-span-2">
@@ -131,18 +131,18 @@ export default function AdminPerfilPage() {
                     <input value={identity.headline} onChange={(e) => setIdentity('headline', e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div>
-                    <label className="eyebrow block">Empresa actual</label>
+                    <label className="eyebrow block">Current company</label>
                     <input value={identity.empresa_actual} onChange={(e) => setIdentity('empresa_actual', e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                   <div>
-                    <label className="eyebrow block">Ubicación</label>
+                    <label className="eyebrow block">Location</label>
                     <input value={identity.ubicacion} onChange={(e) => setIdentity('ubicacion', e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
                   </div>
                 </div>
               </div>
 
               <div className="surface-card p-6">
-                <p className="eyebrow">Contacto</p>
+                <p className="eyebrow">Contact</p>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <div className="md:col-span-2">
                     <label className="eyebrow block">Email</label>
@@ -188,9 +188,9 @@ export default function AdminPerfilPage() {
               </div>
 
               <div className="surface-card p-6">
-                <p className="eyebrow">Secciones (JSON)</p>
+                <p className="eyebrow">Sections (JSON)</p>
                 <p className="mt-2 text-[13px] leading-relaxed text-[#5c5d63]">
-                  Stats, roles e idiomas se editan como JSON para mantener flexibilidad.
+                  Stats, roles and languages are edited as JSON for flexibility.
                 </p>
                 <div className="mt-4 space-y-4">
                   <div>
@@ -202,7 +202,7 @@ export default function AdminPerfilPage() {
                     <textarea value={rolesJson} onChange={(e) => setRolesJson(e.target.value)} className="admin-input mt-2 min-h-[120px] rounded-[14px] border border-black/[0.08] bg-[#fafafa] font-mono text-[12px]" />
                   </div>
                   <div>
-                    <label className="eyebrow block">Idiomas</label>
+                    <label className="eyebrow block">Languages</label>
                     <textarea value={idiomasJson} onChange={(e) => setIdiomasJson(e.target.value)} className="admin-input mt-2 min-h-[120px] rounded-[14px] border border-black/[0.08] bg-[#fafafa] font-mono text-[12px]" />
                   </div>
                 </div>
@@ -215,12 +215,12 @@ export default function AdminPerfilPage() {
               ) : null}
               {ok ? (
                 <div className="rounded-[16px] border border-green-500/20 bg-green-500/5 px-4 py-3 text-[14px] text-[#111113]">
-                  Guardado.
+                  Saved.
                 </div>
               ) : null}
 
               <button type="submit" className="btn-base btn-primary w-full justify-center" disabled={saving}>
-                {saving ? 'Guardando…' : 'Guardar'}
+                {saving ? 'Saving…' : 'Save'}
               </button>
             </div>
           </form>

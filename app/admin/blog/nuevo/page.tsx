@@ -67,10 +67,10 @@ export default function AdminBlogNewPage() {
       <header className="surface-panel p-8 md:p-10">
         <span className="eyebrow">Blog</span>
         <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.05em] text-[#111113] md:text-[42px]">
-          Nuevo post
+          New post
         </h1>
         <p className="mt-3 max-w-3xl text-[15px] leading-[1.85] text-[#5c5d63]">
-          Si no subes imagen, el sitio usará una portada automática.
+          If you don't upload an image, the site will use an automatic cover.
         </p>
       </header>
 
@@ -78,7 +78,7 @@ export default function AdminBlogNewPage() {
         <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-5">
             <div>
-              <label className="eyebrow block">Título</label>
+              <label className="eyebrow block">Title</label>
               <input value={titulo} onChange={(e) => { setTitulo(e.target.value); if (!slug) setSlug(slugify(e.target.value)) }} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" required />
             </div>
             <div>
@@ -90,34 +90,34 @@ export default function AdminBlogNewPage() {
               <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} className="admin-input mt-2 min-h-[110px] rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
             </div>
             <div>
-              <label className="eyebrow block">Contenido (HTML)</label>
+              <label className="eyebrow block">Content (HTML)</label>
               <textarea value={contenido} onChange={(e) => setContenido(e.target.value)} className="admin-input mt-2 min-h-[280px] rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
             </div>
           </div>
 
           <aside className="space-y-5">
             <div className="surface-card p-6">
-              <p className="eyebrow">Publicación</p>
-              <div className="mt-4 space-y-4">
-                <div>
-                  <label className="eyebrow block">Estado</label>
-                  <select value={estado} onChange={(e) => setEstado(e.target.value as any)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]">
-                    <option value="borrador">borrador</option>
-                    <option value="publicado">publicado</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="eyebrow block">Categoría</label>
-                  <input value={categoria} onChange={(e) => setCategoria(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
-                </div>
+              <p className="eyebrow">Publication</p>
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <label className="eyebrow block">Status</label>
+                    <select value={estado} onChange={(e) => setEstado(e.target.value as any)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]">
+                      <option value="borrador">draft</option>
+                      <option value="publicado">published</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="eyebrow block">Category</label>
+                    <input value={categoria} onChange={(e) => setCategoria(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" />
+                  </div>
                 <div>
                   <label className="eyebrow block">Tags (comma separated)</label>
                   <input value={tags} onChange={(e) => setTags(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" placeholder="qa, automation, performance" />
                 </div>
-                <div>
-                  <label className="eyebrow block">Imagen portada (URL)</label>
-                  <input value={imagen_portada} onChange={(e) => setImagenPortada(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" placeholder="https://..." />
-                </div>
+                  <div>
+                    <label className="eyebrow block">Cover image (URL)</label>
+                    <input value={imagen_portada} onChange={(e) => setImagenPortada(e.target.value)} className="admin-input mt-2 rounded-[14px] border border-black/[0.08] bg-[#fafafa]" placeholder="https://..." />
+                  </div>
               </div>
             </div>
 
@@ -128,10 +128,10 @@ export default function AdminBlogNewPage() {
             ) : null}
 
             <button type="submit" className="btn-base btn-primary w-full justify-center" disabled={saving}>
-              {saving ? 'Guardando…' : 'Guardar'}
+              {saving ? 'Saving…' : 'Save'}
             </button>
             <button type="button" className="btn-base btn-secondary w-full justify-center" onClick={() => router.push('/admin/blog')}>
-              Cancelar
+              Cancel
             </button>
           </aside>
         </form>

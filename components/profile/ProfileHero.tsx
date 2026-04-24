@@ -112,7 +112,7 @@ export function ProfileHero({ profile }: { profile: PublicProfile }) {
             </div>
             <Link href={profile.cv_url} className="btn-base btn-primary h-[42px] px-6 text-[13px]">
               <Download className="mr-2 h-4 w-4" />
-              Descargar CV
+              Download CV
             </Link>
           </div>
         </div>

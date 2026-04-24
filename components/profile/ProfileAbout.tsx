@@ -10,9 +10,9 @@ export function ProfileAbout({ paragraphs }: { paragraphs: string[] }) {
     <section className="surface-panel p-8 md:p-12">
       <div className="max-w-4xl space-y-6">
         <div>
-          <h2 className="section-title">Sobre mí</h2>
+          <h2 className="section-title">About me</h2>
           <p className="section-copy mt-3">
-            Un perfil completo de cómo Carlos piensa, ejecuta y convierte calidad en ventaja operativa.
+            A comprehensive profile of how Carlos thinks, executes, and turns quality into an operational advantage.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export function ProfileAbout({ paragraphs }: { paragraphs: string[] }) {
             onClick={() => setExpanded((prev) => !prev)}
             className="text-[14px] font-semibold text-[#111113] transition-colors hover:text-[#0071e3]"
           >
-            {expanded ? 'Ver menos' : 'Ver más'}
+            {expanded ? 'Show less' : 'Show more'}
           </button>
         ) : null}
       </div>

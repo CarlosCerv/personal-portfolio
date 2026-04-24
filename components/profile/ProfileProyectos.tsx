@@ -7,10 +7,10 @@ export function ProfileProyectos({ proyectos }: { proyectos: ProfileProject[] })
     <section className="space-y-10">
       <div>
         <h2 className="section-title">
-          Proyectos notables
+          Notable projects
         </h2>
         <p className="section-copy mt-3">
-          Casos representativos donde QA y performance generaron mejoras medibles.
+          Representative cases where QA and performance generated measurable improvements.
         </p>
       </div>
 

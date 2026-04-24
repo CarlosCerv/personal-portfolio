@@ -37,9 +37,9 @@ export default async function PublicBlog() {
         <div className="page-band">
           <div className="page-container">
             <div className="space-y-4">
-              <span className="eyebrow">Artículos técnicos</span>
-              <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
-              <p className="section-copy max-w-2xl">Próximamente más contenido de valor...</p>
+              <span className="eyebrow">Technical articles</span>
+              <h1 className="section-title max-w-4xl">QA & Automation Blog</h1>
+              <p className="section-copy max-w-2xl">More valuable content coming soon...</p>
             </div>
           </div>
         </div>
@@ -55,10 +55,10 @@ export default async function PublicBlog() {
       <div className="page-band">
         <div className="page-container">
           <div className="space-y-4">
-            <span className="eyebrow">Artículos técnicos</span>
-            <h1 className="section-title max-w-4xl">Blog de QA y Automatización</h1>
+            <span className="eyebrow">Technical articles</span>
+            <h1 className="section-title max-w-4xl">QA & Automation Blog</h1>
             <p className="section-copy max-w-2xl">
-              Guías detalladas, mejores prácticas y reflexiones sobre calidad de software, automatización y performance engineering.
+              Detailed guides, best practices and reflections on software quality, automation and performance engineering.
             </p>
           </div>
         </div>
@@ -67,10 +67,10 @@ export default async function PublicBlog() {
       <div className="page-container space-y-20 py-16 md:py-20">
 
         <section>
-          <h2 className="eyebrow mb-6">Artículo destacado</h2>
+          <h2 className="eyebrow mb-6">Featured article</h2>
           <Link
             href={`/blog/${featured.slug}`}
-            aria-label={`Leer artículo destacado: ${featured.titulo}`}
+            aria-label={`Read featured article: ${featured.titulo}`}
             className="group surface-panel grid h-full gap-0 overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.10)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111113] lg:grid-cols-[1.08fr_0.92fr]"
           >
             <div className="relative aspect-video flex-shrink-0 overflow-hidden bg-[#f3f4f6] lg:h-full lg:aspect-auto">
@@ -98,10 +98,10 @@ export default async function PublicBlog() {
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-2">
                   <span className="eyebrow rounded-full border border-[#0071e3]/12 bg-[#0071e3]/6 px-3 py-1.5">
-                    {featured.categoria || 'Artículo'}
+                    {featured.categoria || 'Article'}
                   </span>
                   <span className="eyebrow rounded-full border border-black/[0.06] bg-[#fafafa] px-3 py-1.5 text-[#5c5d63]">
-                    Destacado
+                    Featured
                   </span>
                 </div>
                 <h2 className="text-[30px] font-semibold leading-[1.04] tracking-[-0.05em] text-[#111113] transition-colors duration-200 md:text-[40px]">
@@ -124,7 +124,7 @@ export default async function PublicBlog() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5 font-bold text-[#111113] transition-transform group-hover:translate-x-1">
-                  Leer <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  Read <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </div>
               </div>
             </div>
@@ -133,13 +133,13 @@ export default async function PublicBlog() {
 
         {/* Posts Grid */}
         <section>
-          <h2 className="eyebrow mb-6">Más artículos</h2>
+          <h2 className="eyebrow mb-6">More articles</h2>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {others.map((post) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                aria-label={`Leer artículo: ${post.titulo}`}
+                aria-label={`Read article: ${post.titulo}`}
                 className="group surface-card flex h-full flex-col overflow-hidden p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#111113]"
               >
                 <div className="relative aspect-video flex-shrink-0 overflow-hidden bg-[#f3f4f6]">
@@ -166,7 +166,7 @@ export default async function PublicBlog() {
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex flex-wrap gap-2 mb-3">
                     <span className="eyebrow rounded-full border border-[#0071e3]/12 bg-[#0071e3]/6 px-3 py-1.5 text-[9px]">
-                      {post.categoria || 'Artículo'}
+                      {post.categoria || 'Article'}
                     </span>
                     {post.tags && post.tags.length > 0 && (
                       <span className="inline-flex items-center gap-1 rounded-full border border-black/[0.06] bg-[#fafafa] px-3 py-1.5 text-[10px] font-medium text-[#5c5d63]">
@@ -189,7 +189,7 @@ export default async function PublicBlog() {
                       {format(new Date(post.published_at), 'dd MMM', { locale: es })}
                     </time>
                     <span className="font-bold text-[#111113] transition-transform duration-200 group-hover:translate-x-1">
-                      Leer →
+                      Read →
                     </span>
                   </div>
                 </div>

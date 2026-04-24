@@ -6,44 +6,39 @@ export default function PrivacyPolicyPage() {
       <div className="mx-auto max-w-4xl space-y-10 px-6">
         <div className="space-y-4">
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-primary">Legal</span>
-          <h1 className="text-5xl font-semibold tracking-tighter text-foreground">Política de privacidad</h1>
+          <h1 className="text-5xl font-semibold tracking-tighter text-foreground">Privacy Policy</h1>
           <p className="max-w-2xl text-lg leading-relaxed text-secondary-muted">
-            Este sitio recopila únicamente la información necesaria para responder mensajes, dar seguimiento a
-            solicitudes de consultoría y mejorar la experiencia general del portafolio.
+            This site only collects the necessary information to reply to messages, follow up on consulting requests, and improve the overall portfolio experience.
           </p>
         </div>
 
         <section className="rounded-[32px] border border-border bg-white p-8 md:p-10">
           <div className="space-y-8 text-secondary-muted">
             <div className="space-y-2">
-              <h2 className="text-xl font-bold text-foreground">Información que se recopila</h2>
+              <h2 className="text-xl font-bold text-foreground">Information collected</h2>
               <p>
-                Nombre, correo electrónico, empresa y descripción del proyecto cuando usas formularios de
-                contacto o diagnóstico.
+                Name, email, company, and project description when you use contact or diagnostic forms.
               </p>
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-bold text-foreground">Uso de la información</h2>
+              <h2 className="text-xl font-bold text-foreground">Use of information</h2>
               <p>
-                La información se utiliza para responder mensajes, preparar propuestas, generar diagnósticos y
-                mantener comunicación relacionada con servicios de QA, automatización y performance.
+                The information is used to reply to messages, prepare proposals, generate diagnostics, and maintain communication related to QA, automation, and performance services.
               </p>
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-bold text-foreground">Terceros y almacenamiento</h2>
+              <h2 className="text-xl font-bold text-foreground">Third parties and storage</h2>
               <p>
-                Algunos datos pueden procesarse mediante servicios de infraestructura como Vercel, Supabase,
-                MongoDB o Resend, según la funcionalidad que uses dentro del sitio.
+                Some data may be processed through infrastructure services like Vercel, Supabase, MongoDB, or Resend, depending on the functionality you use within the site.
               </p>
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-bold text-foreground">Contacto</h2>
+              <h2 className="text-xl font-bold text-foreground">Contact</h2>
               <p>
-                Si quieres solicitar actualización o eliminación de tu información, puedes escribir directamente
-                a <a className="text-primary hover:underline" href="mailto:carlos.cervart@icloud.com">carlos.cervart@icloud.com</a>.
+                If you want to request the update or deletion of your information, you can write directly to <a className="text-primary hover:underline" href="mailto:carlos.cervart@icloud.com">carlos.cervart@icloud.com</a>.
               </p>
             </div>
           </div>
@@ -54,13 +49,13 @@ export default function PrivacyPolicyPage() {
             href="/contacto"
             className="inline-flex rounded-full bg-foreground px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-all hover:bg-primary"
           >
-            Contactar
+            Contact
           </Link>
           <Link
             href="/"
             className="inline-flex rounded-full border border-border px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted transition-all hover:text-foreground"
           >
-            Volver al inicio
+            Back to Home
           </Link>
         </div>
       </div>

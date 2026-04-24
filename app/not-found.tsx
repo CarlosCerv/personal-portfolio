@@ -38,9 +38,9 @@ export default function NotFound() {
         <AlertCircle className="w-10 h-10 text-primary" />
       </div>
       
-      <h1 className="text-4xl font-bold tracking-tight mb-4">404 — Página no encontrada</h1>
+      <h1 className="text-4xl font-bold tracking-tight mb-4">404 — Page not found</h1>
       <p className="text-secondary-muted max-w-md mb-12">
-        Parece que el recurso que buscas no existe o ha sido movido. Carlos ha sido notificado del error para corregirlo.
+        It seems the resource you're looking for doesn't exist or has been moved. Carlos has been notified of the error to fix it.
       </p>
 
       <div className="flex flex-col sm:flex-row gap-4">
@@ -48,13 +48,13 @@ export default function NotFound() {
           href="/" 
           className="admin-btn-primary py-3 px-8 text-base shadow-lg shadow-primary/20"
         >
-          Ir al inicio
+          Go home
         </Link>
         <Link 
           href="/servicios" 
           className="admin-btn-outline py-3 px-8 text-base"
         >
-          Ver servicios
+          View services
         </Link>
       </div>
 

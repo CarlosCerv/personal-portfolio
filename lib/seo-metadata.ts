@@ -6,7 +6,7 @@
 
 export const BRAND_CONFIG = {
   name: 'Carlos Cervantes',
-  title: 'QA y performance',
+  title: 'QA & Performance',
   shortTitle: 'Carlos Cervantes',
   baseUrl: 'https://carloscervantes-qa.vercel.app',
   domain: 'carloscervantes-qa.vercel.app',
@@ -14,10 +14,10 @@ export const BRAND_CONFIG = {
   
   // Primary taglines (for different contexts)
   taglines: {
-    short: 'Software que escala sin romperse',
-    long: 'Garantizo que tu software funcione bajo cualquier escenario, con cualquier volumen de usuarios.',
-    seo: 'QA y performance testing | Software sin downtime',
-    social: 'Calidad y performance para productos que escalan',
+    short: 'Software that scales without breaking',
+    long: 'I ensure your software works under any scenario, with any user volume.',
+    seo: 'QA and performance testing | Zero downtime software',
+    social: 'Quality and performance for scaling products',
   },
 
   // SEO Keywords (strategic, not keyword stuffing)
@@ -25,43 +25,43 @@ export const BRAND_CONFIG = {
     primary: [
       'QA',
       'Performance testing',
-      'Automatización de pruebas',
-      'Calidad de software',
-      'Ingeniería de performance',
-      'Escalabilidad',
-      'Cero downtime',
-      'QA enterprise',
+      'Test Automation',
+      'Software Quality',
+      'Performance Engineering',
+      'Scalability',
+      'Zero downtime',
+      'Enterprise QA',
     ],
     secondary: [
-      'Testing automatizado',
-      'Integración CI/CD',
-      'Optimización de performance',
-      'Estrategia de calidad',
+      'Automated testing',
+      'CI/CD integration',
+      'Performance optimization',
+      'Quality strategy',
       'SDET',
-      'Framework de pruebas',
-      'Pruebas de carga',
-      'Pruebas de regresión',
+      'Testing framework',
+      'Load testing',
+      'Regression testing',
     ],
     long_tail: [
-      'Consultor de QA',
-      'Consultor de performance testing',
-      'Servicios de calidad de software',
-      'Especialista en automatización de pruebas',
-      'Estrategia de despliegue sin downtime',
-      'Pruebas para software enterprise',
+      'QA Consultant',
+      'Performance testing consultant',
+      'Software quality services',
+      'Test automation specialist',
+      'Zero downtime deployment strategy',
+      'Enterprise software testing',
     ],
   },
 
   // Meta descriptions (optimized for CTR)
   descriptions: {
     homepage:
-      'Ingeniero de QA y performance. Automatización de pruebas y performance testing para software que escala con confianza.',
+      'QA and performance engineer. Test automation and performance testing for software that scales with confidence.',
     services:
-      'Servicios de QA: automatización E2E, performance testing y estrategia de calidad con entregables claros.',
+      'QA Services: E2E automation, performance testing, and quality strategy with clear deliverables.',
     blog:
-      'Artículos técnicos sobre QA, automatización, estrategia de testing y performance. Ideas prácticas para equipos de producto.',
+      'Technical articles on QA, automation, testing strategy, and performance. Practical ideas for product teams.',
     profile:
-      'Perfil profesional de Carlos Cervantes. Experiencia en QA, automatización y performance testing en productos que escalan.',
+      'Professional profile of Carlos Cervantes. Experience in QA, automation, and performance testing for scaling products.',
   },
 
   // Social media profiles
@@ -82,7 +82,7 @@ export const BRAND_CONFIG = {
   // Contact & organization schema
   organization: {
     name: 'Carlos Cervantes QA',
-    description: 'QA, automatización y performance testing',
+    description: 'QA, test automation, and performance testing',
     logo: 'https://carloscervantes-qa.vercel.app/logo.svg',
     url: 'https://carloscervantes-qa.vercel.app',
     sameAs: [
@@ -170,7 +170,7 @@ export const metadata = {
   // Open Graph (Social Sharing)
   openGraph: {
     type: 'website',
-    locale: 'es_ES',
+    locale: 'en_US',
     url: BRAND_CONFIG.baseUrl,
     siteName: `${BRAND_CONFIG.name} - ${BRAND_CONFIG.title}`,
     title: `${BRAND_CONFIG.name} | ${BRAND_CONFIG.taglines.seo}`,
@@ -191,7 +191,7 @@ export const metadata = {
         url: `${BRAND_CONFIG.baseUrl}/og-images/og-image-linkedin.png`,
         width: 1200,
         height: 627,
-        alt: `${BRAND_CONFIG.shortTitle} - QA y performance`,
+        alt: `${BRAND_CONFIG.shortTitle} - QA and Performance`,
         type: 'image/png',
       },
     ],
@@ -202,7 +202,7 @@ export const metadata = {
     card: 'summary_large_image',
     site: '@carloscer_dev',
     creator: '@carloscer_dev',
-    title: `${BRAND_CONFIG.name} | QA y performance`,
+    title: `${BRAND_CONFIG.name} | QA & Performance`,
     description: `${BRAND_CONFIG.taglines.short}. ${BRAND_CONFIG.social.twitter}`,
     images: [
       {
@@ -271,9 +271,9 @@ export const jsonLdPerson = {
   knowsAbout: [
     'QA',
     'Performance testing',
-    'Automatización de pruebas',
-    'Aseguramiento de calidad de software',
-    'Ingeniería de performance',
+    'Test automation',
+    'Software quality assurance',
+    'Performance engineering',
     'SDET',
     'Playwright',
     'Appium',
@@ -298,7 +298,7 @@ export const jsonLdPerson = {
 export const jsonLdService = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  serviceType: 'Servicios de QA y performance',
+  serviceType: 'QA and Performance Services',
   provider: {
     '@type': 'Person',
     name: BRAND_CONFIG.name,
@@ -313,18 +313,18 @@ export const jsonLdService = {
   hasOfferingDetails: [
     {
       '@type': 'Offer',
-      name: 'Garantía de calidad',
-      description: 'Score de calidad consistente en entregables clave',
+      name: 'Quality Guarantee',
+      description: 'Consistent quality score on key deliverables',
     },
     {
       '@type': 'Offer',
       name: 'Performance testing',
-      description: 'Validación de escalabilidad con escenarios de carga',
+      description: 'Scalability validation with load scenarios',
     },
     {
       '@type': 'Offer',
-      name: 'Despliegue con alta confiabilidad',
-      description: 'Estrategias para reducir incidentes y aumentar estabilidad',
+      name: 'High-reliability deployment',
+      description: 'Strategies to reduce incidents and increase stability',
     },
   ],
 }

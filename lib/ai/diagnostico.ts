@@ -13,18 +13,18 @@ export async function generateDiagnostic(data: any) {
   const prompt = `
     ${DIAGNOSTICO_PROMPT}
 
-    DATOS DEL CLIENTE PARA EL DIAGNÓSTICO:
-    - Nombre: ${data.nombre}
-    - Empresa: ${data.empresa || 'N/A'}
-    - Rol: ${data.rol || 'N/A'}
-    - Tipo de App: ${data.tipo.join(', ')}
-    - Escala Actual: ${data.usuariosActuales}
-    - Pico Esperado: ${data.picoEsperado}
+    CLIENT DATA FOR DIAGNOSTIC:
+    - Name: ${data.nombre}
+    - Company: ${data.empresa || 'N/A'}
+    - Role: ${data.rol || 'N/A'}
+    - App Type: ${data.tipo.join(', ')}
+    - Current Scale: ${data.usuariosActuales}
+    - Expected Peak: ${data.picoEsperado}
     - Tech Stack: ${JSON.stringify(data.stack)}
-    - Síntomas Críticos: ${data.sintomas.join(', ')}
-    - Contexto Adicional: "${data.contexto || 'Sin comentarios adicionales'}"
+    - Critical Symptoms: ${data.sintomas.join(', ')}
+    - Additional Context: "${data.contexto || 'No additional comments'}"
 
-    Responde ÚNICAMENTE con el objeto JSON estructurado.
+    Respond ONLY with the structured JSON object.
   `;
 
   const message = await anthropic.messages.create({

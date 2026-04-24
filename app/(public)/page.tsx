@@ -26,19 +26,19 @@ const processStepImages = [
     <div className="relative space-y-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8b92]">Estrategia QA</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#8a8b92]">QA Strategy</p>
           <p className="mt-2 text-[14px] font-semibold tracking-[-0.02em] text-[#111113]">
-            Mapa de riesgos y cobertura por flujo
+            Risk map and coverage by flow
           </p>
         </div>
         <div className="rounded-full border border-black/[0.08] bg-white/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#111113] shadow-[0_10px_22px_rgba(15,23,42,0.06)]">
-          Auditoría
+          Audit
         </div>
       </div>
       {[
-        { label: 'Riesgos críticos', value: '5 identificados', color: '#ff3b30' },
-        { label: 'Cobertura objetivo', value: '87% flujos core', color: '#1d1d1f' },
-        { label: 'Plan de release', value: 'Semana 3', color: '#34c759' },
+        { label: 'Critical risks', value: '5 identified', color: '#ff3b30' },
+        { label: 'Target coverage', value: '87% core flows', color: '#1d1d1f' },
+        { label: 'Release plan', value: 'Week 3', color: '#34c759' },
       ].map((item) => (
         <div
           key={item.label}
@@ -51,7 +51,7 @@ const processStepImages = [
       <div className="flex items-center justify-between gap-4 pt-2">
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4 text-[#1d1d1f]" />
-          <span className="text-[11px] font-semibold text-[#34c759]">✓ Plan validado y listo</span>
+          <span className="text-[11px] font-semibold text-[#34c759]">✓ Plan validated and ready</span>
         </div>
         <div className="h-7 w-24 overflow-hidden rounded-full border border-black/[0.06] bg-white">
           <div className="h-full w-[72%] rounded-full bg-[linear-gradient(90deg,#111113,#0071e3)]" />
@@ -160,27 +160,27 @@ export default function HomePage() {
     <main className="min-h-screen bg-white text-[#1d1d1f]">
       {/* 1. HERO */}
       <HeroSection
-        badge="Disponible para nuevos proyectos"
-        title="Software que escala sin"
-        titleHighlight="romperse"
-        description="Especialista en Performance Testing y Calidad Automática. Garantizo que tu software funcione bajo cualquier escenario."
+        badge="Available for new projects"
+        title="Software that scales without"
+        titleHighlight="breaking"
+        description="Performance Testing and Automated Quality specialist. I guarantee your software works under any scenario."
         stats={[
-          { number: "99%", label: "Score de calidad" },
-          { number: "1,847", label: "Bugs Prevenidos" },
-          { number: "∞", label: "Cero downtime" }
+          { number: "99%", label: "Quality Score" },
+          { number: "1,847", label: "Bugs Prevented" },
+          { number: "∞", label: "Zero downtime" }
         ]}
-        primaryButtonText="Diagnóstico gratis"
+        primaryButtonText="Free diagnostic"
         primaryButtonHref="/servicios#diagnostico"
-        secondaryButtonText="Ver mi perfil"
+        secondaryButtonText="View my profile"
         secondaryButtonHref="/profile"
       />
 
       {/* 2. PROCESS SECTION */}
       <section className="bg-[#fafafa] py-28 md:py-40">
         <SectionHeader
-          badge="Proceso"
-          title="Así se construye software que no falla."
-          description="La diferencia entre una gran experiencia y un crash está en estas cuatro fases."
+          badge="Process"
+          title="How we build software that doesn't fail."
+          description="The difference between a great experience and a crash lies in these four phases."
           className="mb-16 md:mb-24"
         />
 
@@ -188,50 +188,50 @@ export default function HomePage() {
           {[
             {
               number: "01 / 04",
-              tag: "Estrategia QA",
-              title: "Antes de escribir una línea de código.",
-              description: "Un bug en producción cuesta 100× más que uno detectado en diseño.",
+              tag: "QA Strategy",
+              title: "Before writing a single line of code.",
+              description: "A bug in production costs 100× more than one caught in design.",
               points: [
-                "Riesgos críticos identificados antes de convertirse en crisis",
-                "IA analiza requerimientos y genera escenarios automáticamente",
-                "Cada release tiene un plan claro de verificación"
+                "Critical risks identified before they become a crisis",
+                "AI analyzes requirements and generates scenarios automatically",
+                "Every release has a clear verification plan"
               ],
               image: processStepImages[0]
             },
             {
               number: "02 / 04",
-              tag: "Automatización",
-              title: "Las pruebas que corren mientras tú duermes.",
-              description: "Hacer pruebas a mano funciona. Hacerlas automáticas escala.",
+              tag: "Automation",
+              title: "Tests that run while you sleep.",
+              description: "Manual testing works. Automated testing scales.",
               points: [
-                "Regresión automática: ningún bug regresa sin ser detectado",
-                "Integrado en CI/CD con GitHub Actions y Jenkins",
-                "Web, iOS y Android con una sola estrategia de calidad"
+                "Automated regression: no bug comes back undetected",
+                "Integrated in CI/CD with GitHub Actions and Jenkins",
+                "Web, iOS and Android with a single quality strategy"
               ],
               image: processStepImages[1],
               reverse: true
             },
             {
               number: "03 / 04",
-              tag: "Pruebas End-to-End",
-              title: "Cada flujo de usuario, verificado al 100%.",
-              description: "No basta con que las piezas funcionen por separado.",
+              tag: "End-to-End Testing",
+              title: "Every user flow, verified 100%.",
+              description: "It's not enough for pieces to work separately.",
               points: [
-                "Flujos críticos como pago, login y onboarding nunca fallan",
-                "Cobertura visible para detectar zonas sin pruebas",
-                "Self-healing selectors para UI dinámica"
+                "Critical flows like payment, login and onboarding never fail",
+                "Visible coverage to detect untested areas",
+                "Self-healing selectors for dynamic UI"
               ],
               image: processStepImages[2]
             },
             {
               number: "04 / 04",
-              tag: "Ingeniería de performance",
-              title: "100,000 usuarios. Cero downtime.",
-              description: "Black Friday y lanzamientos masivos exigen resiliencia.",
+              tag: "Performance Engineering",
+              title: "100,000 users. Zero downtime.",
+              description: "Black Friday and mass launches demand resilience.",
               points: [
-                "JMeter simula el peor escenario antes de producción",
-                "Detección exacta de cuellos de botella: API, DB o Infra",
-                "Diseño de resiliencia para eventos de alto tráfico"
+                "JMeter simulates the worst scenario before production",
+                "Precise detection of bottlenecks: API, DB or Infra",
+                "Resilience design for high-traffic events"
               ],
               image: processStepImages[3],
               reverse: true
@@ -255,37 +255,37 @@ export default function HomePage() {
       <section className="bg-white py-28 md:py-40">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
           <SectionHeader
-            badge="Inicio de proyecto"
-            title="Cómo arrancar con IA asistida."
-            description="Un buen inicio reduce retrabajo y convierte la IA en una ventaja desde la semana 1."
+            badge="Project start"
+            title="How to kick off with AI assistance."
+            description="A good start reduces rework and makes AI an advantage from week 1."
             className="mb-14 md:mb-16"
           />
 
           <div className="grid grid-cols-1 gap-5 mt-14 md:grid-cols-2 xl:grid-cols-4">
             {[
               {
-                title: "De requerimientos a riesgos",
-                description: "La IA analiza historias de usuario para detectar vacíos funcionales.",
-                points: ["Mapeo de flujos críticos", "Escenarios edge automáticos"],
+                title: "From requirements to risks",
+                description: "AI analyzes user stories to detect functional gaps.",
+                points: ["Critical flow mapping", "Automatic edge scenarios"],
                 tag: "01 · Discovery"
               },
               {
-                title: "Estrategia multi-capa",
-                description: "Definimos qué automatizar, qué probar manual y qué merece carga.",
-                points: ["Procesos Smoke & Regresión", "Matriz de automatización"],
+                title: "Multi-layer strategy",
+                description: "We define what to automate, what to test manually and what deserves load testing.",
+                points: ["Smoke & Regression processes", "Automation matrix"],
                 tag: "02 · Planning",
                 highlight: true
               },
               {
-                title: "Automatización ágil",
-                description: "Aceleramos la creación de tests con prompts y revisiones humanas.",
-                points: ["CI integrado en cada commit", "Suites autorreparables"],
+                title: "Agile automation",
+                description: "We accelerate test creation with prompts and human reviews.",
+                points: ["CI integrated on every commit", "Self-healing suites"],
                 tag: "03 · Build"
               },
               {
-                title: "Lanzamiento con datos",
-                description: "El release deja de ser una apuesta y se vuelve decisión basada en evidencia.",
-                points: ["Monitoreo post-despliegue", "Mejora continua asistida"],
+                title: "Data-driven launch",
+                description: "The release stops being a gamble and becomes an evidence-based decision.",
+                points: ["Post-deployment monitoring", "AI-assisted continuous improvement"],
                 tag: "04 · Launch"
               }
             ].map((card, i) => (
@@ -307,25 +307,25 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-center">
           <div className="space-y-10">
             <div className="space-y-4">
-              <span className="section-badge">Proceso comercial</span>
+              <span className="section-badge">Commercial process</span>
               <h2
                 className="font-bold text-[#1d1d1f] leading-tight"
                 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', letterSpacing: '-0.03em' }}
               >
-                Entender, proponer y ejecutar.
+                Understand, propose and execute.
               </h2>
               <p className="text-[17px] text-[#6f6f77] max-w-md leading-relaxed">
-                Un camino claro desde el primer contacto hasta la entrega con evidencia.
+                A clear path from first contact to delivery with evidence.
               </p>
             </div>
 
             <div className="relative space-y-6 rounded-[30px] border border-black/[0.06] bg-white/86 p-6 shadow-[0_20px_48px_rgba(15,23,42,0.06)] md:p-8">
               <div className="timeline-line" />
               {[
-                { n: '01', t: 'Contacto', d: 'Recibo brief y objetivos.' },
-                { n: '02', t: 'IA analiza', d: 'Detectamos vacíos de negocio.' },
-                { n: '03', t: 'Diagnóstico', d: 'Defino riesgos y prioridad.' },
-                { n: '04', t: 'Entrega', d: 'Comparto evidencia y hallazgos.' },
+                { n: '01', t: 'Contact', d: 'I receive brief and objectives.' },
+                { n: '02', t: 'AI analysis', d: 'We detect business gaps.' },
+                { n: '03', t: 'Diagnosis', d: 'I define risks and priority.' },
+                { n: '04', t: 'Delivery', d: 'I share evidence and findings.' },
               ].map((s, i) => (
                 <div key={i} className="flex gap-5 items-start relative z-10">
                   <div className="w-11 h-11 rounded-full bg-[#111113] border border-black/[0.1] flex items-center justify-center font-semibold text-[12px] text-white shadow-[0_14px_28px_rgba(17,17,19,0.16)] flex-shrink-0">
@@ -352,45 +352,45 @@ export default function HomePage() {
 
               <div className="space-y-4">
                 <div className="p-5 bg-[#fafafa] rounded-[18px] border border-dashed border-black/[0.1] space-y-2">
-                  <p className="text-[10px] font-bold text-[#6f6f77] uppercase tracking-[0.1em]">Input del cliente</p>
-                  <p className="text-[17px] font-bold tracking-tight text-[#1d1d1f]">Mejorar calidad antes del release</p>
-                  <p className="text-[12px] text-[#6f6f77] leading-relaxed">Producto activo con presión de tiempos.</p>
+                  <p className="text-[10px] font-bold text-[#6f6f77] uppercase tracking-[0.1em]">Client input</p>
+                  <p className="text-[17px] font-bold tracking-tight text-[#1d1d1f]">Improve quality before the release</p>
+                  <p className="text-[12px] text-[#6f6f77] leading-relaxed">Active product under time pressure.</p>
                 </div>
 
                 <div className="relative flex justify-center py-1">
                   <span className="px-3 py-1 bg-[#1d1d1f] text-white rounded-full text-[11px] font-bold tracking-[0.08em] uppercase shadow-sm">
-                    Análisis IA
+                    AI Analysis
                   </span>
                 </div>
 
                 <div className="p-5 bg-[#111113]/[0.03] rounded-[18px] border border-[#111113]/[0.1] space-y-3">
-                  <p className="text-[10px] font-bold text-[#1d1d1f] uppercase tracking-[0.1em]">Resultados detectados</p>
+                  <p className="text-[10px] font-bold text-[#1d1d1f] uppercase tracking-[0.1em]">Detected results</p>
                   <ul className="space-y-2">
                     <li className="text-[12px] font-medium flex items-center gap-2 text-[#1d1d1f]">
-                      <Check className="w-3.5 h-3.5 text-[#34c759]" strokeWidth={2.5} /> Resumen estructurado
+                      <Check className="w-3.5 h-3.5 text-[#34c759]" strokeWidth={2.5} /> Structured summary
                     </li>
                     <li className="text-[12px] font-medium flex items-center gap-2 text-[#1d1d1f]">
-                      <Check className="w-3.5 h-3.5 text-[#34c759]" strokeWidth={2.5} /> 5 riesgos de alta prioridad
+                      <Check className="w-3.5 h-3.5 text-[#34c759]" strokeWidth={2.5} /> 5 high-priority risks
                     </li>
                   </ul>
                 </div>
               </div>
 
               <div className="flex bg-[#fafafa] rounded-[16px] p-4 gap-5 items-center border border-black/[0.06]">
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6f6f77]">PDF Entregable</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6f6f77]">PDF Deliverable</span>
                 <div className="h-4 w-px bg-black/[0.1]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6f6f77]">Alcance Validado</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#6f6f77]">Validated Scope</span>
               </div>
 
               <div className="flex flex-wrap gap-4">
                 <Link href="/profile" className="text-[12px] font-semibold text-[#6f6f77] hover:text-[#1d1d1f] transition-colors flex items-center gap-1">
-                  Conocerme <ArrowRight className="w-3 h-3" />
+                  About me <ArrowRight className="w-3 h-3" />
                 </Link>
                 <Link href="/servicios" className="text-[12px] font-semibold text-[#6f6f77] hover:text-[#1d1d1f] transition-colors flex items-center gap-1">
-                  Portafolio <ArrowRight className="w-3 h-3" />
+                  Portfolio <ArrowRight className="w-3 h-3" />
                 </Link>
                 <a href="/Carlos_Cervantes_CV.pdf" target="_blank" rel="noopener noreferrer" className="text-[12px] font-bold text-[#1d1d1f] hover:underline ml-auto">
-                  Descargar CV
+                  Download CV
                 </a>
               </div>
             </div>
@@ -402,16 +402,16 @@ export default function HomePage() {
       <section className="border-t border-black/[0.06] bg-white py-24 md:py-36">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
           <SectionHeader
-            badge="Contenido en profundidad"
-            title="Podcast: Calidad Real"
-            description="Episodios cortos, prácticos y sin relleno para ingenieros QA, SDETs y líderes técnicos."
+            badge="In-depth content"
+            title="Podcast: Real Quality"
+            description="Short, practical, no-fluff episodes for QA engineers, SDETs and technical leaders."
             className="mb-12 md:mb-14"
           />
 
           <div className="mb-12 grid grid-cols-1 gap-5 md:grid-cols-2">
             {[
-              { icon: '⏱️', title: 'Episodios accionables', description: '12-20 min enfocados en resolver problemas reales sin relleno innecesario.' },
-              { icon: '👥', title: 'Para líderes técnicos', description: 'Pensado para ingenieros QA, SDETs, Tech Leads y Product Managers.' }
+              { icon: '⏱️', title: 'Actionable episodes', description: '12-20 min focused on solving real problems without unnecessary filler.' },
+              { icon: '👥', title: 'For technical leaders', description: 'Designed for QA engineers, SDETs, Tech Leads and Product Managers.' }
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -438,14 +438,14 @@ export default function HomePage() {
               href="/podcast"
               className="group inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#1d1d1f] text-white rounded-full font-semibold text-[15px] transition-all duration-200 hover:bg-[#000000] hover:shadow-[0_6px_20px_rgba(0,0,0,0.35)]"
             >
-              Escuchar podcast
+              Listen to podcast
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="/blog"
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-black/[0.13] text-[#1d1d1f] rounded-full font-semibold text-[15px] transition-all duration-200 hover:bg-[#f5f5f7]"
             >
-              Leer artículos
+              Read articles
               <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>

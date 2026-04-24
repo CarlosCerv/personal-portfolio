@@ -50,7 +50,7 @@ function ExperienceItem({ item }: { item: ProfileExperience }) {
             onClick={() => setExpanded((prev) => !prev)}
             className="mt-5 text-[14px] font-semibold text-[#111113] hover:text-[#0071e3] transition-colors"
           >
-            {expanded ? 'Ver menos logros' : 'Ver más logros'}
+            {expanded ? 'Show fewer achievements' : 'Show more achievements'}
           </button>
         ) : null}
 
@@ -74,10 +74,10 @@ export function ProfileExperiencia({ experiencia }: { experiencia: ProfileExperi
     <section className="space-y-10">
       <div>
         <h2 className="section-title">
-          Experiencia profesional
+          Professional experience
         </h2>
         <p className="section-copy mt-3">
-          Una trayectoria enfocada en calidad, automatización y escalabilidad para productos de alto impacto.
+          A career focused on quality, automation, and scalability for high-impact products.
         </p>
       </div>
 

@@ -29,29 +29,29 @@ const MailIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const footerSections = [
   {
-    title: 'Servicios',
+    title: 'Services',
     links: [
-      { label: 'Diagnóstico QA', href: '/servicios#diagnostico' },
-      { label: 'Automatización E2E', href: '/servicios#automation' },
+      { label: 'QA Diagnostic', href: '/servicios#diagnostico' },
+      { label: 'E2E Automation', href: '/servicios#automation' },
       { label: 'Performance Testing', href: '/servicios#performance' },
-      { label: 'Consultoría QA', href: '/servicios#consulting' },
+      { label: 'QA Consulting', href: '/servicios#consulting' },
     ],
   },
   {
-    title: 'Navegación',
+    title: 'Navigation',
     links: [
-      { label: 'Inicio', href: '/' },
-      { label: 'Servicios', href: '/servicios' },
-      { label: 'Perfil', href: '/profile' },
-      { label: 'Intereses', href: '/intereses' },
+      { label: 'Home', href: '/' },
+      { label: 'Services', href: '/servicios' },
+      { label: 'Profile', href: '/profile' },
+      { label: 'Interests', href: '/intereses' },
     ],
   },
   {
-    title: 'Contenido',
+    title: 'Content',
     links: [
       { label: 'Blog', href: '/blog' },
       { label: 'Podcast', href: '/podcast' },
-      { label: 'Política de Privacidad', href: '/politica-de-privacidad' },
+      { label: 'Privacy Policy', href: '/politica-de-privacidad' },
     ],
   },
 ]
@@ -81,7 +81,7 @@ export function AppleFooter() {
                 <div className="min-w-0">
                   <p className="text-[1rem] font-semibold tracking-[-0.03em] text-[#111113]">Carlos Cervantes</p>
                   <p className="mt-1 text-[0.86rem] leading-relaxed text-[#5c5d63]">
-                    Ingeniero QA y especialista en performance. Ayudo a empresas a construir software que escala con confianza.
+                    QA engineer and performance specialist. I help companies build software that scales with confidence.
                   </p>
                 </div>
               </Link>
@@ -140,7 +140,7 @@ export function AppleFooter() {
           </div>
 
           <div className="flex flex-col gap-3 border-t border-black/[0.06] px-6 py-5 text-[0.82rem] text-[#5c5d63] sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12">
-            <p>© {currentYear} Carlos Cervantes. Todos los derechos reservados.</p>
+            <p>© {currentYear} Carlos Cervantes. All rights reserved.</p>
           </div>
         </div>
       </div>

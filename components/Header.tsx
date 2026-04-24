@@ -8,13 +8,13 @@ import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Servicios', href: '/servicios' },
-  { label: 'Perfil', href: '/profile' },
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/servicios' },
+  { label: 'Profile', href: '/profile' },
   { label: 'Blog', href: '/blog' },
   { label: 'Podcast', href: '/podcast' },
-  { label: 'Intereses', href: '/intereses' },
-  { label: 'Contacto', href: '/contacto' },
+  { label: 'Interests', href: '/intereses' },
+  { label: 'Contact', href: '/contacto' },
 ]
 
 export function AppleHeader() {
@@ -92,7 +92,7 @@ export function AppleHeader() {
                   href="/contacto"
                   className="btn-base btn-primary min-w-[132px] px-5 py-2.5 text-[0.88rem]"
                 >
-                  Hablemos
+                  Let's Talk
                 </Link>
               </div>
 
@@ -100,7 +100,7 @@ export function AppleHeader() {
                 type="button"
                 onClick={() => setIsMobileMenuOpen((open) => !open)}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-[14px] border border-black/[0.08] bg-white text-[#111113] shadow-[0_8px_20px_rgba(15,23,42,0.06)] transition-colors hover:bg-[#fafafa] lg:hidden"
-                aria-label={isMobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMobileMenuOpen}
               >
                 {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -157,7 +157,7 @@ export function AppleHeader() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="btn-base btn-primary w-full"
                   >
-                    Hablemos
+                    Let's Talk
                   </Link>
                 </div>
               </div>

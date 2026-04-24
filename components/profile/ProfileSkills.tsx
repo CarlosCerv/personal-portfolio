@@ -3,10 +3,10 @@ export function ProfileSkills({ skills }: { skills: Record<string, string[]> }) 
     <section className="space-y-10">
       <div>
         <h2 className="text-[28px] font-bold tracking-tight text-[#1d1d1f] md:text-[32px]">
-          Skills técnicas
+          Technical Skills
         </h2>
         <p className="mt-3 text-[16px] text-[#6f6f77] leading-relaxed">
-          Herramientas, frameworks y capacidades que Carlos usa para ejecutar QA a nivel de producto.
+          Tools, frameworks, and capabilities Carlos uses to execute product-level QA.
         </p>
       </div>
 

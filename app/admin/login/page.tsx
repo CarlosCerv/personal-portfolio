@@ -44,10 +44,10 @@ export default function AdminLoginPage() {
           <div className="surface-panel p-8 md:p-10">
             <span className="eyebrow">Admin</span>
             <h1 className="mt-3 text-[34px] font-semibold tracking-[-0.05em] text-[#111113] md:text-[42px]">
-              Iniciar sesión
+              Sign in
             </h1>
             <p className="mt-3 text-[15px] leading-[1.85] text-[#5c5d63]">
-              Te enviaremos un enlace mágico a tu correo para acceder al panel.
+              We'll send a magic link to your email to access the panel.
             </p>
 
             <form onSubmit={onSubmit} className="mt-8 space-y-4">
@@ -68,12 +68,12 @@ export default function AdminLoginPage() {
                 className="btn-base btn-primary w-full justify-center"
                 disabled={status === 'sending'}
               >
-                {status === 'sending' ? 'Enviando…' : 'Enviar enlace'}
+                {status === 'sending' ? 'Sending…' : 'Send link'}
               </button>
 
               {status === 'sent' ? (
                 <div className="rounded-[16px] border border-black/[0.06] bg-white px-4 py-3 text-[14px] leading-relaxed text-[#5c5d63]">
-                  Revisa tu correo. El enlace abre el panel automáticamente.
+                  Check your email. The link opens the panel automatically.
                 </div>
               ) : null}
 

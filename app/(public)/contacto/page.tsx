@@ -84,15 +84,15 @@ export default function ContactoPage() {
       <div className="page-band pt-16 pb-16">
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
           <motion.div {...fadeInUp} className="space-y-3">
-            <span className="section-badge">Contacto</span>
+            <span className="section-badge">Contact</span>
             <h1
               className="font-bold text-[#1d1d1f] leading-tight"
               style={{ fontSize: 'clamp(2.2rem, 5vw, 3.8rem)', letterSpacing: '-0.04em' }}
             >
-              Hablemos sobre tu proyecto.
+              Let's talk about your project.
             </h1>
             <p className="text-[17px] text-[#6f6f77] leading-relaxed max-w-xl">
-              Cuéntame sobre tu desafío de QA o performance. Respondo en menos de 24 horas.
+              Tell me about your QA or performance challenge. I respond within 24 hours.
             </p>
           </motion.div>
         </div>
@@ -109,7 +109,7 @@ export default function ContactoPage() {
             <div className="inline-flex items-center gap-2.5 rounded-[14px] border border-[#34c759]/20 bg-[#f0fdf4] px-4 py-2.5">
               <span className="status-dot-green" />
               <span className="text-[13px] font-semibold text-[#1d1d1f]">
-                Disponible para nuevos proyectos
+                Available for new projects
               </span>
             </div>
 
@@ -141,12 +141,12 @@ export default function ContactoPage() {
             {/* Response commitment */}
             <div className="surface-card-soft space-y-3 rounded-[18px] p-5">
               <h3 className="text-[13px] font-bold text-[#1d1d1f] uppercase tracking-[0.06em]">
-                ¿Qué esperar después?
+                What to expect next?
               </h3>
               {[
-                "Respuesta en menos de 24 horas",
-                "Sesión de 30 min gratuita para entender tu proyecto",
-                "Propuesta clara con entregables definidos",
+                "Response within 24 hours",
+                "Free 30-minute session to understand your project",
+                "Clear proposal with defined deliverables",
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5">
                   <div className="w-4 h-4 rounded-full bg-[#1d1d1f]/10 flex items-center justify-center flex-shrink-0">
@@ -176,10 +176,10 @@ export default function ContactoPage() {
                 >
                   <div>
                     <h2 className="text-[20px] font-semibold text-[#1d1d1f] tracking-[-0.02em]">
-                      Envíame un mensaje
+                      Send me a message
                     </h2>
                     <p className="text-[13px] text-[#6f6f77] mt-1">
-                      Todos los campos marcados con * son obligatorios.
+                      All fields marked with * are required.
                     </p>
                   </div>
 
@@ -187,12 +187,12 @@ export default function ContactoPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="eyebrow text-[#8a8b92]">
-                        Nombre *
+                        Name *
                       </label>
                       <input
                         required
                         type="text"
-                        placeholder="Tu nombre"
+                        placeholder="Your name"
                         value={formData.nombre}
                         onChange={e => setFormData({ ...formData, nombre: e.target.value })}
                         className="admin-input rounded-[14px] bg-[#fafafa] px-3.5 py-2.5 text-[14px]"
@@ -216,11 +216,11 @@ export default function ContactoPage() {
                   {/* Company */}
                   <div className="space-y-1.5">
                     <label className="eyebrow text-[#8a8b92]">
-                      Empresa (opcional)
+                      Company (optional)
                     </label>
                     <input
                       type="text"
-                      placeholder="Nombre de tu empresa"
+                      placeholder="Your company name"
                       value={formData.empresa}
                       onChange={e => setFormData({ ...formData, empresa: e.target.value })}
                       className="admin-input rounded-[14px] bg-[#fafafa] px-3.5 py-2.5 text-[14px]"
@@ -230,7 +230,7 @@ export default function ContactoPage() {
                   {/* Service */}
                   <div className="space-y-1.5">
                     <label className="eyebrow text-[#8a8b92]">
-                      Servicio de interés *
+                      Service of interest *
                     </label>
                     <select
                       required
@@ -238,23 +238,23 @@ export default function ContactoPage() {
                       onChange={e => setFormData({ ...formData, servicio: e.target.value })}
                       className="admin-input rounded-[14px] bg-[#fafafa] px-3.5 py-2.5 text-[14px] appearance-none cursor-pointer"
                     >
-                      <option value="" disabled>Selecciona una opción</option>
-                      <option value="Diagnóstico QA">Diagnóstico QA</option>
-                      <option value="Automatización">Automatización E2E</option>
-                      <option value="Performance">Ingeniería de performance</option>
-                      <option value="Consultoría">Consultoría general</option>
+                      <option value="" disabled>Select an option</option>
+                      <option value="Diagnóstico QA">QA Diagnostic</option>
+                      <option value="Automatización">E2E Automation</option>
+                      <option value="Performance">Performance Engineering</option>
+                      <option value="Consultoría">General Consulting</option>
                     </select>
                   </div>
 
                   {/* Message */}
                   <div className="space-y-1.5">
                     <label className="eyebrow text-[#8a8b92]">
-                      ¿Qué necesitas? *
+                      What do you need? *
                     </label>
                     <textarea
                       required
                       rows={4}
-                      placeholder="Cuéntame sobre tu proyecto, el problema y el plazo..."
+                      placeholder="Tell me about your project, the problem and the timeline..."
                       value={formData.descripcion}
                       onChange={e => setFormData({ ...formData, descripcion: e.target.value })}
                       className="admin-input min-h-[130px] rounded-[14px] bg-[#fafafa] px-3.5 py-3 text-[14px] resize-none"
@@ -274,7 +274,7 @@ export default function ContactoPage() {
                       </>
                     ) : (
                       <>
-                        Enviar mensaje
+                        Send message
                         <Send className="w-4 h-4" />
                       </>
                     )}
@@ -300,10 +300,10 @@ export default function ContactoPage() {
 
                   <div className="space-y-2">
                     <h3 className="text-[22px] font-bold text-[#1d1d1f] tracking-[-0.02em]">
-                      ¡Mensaje enviado!
+                      Message sent!
                     </h3>
                     <p className="text-[14px] text-[#6f6f77] max-w-sm">
-                      Te responderé en menos de 24 horas. Revisa tu bandeja de entrada (y la carpeta de spam).
+                      I'll get back to you within 24 hours. Check your inbox (and spam folder).
                     </p>
                   </div>
 
@@ -312,13 +312,13 @@ export default function ContactoPage() {
                       onClick={() => setIsSuccess(false)}
                       className="flex-1 py-3 rounded-full border border-black/[0.13] text-[#1d1d1f] text-[13px] font-semibold hover:bg-[#f5f5f7] transition-all"
                     >
-                      Enviar otra consulta
+                      Send another inquiry
                     </button>
                     <Link
                       href="/"
                       className="flex-1 py-3 rounded-full bg-[#1d1d1f] text-white text-[13px] font-semibold text-center hover:bg-[#000000] transition-all"
                     >
-                      Volver al inicio
+                      Back to home
                     </Link>
                   </div>
                 </motion.div>

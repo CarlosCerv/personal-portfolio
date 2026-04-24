@@ -17,7 +17,7 @@ function AdminTopBar() {
             </div>
             <div className="min-w-0">
               <p className="truncate text-[0.98rem] font-semibold tracking-[-0.025em] text-[#111113]">Panel</p>
-              <p className="truncate text-[0.78rem] leading-relaxed text-[#8a8b92]">Administración</p>
+              <p className="truncate text-[0.78rem] leading-relaxed text-[#8a8b92]">Administration</p>
             </div>
           </Link>
 
@@ -29,19 +29,19 @@ function AdminTopBar() {
               Blog
             </Link>
             <Link href="/admin/perfil" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
-              Perfil
+              Profile
             </Link>
             <Link href="/admin/notificaciones" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
-              Notificaciones
+              Notifications
             </Link>
           </nav>
 
           <div className="flex items-center gap-2">
             <Link href="/" className="btn-base btn-secondary hidden md:inline-flex px-5 py-2.5 text-[0.88rem]">
-              Ver sitio
+              View site
             </Link>
             <Link href="/admin/logout" className="btn-base btn-primary px-5 py-2.5 text-[0.88rem]">
-              Cerrar sesión
+              Log out
             </Link>
           </div>
         </div>
@@ -58,8 +58,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <footer className="page-container pb-10">
         <div className="rounded-[24px] border border-black/[0.06] bg-white/70 px-6 py-5 text-[0.85rem] text-[#5c5d63] shadow-[0_10px_24px_rgba(15,23,42,0.04)] backdrop-blur">
           <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <p>Panel de administración · Carlos Cervantes</p>
-            <p className="text-[#8a8b92]">Acceso restringido</p>
+            <p>Administration panel · Carlos Cervantes</p>
+            <p className="text-[#8a8b92]">Restricted access</p>
           </div>
         </div>
       </footer>

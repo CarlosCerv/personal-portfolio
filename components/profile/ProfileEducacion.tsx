@@ -5,9 +5,9 @@ export function ProfileEducacion({ educacion }: { educacion: ProfileEducation[] 
   return (
     <section className="space-y-10">
       <div>
-        <h2 className="text-[28px] font-bold tracking-tight text-[#1d1d1f] md:text-[32px]">Educación</h2>
+        <h2 className="text-[28px] font-bold tracking-tight text-[#1d1d1f] md:text-[32px]">Education</h2>
         <p className="mt-3 text-[16px] text-[#6f6f77] leading-relaxed">
-          Formación técnica y académica que acompaña la práctica profesional.
+          Technical and academic background accompanying professional practice.
         </p>
       </div>
 
