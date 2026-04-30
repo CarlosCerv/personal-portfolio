@@ -31,35 +31,40 @@ export default function AdminBlogNewPage() {
     setSaving(true)
     setError(null)
 
-    const payload = {
-      titulo,
-      slug: slug || slugify(titulo),
-      excerpt,
-      categoria,
-      tags: tags
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean),
-      estado,
-      imagen_portada: imagen_portada || null,
-      contenido,
-      autor: 'Carlos Cervantes',
-      published_at: new Date().toISOString(),
-    }
+    try {
+      const payload = {
+        titulo,
+        slug: slug || slugify(titulo),
+        excerpt,
+        categoria,
+        tags: tags
+          .split(',')
+          .map((t) => t.trim())
+          .filter(Boolean),
+        estado,
+        imagen_portada: imagen_portada || null,
+        contenido,
+        autor: 'Carlos Cervantes',
+        published_at: estado === 'publicado' ? new Date().toISOString() : null,
+      }
 
-    const res = await fetch('/api/admin/blog', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    const json = await res.json()
-    if (!res.ok) {
+      const res = await fetch('/api/admin/blog', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json()
+      if (!res.ok) {
+        setSaving(false)
+        setError(json?.error || 'No fue posible guardar el post.')
+        return
+      }
+
+      router.push('/admin/blog')
+    } catch {
       setSaving(false)
-      setError(json?.error || 'No fue posible guardar el post.')
-      return
+      setError('No fue posible guardar el post. Verifica tu conexión e intenta de nuevo.')
     }
-
-    router.push('/admin/blog')
   }
 
   return (
@@ -139,4 +144,3 @@ export default function AdminBlogNewPage() {
     </div>
   )
 }
-

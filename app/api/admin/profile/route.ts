@@ -1,42 +1,36 @@
 import { NextResponse } from 'next/server'
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
+import { ensureAdminServer } from '@/lib/admin/auth'
 import { normalizePublicProfile } from '@/lib/content/public-content'
 
-const ADMIN_EMAIL = 'carlos.cervart@icloud.com'
-
-async function ensureAdmin() {
-  const supabase = await createClient()
-  if (!supabase) {
-    return { supabase: null, error: NextResponse.json({ error: 'Supabase no configurado' }, { status: 503 }) }
-  }
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user || user.email !== ADMIN_EMAIL) {
-    return { supabase: null, error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
-  }
-
-  return { supabase, error: null }
-}
-
 export async function GET() {
-  const { supabase, error } = await ensureAdmin()
+  const { supabase, error } = await ensureAdminServer()
   if (error || !supabase) return error
 
-  const { data } = await supabase.from('site_profile').select('*').single()
+  const { data } = await supabase
+    .from('site_profile')
+    .select('*')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
+
   return NextResponse.json({ profile: normalizePublicProfile(data) })
 }
 
 export async function POST(req: Request) {
-  const { supabase, error } = await ensureAdmin()
+  const { supabase, error } = await ensureAdminServer()
   if (error || !supabase) return error
 
   const profile = await req.json()
+  const existing = await supabase
+    .from('site_profile')
+    .select('id')
+    .order('updated_at', { ascending: false })
+    .limit(1)
+    .maybeSingle()
 
   const payload = {
+    ...(existing.data?.id ? { id: existing.data.id } : {}),
     ...profile,
     updated_at: new Date().toISOString(),
   }

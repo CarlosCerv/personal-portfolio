@@ -46,9 +46,17 @@ export default async function AdminDashboardPage() {
               <p className="eyebrow">Top páginas</p>
               <h2 className="mt-2 text-[22px] font-semibold tracking-[-0.04em] text-[#111113]">Interés del sitio</h2>
             </div>
-            <Link href="/blog" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
-              Ver blog
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/admin/blog" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
+                Blog
+              </Link>
+              <Link href="/admin/intereses" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
+                Intereses
+              </Link>
+              <Link href="/admin/sistema" className="btn-base btn-secondary px-5 py-2.5 text-[0.88rem]">
+                Sistema
+              </Link>
+            </div>
           </div>
 
           <div className="mt-6 divide-y divide-black/[0.06]">
@@ -144,4 +152,3 @@ export default async function AdminDashboardPage() {
     </div>
   )
 }
-

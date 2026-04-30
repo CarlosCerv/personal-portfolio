@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
 
     if (!supabase) {
       setStatus('error')
-      setError('Supabase no está configurado en este entorno.')
+      setError('Supabase no está configurado. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY en Vercel.')
       return
     }
 
@@ -89,4 +89,3 @@ export default function AdminLoginPage() {
     </main>
   )
 }
-

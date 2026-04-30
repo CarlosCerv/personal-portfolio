@@ -28,11 +28,17 @@ function AdminTopBar() {
             <Link href="/admin/blog" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
               Blog
             </Link>
+            <Link href="/admin/intereses" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
+              Intereses
+            </Link>
             <Link href="/admin/perfil" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
               Perfil
             </Link>
             <Link href="/admin/notificaciones" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
               Notificaciones
+            </Link>
+            <Link href="/admin/sistema" className="rounded-full px-4 py-2.5 text-[0.88rem] font-medium text-[#5c5d63] hover:bg-white hover:text-[#111113]">
+              Sistema
             </Link>
           </nav>
 
@@ -66,4 +72,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   )
 }
-

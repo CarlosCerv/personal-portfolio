@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getAllHobbies } from '@/lib/hobbies-data'
+import { getPublicInterests } from '@/lib/content/interests-content'
 import {
   getFallbackPosts,
   getMongoPosts,
@@ -31,7 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/politica-de-privacidad`, lastModified: now, changeFrequency: 'yearly', priority: 0.2 },
   ]
 
-  const hobbyEntries: MetadataRoute.Sitemap = getAllHobbies().map((hobby) => ({
+  const interests = await getPublicInterests()
+  const hobbyEntries: MetadataRoute.Sitemap = interests.map((hobby) => ({
     url: `${siteUrl}/intereses/${hobby.slug}`,
     lastModified: now,
     changeFrequency: 'monthly',
@@ -70,4 +71,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticEntries, ...blogEntries, ...hobbyEntries]
 }
-

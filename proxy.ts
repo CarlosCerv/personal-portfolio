@@ -1,8 +1,11 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { isAdminEmail } from '@/lib/admin/auth'
+import { getSupabaseEnv } from '@/lib/supabase/env'
 
 export async function proxy(request: NextRequest) {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  const { url, anonKey } = getSupabaseEnv()
+  if (!url || !anonKey) {
     return NextResponse.next({
       request: {
         headers: request.headers,
@@ -17,8 +20,8 @@ export async function proxy(request: NextRequest) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    anonKey,
     {
       cookies: {
         get(name: string) {
@@ -76,8 +79,7 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
 
-    // Strict Email Check
-    if (user.email !== 'carlos.cervart@icloud.com') {
+    if (!isAdminEmail(user.email)) {
       await supabase.auth.signOut()
       return NextResponse.redirect(new URL('/', request.url))
     }

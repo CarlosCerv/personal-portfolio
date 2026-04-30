@@ -38,14 +38,14 @@ export function AppleHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
+      <header className="sticky inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-5">
         <div className="mx-auto max-w-7xl">
           <div
             className={cn(
               'apple-shell relative overflow-hidden rounded-[24px] border px-4 py-3 transition-all duration-300 sm:px-5',
               isScrolled
-                ? 'border-black/[0.08] bg-white/82 shadow-[0_24px_60px_rgba(15,23,42,0.12)]'
-                : 'border-white/75 bg-white/70 shadow-[0_16px_40px_rgba(15,23,42,0.07)]'
+                ? 'border-black/[0.08] bg-white/96 shadow-[0_24px_60px_rgba(15,23,42,0.12)]'
+                : 'border-white/75 bg-white/94 shadow-[0_16px_40px_rgba(15,23,42,0.07)]'
             )}
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,113,227,0.08),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(17,17,19,0.04),transparent_32%)]" />
@@ -75,10 +75,10 @@ export function AppleHeader() {
                       key={item.href}
                       href={item.href}
                       className={cn(
-                        'relative rounded-full px-4 py-2.5 text-[0.86rem] font-medium tracking-[-0.015em] transition-all duration-200',
+                        'relative rounded-full border px-4 py-2.5 text-[0.86rem] font-medium tracking-[-0.015em] transition-all duration-200',
                         isActive
-                          ? 'on-dark bg-[#111113] text-white shadow-[0_14px_26px_rgba(17,17,19,0.16)]'
-                          : 'text-[#5c5d63] hover:bg-white hover:text-[#111113]'
+                          ? 'border-black/[0.10] bg-white text-[#111113] shadow-[0_14px_24px_rgba(15,23,42,0.10)]'
+                          : 'border-transparent text-[#5c5d63] hover:border-black/[0.08] hover:bg-white hover:text-[#111113]'
                       )}
                     >
                       {item.label}
@@ -126,7 +126,7 @@ export function AppleHeader() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed inset-x-3 top-[88px] z-50 lg:hidden"
+              className="fixed inset-x-3 top-[96px] z-50 lg:hidden"
             >
               <div className="apple-shell rounded-[28px] border border-white/80 bg-white/92 p-4 shadow-[0_28px_60px_rgba(15,23,42,0.16)]">
                 <div className="grid gap-1">
@@ -138,14 +138,14 @@ export function AppleHeader() {
                         href={item.href}
                         onClick={() => setIsMobileMenuOpen(false)}
                         className={cn(
-                          'flex items-center justify-between rounded-[18px] px-4 py-3 text-[0.98rem] font-medium tracking-[-0.02em] transition-all',
+                          'flex items-center justify-between rounded-[18px] border px-4 py-3 text-[0.98rem] font-medium tracking-[-0.02em] transition-all',
                           isActive
-                            ? 'on-dark bg-[#111113] text-white'
-                            : 'text-[#5c5d63] hover:bg-[#fafafa] hover:text-[#111113]'
+                            ? 'border-black/[0.08] bg-white text-[#111113] shadow-[0_10px_22px_rgba(15,23,42,0.08)]'
+                            : 'border-transparent text-[#5c5d63] hover:border-black/[0.06] hover:bg-[#fafafa] hover:text-[#111113]'
                         )}
                       >
                         {item.label}
-                        <span className={cn('h-2 w-2 rounded-full', isActive ? 'bg-white' : 'bg-black/[0.08]')} />
+                        <span className={cn('h-2 w-2 rounded-full', isActive ? 'bg-[#0071e3]' : 'bg-black/[0.08]')} />
                       </Link>
                     )
                   })}
@@ -165,8 +165,6 @@ export function AppleHeader() {
           </>
         ) : null}
       </AnimatePresence>
-
-      <div className="h-[92px] sm:h-[108px]" />
     </>
   )
 }
