@@ -17,7 +17,12 @@ export function SectionHeader({ badge, title, description, centered = true, clas
           <span className="section-badge">{badge}</span>
         </div>
       )}
-      <h2 className="max-w-4xl font-semibold tracking-[-0.05em] text-[#111113] leading-[1.05]">
+      <h2
+        className={cn(
+          'max-w-4xl font-semibold tracking-[-0.05em] text-[#111113] leading-[1.05]',
+          centered && 'mx-auto'
+        )}
+      >
         {title}
       </h2>
       {description && (

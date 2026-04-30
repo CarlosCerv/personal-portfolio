@@ -26,23 +26,28 @@ export default function AdminBlogEditPage() {
     ;(async () => {
       setLoading(true)
       setError(null)
-      const res = await fetch(`/api/admin/blog/${id}`, { cache: 'no-store' })
-      const json = await res.json()
-      if (!res.ok) {
-        setError(json?.error || 'No fue posible cargar el post.')
+      try {
+        const res = await fetch(`/api/admin/blog/${id}`, { cache: 'no-store' })
+        const json = await res.json()
+        if (!res.ok) {
+          setError(json?.error || 'No fue posible cargar el post.')
+          setLoading(false)
+          return
+        }
+        const post = json?.post || {}
+        setTitulo(String(post.titulo || ''))
+        setSlug(String(post.slug || ''))
+        setExcerpt(String(post.excerpt || ''))
+        setCategoria(String(post.categoria || 'QA'))
+        setEstado((post.estado === 'publicado' ? 'publicado' : 'borrador') as any)
+        setImagenPortada(String(post.imagen_portada || ''))
+        setContenido(String(post.contenido || ''))
+        setTags(Array.isArray(post.tags) ? post.tags.join(', ') : '')
         setLoading(false)
-        return
+      } catch {
+        setError('No fue posible cargar el post. Verifica tu conexión e intenta de nuevo.')
+        setLoading(false)
       }
-      const post = json?.post || {}
-      setTitulo(String(post.titulo || ''))
-      setSlug(String(post.slug || ''))
-      setExcerpt(String(post.excerpt || ''))
-      setCategoria(String(post.categoria || 'QA'))
-      setEstado((post.estado === 'publicado' ? 'publicado' : 'borrador') as any)
-      setImagenPortada(String(post.imagen_portada || ''))
-      setContenido(String(post.contenido || ''))
-      setTags(Array.isArray(post.tags) ? post.tags.join(', ') : '')
-      setLoading(false)
     })()
   }, [id])
 
@@ -52,33 +57,63 @@ export default function AdminBlogEditPage() {
     setSaving(true)
     setError(null)
 
-    const payload = {
-      titulo,
-      slug,
-      excerpt,
-      categoria,
-      tags: tags
-        .split(',')
-        .map((t) => t.trim())
-        .filter(Boolean),
-      estado,
-      imagen_portada: imagen_portada || null,
-      contenido,
-      updated_at: new Date().toISOString(),
-    }
+    try {
+      const payload = {
+        titulo,
+        slug,
+        excerpt,
+        categoria,
+        tags: tags
+          .split(',')
+          .map((t) => t.trim())
+          .filter(Boolean),
+        estado,
+        imagen_portada: imagen_portada || null,
+        contenido,
+        updated_at: new Date().toISOString(),
+      }
 
-    const res = await fetch(`/api/admin/blog/${id}`, {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    const json = await res.json()
-    if (!res.ok) {
+      const res = await fetch(`/api/admin/blog/${id}`, {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json()
+      if (!res.ok) {
+        setSaving(false)
+        setError(json?.error || 'No fue posible guardar el post.')
+        return
+      }
+      router.push('/admin/blog')
+    } catch {
       setSaving(false)
-      setError(json?.error || 'No fue posible guardar el post.')
-      return
+      setError('No fue posible guardar el post. Verifica tu conexión e intenta de nuevo.')
     }
-    router.push('/admin/blog')
+  }
+
+  async function onDelete() {
+    if (!id) return
+    const confirmed = window.confirm('¿Seguro que quieres eliminar este post? Esta acción no se puede deshacer.')
+    if (!confirmed) return
+
+    setSaving(true)
+    setError(null)
+
+    try {
+      const res = await fetch(`/api/admin/blog/${id}`, {
+        method: 'DELETE',
+      })
+      const json = await res.json()
+      if (!res.ok) {
+        setSaving(false)
+        setError(json?.error || 'No fue posible eliminar el post.')
+        return
+      }
+      router.push('/admin/blog')
+    } catch {
+      setSaving(false)
+      setError('No fue posible eliminar el post. Verifica tu conexión e intenta de nuevo.')
+    }
   }
 
   return (
@@ -152,6 +187,9 @@ export default function AdminBlogEditPage() {
               <button type="submit" className="btn-base btn-primary w-full justify-center" disabled={saving}>
                 {saving ? 'Saving…' : 'Save changes'}
               </button>
+              <button type="button" className="btn-base w-full justify-center border border-red-500/25 bg-red-500/6 text-red-700 hover:bg-red-500/10" onClick={() => void onDelete()} disabled={saving}>
+                {saving ? 'Procesando…' : 'Eliminar post'}
+              </button>
               <button type="button" className="btn-base btn-secondary w-full justify-center" onClick={() => router.push('/admin/blog')}>
                 Back
               </button>
@@ -162,4 +200,3 @@ export default function AdminBlogEditPage() {
     </div>
   )
 }
-

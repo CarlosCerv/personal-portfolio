@@ -114,64 +114,76 @@ export function HeroSection({
           transition={{ duration: 0.72, delay: 0.16, ease: [0.22, 1, 0.36, 1] }}
           className="relative"
         >
-          <div className="relative overflow-hidden rounded-[32px] border border-black/[0.07] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,245,247,0.92))] p-4 shadow-[0_36px_84px_rgba(15,23,42,0.12)] sm:p-5">
-            <div className="rounded-[26px] border border-black/[0.06] bg-white p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)] sm:p-6">
-              <div className="flex items-center gap-2 border-b border-black/[0.05] pb-4">
-                <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#ffbd2f]" />
-                <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-                <div className="ml-auto h-2 w-24 rounded-full bg-[#111113]/[0.08]" />
-              </div>
+          <div className="hero-space-frame">
+            <div className="hero-space-stars" aria-hidden="true" />
+            <div className="hero-space-nebula" aria-hidden="true" />
 
-              <div className="mt-5 grid gap-4">
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {(stats || []).slice(0, 2).map((stat, index) => (
-                    <div
-                      key={`${stat.label}-${index}`}
-                      className={cn(
-                        'rounded-[22px] p-5',
-                        index === 0 ? 'bg-[#111113] text-white' : 'border border-black/[0.06] bg-[#fafafa] text-[#111113]'
-                      )}
-                    >
-                      <div className="h-2 w-16 rounded-full bg-current/10" />
-                      <div className="mt-8">
-                        <p className="text-4xl font-semibold tracking-[-0.05em]">{stat.number}</p>
-                        <p
-                          className={cn(
-                            'mt-2 text-[0.76rem] font-semibold uppercase tracking-[0.16em]',
-                            index === 0 ? 'text-white/68' : 'text-[#8a8b92]'
-                          )}
-                        >
-                          {stat.label}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+            <div className="relative p-4 sm:p-5">
+              <div className="hero-space-panel">
+                <div className="flex items-center gap-2 border-b border-white/10 pb-4">
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#ffbd2f]" />
+                  <div className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                  <div className="ml-auto h-2 w-24 rounded-full bg-white/10" />
                 </div>
 
-                <div className="rounded-[24px] border border-black/[0.06] bg-[#fafafa] p-5">
-                  <div className="grid gap-3">
-                    {(stats || []).map((stat, index) => (
-                      <div
-                        key={`${stat.label}-row-${index}`}
-                        className="flex items-center justify-between rounded-[18px] border border-black/[0.05] bg-white px-4 py-3"
-                      >
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={cn(
-                              'h-2.5 w-2.5 rounded-full',
-                              index === 0 && 'bg-[#111113]',
-                              index === 1 && 'bg-[#0071e3]',
-                              index === 2 && 'bg-[#22c55e]'
-                            )}
-                          />
-                          <span className="text-sm font-medium text-[#111113]">{stat.label}</span>
+                <div className="mt-5 grid gap-4">
+                  <div className="hero-space-radar">
+                    <div className="hero-space-rings" aria-hidden="true" />
+                    <div className="hero-space-orbit motion-reduce:animate-none" aria-hidden="true">
+                      <div className="hero-space-orbit-dot" />
+                    </div>
+                    <div className="hero-space-orbit hero-space-orbit--2 motion-reduce:animate-none" aria-hidden="true">
+                      <div className="hero-space-orbit-dot hero-space-orbit-dot--2" />
+                    </div>
+
+                    <div className="relative grid gap-3 sm:grid-cols-2">
+                      {(stats || []).slice(0, 2).map((stat, index) => (
+                        <div
+                          key={`${stat.label}-${index}`}
+                          className={cn(
+                            'rounded-[22px] border px-5 py-5',
+                            index === 0
+                              ? 'border-white/12 bg-white/[0.06] text-white shadow-[0_18px_44px_rgba(0,0,0,0.24)]'
+                              : 'border-white/10 bg-white/[0.04] text-white/90'
+                          )}
+                        >
+                          <div className="h-2 w-16 rounded-full bg-white/10" />
+                          <div className="mt-8">
+                            <p className="text-4xl font-semibold tracking-[-0.05em] tabular-nums">{stat.number}</p>
+                            <p className="mt-2 text-[0.76rem] font-semibold uppercase tracking-[0.16em] text-white/70">
+                              {stat.label}
+                            </p>
+                          </div>
                         </div>
-                        <span className="text-[0.82rem] font-semibold tracking-[-0.02em] text-[#111113]">
-                          {stat.number}
-                        </span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="rounded-[24px] border border-white/10 bg-white/[0.04] p-5">
+                    <div className="grid gap-3">
+                      {(stats || []).map((stat, index) => (
+                        <div
+                          key={`${stat.label}-row-${index}`}
+                          className="flex items-center justify-between rounded-[18px] border border-white/10 bg-white/[0.06] px-4 py-3"
+                        >
+                          <div className="flex min-w-0 items-center gap-3">
+                            <span
+                              className={cn(
+                                'h-2.5 w-2.5 shrink-0 rounded-full',
+                                index === 0 && 'bg-white',
+                                index === 1 && 'bg-[#0071e3]',
+                                index === 2 && 'bg-[#34c759]'
+                              )}
+                            />
+                            <span className="min-w-0 truncate text-sm font-medium text-white/90">{stat.label}</span>
+                          </div>
+                          <span className="text-[0.82rem] font-semibold tracking-[-0.02em] text-white tabular-nums">
+                            {stat.number}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

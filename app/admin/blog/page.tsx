@@ -23,16 +23,22 @@ export default function AdminBlogPage() {
   async function load() {
     setLoading(true)
     setError(null)
-    const res = await fetch('/api/admin/blog', { cache: 'no-store' })
-    const json = await res.json()
-    if (!res.ok) {
-      setError(json?.error || 'No fue posible cargar posts.')
+    try {
+      const res = await fetch('/api/admin/blog', { cache: 'no-store' })
+      const json = await res.json()
+      if (!res.ok) {
+        setError(json?.error || 'No fue posible cargar posts.')
+        setPosts([])
+        setLoading(false)
+        return
+      }
+      setPosts(Array.isArray(json?.posts) ? json.posts : [])
+      setLoading(false)
+    } catch {
+      setError('No fue posible cargar posts. Verifica tu conexión e intenta de nuevo.')
       setPosts([])
       setLoading(false)
-      return
     }
-    setPosts(Array.isArray(json?.posts) ? json.posts : [])
-    setLoading(false)
   }
 
   useEffect(() => {
@@ -139,4 +145,3 @@ export default function AdminBlogPage() {
     </div>
   )
 }
-

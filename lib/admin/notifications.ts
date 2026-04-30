@@ -2,6 +2,7 @@ import { Resend } from 'resend'
 import { formatDistanceToNow } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { createClient } from '@/lib/supabase/server'
+import { ADMIN_EMAIL } from '@/lib/admin/auth'
 
 export type AdminNotificationSeverity = 'info' | 'success' | 'warning' | 'critical'
 
@@ -22,8 +23,6 @@ export type NotificationRule = {
   description: string
   channel: 'panel' | 'email' | 'panel+email'
 }
-
-const ADMIN_EMAIL = 'carlos.cervart@icloud.com'
 
 export const NOTIFICATION_RULES: NotificationRule[] = [
   {

@@ -34,7 +34,7 @@ export default async function PublicBlog() {
   if (!posts || posts.length === 0) {
     return (
       <main className="page-shell pt-10 pb-20 md:pt-12">
-        <div className="page-band">
+        <div className="page-band bg-white bg-none">
           <div className="page-container">
             <div className="space-y-4">
               <span className="eyebrow">Technical articles</span>
@@ -52,7 +52,7 @@ export default async function PublicBlog() {
 
   return (
     <main className="page-shell pt-10 pb-20 md:pt-12">
-      <div className="page-band">
+      <div className="page-band bg-white bg-none">
         <div className="page-container">
           <div className="space-y-4">
             <span className="eyebrow">Technical articles</span>
